@@ -41,6 +41,22 @@ const PASS_MARKS = { CD: 75, CC: 80, CPC: 85, CEC: 88, CMC: 90 };
 
 const DEFAULT_WEIGHTS = { written: 0.2, practical: 0.3, operational: 0.3, feedback: 0.2 };
 
+const PRACTICAL_CRITERIA = [
+  { key: "preTripReadiness", label: "Pre Trip Readiness", weight: 0.20 },
+  { key: "vehicleInspection", label: "Vehicle Inspection", weight: 0.20 },
+  { key: "safety", label: "Safety", weight: 0.30 },
+  { key: "behavior", label: "Behavior", weight: 0.15 },
+  { key: "serviceDelivery", label: "Service Delivery", weight: 0.15 },
+];
+
+const OPERATIONAL_CRITERIA = [
+  { key: "accidentRecord", label: "Accident Record", weight: 0.20 },
+  { key: "vehicleDamage", label: "Vehicle Damage", weight: 0.20 },
+  { key: "attendance", label: "Attendance", weight: 0.20 },
+  { key: "documentation", label: "Documentation", weight: 0.10 },
+  { key: "vehicleUtilization", label: "Vehicle Utilization / Driving Hours", weight: 0.30 },
+];
+
 /* -------------------------------------------------------------------------
    DEPARTMENTS + COMMENT TAG CATEGORIES
    Comment tags are dynamic and categorized by the selected star rating:
@@ -137,12 +153,35 @@ function feedbackTo100(avgRating) {
   return Math.round(avgRating * 20 * 10) / 10;
 }
 
+function computeSectionScore(section, criteria) {
+  if (!section || typeof section !== "object") return typeof section === "number" ? section : 0;
+  return Math.round(criteria.reduce((sum, c) => sum + (Number(section[c.key]) || 0) * c.weight, 0) * 100) / 100;
+}
+
+function normalizeAssessment(a) {
+  if (!a) return { written: 0, practical: {}, operational: {}, feedbackAvg: 0 };
+  const norm = { ...a };
+  if (typeof norm.practical !== "object" || norm.practical === null) {
+    const flat = typeof norm.practical === "number" ? norm.practical : 0;
+    norm.practical = {};
+    PRACTICAL_CRITERIA.forEach((c) => { norm.practical[c.key] = flat; });
+  }
+  if (typeof norm.operational !== "object" || norm.operational === null) {
+    const flat = typeof norm.operational === "number" ? norm.operational : 0;
+    norm.operational = {};
+    OPERATIONAL_CRITERIA.forEach((c) => { norm.operational[c.key] = flat; });
+  }
+  return norm;
+}
+
 function computeOverallScore(a, weights = DEFAULT_WEIGHTS) {
   const feedback100 = feedbackTo100(a.feedbackAvg);
+  const practicalScore = typeof a.practical === "object" ? computeSectionScore(a.practical, PRACTICAL_CRITERIA) : (a.practical || 0);
+  const operationalScore = typeof a.operational === "object" ? computeSectionScore(a.operational, OPERATIONAL_CRITERIA) : (a.operational || 0);
   const score =
     a.written * weights.written +
-    a.practical * weights.practical +
-    a.operational * weights.operational +
+    practicalScore * weights.practical +
+    operationalScore * weights.operational +
     feedback100 * weights.feedback;
   return Math.round(score * 100) / 100;
 }
@@ -186,11 +225,10 @@ const RAW_DRIVERS = [
     assessment: { written: 82, practical: 85, operational: 86, feedbackAvg: 4.7 } },
 ];
 
-const initialDrivers = RAW_DRIVERS.map((d) => ({
-  ...d,
-  score: computeOverallScore(d.assessment),
-  rating: d.assessment.feedbackAvg,
-}));
+const initialDrivers = RAW_DRIVERS.map((d) => {
+  const assessment = normalizeAssessment(d.assessment);
+  return { ...d, assessment, score: computeOverallScore(assessment), rating: d.assessment.feedbackAvg };
+});
 
 /* -------------------------------------------------------------------------
    VEHICLES — QR is permanently bound to the car number (plate).
@@ -452,8 +490,8 @@ const ASSESSMENT_EXPORT_COLUMNS = [
   { key: "name", label: "Driver Name" },
   { key: "id", label: "Driver ID" },
   { key: (r) => r.assessment.written, label: "Written" },
-  { key: (r) => r.assessment.practical, label: "Practical" },
-  { key: (r) => r.assessment.operational, label: "Operational" },
+  { key: (r) => computeSectionScore(r.assessment.practical, PRACTICAL_CRITERIA), label: "Practical" },
+  { key: (r) => computeSectionScore(r.assessment.operational, OPERATIONAL_CRITERIA), label: "Operational" },
   { key: (r) => r.assessment.feedbackAvg, label: "Feedback Avg" },
   { key: "score", label: "Overall Score" },
   { key: "level", label: "Level" },
@@ -745,7 +783,10 @@ export default function App() {
   const [lastAssignedDriverId, setLastAssignedDriverId] = useState(() => loadState("lastAssignedDriverId", null));
   const [weights, setWeights] = useState(() => loadState("weights", DEFAULT_WEIGHTS));
   const [passMarks, setPassMarks] = useState(() => loadState("passMarks", PASS_MARKS));
-  const [drivers, setDrivers] = useState(() => loadState("drivers", initialDrivers));
+  const [drivers, setDrivers] = useState(() => {
+    const loaded = loadState("drivers", initialDrivers);
+    return loaded.map((d) => d.assessment ? { ...d, assessment: normalizeAssessment(d.assessment) } : d);
+  });
   const [vehicles, setVehicles] = useState(() => loadState("vehicles", VEHICLES));
   const [passengers] = useState(PASSENGERS);
   const [transportRequests, setTransportRequests] = useState(() => loadState("transportRequests", TRANSPORT_REQUESTS));
@@ -995,6 +1036,7 @@ export default function App() {
           onAssign={assignDriverVehicle}
           markNotificationRead={markNotificationRead}
           markAllNotificationsRead={markAllNotificationsRead}
+          resetToDefaults={resetToDefaults}
           unreadCount={getUnreadCount("admin")}
           notify={notify} onExit={resetToRoleSelect}
         />
@@ -1005,6 +1047,7 @@ export default function App() {
       {role === "driver" && selectedUserId && (
         <DriverApp drivers={drivers} vehicles={vehicles} transportRequests={transportRequests} notifications={notifications}
           vehicleCheckins={vehicleCheckins} addVehicleCheckIn={addVehicleCheckIn} updateVehicleCheckIn={updateVehicleCheckIn}
+          feedbackRecords={feedbackRecords}
           markNotificationRead={markNotificationRead} notify={notify} onExit={resetToRoleSelect} userId={selectedUserId} />
       )}
       {role === "passenger" && !selectedUserId && (
@@ -1172,7 +1215,7 @@ function DemoSwitchBar({ role, drivers, passengers, lastAssignedDriverId, onSwit
 function AdminApp({ drivers, setDrivers, vehicles, setVehicles, passengers, transportRequests, setTransportRequests,
   notifications, setNotifications, feedbackRecords, setFeedbackRecords, vehicleCheckins, setVehicleCheckins,
   weights, passMarks, setWeights, setPassMarks,
-  onAssign, markNotificationRead, markAllNotificationsRead, unreadCount, notify, onExit }) {
+  onAssign, markNotificationRead, markAllNotificationsRead, unreadCount, notify, onExit, resetToDefaults }) {
   const [authed, setAuthed] = useState(false);
   const [screen, setScreen] = useState("dashboard"); // dashboard | requests | requestDetail | drivers | driverDetail | vehicles | vehicleDetail | assessments | records | feedback | notifications | settings
   const [selectedId, setSelectedId] = useState(null);
@@ -1217,7 +1260,7 @@ function AdminApp({ drivers, setDrivers, vehicles, setVehicles, passengers, tran
       credits: 0,
       currentVehicle: vehicle ? vehicle.plate : null,
       vehicle: vehicle ? `${vehicle.make} ${vehicle.model} · ${vehicle.plate}` : "—",
-      assessment: { written: 0, practical: 0, operational: 0, feedbackAvg: 0 },
+      assessment: { written: 0, practical: Object.fromEntries(PRACTICAL_CRITERIA.map((c) => [c.key, 0])), operational: Object.fromEntries(OPERATIONAL_CRITERIA.map((c) => [c.key, 0])), feedbackAvg: 0 },
       score: 0,
       rating: 0,
     };
@@ -2196,8 +2239,8 @@ function AdminDriverDetail({ driver, onBack, onUpdate, onDelete, notify, vehicle
               <div className="grid grid-cols-2 gap-4 pt-2">
                 {[
                   ["Written", driver.assessment.written],
-                  ["Practical", driver.assessment.practical],
-                  ["Operational", driver.assessment.operational],
+                  ["Practical", computeSectionScore(driver.assessment.practical, PRACTICAL_CRITERIA)],
+                  ["Operational", computeSectionScore(driver.assessment.operational, OPERATIONAL_CRITERIA)],
                   ["Feedback (100-pt)", feedbackTo100(driver.assessment.feedbackAvg)],
                 ].map(([label, val]) => (
                   <div key={label}>
@@ -2398,29 +2441,52 @@ function InfoRow({ icon: Icon, label, value, mono }) {
 function AdminAssessmentPanel({ driver, onUpdate, notify, weights = DEFAULT_WEIGHTS, passMarks = PASS_MARKS }) {
   const [marks, setMarks] = useState({
     written: driver.assessment.written,
-    practical: driver.assessment.practical,
-    operational: driver.assessment.operational,
+    practical: { ...driver.assessment.practical },
+    operational: { ...driver.assessment.operational },
   });
   const [errors, setErrors] = useState({});
   const [confirmOpen, setConfirmOpen] = useState(false);
+  const [expanded, setExpanded] = useState({ practical: false, operational: false });
 
   const feedback100 = feedbackTo100(driver.assessment.feedbackAvg);
   const overall = useMemo(() => {
-    const a = { ...marks, feedbackAvg: driver.assessment.feedbackAvg };
+    const a = { written: Number(marks.written) || 0, practical: marks.practical, operational: marks.operational, feedbackAvg: driver.assessment.feedbackAvg };
     return computeOverallScore(a);
   }, [marks, driver.assessment.feedbackAvg]);
 
-  function handleChange(key, raw) {
-    setMarks((m) => ({ ...m, [key]: raw }));
+  const practicalScore = computeSectionScore(marks.practical, PRACTICAL_CRITERIA);
+  const operationalScore = computeSectionScore(marks.operational, OPERATIONAL_CRITERIA);
+
+  const writtenPts = Math.round(((Number(marks.written) || 0) * weights.written) * 10) / 10;
+  const practicalPts = Math.round((practicalScore * weights.practical) * 10) / 10;
+  const operationalPts = Math.round((operationalScore * weights.operational) * 10) / 10;
+  const feedbackPts = Math.round((feedback100 * weights.feedback) * 10) / 10;
+
+  function handleWrittenChange(raw) {
+    setMarks((m) => ({ ...m, written: raw }));
+  }
+
+  function handleSubChange(section, key, raw) {
+    setMarks((m) => ({ ...m, [section]: { ...m[section], [key]: raw } }));
   }
 
   function validate() {
     const errs = {};
-    ["written", "practical", "operational"].forEach((key) => {
-      const v = marks[key];
-      if (v === "" || v === null || v === undefined) errs[key] = "Mark is required.";
-      else if (isNaN(Number(v))) errs[key] = "Mark must be a number.";
-      else if (Number(v) < 0 || Number(v) > 100) errs[key] = "Mark must be between 0 and 100.";
+    const v = marks.written;
+    if (v === "" || v === null || v === undefined) errs.written = "Mark is required.";
+    else if (isNaN(Number(v))) errs.written = "Must be a number.";
+    else if (Number(v) < 0 || Number(v) > 100) errs.written = "Must be between 0 and 100.";
+    PRACTICAL_CRITERIA.forEach((c) => {
+      const val = marks.practical[c.key];
+      if (val === "" || val === null || val === undefined) errs[`practical.${c.key}`] = "Required.";
+      else if (isNaN(Number(val))) errs[`practical.${c.key}`] = "Must be a number.";
+      else if (Number(val) < 0 || Number(val) > 100) errs[`practical.${c.key}`] = "0–100.";
+    });
+    OPERATIONAL_CRITERIA.forEach((c) => {
+      const val = marks.operational[c.key];
+      if (val === "" || val === null || val === undefined) errs[`operational.${c.key}`] = "Required.";
+      else if (isNaN(Number(val))) errs[`operational.${c.key}`] = "Must be a number.";
+      else if (Number(val) < 0 || Number(val) > 100) errs[`operational.${c.key}`] = "0–100.";
     });
     setErrors(errs);
     return Object.keys(errs).length === 0;
@@ -2432,18 +2498,57 @@ function AdminAssessmentPanel({ driver, onUpdate, notify, weights = DEFAULT_WEIG
   }
 
   function handleConfirmSave() {
-    const numeric = { written: Number(marks.written), practical: Number(marks.practical), operational: Number(marks.operational) };
+    const numeric = {
+      written: Number(marks.written),
+      practical: Object.fromEntries(Object.entries(marks.practical).map(([k, v]) => [k, Number(v)])),
+      operational: Object.fromEntries(Object.entries(marks.operational).map(([k, v]) => [k, Number(v)])),
+    };
     const newAssessment = { ...driver.assessment, ...numeric };
     onUpdate({ assessment: newAssessment, score: computeOverallScore(newAssessment) });
     setConfirmOpen(false);
     notify("Assessment saved successfully.", "success");
   }
 
-  const categories = [
-    { key: "written", label: "Written / Knowledge Assessment", weight: weights.written },
-    { key: "practical", label: "Practical Assessment", weight: weights.practical },
-    { key: "operational", label: "Operational Performance", weight: weights.operational },
-  ];
+  function renderSection(key, label, weight, criteria, sectionData, sectionScore) {
+    const isOpen = expanded[key];
+    return (
+      <div>
+        <button onClick={() => setExpanded((e) => ({ ...e, [key]: !e[key] }))}
+          className="w-full flex items-center justify-between mb-1.5 group">
+          <div className="flex items-center gap-2">
+            <label className="text-sm font-medium text-slate-700">{label}</label>
+            <span className="text-xs font-mono text-slate-500 bg-slate-100 px-1.5 py-0.5 rounded">{sectionScore}/100</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="text-xs font-mono px-1.5 py-0.5 rounded bg-emerald-50 text-emerald-700">{(sectionScore * weight).toFixed(1)} / {Math.round(weight * 100)}</span>
+            <span className="text-xs text-slate-400">Weight {Math.round(weight * 100)}%</span>
+            {isOpen ? <ChevronDown className="h-4 w-4 text-slate-400" /> : <ChevronRight className="h-4 w-4 text-slate-400" />}
+          </div>
+        </button>
+        {!isOpen && <div className="mb-1"><ProgressBar value={sectionScore} /></div>}
+        {isOpen && (
+          <div className="bg-slate-50 rounded-lg border border-slate-100 p-3 space-y-3 mt-1">
+            {criteria.map((c) => (
+              <div key={c.key}>
+                <div className="flex items-center justify-between mb-1">
+                  <span className="text-xs text-slate-600">{c.label} <span className="text-slate-400">({Math.round(c.weight * 100)}%)</span></span>
+                  {errors[`${key}.${c.key}`] && <span className="text-xs text-rose-500">{errors[`${key}.${c.key}`]}</span>}
+                </div>
+                <div className="flex items-center gap-3">
+                  <input type="number" min={0} max={100} value={sectionData[c.key]}
+                    onChange={(e) => handleSubChange(key, c.key, e.target.value)}
+                    className={cx("w-24 rounded-lg border px-3 py-1.5 text-sm focus:outline-none focus:ring-2",
+                      errors[`${key}.${c.key}`] ? "border-rose-400 focus:ring-rose-200" : "border-slate-200 focus:ring-slate-300")} />
+                  <span className="text-xs text-slate-400">/ 100</span>
+                  <div className="flex-1"><ProgressBar value={Number(sectionData[c.key]) || 0} /></div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    );
+  }
 
   return (
     <div className="grid lg:grid-cols-3 gap-5">
@@ -2455,30 +2560,35 @@ function AdminAssessmentPanel({ driver, onUpdate, notify, weights = DEFAULT_WEIG
         <p className="text-xs text-slate-400 mb-5">Scores are weighted: Written {Math.round(weights.written * 100)}%, Practical {Math.round(weights.practical * 100)}%, Operational {Math.round(weights.operational * 100)}%, Feedback {Math.round(weights.feedback * 100)}%. Weights and pass marks are configurable in Settings.</p>
 
         <div className="space-y-5">
-          {categories.map((c) => (
-            <div key={c.key}>
-              <div className="flex items-center justify-between mb-1.5">
-                <label className="text-sm font-medium text-slate-700">{c.label}</label>
-                <span className="text-xs text-slate-400">Weight {Math.round(c.weight * 100)}%</span>
+          <div>
+            <div className="flex items-center justify-between mb-1.5">
+              <label className="text-sm font-medium text-slate-700">Written / Knowledge Assessment</label>
+              <div className="flex items-center gap-2">
+                <span className="text-xs font-mono px-1.5 py-0.5 rounded bg-emerald-50 text-emerald-700">{writtenPts.toFixed(1)} / {Math.round(weights.written * 100)}</span>
+                <span className="text-xs text-slate-400">Weight {Math.round(weights.written * 100)}%</span>
               </div>
-              <div className="flex items-center gap-3">
-                <input
-                  type="number" min={0} max={100} value={marks[c.key]}
-                  onChange={(e) => handleChange(c.key, e.target.value)}
-                  className={cx("w-28 rounded-lg border px-3 py-2 text-sm focus:outline-none focus:ring-2",
-                    errors[c.key] ? "border-rose-400 focus:ring-rose-200" : "border-slate-200 focus:ring-slate-300")}
-                />
-                <span className="text-sm text-slate-400">/ 100</span>
-                <div className="flex-1"><ProgressBar value={Number(marks[c.key]) || 0} /></div>
-              </div>
-              {errors[c.key] && <p className="text-xs text-rose-600 mt-1">{errors[c.key]}</p>}
             </div>
-          ))}
+            <div className="flex items-center gap-3">
+              <input type="number" min={0} max={100} value={marks.written}
+                onChange={(e) => handleWrittenChange(e.target.value)}
+                className={cx("w-28 rounded-lg border px-3 py-2 text-sm focus:outline-none focus:ring-2",
+                  errors.written ? "border-rose-400 focus:ring-rose-200" : "border-slate-200 focus:ring-slate-300")} />
+              <span className="text-sm text-slate-400">/ 100</span>
+              <div className="flex-1"><ProgressBar value={Number(marks.written) || 0} /></div>
+            </div>
+            {errors.written && <p className="text-xs text-rose-600 mt-1">{errors.written}</p>}
+          </div>
+
+          {renderSection("practical", "Practical Assessment", weights.practical, PRACTICAL_CRITERIA, marks.practical, practicalScore)}
+          {renderSection("operational", "Operational Record", weights.operational, OPERATIONAL_CRITERIA, marks.operational, operationalScore)}
 
           <div>
             <div className="flex items-center justify-between mb-1.5">
               <label className="text-sm font-medium text-slate-700">User Feedback (auto-calculated)</label>
-              <span className="text-xs text-slate-400">Weight {Math.round(weights.feedback * 100)}%</span>
+              <div className="flex items-center gap-2">
+                <span className="text-xs font-mono px-1.5 py-0.5 rounded bg-emerald-50 text-emerald-700">{feedbackPts.toFixed(1)} / {Math.round(weights.feedback * 100)}</span>
+                <span className="text-xs text-slate-400">Weight {Math.round(weights.feedback * 100)}%</span>
+              </div>
             </div>
             <div className="flex items-center gap-3">
               <div className="w-28 rounded-lg border border-slate-100 bg-slate-50 px-3 py-2 text-sm text-slate-500">{feedback100}</div>
@@ -2495,6 +2605,19 @@ function AdminAssessmentPanel({ driver, onUpdate, notify, weights = DEFAULT_WEIG
         <p className="text-4xl font-semibold text-slate-900 mt-1">{overall}%</p>
         <p className="text-xs text-slate-400 mt-1">Pass mark for Level {driver.level}: {passMarks[driver.level]}%</p>
         <ProgressBar value={overall} tone={overall >= passMarks[driver.level] ? "emerald" : "amber"} />
+        <div className="mt-3 pt-3 border-t border-slate-100 space-y-1.5">
+          {[
+            { label: "Written", pts: writtenPts, max: Math.round(weights.written * 100) },
+            { label: "Practical", pts: practicalPts, max: Math.round(weights.practical * 100) },
+            { label: "Operational", pts: operationalPts, max: Math.round(weights.operational * 100) },
+            { label: "Feedback", pts: feedbackPts, max: Math.round(weights.feedback * 100) },
+          ].map((row) => (
+            <div key={row.label} className="flex items-center justify-between text-xs">
+              <span className="text-slate-500">{row.label}</span>
+              <span className="font-mono text-slate-700">{row.pts.toFixed(1)}<span className="text-slate-400"> / {row.max}</span></span>
+            </div>
+          ))}
+        </div>
         {(() => {
           const qualified = getQualifiedLevels(overall, passMarks);
           const maxQualified = qualified.length > 0 ? qualified[qualified.length - 1] : null;
@@ -3925,7 +4048,7 @@ function MobileShell({ title, subtitle, onBack, children, nav, active, onNav, on
   );
 }
 
-function DriverApp({ drivers, vehicles, transportRequests, notifications, vehicleCheckins, addVehicleCheckIn, updateVehicleCheckIn, markNotificationRead, notify, onExit, userId }) {
+function DriverApp({ drivers, vehicles, transportRequests, notifications, vehicleCheckins, addVehicleCheckIn, updateVehicleCheckIn, feedbackRecords, markNotificationRead, notify, onExit, userId }) {
   const driver = drivers.find((d) => d.id === userId);
   const [screen, setScreen] = useState("home");
   const [verifyState, setVerifyState] = useState("idle"); // idle | scanning | success | fail
@@ -3941,11 +4064,11 @@ function DriverApp({ drivers, vehicles, transportRequests, notifications, vehicl
   const nav = [
     { key: "home", label: "Home", icon: HomeIcon },
     { key: "trips", label: "Trips", icon: ListChecks },
-    { key: "qr", label: "QR", icon: QrCode },
+    { key: "feedback", label: "Feedback", icon: MessageSquare },
     { key: "profile", label: "Profile", icon: User },
   ];
 
-  const titles = { home: "Driver Home", trips: "My Trips", calendar: "Trip Calendar", tripDetail: "Trip Details", notifications: "Notifications", passport: "Driver Passport", certification: "Certification", qr: "Driver QR Code", profile: "My Profile", verify: "QR Verification", checkIn: "Check In", checkOut: "Check Out" };
+  const titles = { home: "Driver Home", trips: "My Trips", calendar: "Trip Calendar", tripDetail: "Trip Details", notifications: "Notifications", passport: "Driver Passport", certification: "Certification", feedback: "Passenger Feedback", profile: "My Profile", verify: "QR Verification", checkIn: "Check In", checkOut: "Check Out" };
 
   function runScan(valid = true) {
     setScreen("verify");
@@ -3981,8 +4104,8 @@ function DriverApp({ drivers, vehicles, transportRequests, notifications, vehicl
   return (
     <MobileShell
       title={titles[screen]} subtitle={screen !== "verify" ? driver.id : undefined}
-      onBack={screen === "verify" ? () => { setScreen("qr"); setVerifyState("idle"); } : ["tripDetail", "notifications"].includes(screen) ? () => setScreen("trips") : ["checkIn", "checkOut"].includes(screen) ? () => setScreen("tripDetail") : undefined}
-      nav={nav} active={screen === "verify" ? "qr" : ["tripDetail", "notifications"].includes(screen) ? "trips" : ["checkIn", "checkOut"].includes(screen) ? "trips" : screen} onNav={setScreen} onExit={onExit}
+      onBack={screen === "verify" ? () => { setScreen("profile"); setVerifyState("idle"); } : ["tripDetail", "notifications"].includes(screen) ? () => setScreen("trips") : ["checkIn", "checkOut"].includes(screen) ? () => setScreen("tripDetail") : undefined}
+      nav={nav} active={screen === "verify" ? "profile" : ["tripDetail", "notifications"].includes(screen) ? "trips" : ["checkIn", "checkOut"].includes(screen) ? "trips" : screen} onNav={setScreen} onExit={onExit}
       right={<NotificationBell count={unreadCount} onClick={() => setScreen("notifications")} />}
     >
         {screen === "home" && <DriverHome driver={driver} trips={myTrips} onGo={setScreen} onOpenTrip={openTrip} vehicleCheckins={vehicleCheckins} vehicles={vehicles} />}
@@ -4007,6 +4130,7 @@ function DriverApp({ drivers, vehicles, transportRequests, notifications, vehicl
       )}
       {screen === "passport" && <div className="p-5"><PassportCard driver={driver} /></div>}
       {screen === "certification" && <DriverCertification driver={driver} />}
+      {screen === "feedback" && <div className="p-5"><SectionLabel>Passenger Feedback</SectionLabel><FeedbackList driverId={driver.id} /></div>}
       {screen === "qr" && <DriverQR driver={driver} vehiclePlate={vehiclePlate} onScan={runScan} />}
         {screen === "profile" && <DriverProfile driver={driver} trips={myTrips} vehicleCheckins={vehicleCheckins} />}
       {screen === "verify" && <QRVerify driver={driver} state={verifyState} onRetry={() => runScan(true)} onRetryFail={() => runScan(false)} />}
@@ -4166,7 +4290,7 @@ function DriverTrips({ trips, onOpen }) {
   );
 }
 
-function DriverTripDetail({ request, onBack, checkIn, onCheckIn, onCheckOut, actions }) {
+function DriverTripDetail({ request, onBack, checkIn, onCheckIn, onCheckOut, actions, drivers = [] }) {
   return (
     <div className="p-5 space-y-5">
       <Card className="p-5">
@@ -4229,6 +4353,30 @@ function DriverTripDetail({ request, onBack, checkIn, onCheckIn, onCheckOut, act
           </div>
         ) : <p className="text-sm text-slate-400">No vehicle assigned yet.</p>}
       </Card>
+
+      {request.driverId && (() => {
+        const assignedDriver = drivers.find((d) => d.id === request.driverId);
+        return assignedDriver ? (
+          <Card className="p-5">
+            <SectionLabel>Assigned Driver</SectionLabel>
+            <div className="flex items-center gap-3 mb-3">
+              <Avatar name={assignedDriver.name} size="h-10 w-10" />
+              <div>
+                <p className="font-medium text-slate-900">{assignedDriver.name}</p>
+                <p className="text-xs text-slate-400 font-mono">{assignedDriver.id}</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-4 text-sm">
+              <a href={`tel:${assignedDriver.phone}`} className="flex items-center gap-1.5 text-slate-600 hover:text-slate-900">
+                <Phone className="h-4 w-4 text-slate-400" /> {assignedDriver.phone}
+              </a>
+              <a href={`mailto:${assignedDriver.email}`} className="flex items-center gap-1.5 text-slate-600 hover:text-slate-900">
+                <Mail className="h-4 w-4 text-slate-400" /> {assignedDriver.email}
+              </a>
+            </div>
+          </Card>
+        ) : null;
+      })()}
 
       <Card className="p-5">
         <SectionLabel>QR Verification</SectionLabel>
@@ -4425,33 +4573,8 @@ function DriverHome({ driver, trips, onGo, onOpenTrip, vehicleCheckins, vehicles
         ) : null}
         <QuickCard icon={CreditCard} title="Driver Passport" desc="Your official professional identity" onClick={() => onGo("passport")} />
         <QuickCard icon={Award} title="Certification" desc={`Level ${driver.level} · ${driver.certStatus}`} onClick={() => onGo("certification")} />
-        <QuickCard icon={QrCode} title="QR Code" desc="Scan to verify your identity" onClick={() => onGo("qr")} />
+        <QuickCard icon={MessageSquare} title="Passenger Feedback" desc="View ratings & comments" onClick={() => onGo("feedback")} />
       </div>
-
-      <Card className="p-5">
-        <div className="flex items-center justify-between mb-4">
-          <SectionLabel>Passenger Feedback QR</SectionLabel>
-          <Badge tone="amber" icon={QrCode}>Feedback</Badge>
-        </div>
-        <p className="text-xs text-slate-400 mb-4">Passengers can scan this QR code to rate your service and provide feedback.</p>
-        <div className="flex flex-col items-center bg-white rounded-xl p-4 border border-slate-200">
-          <QRCodeSVG
-            value="https://forms.gle/AwM49wXGSNYAGD7GA"
-            size={160}
-            bgColor="#ffffff"
-            fgColor="#0f172a"
-            level="M"
-            includeMargin={false}
-          />
-          <p className="text-xs text-slate-400 mt-3 font-mono">UAB Academy Feedback Form</p>
-        </div>
-        <div className="flex items-center gap-2 mt-3 p-2.5 rounded-lg bg-slate-50">
-          <div className="h-6 w-6 rounded-full bg-amber-100 flex items-center justify-center shrink-0">
-            <Sparkles className="h-3.5 w-3.5 text-amber-600" />
-          </div>
-          <p className="text-[11px] text-slate-500">Share this QR with passengers after completing their trip.</p>
-        </div>
-      </Card>
     </div>
   );
 }
@@ -4592,7 +4715,7 @@ function DriverCertification({ driver }) {
 
       <Card className="p-5 space-y-4">
         <SectionLabel>Assessment Summary</SectionLabel>
-        {[["Written", driver.assessment.written], ["Practical", driver.assessment.practical], ["Operational", driver.assessment.operational], ["Feedback", feedback100]].map(([label, val]) => (
+        {[["Written", driver.assessment.written], ["Practical", computeSectionScore(driver.assessment.practical, PRACTICAL_CRITERIA)], ["Operational", computeSectionScore(driver.assessment.operational, OPERATIONAL_CRITERIA)], ["Feedback", feedback100]].map(([label, val]) => (
           <div key={label}>
             <div className="flex justify-between text-xs text-slate-500 mb-1"><span>{label}</span><span className="font-medium text-slate-700">{val}%</span></div>
             <ProgressBar value={val} tone="amber" />
@@ -4870,7 +4993,7 @@ function PassengerApp({ passengers, drivers, vehicles, transportRequests, notifi
       {screen === "trips" && <PassengerTrips trips={myTrips} onOpen={openTrip} />}
       {screen === "calendar" && <TripCalendar trips={myTrips} onOpen={openTrip} />}
       {screen === "tripDetail" && selectedRequest && (
-        <DriverTripDetail request={selectedRequest} onBack={() => setScreen("trips")} actions={renderTripActions(selectedRequest)} />
+        <DriverTripDetail request={selectedRequest} onBack={() => setScreen("trips")} actions={renderTripActions(selectedRequest)} drivers={drivers} />
       )}
       {screen === "scan" && selectedRequest && (
         <VehicleQRScan

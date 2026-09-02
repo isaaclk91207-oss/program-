@@ -1,0 +1,286 @@
+import { PrismaClient } from "@prisma/client";
+import { createAppError } from "../middlewares/error.middleware";
+import { CreateTransportRequestDto, AssignDriverDto, TransportRequestResponse } from "../types";
+import { notificationService } from "./notification.service";
+
+const prisma = new PrismaClient();
+
+const VALID_TRANSITIONS: Record<string, string[]> = {
+  PENDING: ["ASSIGNED"],
+  ASSIGNED: ["QR_PENDING"],
+  QR_PENDING: ["PICK_UP_SCANNED"],
+  PICK_UP_SCANNED: ["IN_PROGRESS"],
+  IN_PROGRESS: ["DROP_OFF_SCANNED"],
+  DROP_OFF_SCANNED: ["FEEDBACK_SUBMITTED"],
+  FEEDBACK_SUBMITTED: [],
+};
+
+export class TransportService {
+  async getAll(
+    filters?: { status?: string; search?: string; role?: string; userId?: string },
+    page = 1,
+    limit = 50
+  ) {
+    const where: Record<string, unknown> = {};
+
+    if (filters?.status && filters.status !== "ALL") {
+      where.status = filters.status;
+    }
+
+    if (filters?.search) {
+      where.OR = [
+        { id: { contains: filters.search, mode: "insensitive" } },
+        { passenger: { user: { name: { contains: filters.search, mode: "insensitive" } } } },
+        { driver: { user: { name: { contains: filters.search, mode: "insensitive" } } } },
+      ];
+    }
+
+    if (filters?.role === "PASSENGER" && filters?.userId) {
+      where.passengerId = filters.userId;
+    }
+
+    if (filters?.role === "DRIVER" && filters?.userId) {
+      where.driverId = filters.userId;
+    }
+
+    const [requests, total] = await Promise.all([
+      prisma.transportRequest.findMany({
+        where,
+        include: {
+          passenger: { include: { user: { select: { name: true } } } },
+          driver: { include: { user: { select: { name: true } } } },
+          vehicle: { select: { id: true, plate: true } },
+          feedback: { select: { id: true, rating: true } },
+        },
+        orderBy: { createdAt: "desc" },
+        skip: (page - 1) * limit,
+        take: limit,
+      }),
+      prisma.transportRequest.count({ where }),
+    ]);
+
+    return {
+      requests: requests.map(this.formatResponse),
+      total,
+      page,
+      totalPages: Math.ceil(total / limit),
+    };
+  }
+
+  async getById(id: string) {
+    const request = await prisma.transportRequest.findUnique({
+      where: { id },
+      include: {
+        passenger: { include: { user: { select: { id: true, name: true, email: true, phone: true } } } },
+        driver: { include: { user: { select: { id: true, name: true, email: true, phone: true } } } },
+        vehicle: true,
+        feedback: true,
+        notifications: { orderBy: { createdAt: "desc" } },
+      },
+    });
+
+    if (!request) {
+      throw createAppError(404, "REQUEST_NOT_FOUND", "Transport request not found");
+    }
+
+    return request;
+  }
+
+  async create(data: CreateTransportRequestDto) {
+    const passenger = await prisma.passengerProfile.findUnique({
+      where: { userId: data.passengerId },
+      include: { user: { select: { name: true } } },
+    });
+
+    if (!passenger) {
+      throw createAppError(404, "PASSENGER_NOT_FOUND", "Passenger not found");
+    }
+
+    const request = await prisma.transportRequest.create({
+      data: {
+        passengerId: data.passengerId,
+        pickup: data.pickup,
+        destination: data.destination,
+        date: new Date(data.date),
+        time: data.time,
+        status: "PENDING",
+      },
+      include: {
+        passenger: { include: { user: { select: { name: true } } } },
+      },
+    });
+
+    await notificationService.create({
+      recipientId: "ADMIN",
+      recipientRole: "admin",
+      title: "New Transport Request",
+      message: `${passenger.user.name} (${passenger.userId}) requested transport from ${data.pickup} to ${data.destination} on ${data.date} at ${data.time}.`,
+      relatedRequestId: request.id,
+    });
+
+    return this.formatResponse({
+      ...request,
+      driver: null,
+      vehicle: null,
+      feedback: null,
+    });
+  }
+
+  async assignDriver(requestId: string, data: AssignDriverDto) {
+    const request = await prisma.transportRequest.findUnique({ where: { id: requestId } });
+
+    if (!request) {
+      throw createAppError(404, "REQUEST_NOT_FOUND", "Transport request not found");
+    }
+
+    if (request.status !== "PENDING") {
+      throw createAppError(
+        400,
+        "INVALID_TRANSITION",
+        `Cannot assign driver to request in '${request.status}' status. Must be PENDING.`
+      );
+    }
+
+    const driver = await prisma.driverProfile.findUnique({
+      where: { userId: data.driverId },
+      include: { user: { select: { name: true } } },
+    });
+
+    if (!driver) {
+      throw createAppError(404, "DRIVER_NOT_FOUND", "Driver not found");
+    }
+
+    const vehicle = await prisma.vehicle.findUnique({ where: { id: data.vehicleId } });
+
+    if (!vehicle) {
+      throw createAppError(404, "VEHICLE_NOT_FOUND", "Vehicle not found");
+    }
+
+    const updated = await prisma.transportRequest.update({
+      where: { id: requestId },
+      data: {
+        driverId: data.driverId,
+        vehicleId: data.vehicleId,
+        status: "ASSIGNED",
+      },
+      include: {
+        passenger: { include: { user: { select: { name: true } } } },
+        driver: { include: { user: { select: { name: true } } } },
+        vehicle: true,
+      },
+    });
+
+    const passenger = await prisma.passengerProfile.findUnique({
+      where: { userId: request.passengerId },
+      include: { user: { select: { name: true } } },
+    });
+
+    await Promise.all([
+      notificationService.create({
+        recipientId: request.passengerId,
+        recipientRole: "passenger",
+        title: "Transport Request Assigned",
+        message: `Your transport request ${requestId} has been assigned to Driver ${driver.user.name} with vehicle ${vehicle.plate}.`,
+        relatedRequestId: requestId,
+      }),
+      notificationService.create({
+        recipientId: data.driverId,
+        recipientRole: "driver",
+        title: "New Transport Assigned",
+        message: `You have been assigned transport request ${requestId} for ${passenger?.user?.name || "a passenger"} from ${request.pickup} to ${request.destination}.`,
+        relatedRequestId: requestId,
+      }),
+    ]);
+
+    return this.formatResponse(updated);
+  }
+
+  async transitionStatus(requestId: string, newStatus: string) {
+    const request = await prisma.transportRequest.findUnique({ where: { id: requestId } });
+
+    if (!request) {
+      throw createAppError(404, "REQUEST_NOT_FOUND", "Transport request not found");
+    }
+
+    const validNext = VALID_TRANSITIONS[request.status];
+    if (!validNext || !validNext.includes(newStatus)) {
+      throw createAppError(
+        400,
+        "INVALID_TRANSITION",
+        `Cannot transition from '${request.status}' to '${newStatus}'. Valid transitions: ${validNext?.join(", ") || "none"}`
+      );
+    }
+
+    const updated = await prisma.transportRequest.update({
+      where: { id: requestId },
+      data: { status: newStatus },
+      include: {
+        passenger: { include: { user: { select: { name: true } } } },
+        driver: { include: { user: { select: { name: true } } } },
+        vehicle: true,
+      },
+    });
+
+    return updated;
+  }
+
+  async getStats() {
+    const statusCounts = await prisma.transportRequest.groupBy({
+      by: ["status"],
+      _count: true,
+    });
+
+    const departmentCounts = await prisma.transportRequest.groupBy({
+      by: ["pickup"],
+      _count: true,
+    });
+
+    const total = await prisma.transportRequest.count();
+
+    return {
+      total,
+      byStatus: statusCounts.map((s) => ({ status: s.status, count: s._count })),
+      byDepartment: departmentCounts.map((d) => ({ department: d.pickup, count: d._count })),
+    };
+  }
+
+  private formatResponse(r: {
+    id: string;
+    passengerId: string;
+    passenger: { user: { name: string } };
+    driverId: string | null;
+    driver: { user: { name: string } } | null;
+    vehicleId: string | null;
+    vehicle: { id: string; plate: string } | null;
+    status: string;
+    pickup: string;
+    destination: string;
+    date: Date;
+    time: string;
+    feedback: { id: string; rating: number } | null;
+    createdAt: Date;
+  }): TransportRequestResponse {
+    return {
+      id: r.id,
+      passengerId: r.passengerId,
+      passengerName: r.passenger.user.name,
+      department: "",
+      driverId: r.driverId,
+      driverName: r.driver?.user?.name || null,
+      vehicleId: r.vehicleId,
+      vehiclePlate: r.vehicle?.plate || null,
+      status: r.status,
+      pickup: r.pickup,
+      destination: r.destination,
+      date: r.date.toISOString().split("T")[0],
+      time: r.time,
+      qrScanStatus: ["QR_PENDING", "PICK_UP_SCANNED", "IN_PROGRESS", "DROP_OFF_SCANNED"].includes(r.status)
+        ? r.status
+        : null,
+      feedbackStatus: r.feedback ? "SUBMITTED" : null,
+      createdAt: r.createdAt.toISOString(),
+    };
+  }
+}
+
+export const transportService = new TransportService();

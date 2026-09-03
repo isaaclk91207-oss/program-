@@ -1,0 +1,201 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+<title>PCCP Vector - Edit Profile</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-fixed-variant": "#6c3a00",
+                        "primary-fixed-dim": "#94ccff",
+                        "background": "#faf8ff",
+                        "on-tertiary-fixed": "#2e1500",
+                        "on-error-container": "#93000a",
+                        "primary-container": "#0369a1",
+                        "error-container": "#ffdad6",
+                        "on-secondary-fixed": "#00201d",
+                        "inverse-primary": "#94ccff",
+                        "tertiary": "#733f00",
+                        "border-hairline": "#E2E8F0",
+                        "on-primary": "#ffffff",
+                        "outline-variant": "#c0c7d1",
+                        "tertiary-fixed": "#ffdcc1",
+                        "inverse-on-surface": "#eef0ff",
+                        "secondary": "#006a63",
+                        "surface-container-high": "#e1e7ff",
+                        "role-admin": "#059669",
+                        "on-primary-fixed-variant": "#004b74",
+                        "surface-container": "#eaedff",
+                        "secondary-fixed-dim": "#80d5cb",
+                        "on-secondary-container": "#006f67",
+                        "inverse-surface": "#283044",
+                        "outline": "#707881",
+                        "surface": "#faf8ff",
+                        "surface-container-highest": "#dae2fc",
+                        "error": "#ba1a1a",
+                        "surface-tint": "#006399",
+                        "on-secondary": "#ffffff",
+                        "on-surface-variant": "#40474f",
+                        "on-primary-fixed": "#001d32",
+                        "primary": "#00507d",
+                        "surface-variant": "#dae2fc",
+                        "on-background": "#131b2e",
+                        "surface-container-lowest": "#ffffff",
+                        "on-secondary-fixed-variant": "#00504a",
+                        "on-tertiary": "#ffffff",
+                        "on-error": "#ffffff",
+                        "surface-container-low": "#f2f3ff",
+                        "primary-fixed": "#cde5ff",
+                        "on-surface": "#131b2e",
+                        "role-passenger": "#2563EB",
+                        "secondary-fixed": "#9cf2e8",
+                        "tertiary-container": "#955301",
+                        "surface-canvas": "#F8FAFC",
+                        "role-driver": "#7C3AED",
+                        "secondary-container": "#99efe5",
+                        "tertiary-fixed-dim": "#ffb878",
+                        "on-tertiary-container": "#ffdbbe",
+                        "surface-dim": "#d2d9f4",
+                        "surface-bright": "#faf8ff",
+                        "on-primary-container": "#cbe4ff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "sm": "8px",
+                        "base": "16px",
+                        "lg": "20px",
+                        "gutter": "16px",
+                        "md": "12px",
+                        "margin-mobile": "16px",
+                        "2xl": "32px",
+                        "margin-desktop": "32px",
+                        "xs": "4px",
+                        "xl": "24px"
+                    },
+                    "fontFamily": {
+                        "title-md": ["Plus Jakarta Sans"],
+                        "body-base": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "label-caps": ["Plus Jakarta Sans"],
+                        "display-lg": ["Plus Jakarta Sans"],
+                        "headline-lg": ["Plus Jakarta Sans"],
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "title-lg": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "title-md": ["16px", { "lineHeight": "22px", "letterSpacing": "0", "fontWeight": "600" }],
+                        "body-base": ["15px", { "lineHeight": "22px", "letterSpacing": "0", "fontWeight": "400" }],
+                        "body-sm": ["13px", { "lineHeight": "18px", "letterSpacing": "0", "fontWeight": "400" }],
+                        "label-caps": ["11px", { "lineHeight": "14px", "letterSpacing": "0.06em", "fontWeight": "700" }],
+                        "display-lg": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+                        "headline-lg": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-md": ["22px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "title-lg": ["18px", { "lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            -webkit-tap-highlight-color: transparent;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined.filled {
+            font-variation-settings: 'FILL' 1;
+        }
+    </style>
+</head>
+<body class="bg-surface-canvas min-h-screen text-on-surface antialiased flex justify-center">
+<!-- Mobile Container -->
+<div class="w-full max-w-[440px] bg-surface min-h-screen relative shadow-2xl flex flex-col">
+<!-- TopAppBar: Suppressed Navigation Shell for Transactional/Edit Screen -->
+<!-- Custom Top Bar for Edit State -->
+<header class="flex justify-between items-center h-16 px-margin-mobile w-full border-b border-border-hairline shadow-sm sticky top-0 z-50 bg-primary">
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-low transition-colors active:scale-95 text-on-primary">
+<span class="material-symbols-outlined text-[24px]">arrow_back</span>
+</button>
+<h1 class="font-headline-md text-headline-md font-bold text-on-primary">Edit Profile</h1>
+<div class="w-10 h-10"></div> <!-- Spacer for center alignment -->
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-1 flex flex-col p-margin-mobile pb-[100px] gap-xl overflow-y-auto">
+<!-- Profile Image Section -->
+<section class="flex flex-col items-center justify-center pt-base">
+<div class="relative">
+<div class="w-24 h-24 rounded-full overflow-hidden border-4 border-surface shadow-md bg-surface-container-highest">
+<img alt="Profile Image" class="w-full h-full object-cover" data-alt="A highly detailed close-up portrait of a professional corporate employee in a light-mode setting. Soft, diffused lighting highlights the subject's face against a clean, modern office background. The overall tone is approachable yet professional, perfectly suited for a premium logistics transport management app profile picture." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCBCpq9cisMKZhgyAt5CFNK26bkZJWRpLjp4gY3hePygCDhdSNnouMCI2E3weNw60I-9HqjW1WlcPARUyLkkAG3PjZEgds3A-7HsTxOXJVbG6woJAog_u9QPlrci5_iJff_IE129GO0ohVsPgB8nB1-Ue5ftRVnn3319LAo5QJ09-GNoQYKrVeqLn-7RXCUuvvYaISkSROfMri7DPobwcgcAfvPoR8Nms_5wZqEc-_glhd78Ob0IjE">
+</div>
+<button class="absolute bottom-0 right-0 w-8 h-8 rounded-full bg-primary flex items-center justify-center shadow-md active:scale-90 transition-transform border-2 border-surface">
+<span class="material-symbols-outlined text-on-primary text-[16px] filled">edit</span>
+</button>
+</div>
+</section>
+<!-- Form Fields Section -->
+<form class="flex flex-col gap-base">
+<!-- Full Name Input -->
+<div class="flex flex-col gap-xs relative">
+<label class="font-label-caps text-label-caps text-on-surface-variant ml-1">Full Name</label>
+<div class="relative group">
+<div class="absolute inset-y-0 left-0 pl-md flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-outline group-focus-within:text-role-passenger transition-colors">person</span>
+</div>
+<input class="w-full h-12 bg-surface-container-low border border-outline-variant rounded-lg pl-[44px] pr-base font-body-base text-body-base text-on-surface focus:outline-none focus:ring-2 focus:ring-role-passenger focus:border-transparent focus:bg-surface transition-all placeholder:text-outline-variant" type="text" value="Shoon Passenger">
+</div>
+</div>
+<!-- Email Input -->
+<div class="flex flex-col gap-xs relative">
+<label class="font-label-caps text-label-caps text-on-surface-variant ml-1">Email Address</label>
+<div class="relative group">
+<div class="absolute inset-y-0 left-0 pl-md flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-outline group-focus-within:text-role-passenger transition-colors">mail</span>
+</div>
+<input class="w-full h-12 bg-surface-container-low border border-outline-variant rounded-lg pl-[44px] pr-base font-body-base text-body-base text-on-surface focus:outline-none focus:ring-2 focus:ring-role-passenger focus:border-transparent focus:bg-surface transition-all placeholder:text-outline-variant" type="email" value="shoon.p@pccp-vector.com">
+</div>
+</div>
+<!-- Employee ID Input -->
+<div class="flex flex-col gap-xs relative">
+<label class="font-label-caps text-label-caps text-on-surface-variant ml-1">Employee ID</label>
+<div class="relative group">
+<div class="absolute inset-y-0 left-0 pl-md flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-outline group-focus-within:text-role-passenger transition-colors">badge</span>
+</div>
+<input class="w-full h-12 bg-surface-container-low border border-outline-variant rounded-lg pl-[44px] pr-base font-body-base text-body-base text-on-surface focus:outline-none focus:ring-2 focus:ring-role-passenger focus:border-transparent focus:bg-surface transition-all placeholder:text-outline-variant" type="text" value="EMP-88210">
+</div>
+</div>
+<!-- Phone Number Input -->
+<div class="flex flex-col gap-xs relative">
+<label class="font-label-caps text-label-caps text-on-surface-variant ml-1">Phone Number</label>
+<div class="relative group">
+<div class="absolute inset-y-0 left-0 pl-md flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-outline group-focus-within:text-role-passenger transition-colors">call</span>
+</div>
+<input class="w-full h-12 bg-surface-container-low border border-outline-variant rounded-lg pl-[44px] pr-base font-body-base text-body-base text-on-surface focus:outline-none focus:ring-2 focus:ring-role-passenger focus:border-transparent focus:bg-surface transition-all placeholder:text-outline-variant" type="tel" value="+1 (555) 019-2834">
+</div>
+</div>
+</form>
+</main>
+<!-- Fixed Action Button at Bottom -->
+<div class="fixed bottom-0 w-full max-w-[440px] p-margin-mobile bg-gradient-to-t from-surface via-surface to-transparent pb-safe">
+<button class="w-full h-12 bg-primary text-on-primary rounded-xl font-title-md text-title-md flex items-center justify-center gap-sm active:scale-[0.98] transition-transform shadow-md hover:bg-primary-fixed-variant">
+<span class="">Save Changes</span>
+<span class="material-symbols-outlined text-[20px]">check_circle</span>
+</button>
+</div>
+</div>
+
+
+</body></html>

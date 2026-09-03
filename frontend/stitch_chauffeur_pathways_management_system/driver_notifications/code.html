@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Driver Notifications - PCCP</title>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind Config -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-error-container": "#93000a",
+                        "role-admin-container": "#D1FAE5",
+                        "primary-fixed-dim": "#94ccff",
+                        "surface-tint": "#006399",
+                        "role-driver": "#7C3AED",
+                        "on-primary": "#ffffff",
+                        "on-error": "#ffffff",
+                        "surface": "#faf8ff",
+                        "inverse-on-surface": "#eef0ff",
+                        "surface-container": "#eaedff",
+                        "on-primary-fixed-variant": "#004b74",
+                        "background": "#faf8ff",
+                        "surface-container-high": "#e2e7ff",
+                        "on-background": "#131b2e",
+                        "on-tertiary-fixed-variant": "#6c3a00",
+                        "on-tertiary-fixed": "#2e1500",
+                        "tertiary-fixed": "#ffdcc1",
+                        "surface-container-lowest": "#ffffff",
+                        "error": "#ba1a1a",
+                        "secondary": "#006a63",
+                        "primary-container": "#0369a1",
+                        "tertiary": "#733f00",
+                        "on-secondary-container": "#006f67",
+                        "surface-canvas": "#F8FAFC",
+                        "on-secondary": "#ffffff",
+                        "surface-bright": "#faf8ff",
+                        "role-passenger": "#2563EB",
+                        "error-container": "#ffdad6",
+                        "on-surface-variant": "#40474f",
+                        "on-primary-fixed": "#001d32",
+                        "border-hairline": "#E2E8F0",
+                        "on-tertiary-container": "#ffdbbe",
+                        "role-driver-container": "#EDE9FE",
+                        "surface-container-highest": "#dae2fd",
+                        "surface-dim": "#d2d9f4",
+                        "on-secondary-fixed": "#00201d",
+                        "secondary-fixed": "#9cf2e8",
+                        "surface-container-low": "#f2f3ff",
+                        "tertiary-fixed-dim": "#ffb878",
+                        "outline": "#707881",
+                        "on-tertiary": "#ffffff",
+                        "primary": "#00507d",
+                        "surface-variant": "#dae2fd",
+                        "primary-fixed": "#cde5ff",
+                        "inverse-primary": "#94ccff",
+                        "tertiary-container": "#955301",
+                        "on-secondary-fixed-variant": "#00504a",
+                        "on-surface": "#131b2e",
+                        "role-admin": "#059669",
+                        "role-passenger-container": "#DBEAFE",
+                        "secondary-fixed-dim": "#80d5cb",
+                        "on-primary-container": "#cbe4ff",
+                        "secondary-container": "#99efe5",
+                        "outline-variant": "#c0c7d1",
+                        "inverse-surface": "#283044"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "16px",
+                        "xl": "24px",
+                        "unit": "4px",
+                        "2xl": "32px",
+                        "sm": "8px",
+                        "margin-desktop": "32px",
+                        "base": "16px",
+                        "lg": "20px",
+                        "margin-mobile": "16px",
+                        "md": "12px",
+                        "xs": "4px"
+                    },
+                    "fontFamily": {
+                        "title-lg": ["Plus Jakarta Sans"],
+                        "title-md": ["Plus Jakarta Sans"],
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "label-caps": ["Plus Jakarta Sans"],
+                        "display-lg": ["Plus Jakarta Sans"],
+                        "body-base": ["Inter"],
+                        "stat-lg": ["Plus Jakarta Sans"],
+                        "body-sm": ["Inter"],
+                        "headline-lg": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "title-lg": ["18px", { "lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "title-md": ["16px", { "lineHeight": "22px", "letterSpacing": "0", "fontWeight": "600" }],
+                        "headline-md": ["22px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "label-caps": ["11px", { "lineHeight": "14px", "letterSpacing": "0.06em", "fontWeight": "700" }],
+                        "display-lg": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+                        "body-base": ["15px", { "lineHeight": "22px", "letterSpacing": "0", "fontWeight": "400" }],
+                        "stat-lg": ["30px", { "lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-sm": ["13px", { "lineHeight": "18px", "letterSpacing": "0", "fontWeight": "400" }],
+                        "headline-lg": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "700" }]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined.filled {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface-canvas text-on-surface font-body-base min-h-screen flex flex-col pb-20 md:pb-0">
+<!-- Top App Bar (Mobile Nav Alternative) -->
+<header class="bg-surface border-b border-outline-variant fixed top-0 w-full z-50 flex justify-between items-center px-margin-mobile h-14 md:hidden">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-role-driver">menu</span>
+<h1 class="font-headline-md text-headline-md font-bold text-role-driver">Driver Portal</h1>
+</div>
+<div class="w-8 h-8 rounded-full bg-role-driver-container flex items-center justify-center text-role-driver font-title-md text-title-md">
+            DP
+        </div>
+</header>
+<!-- Desktop Navigation (SideNav) -->
+<nav class="hidden md:flex flex-col w-[260px] fixed top-0 left-0 h-screen bg-surface border-r border-border-hairline z-40">
+<div class="h-16 flex items-center px-base border-b border-border-hairline">
+<h1 class="font-headline-md text-headline-md font-bold text-role-driver">Driver Portal</h1>
+</div>
+<div class="flex-1 py-base flex flex-col gap-sm px-sm">
+<a class="flex items-center gap-md px-base py-md rounded-lg text-on-surface-variant hover:bg-surface-container-low transition-colors" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-title-md text-title-md">Home</span>
+</a>
+<a class="flex items-center gap-md px-base py-md rounded-lg text-on-surface-variant hover:bg-surface-container-low transition-colors" href="#">
+<span class="material-symbols-outlined">assignment</span>
+<span class="font-title-md text-title-md">Assignments</span>
+</a>
+<a class="flex items-center gap-md px-base py-md rounded-lg text-on-surface-variant hover:bg-surface-container-low transition-colors" href="#">
+<span class="material-symbols-outlined">route</span>
+<span class="font-title-md text-title-md">Trips</span>
+</a>
+<a class="flex items-center gap-md px-base py-md rounded-lg text-on-surface-variant hover:bg-surface-container-low transition-colors" href="#">
+<span class="material-symbols-outlined">query_stats</span>
+<span class="font-title-md text-title-md">Performance</span>
+</a>
+<a class="flex items-center gap-md px-base py-md rounded-lg bg-role-driver-container text-role-driver font-bold" href="#">
+<span class="material-symbols-outlined filled">notifications</span>
+<span class="font-title-md text-title-md">Notifications</span>
+</a>
+<a class="flex items-center gap-md px-base py-md rounded-lg text-on-surface-variant hover:bg-surface-container-low transition-colors mt-auto" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-title-md text-title-md">Account</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="flex-1 w-full max-w-[1200px] mx-auto mt-14 md:mt-0 md:ml-[260px] p-margin-mobile md:p-margin-desktop">
+<div class="flex justify-between items-end mb-2xl border-b border-border-hairline pb-sm">
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Notifications</h2>
+<button class="text-role-driver font-title-md text-title-md hover:underline bg-transparent border-none cursor-pointer">Mark all as read</button>
+</div>
+<div class="flex flex-col gap-unit">
+<!-- Notification Item 1: Unread New Assignment -->
+<div class="bg-surface-container-lowest border border-border-hairline rounded-lg p-base flex gap-md items-start shadow-sm relative overflow-hidden group hover:border-role-driver transition-colors">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-role-driver"></div>
+<div class="w-10 h-10 rounded-full bg-role-driver-container flex-shrink-0 flex items-center justify-center text-role-driver">
+<span class="material-symbols-outlined filled">assignment</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-baseline mb-xs">
+<span class="font-label-caps text-label-caps text-role-driver uppercase tracking-wider">New Assignment</span>
+<span class="font-body-sm text-body-sm text-role-driver font-medium">2 mins ago</span>
+</div>
+<p class="font-title-md text-title-md text-on-surface mb-xs">You have been assigned PCCP-TR-2026-0001.</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate">Review details and acknowledge receipt within 15 minutes.</p>
+</div>
+<div class="w-3 h-3 rounded-full bg-role-driver flex-shrink-0 mt-2"></div>
+</div>
+<!-- Notification Item 2: Unread Assignment Changed -->
+<div class="bg-surface-container-lowest border border-border-hairline rounded-lg p-base flex gap-md items-start shadow-sm relative overflow-hidden group hover:border-role-driver transition-colors">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-role-driver"></div>
+<div class="w-10 h-10 rounded-full bg-role-driver-container flex-shrink-0 flex items-center justify-center text-role-driver">
+<span class="material-symbols-outlined filled">schedule</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-baseline mb-xs">
+<span class="font-label-caps text-label-caps text-role-driver uppercase tracking-wider">Schedule Update</span>
+<span class="font-body-sm text-body-sm text-role-driver font-medium">15 mins ago</span>
+</div>
+<p class="font-title-md text-title-md text-on-surface mb-xs">Your pickup time has been changed to 09:00 AM.</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate">Affects Trip: PCCP-TR-2026-0001.</p>
+</div>
+<div class="w-3 h-3 rounded-full bg-role-driver flex-shrink-0 mt-2"></div>
+</div>
+<!-- Notification Item 3: Unread Certification Update -->
+<div class="bg-surface-container-lowest border border-border-hairline rounded-lg p-base flex gap-md items-start shadow-sm relative overflow-hidden group hover:border-role-driver transition-colors">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-role-driver"></div>
+<div class="w-10 h-10 rounded-full bg-role-driver-container flex-shrink-0 flex items-center justify-center text-role-driver">
+<span class="material-symbols-outlined filled">verified</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-baseline mb-xs">
+<span class="font-label-caps text-label-caps text-role-driver uppercase tracking-wider">System Alert</span>
+<span class="font-body-sm text-body-sm text-role-driver font-medium">1 hour ago</span>
+</div>
+<p class="font-title-md text-title-md text-on-surface mb-xs">Your certification level has been updated to CPC.</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate">You are now eligible for premium routes.</p>
+</div>
+<div class="w-3 h-3 rounded-full bg-role-driver flex-shrink-0 mt-2"></div>
+</div>
+<!-- Date Divider -->
+<div class="flex items-center gap-md py-base mt-sm">
+<div class="h-px bg-border-hairline flex-1"></div>
+<span class="font-label-caps text-label-caps text-outline uppercase tracking-wider">Yesterday</span>
+<div class="h-px bg-border-hairline flex-1"></div>
+</div>
+<!-- Notification Item 4: Read Driver Assignment Cancelled -->
+<div class="bg-surface-container-lowest border border-border-hairline rounded-lg p-base flex gap-md items-start opacity-75 hover:opacity-100 transition-opacity">
+<div class="w-10 h-10 rounded-full bg-surface-container flex-shrink-0 flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined">assignment_late</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-baseline mb-xs">
+<span class="font-label-caps text-label-caps text-outline uppercase tracking-wider">Cancellation</span>
+<span class="font-body-sm text-body-sm text-outline">14:30</span>
+</div>
+<p class="font-title-md text-title-md text-on-surface mb-xs font-normal">PCCP-TR-2026-0001 has been cancelled.</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate">No action required on your part.</p>
+</div>
+<div class="w-3 h-3 flex-shrink-0 mt-2"></div> <!-- Spacer for alignment -->
+</div>
+<!-- Notification Item 5: Read Passenger Assessment -->
+<div class="bg-surface-container-lowest border border-border-hairline rounded-lg p-base flex gap-md items-start opacity-75 hover:opacity-100 transition-opacity">
+<div class="w-10 h-10 rounded-full bg-surface-container flex-shrink-0 flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined">star</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-baseline mb-xs">
+<span class="font-label-caps text-label-caps text-outline uppercase tracking-wider">Feedback</span>
+<span class="font-body-sm text-body-sm text-outline">09:15</span>
+</div>
+<p class="font-title-md text-title-md text-on-surface mb-xs font-normal">You received new passenger feedback.</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate">Rated 5 stars for Trip TR-1992.</p>
+</div>
+<div class="w-3 h-3 flex-shrink-0 mt-2"></div> <!-- Spacer for alignment -->
+</div>
+<!-- Date Divider -->
+<div class="flex items-center gap-md py-base mt-sm">
+<div class="h-px bg-border-hairline flex-1"></div>
+<span class="font-label-caps text-label-caps text-outline uppercase tracking-wider">Older</span>
+<div class="h-px bg-border-hairline flex-1"></div>
+</div>
+<!-- Notification Item 6: Read Admin Message -->
+<div class="bg-surface-container-lowest border border-border-hairline rounded-lg p-base flex gap-md items-start opacity-75 hover:opacity-100 transition-opacity mb-2xl">
+<div class="w-10 h-10 rounded-full bg-surface-container flex-shrink-0 flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined">message</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-baseline mb-xs">
+<span class="font-label-caps text-label-caps text-outline uppercase tracking-wider">Admin Note</span>
+<span class="font-body-sm text-body-sm text-outline">Oct 12</span>
+</div>
+<p class="font-title-md text-title-md text-on-surface mb-xs font-normal">Transport Admin added a note to your assignment.</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate">"Please ensure extra secure tie-downs for this load."</p>
+</div>
+<div class="w-3 h-3 flex-shrink-0 mt-2"></div> <!-- Spacer for alignment -->
+</div>
+</div>
+</main>
+<!-- Bottom Nav Bar (Mobile Only) -->
+<nav class="md:hidden bg-surface dark:bg-surface-dim border-t border-outline-variant dark:border-outline fixed bottom-0 w-full z-50 pb-safe shadow-sm h-16 px-2 flex justify-around items-center">
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline px-3 py-1.5 hover:text-role-driver dark:hover:text-role-driver-container scale-95 active:scale-90 transition-transform duration-150" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-caps text-label-caps">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline px-3 py-1.5 hover:text-role-driver dark:hover:text-role-driver-container scale-95 active:scale-90 transition-transform duration-150" href="#">
+<span class="material-symbols-outlined">assignment</span>
+<span class="font-label-caps text-label-caps">Assignments</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline px-3 py-1.5 hover:text-role-driver dark:hover:text-role-driver-container scale-95 active:scale-90 transition-transform duration-150" href="#">
+<span class="material-symbols-outlined">route</span>
+<span class="font-label-caps text-label-caps">Trips</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-role-driver-container dark:bg-role-driver text-on-secondary-container dark:text-on-primary rounded-xl px-3 py-1.5 scale-95 active:scale-90 transition-transform duration-150" href="#">
+<span class="material-symbols-outlined filled text-role-driver">notifications</span>
+<span class="font-label-caps text-label-caps text-role-driver">Alerts</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline px-3 py-1.5 hover:text-role-driver dark:hover:text-role-driver-container scale-95 active:scale-90 transition-transform duration-150" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label-caps text-label-caps">Account</span>
+</a>
+</nav>
+</body></html>

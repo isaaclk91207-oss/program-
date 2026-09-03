@@ -1,0 +1,257 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Security Settings - PCCP Vector</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet">
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Theme Configuration -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-primary-fixed": "#001d32",
+                    "on-background": "#131b2e",
+                    "outline": "#707881",
+                    "inverse-on-surface": "#eef0ff",
+                    "on-secondary-fixed-variant": "#00504a",
+                    "surface-variant": "#dae2fc",
+                    "inverse-surface": "#283044",
+                    "secondary": "#006a63",
+                    "error-container": "#ffdad6",
+                    "border-hairline": "#E2E8F0",
+                    "on-secondary": "#ffffff",
+                    "primary-fixed": "#cde5ff",
+                    "error": "#ba1a1a",
+                    "surface-tint": "#006399",
+                    "inverse-primary": "#94ccff",
+                    "secondary-fixed-dim": "#80d5cb",
+                    "role-passenger": "#2563EB",
+                    "secondary-fixed": "#9cf2e8",
+                    "surface-container-low": "#f2f3ff",
+                    "surface-container-highest": "#dae2fc",
+                    "surface-container-lowest": "#ffffff",
+                    "role-driver": "#7C3AED",
+                    "primary-container": "#0369a1",
+                    "primary-fixed-dim": "#94ccff",
+                    "on-primary-container": "#cbe4ff",
+                    "on-primary": "#ffffff",
+                    "on-tertiary-fixed": "#2e1500",
+                    "tertiary-container": "#955301",
+                    "outline-variant": "#c0c7d1",
+                    "on-surface-variant": "#40474f",
+                    "surface-container-high": "#e1e7ff",
+                    "on-secondary-fixed": "#00201d",
+                    "on-primary-fixed-variant": "#004b74",
+                    "on-error-container": "#93000a",
+                    "secondary-container": "#99efe5",
+                    "tertiary-fixed": "#ffdcc1",
+                    "surface-container": "#eaedff",
+                    "on-tertiary": "#ffffff",
+                    "on-error": "#ffffff",
+                    "tertiary": "#733f00",
+                    "surface-bright": "#faf8ff",
+                    "on-tertiary-container": "#ffdbbe",
+                    "primary": "#00507d",
+                    "surface-dim": "#d2d9f4",
+                    "role-admin": "#059669",
+                    "tertiary-fixed-dim": "#ffb878",
+                    "surface": "#faf8ff",
+                    "on-tertiary-fixed-variant": "#6c3a00",
+                    "on-surface": "#131b2e",
+                    "on-secondary-container": "#006f67",
+                    "background": "#faf8ff",
+                    "surface-canvas": "#F8FAFC"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "xl": "24px",
+                    "xs": "4px",
+                    "base": "16px",
+                    "margin-mobile": "16px",
+                    "2xl": "32px",
+                    "gutter": "16px",
+                    "sm": "8px",
+                    "lg": "20px",
+                    "margin-desktop": "32px",
+                    "md": "12px"
+            },
+            "fontFamily": {
+                    "body-sm": [
+                            "Inter"
+                    ],
+                    "title-lg": [
+                            "Plus Jakarta Sans"
+                    ],
+                    "body-base": [
+                            "Inter"
+                    ],
+                    "display-lg": [
+                            "Plus Jakarta Sans"
+                    ],
+                    "headline-lg": [
+                            "Plus Jakarta Sans"
+                    ],
+                    "title-md": [
+                            "Plus Jakarta Sans"
+                    ],
+                    "label-caps": [
+                            "Plus Jakarta Sans"
+                    ],
+                    "headline-md": [
+                            "Plus Jakarta Sans"
+                    ]
+            },
+            "fontSize": {
+                    "body-sm": [
+                            "13px",
+                            {
+                                    "lineHeight": "18px",
+                                    "letterSpacing": "0",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "title-lg": [
+                            "18px",
+                            {
+                                    "lineHeight": "24px",
+                                    "letterSpacing": "-0.01em",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "body-base": [
+                            "15px",
+                            {
+                                    "lineHeight": "22px",
+                                    "letterSpacing": "0",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "display-lg": [
+                            "36px",
+                            {
+                                    "lineHeight": "44px",
+                                    "letterSpacing": "-0.02em",
+                                    "fontWeight": "800"
+                            }
+                    ],
+                    "headline-lg": [
+                            "28px",
+                            {
+                                    "lineHeight": "36px",
+                                    "letterSpacing": "-0.02em",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "title-md": [
+                            "16px",
+                            {
+                                    "lineHeight": "22px",
+                                    "letterSpacing": "0",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "label-caps": [
+                            "11px",
+                            {
+                                    "lineHeight": "14px",
+                                    "letterSpacing": "0.06em",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "headline-md": [
+                            "22px",
+                            {
+                                    "lineHeight": "28px",
+                                    "letterSpacing": "-0.01em",
+                                    "fontWeight": "700"
+                            }
+                    ]
+            }
+    },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-surface-canvas text-on-surface font-body-base min-h-screen flex flex-col antialiased selection:bg-role-driver selection:text-white">
+<!-- TopAppBar (Modified for Sub-page context) -->
+<header class="bg-surface border-b border-border-hairline flex items-center px-margin-mobile w-full h-16 sticky top-0 z-50">
+<button aria-label="Go back" class="p-2 -ml-2 rounded-full text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors focus:outline-none focus:ring-2 focus:ring-role-driver">
+<span class="material-symbols-outlined block">arrow_back</span>
+</button>
+<h1 class="ml-2 font-headline-md text-headline-md text-on-surface tracking-tight">Security</h1>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-1 w-full max-w-[440px] mx-auto px-margin-mobile py-lg flex flex-col gap-xl">
+<!-- Account Information Section -->
+<section class="flex flex-col gap-sm">
+<h2 class="font-label-caps text-label-caps text-on-surface-variant px-1">ACCOUNT</h2>
+<div class="bg-surface-container-lowest border border-border-hairline rounded-xl p-base flex items-center justify-between shadow-[0px_1px_3px_rgba(15,23,42,0.05)]">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded-full bg-surface-container-low flex items-center justify-center text-role-driver">
+<span class="material-symbols-outlined" data-weight="fill" style="font-variation-settings: 'FILL' 1;">badge</span>
+</div>
+<div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Driver ID</p>
+<p class="font-title-md text-title-md text-on-surface">D-8829</p>
+</div>
+</div>
+<div class="px-3 py-1 rounded-full bg-role-driver/10 text-role-driver border border-role-driver/20">
+<span class="font-label-caps text-label-caps">ACTIVE</span>
+</div>
+</div>
+</section>
+<!-- Security Options Section -->
+<section class="flex flex-col gap-sm">
+<h2 class="font-label-caps text-label-caps text-on-surface-variant px-1">AUTHENTICATION</h2>
+<div class="bg-surface-container-lowest border border-border-hairline rounded-xl overflow-hidden shadow-[0px_1px_3px_rgba(15,23,42,0.05)] flex flex-col">
+<!-- Option: Change PIN -->
+<button class="w-full flex items-center justify-between p-base border-b border-border-hairline bg-surface-container-lowest hover:bg-surface-container-low active:bg-surface-container-high transition-colors focus:outline-none focus:bg-surface-container-low text-left group">
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-role-driver transition-colors">dialpad</span>
+<span class="font-body-base text-body-base text-on-surface font-medium">Change PIN</span>
+</div>
+<span class="material-symbols-outlined text-outline-variant">chevron_right</span>
+</button>
+<!-- Option: Change Password -->
+<button class="w-full flex items-center justify-between p-base border-b border-border-hairline bg-surface-container-lowest hover:bg-surface-container-low active:bg-surface-container-high transition-colors focus:outline-none focus:bg-surface-container-low text-left group">
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-role-driver transition-colors">password</span>
+<span class="font-body-base text-body-base text-on-surface font-medium">Change Password</span>
+</div>
+<span class="material-symbols-outlined text-outline-variant">chevron_right</span>
+</button>
+<!-- Option: Login Security -->
+<button class="w-full flex items-center justify-between p-base bg-surface-container-lowest hover:bg-surface-container-low active:bg-surface-container-high transition-colors focus:outline-none focus:bg-surface-container-low text-left group">
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-role-driver transition-colors">security</span>
+<div class="flex flex-col">
+<span class="font-body-base text-body-base text-on-surface font-medium">Login Security</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">2FA and Trusted Devices</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline-variant">chevron_right</span>
+</button>
+</div>
+</section>
+</main>
+<!-- BottomNavBar Suppressed: Task-focused sub-page -->
+</body></html>

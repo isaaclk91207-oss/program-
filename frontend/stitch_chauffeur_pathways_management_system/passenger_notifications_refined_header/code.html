@@ -1,0 +1,308 @@
+<!DOCTYPE html><html class="light" lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>PCCP Vector - Passenger Notifications</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Plus+Jakarta+Sans:wght@500;600;700;800&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-tertiary": "#ffffff",
+                      "on-primary-fixed-variant": "#004b74",
+                      "on-secondary-fixed": "#00201d",
+                      "surface-bright": "#faf8ff",
+                      "primary-container": "#0369a1",
+                      "inverse-on-surface": "#eef0ff",
+                      "outline": "#707881",
+                      "surface-variant": "#dae2fc",
+                      "primary-fixed": "#cde5ff",
+                      "role-admin": "#059669",
+                      "secondary-fixed-dim": "#80d5cb",
+                      "surface-canvas": "#F8FAFC",
+                      "on-primary-fixed": "#001d32",
+                      "surface-container-low": "#f2f3ff",
+                      "tertiary": "#733f00",
+                      "on-error": "#ffffff",
+                      "on-tertiary-fixed": "#2e1500",
+                      "on-tertiary-container": "#ffdbbe",
+                      "on-surface-variant": "#40474f",
+                      "surface-dim": "#d2d9f4",
+                      "on-tertiary-fixed-variant": "#6c3a00",
+                      "surface-container": "#eaedff",
+                      "on-surface": "#131b2e",
+                      "primary": "#00507d",
+                      "secondary-container": "#99efe5",
+                      "surface": "#faf8ff",
+                      "primary-fixed-dim": "#94ccff",
+                      "on-primary": "#ffffff",
+                      "on-secondary-fixed-variant": "#00504a",
+                      "tertiary-fixed-dim": "#ffb878",
+                      "on-error-container": "#93000a",
+                      "secondary": "#006a63",
+                      "background": "#faf8ff",
+                      "surface-tint": "#006399",
+                      "surface-container-lowest": "#ffffff",
+                      "tertiary-container": "#955301",
+                      "role-passenger": "#2563EB",
+                      "tertiary-fixed": "#ffdcc1",
+                      "error-container": "#ffdad6",
+                      "border-hairline": "#E2E8F0",
+                      "error": "#ba1a1a",
+                      "on-primary-container": "#cbe4ff",
+                      "on-background": "#131b2e",
+                      "role-driver": "#7C3AED",
+                      "surface-container-high": "#e1e7ff",
+                      "on-secondary": "#ffffff",
+                      "surface-container-highest": "#dae2fc",
+                      "inverse-surface": "#283044",
+                      "outline-variant": "#c0c7d1",
+                      "inverse-primary": "#94ccff",
+                      "on-secondary-container": "#006f67",
+                      "secondary-fixed": "#9cf2e8"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "gutter": "16px",
+                      "xl": "24px",
+                      "margin-desktop": "32px",
+                      "lg": "20px",
+                      "xs": "4px",
+                      "md": "12px",
+                      "2xl": "32px",
+                      "base": "16px",
+                      "margin-mobile": "16px",
+                      "sm": "8px"
+              },
+              "fontFamily": {
+                      "body-base": [
+                              "Inter"
+                      ],
+                      "title-lg": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "headline-lg": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "display-lg": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "label-caps": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "body-sm": [
+                              "Inter"
+                      ],
+                      "headline-md": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "title-md": [
+                              "Plus Jakarta Sans"
+                      ]
+              },
+              "fontSize": {
+                      "body-base": [
+                              "15px",
+                              {
+                                      "lineHeight": "22px",
+                                      "letterSpacing": "0",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "title-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "24px",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-lg": [
+                              "28px",
+                              {
+                                      "lineHeight": "36px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "display-lg": [
+                              "36px",
+                              {
+                                      "lineHeight": "44px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "800"
+                              }
+                      ],
+                      "label-caps": [
+                              "11px",
+                              {
+                                      "lineHeight": "14px",
+                                      "letterSpacing": "0.06em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "body-sm": [
+                              "13px",
+                              {
+                                      "lineHeight": "18px",
+                                      "letterSpacing": "0",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-md": [
+                              "22px",
+                              {
+                                      "lineHeight": "28px",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "title-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "22px",
+                                      "letterSpacing": "0",
+                                      "fontWeight": "600"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+    </script>
+<style>
+        body { background-color: theme('colors.surface-canvas'); }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="text-on-background font-body-base md:pb-0">
+<!-- TopAppBar -->
+<header class="w-full top-0 sticky z-50 shadow-sm border-b border-border-hairline grid grid-cols-[1fr_auto_1fr] items-center h-16 px-margin-mobile md:px-margin-desktop transition-colors bg-primary">
+<div class="flex items-center gap-4">
+<div class="flex items-center justify-center h-10 w-10 overflow-hidden rounded-lg bg-white p-1"><img alt="PCCP Logo" class="h-full w-full object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBwh9hJ16vL-j8IHosX_e80QtvflYTtlHHSVq1gxhgSYlr_PaU2gu4bUC0eIDkYJbGcd30neVFJ1Ft6SOCNMAbIth_XUMsO9Sdcti5kL6X29phnkH-_Z6IbTEkqltztd0yzt_OOgBaPiZ7OEThEM1OOS_zJzoYgdia2G1RnMSqlxaFIRp58TntLnnvBYmIIPJ5hsDpUzUKXPlsia8vv01pAZM_mR0ochzT240vKIaRU4prapSarrT6tffAeXUYkbMlF"></div>
+</div>
+<h1 class="text-headline-md font-headline-md font-bold text-on-primary">PCCP Vector</h1>
+<div class="flex items-center justify-end gap-2">
+<button class="text-on-surface hover:bg-surface-container transition-colors rounded-full p-2 active:opacity-80 transition-opacity flex items-center justify-center relative">
+<span class="material-symbols-outlined text-on-primary" style="font-variation-settings: 'FILL' 0;">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full"></span>
+</button>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="max-w-3xl mx-auto px-margin-mobile md:px-margin-desktop py-lg md:py-2xl">
+<div class="flex items-center justify-between mb-xl">
+<h2 class="font-headline-lg text-headline-lg text-on-background">Notifications</h2>
+<button class="text-role-passenger font-title-md text-title-md hover:bg-surface-container rounded-lg px-3 py-2 transition-colors">Mark all as read</button>
+</div>
+<!-- Today Group -->
+<section class="mb-2xl">
+<h3 class="font-title-lg text-title-lg text-on-surface-variant mb-md px-1">Today</h3>
+<div class="flex flex-col gap-sm">
+<!-- Unread Notification 1 -->
+<div class="bg-surface border border-primary-fixed-dim rounded-xl p-base flex gap-base shadow-[0_1px_3px_rgba(15,23,42,0.05)] cursor-pointer hover:bg-surface-bright transition-colors relative overflow-hidden group">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-role-passenger rounded-l-xl"></div>
+<div class="w-12 h-12 rounded-full bg-surface-container-high flex-shrink-0 flex items-center justify-center text-role-passenger">
+<span class="material-symbols-outlined" data-icon="directions_car">directions_car</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-start mb-1">
+<p class="font-title-md text-title-md text-on-surface truncate">Driver Assigned</p>
+<span class="font-label-caps text-label-caps text-on-surface-variant whitespace-nowrap ml-2">10:42 AM</span>
+</div>
+<p class="font-body-base text-body-base text-on-surface-variant">Driver Ko Aung Naing Win (Toyota Crown, YGN 3F-1234) has been assigned to your trip.</p>
+<div class="mt-2 flex gap-2">
+<span class="inline-flex items-center gap-1 bg-surface-container-low text-on-surface-variant px-2 py-1 rounded-md font-body-sm text-body-sm border border-border-hairline"><span class="material-symbols-outlined text-[16px]" data-icon="route">route</span> TR-2026-0005</span>
+</div>
+</div>
+<div class="w-2 h-2 rounded-full bg-role-passenger mt-2 flex-shrink-0 self-start"></div>
+</div>
+<!-- Unread Notification 2 -->
+<div class="bg-surface border border-primary-fixed-dim rounded-xl p-base flex gap-base shadow-[0_1px_3px_rgba(15,23,42,0.05)] cursor-pointer hover:bg-surface-bright transition-colors relative overflow-hidden group">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-role-passenger rounded-l-xl"></div>
+<div class="w-12 h-12 rounded-full bg-[#E0F2FE] flex-shrink-0 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" data-icon="check_circle">check_circle</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-start mb-1">
+<p class="font-title-md text-title-md text-on-surface truncate">Request Approved</p>
+<span class="font-label-caps text-label-caps text-on-surface-variant whitespace-nowrap ml-2">09:15 AM</span>
+</div>
+<p class="font-body-base text-body-base text-on-surface-variant">Your transport request PCCP-TR-2026-0005 has been approved.</p>
+</div>
+<div class="w-2 h-2 rounded-full bg-role-passenger mt-2 flex-shrink-0 self-start"></div>
+</div>
+<!-- Read Notification -->
+<div class="bg-surface-container-lowest border border-border-hairline rounded-xl p-base flex gap-base shadow-[0_1px_3px_rgba(15,23,42,0.05)] cursor-pointer hover:bg-surface transition-colors">
+<div class="w-12 h-12 rounded-full bg-surface-container-low flex-shrink-0 flex items-center justify-center text-outline">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</div>
+<div class="flex-1 min-w-0 opacity-80">
+<div class="flex justify-between items-start mb-1">
+<p class="font-title-md text-title-md text-on-surface truncate">Trip Starting</p>
+<span class="font-label-caps text-label-caps text-outline whitespace-nowrap ml-2">08:00 AM</span>
+</div>
+<p class="font-body-base text-body-base text-on-surface-variant">Your driver is arriving at UAB HQ (Tower A).</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Yesterday Group -->
+<section class="mb-2xl">
+<h3 class="font-title-lg text-title-lg text-on-surface-variant mb-md px-1">Yesterday</h3>
+<div class="flex flex-col gap-sm">
+<!-- Read Notification -->
+<div class="bg-surface-container-lowest border border-border-hairline rounded-xl p-base flex gap-base shadow-[0_1px_3px_rgba(15,23,42,0.05)] cursor-pointer hover:bg-surface transition-colors">
+<div class="w-12 h-12 rounded-full bg-surface-container-low flex-shrink-0 flex items-center justify-center text-outline">
+<span class="material-symbols-outlined" data-icon="feedback">feedback</span>
+</div>
+<div class="flex-1 min-w-0 opacity-80">
+<div class="flex justify-between items-start mb-1">
+<p class="font-title-md text-title-md text-on-surface truncate">Trip Completed</p>
+<span class="font-label-caps text-label-caps text-outline whitespace-nowrap ml-2">5:30 PM</span>
+</div>
+<p class="font-body-base text-body-base text-on-surface-variant">Your trip to Yangon International Airport has been completed. Please provide feedback.</p>
+<button class="mt-3 bg-surface-container-high hover:bg-surface-variant text-on-surface-variant font-title-md text-body-sm py-1.5 px-4 rounded-lg transition-colors border border-outline-variant">Rate Trip</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Earlier Group -->
+<section>
+<h3 class="font-title-lg text-title-lg text-on-surface-variant mb-md px-1">Earlier</h3>
+<div class="flex flex-col gap-sm">
+<!-- Read Notification - Alert -->
+<div class="bg-surface-container-lowest border border-border-hairline rounded-xl p-base flex gap-base shadow-[0_1px_3px_rgba(15,23,42,0.05)] cursor-pointer hover:bg-surface transition-colors">
+<div class="w-12 h-12 rounded-full bg-error-container flex-shrink-0 flex items-center justify-center text-error">
+<span class="material-symbols-outlined" data-icon="security">security</span>
+</div>
+<div class="flex-1 min-w-0 opacity-90">
+<div class="flex justify-between items-start mb-1">
+<p class="font-title-md text-title-md text-error truncate">Security Alert</p>
+<span class="font-label-caps text-label-caps text-outline whitespace-nowrap ml-2">Oct 12</span>
+</div>
+<p class="font-body-base text-body-base text-on-surface-variant">New login detected on your account from a new device.</p>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+
+
+</body></html>

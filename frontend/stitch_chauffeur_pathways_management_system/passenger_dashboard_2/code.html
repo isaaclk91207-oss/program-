@@ -1,0 +1,305 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Passenger Dashboard - PCCP Transport</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@500;600;700;800&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "error": "#ba1a1a",
+                        "role-driver": "#7C3AED",
+                        "surface-bright": "#faf8ff",
+                        "tertiary": "#733f00",
+                        "role-passenger-container": "#DBEAFE",
+                        "on-secondary-container": "#006f67",
+                        "on-surface": "#131b2e",
+                        "secondary": "#006a63",
+                        "secondary-fixed": "#9cf2e8",
+                        "surface-tint": "#006399",
+                        "tertiary-container": "#955301",
+                        "surface-variant": "#dae2fd",
+                        "on-secondary": "#ffffff",
+                        "role-passenger": "#2563EB",
+                        "outline": "#707881",
+                        "inverse-primary": "#94ccff",
+                        "tertiary-fixed-dim": "#ffb878",
+                        "on-error": "#ffffff",
+                        "role-admin": "#059669",
+                        "primary-container": "#0369a1",
+                        "surface-container-highest": "#dae2fd",
+                        "on-tertiary-container": "#ffdbbe",
+                        "on-primary": "#ffffff",
+                        "secondary-container": "#99efe5",
+                        "on-primary-fixed-variant": "#004b74",
+                        "surface-container-low": "#f2f3ff",
+                        "surface-container": "#eaedff",
+                        "surface-container-high": "#e2e7ff",
+                        "primary-fixed-dim": "#94ccff",
+                        "border-hairline": "#E2E8F0",
+                        "on-surface-variant": "#40474f",
+                        "primary-fixed": "#cde5ff",
+                        "on-tertiary-fixed-variant": "#6c3a00",
+                        "surface": "#faf8ff",
+                        "inverse-surface": "#283044",
+                        "surface-dim": "#d2d9f4",
+                        "secondary-fixed-dim": "#80d5cb",
+                        "on-secondary-fixed-variant": "#00504a",
+                        "on-error-container": "#93000a",
+                        "error-container": "#ffdad6",
+                        "on-secondary-fixed": "#00201d",
+                        "inverse-on-surface": "#eef0ff",
+                        "on-tertiary": "#ffffff",
+                        "primary": "#00507d",
+                        "role-driver-container": "#EDE9FE",
+                        "surface-container-lowest": "#ffffff",
+                        "tertiary-fixed": "#ffdcc1",
+                        "on-background": "#131b2e",
+                        "surface-canvas": "#F8FAFC",
+                        "on-primary-container": "#cbe4ff",
+                        "on-tertiary-fixed": "#2e1500",
+                        "outline-variant": "#c0c7d1",
+                        "role-admin-container": "#D1FAE5",
+                        "background": "#faf8ff",
+                        "on-primary-fixed": "#001d32"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "base": "16px",
+                        "unit": "4px",
+                        "2xl": "32px",
+                        "gutter": "16px",
+                        "md": "12px",
+                        "xl": "24px",
+                        "margin-desktop": "32px",
+                        "margin-mobile": "16px",
+                        "lg": "20px",
+                        "xs": "4px",
+                        "sm": "8px"
+                    },
+                    "fontFamily": {
+                        "body-base": ["Inter"],
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "body-sm": ["Inter"],
+                        "headline-lg": ["Plus Jakarta Sans"],
+                        "display-lg": ["Plus Jakarta Sans"],
+                        "title-md": ["Plus Jakarta Sans"],
+                        "label-caps": ["Plus Jakarta Sans"],
+                        "stat-lg": ["Plus Jakarta Sans"],
+                        "title-lg": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "body-base": ["15px", { "lineHeight": "22px", "letterSpacing": "0", "fontWeight": "400" }],
+                        "headline-md": ["22px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "body-sm": ["13px", { "lineHeight": "18px", "letterSpacing": "0", "fontWeight": "400" }],
+                        "headline-lg": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "display-lg": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+                        "title-md": ["16px", { "lineHeight": "22px", "letterSpacing": "0", "fontWeight": "600" }],
+                        "label-caps": ["11px", { "lineHeight": "14px", "letterSpacing": "0.06em", "fontWeight": "700" }],
+                        "stat-lg": ["30px", { "lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "title-lg": ["18px", { "lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined.fill {
+            font-variation-settings: 'FILL' 1;
+        }
+    </style>
+</head>
+<body class="bg-surface-canvas text-on-surface min-h-screen flex flex-col md:flex-row antialiased selection:bg-role-passenger-container selection:text-role-passenger">
+<!-- TopAppBar (Mobile Only) -->
+<header class="md:hidden bg-surface dark:bg-inverse-surface border-b border-hairline dark:border-outline-variant flex justify-between items-center w-full px-margin-mobile h-12 docked full-width top-0 z-40 fixed">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary dark:text-inverse-primary" data-icon="menu">menu</span>
+<h1 class="font-headline-md text-headline-md font-extrabold text-primary dark:text-inverse-primary">PCCP Transport</h1>
+</div>
+<img alt="User profile" class="w-8 h-8 rounded-full object-cover border border-hairline" data-alt="A small circular avatar portrait of a professional corporate employee in bright, professional lighting. The portrait should convey a modern, reliable, and corporate aesthetic suitable for a transport logistics dashboard." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD39-GDo3FXbuoCQUNQMoA-bn_NW6_NmvKRy2Up-4PV1izMObplQFhZS16vLKqqXienJ_M91c-iuoDrW0FTDtVE1zWdcAuXDZ93zUEJNblDXJRGFTIJ1_3YdQuizpiw887y4ZQVd6z_onI7QKyYTNFarBwxBbwftn8SdUCBqbpNsfrkFtb1DLeRO5MwD31X3GhuK6guPXfCOw7g8zmOXqBaNpNP8avrTo_-NnoZ6XHE_8_atNv4J8o">
+</header>
+<!-- Main Content Area -->
+<main class="flex-1 w-full max-w-[1440px] mx-auto md:ml-[260px] pt-16 md:pt-0 pb-[80px] md:pb-0 min-h-screen flex flex-col">
+<!-- Page Header & Actions -->
+<section class="px-margin-mobile md:px-margin-desktop py-xl flex flex-col md:flex-row justify-between items-start md:items-center gap-base">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Transport Request</h2>
+<p class="font-body-base text-body-base text-on-surface-variant mt-1">Manage your active and past transportation requests.</p>
+</div>
+<button class="bg-primary-container text-on-primary-container hover:opacity-90 active:scale-95 transition-all duration-200 rounded-lg px-xl py-md font-title-md text-title-md flex items-center gap-sm w-full md:w-auto justify-center h-[48px] shadow-sm">
+<span class="material-symbols-outlined font-bold" data-icon="add">add</span>
+                Request a Car
+            </button>
+</section>
+<!-- Requests Content Canvas -->
+<section class="px-margin-mobile md:px-margin-desktop flex-1 pb-2xl flex flex-col gap-2xl">
+<div class="flex items-center justify-between border-b border-hairline pb-sm">
+<h3 class="font-title-lg text-title-lg text-on-surface">My Requests</h3>
+<div class="flex gap-sm">
+<button class="px-md py-xs rounded-full border border-outline-variant font-label-caps text-label-caps text-on-surface-variant hover:bg-surface-container-low transition-colors">Filter</button>
+<button class="px-md py-xs rounded-full bg-role-passenger-container text-role-passenger font-label-caps text-label-caps border border-transparent">Active (3)</button>
+</div>
+</div>
+<!-- Bento Grid Layout for Cards -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-base">
+<!-- Card 1: In Progress -->
+<article class="bg-surface-container-lowest border border-hairline rounded-xl p-base flex flex-col gap-base shadow-[0px_1px_3px_0px_rgba(15,23,42,0.05)] hover:border-primary-container transition-colors relative overflow-hidden group">
+<div class="absolute top-0 left-0 w-1 h-full bg-role-passenger"></div>
+<div class="flex justify-between items-start border-b border-hairline pb-sm">
+<div>
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Request ID</span>
+<div class="font-title-md text-title-md text-on-surface">TR-2026-000123</div>
+</div>
+<span class="bg-role-passenger-container text-role-passenger px-sm py-xs rounded-full font-label-caps text-label-caps uppercase flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-role-passenger animate-pulse"></span>
+                            In Progress
+                        </span>
+</div>
+<div class="flex flex-col gap-sm">
+<div class="flex items-center gap-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]" data-icon="calendar_month">calendar_month</span>
+<span class="font-body-sm text-body-sm">Oct 24, 2026 • 09:00 AM</span>
+</div>
+<div class="flex items-start gap-sm text-on-surface">
+<span class="material-symbols-outlined text-[18px] text-primary-container mt-1" data-icon="location_on">location_on</span>
+<div class="flex flex-col">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Destination</span>
+<span class="font-title-md text-title-md">Corporate HQ, Building B</span>
+</div>
+</div>
+</div>
+<div class="mt-auto pt-sm bg-surface-container rounded-lg p-sm flex items-center gap-sm border border-outline-variant border-opacity-30">
+<img alt="Driver Avatar" class="w-10 h-10 rounded-full object-cover" data-alt="A small circular avatar of a professional driver wearing a clean uniform, looking reliable and friendly. The lighting is crisp and modern, fitting a high-end corporate logistics application." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCJftfsfDd2W25AxL7Em8p9pC90E9rT0USrv9eyamAegLamrkdqt6ICVU7e3CDMTweuWzQKyOebrOtVlnd-93-LXQOMnrTPvO1OEeUM48424UIU05vdvAsCxQ9QeNp1m09DMlhb6Re05PSBaWW3JhsdcPxM78aET-PQ8d2IBuy_ddpH3x4v09sd9S1l4fwBIhMHVSraITnGHy6rf5857TCHYe1U3aSul6L4l52tVk7EWiMclLzCk70">
+<div class="flex-1">
+<div class="font-title-md text-title-md text-on-surface">Michael Roberts</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant">Black Sedan • <span class="font-bold text-on-surface">ABC-1234</span></div>
+</div>
+<button class="w-8 h-8 rounded-full bg-surface-container-highest flex items-center justify-center text-primary hover:bg-primary-container hover:text-on-primary transition-colors">
+<span class="material-symbols-outlined text-[18px]" data-icon="call">call</span>
+</button>
+</div>
+</article>
+<!-- Card 2: Driver Assigned -->
+<article class="bg-surface-container-lowest border border-hairline rounded-xl p-base flex flex-col gap-base shadow-[0px_1px_3px_0px_rgba(15,23,42,0.05)] hover:border-outline-variant transition-colors">
+<div class="flex justify-between items-start border-b border-hairline pb-sm">
+<div>
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Request ID</span>
+<div class="font-title-md text-title-md text-on-surface">TR-2026-000124</div>
+</div>
+<span class="bg-tertiary-container text-on-tertiary-container px-sm py-xs rounded-full font-label-caps text-label-caps uppercase">
+                            Driver Assigned
+                        </span>
+</div>
+<div class="flex flex-col gap-sm">
+<div class="flex items-center gap-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]" data-icon="calendar_month">calendar_month</span>
+<span class="font-body-sm text-body-sm">Oct 25, 2026 • 02:30 PM</span>
+</div>
+<div class="flex items-start gap-sm text-on-surface">
+<span class="material-symbols-outlined text-[18px] text-outline mt-1" data-icon="location_on">location_on</span>
+<div class="flex flex-col">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Destination</span>
+<span class="font-title-md text-title-md">International Airport, Terminal 1</span>
+</div>
+</div>
+</div>
+<div class="mt-auto pt-sm bg-surface-container rounded-lg p-sm flex items-center gap-sm border border-outline-variant border-opacity-30">
+<div class="w-10 h-10 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center font-title-md text-title-md">SJ</div>
+<div class="flex-1">
+<div class="font-title-md text-title-md text-on-surface">Sarah Jenkins</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant">White SUV • <span class="font-bold text-on-surface">XYZ-9876</span></div>
+</div>
+</div>
+</article>
+<!-- Card 3: Pending -->
+<article class="bg-surface-container-lowest border border-hairline rounded-xl p-base flex flex-col gap-base shadow-[0px_1px_3px_0px_rgba(15,23,42,0.05)] hover:border-outline-variant transition-colors opacity-90">
+<div class="flex justify-between items-start border-b border-hairline pb-sm">
+<div>
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Request ID</span>
+<div class="font-title-md text-title-md text-on-surface">TR-2026-000125</div>
+</div>
+<span class="bg-surface-container-high text-on-surface-variant px-sm py-xs rounded-full font-label-caps text-label-caps uppercase border border-outline-variant">
+                            Pending
+                        </span>
+</div>
+<div class="flex flex-col gap-sm">
+<div class="flex items-center gap-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]" data-icon="calendar_month">calendar_month</span>
+<span class="font-body-sm text-body-sm">Oct 28, 2026 • 11:00 AM</span>
+</div>
+<div class="flex items-start gap-sm text-on-surface">
+<span class="material-symbols-outlined text-[18px] text-outline mt-1" data-icon="location_on">location_on</span>
+<div class="flex flex-col">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Destination</span>
+<span class="font-title-md text-title-md">Downtown Branch Office</span>
+</div>
+</div>
+</div>
+<div class="mt-auto pt-sm flex items-center justify-center border-t border-hairline border-dashed text-on-surface-variant">
+<span class="font-body-sm text-body-sm italic flex items-center gap-xs">
+<span class="material-symbols-outlined text-[16px] animate-spin" data-icon="hourglass_empty">hourglass_empty</span>
+                            Awaiting Driver Assignment
+                        </span>
+</div>
+</article>
+</div>
+</section>
+</main>
+<!-- NavigationDrawer (Desktop Only) -->
+<nav class="hidden md:flex flex-col gap-sm py-xl bg-surface dark:bg-inverse-surface border-r border-hairline dark:border-outline-variant h-full w-[260px] fixed left-0 top-0 z-40 flat no shadows">
+<div class="px-4 mb-xl flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary text-display-lg" data-icon="directions_car">directions_car</span>
+<span class="font-headline-md text-headline-md font-extrabold text-primary">PCCP</span>
+</div>
+<div class="flex flex-col gap-2">
+<a class="flex items-center gap-md text-on-surface-variant dark:text-outline-variant px-4 py-3 mx-2 rounded-lg hover:bg-surface-container-low dark:hover:bg-surface-variant transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="local_shipping">local_shipping</span>
+<span class="font-body-base text-body-base">Trips</span>
+</a>
+<a class="flex items-center gap-md bg-role-passenger-container dark:bg-primary-container text-role-passenger dark:text-on-primary-container rounded-lg px-4 py-3 mx-2 font-bold transition-colors duration-200" href="#">
+<span class="material-symbols-outlined fill" data-icon="add_location_alt">add_location_alt</span>
+<span class="font-body-base text-body-base">Requests</span>
+</a>
+<a class="flex items-center gap-md text-on-surface-variant dark:text-outline-variant px-4 py-3 mx-2 rounded-lg hover:bg-surface-container-low dark:hover:bg-surface-variant transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="speed">speed</span>
+<span class="font-body-base text-body-base">Performance</span>
+</a>
+<a class="flex items-center gap-md text-on-surface-variant dark:text-outline-variant px-4 py-3 mx-2 rounded-lg hover:bg-surface-container-low dark:hover:bg-surface-variant transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-body-base text-body-base">Account</span>
+</a>
+</div>
+</nav>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 w-full z-50 rounded-t-xl bg-surface dark:bg-inverse-surface border-t border-hairline dark:border-outline-variant shadow-md flex justify-around items-center h-[64px] pb-safe">
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant px-3 py-1 scale-95 active:scale-90 transition-transform duration-150 hover:bg-surface-container-high dark:hover:bg-surface-variant rounded-xl" href="#">
+<span class="material-symbols-outlined" data-icon="local_shipping">local_shipping</span>
+<span class="font-body-sm text-body-sm mt-1">Trips</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-role-passenger-container dark:bg-primary-container text-role-passenger dark:text-on-primary rounded-xl px-3 py-1 scale-95 active:scale-90 transition-transform duration-150" href="#">
+<span class="material-symbols-outlined fill" data-icon="add_location_alt">add_location_alt</span>
+<span class="font-body-sm text-body-sm font-bold mt-1">Requests</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant px-3 py-1 scale-95 active:scale-90 transition-transform duration-150 hover:bg-surface-container-high dark:hover:bg-surface-variant rounded-xl" href="#">
+<span class="material-symbols-outlined" data-icon="speed">speed</span>
+<span class="font-body-sm text-body-sm mt-1">Performance</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant px-3 py-1 scale-95 active:scale-90 transition-transform duration-150 hover:bg-surface-container-high dark:hover:bg-surface-variant rounded-xl" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-body-sm text-body-sm mt-1">Account</span>
+</a>
+</nav>
+</body></html>

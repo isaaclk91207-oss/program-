@@ -1,0 +1,341 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Review Transport Request</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "error": "#ba1a1a",
+                      "role-driver": "#7C3AED",
+                      "surface-bright": "#faf8ff",
+                      "tertiary": "#733f00",
+                      "role-passenger-container": "#DBEAFE",
+                      "on-secondary-container": "#006f67",
+                      "on-surface": "#131b2e",
+                      "secondary": "#006a63",
+                      "secondary-fixed": "#9cf2e8",
+                      "surface-tint": "#006399",
+                      "tertiary-container": "#955301",
+                      "surface-variant": "#dae2fd",
+                      "on-secondary": "#ffffff",
+                      "role-passenger": "#2563EB",
+                      "outline": "#707881",
+                      "inverse-primary": "#94ccff",
+                      "tertiary-fixed-dim": "#ffb878",
+                      "on-error": "#ffffff",
+                      "role-admin": "#059669",
+                      "primary-container": "#0369a1",
+                      "surface-container-highest": "#dae2fd",
+                      "on-tertiary-container": "#ffdbbe",
+                      "on-primary": "#ffffff",
+                      "secondary-container": "#99efe5",
+                      "on-primary-fixed-variant": "#004b74",
+                      "surface-container-low": "#f2f3ff",
+                      "surface-container": "#eaedff",
+                      "surface-container-high": "#e2e7ff",
+                      "primary-fixed-dim": "#94ccff",
+                      "border-hairline": "#E2E8F0",
+                      "on-surface-variant": "#40474f",
+                      "primary-fixed": "#cde5ff",
+                      "on-tertiary-fixed-variant": "#6c3a00",
+                      "surface": "#faf8ff",
+                      "inverse-surface": "#283044",
+                      "surface-dim": "#d2d9f4",
+                      "secondary-fixed-dim": "#80d5cb",
+                      "on-secondary-fixed-variant": "#00504a",
+                      "on-error-container": "#93000a",
+                      "error-container": "#ffdad6",
+                      "on-secondary-fixed": "#00201d",
+                      "inverse-on-surface": "#eef0ff",
+                      "on-tertiary": "#ffffff",
+                      "primary": "#00507d",
+                      "role-driver-container": "#EDE9FE",
+                      "surface-container-lowest": "#ffffff",
+                      "tertiary-fixed": "#ffdcc1",
+                      "on-background": "#131b2e",
+                      "surface-canvas": "#F8FAFC",
+                      "on-primary-container": "#cbe4ff",
+                      "on-tertiary-fixed": "#2e1500",
+                      "outline-variant": "#c0c7d1",
+                      "role-admin-container": "#D1FAE5",
+                      "background": "#faf8ff",
+                      "on-primary-fixed": "#001d32"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "base": "16px",
+                      "unit": "4px",
+                      "2xl": "32px",
+                      "gutter": "16px",
+                      "md": "12px",
+                      "xl": "24px",
+                      "margin-desktop": "32px",
+                      "margin-mobile": "16px",
+                      "lg": "20px",
+                      "xs": "4px",
+                      "sm": "8px"
+              },
+              "fontFamily": {
+                      "body-base": [
+                              "Inter"
+                      ],
+                      "headline-md": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "body-sm": [
+                              "Inter"
+                      ],
+                      "headline-lg": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "display-lg": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "title-md": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "label-caps": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "stat-lg": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "title-lg": [
+                              "Plus Jakarta Sans"
+                      ]
+              },
+              "fontSize": {
+                      "body-base": [
+                              "15px",
+                              {
+                                      "lineHeight": "22px",
+                                      "letterSpacing": "0",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-md": [
+                              "22px",
+                              {
+                                      "lineHeight": "28px",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "body-sm": [
+                              "13px",
+                              {
+                                      "lineHeight": "18px",
+                                      "letterSpacing": "0",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-lg": [
+                              "28px",
+                              {
+                                      "lineHeight": "36px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "display-lg": [
+                              "36px",
+                              {
+                                      "lineHeight": "44px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "800"
+                              }
+                      ],
+                      "title-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "22px",
+                                      "letterSpacing": "0",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "label-caps": [
+                              "11px",
+                              {
+                                      "lineHeight": "14px",
+                                      "letterSpacing": "0.06em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "stat-lg": [
+                              "30px",
+                              {
+                                      "lineHeight": "36px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "title-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "24px",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "600"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+      </script>
+</head>
+<body class="bg-surface-canvas text-on-surface font-body-base antialiased min-h-screen flex flex-col">
+<!-- Header (Transactional, no global nav) -->
+<header class="bg-surface flex justify-between items-center w-full px-margin-mobile h-12 border-b border-hairline">
+<div class="flex items-center gap-md">
+<button class="text-on-surface-variant hover:bg-surface-container-low p-sm rounded-full transition-all duration-200">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">arrow_back</span>
+</button>
+<span class="font-headline-md text-headline-md font-bold text-primary">Review Request</span>
+</div>
+<div class="font-label-caps text-label-caps bg-surface-container-high text-on-surface-variant px-sm py-xs rounded-sm">
+            DRAFT-001
+        </div>
+</header>
+<!-- Main Content -->
+<main class="flex-1 w-full max-w-4xl mx-auto px-margin-mobile py-xl md:py-2xl pb-[120px] md:pb-2xl relative">
+<div class="grid grid-cols-1 md:grid-cols-12 gap-xl">
+<!-- Summary Details -->
+<div class="col-span-1 md:col-span-8 flex flex-col gap-base">
+<h2 class="font-title-lg text-title-lg text-primary mb-sm">Request Summary</h2>
+<!-- Core Details Card -->
+<div class="bg-surface rounded-xl border border-hairline p-base shadow-[0px_1px_3px_0px_rgba(15,23,42,0.05)] flex flex-col gap-base">
+<div class="flex items-center justify-between border-b border-hairline pb-sm">
+<div class="flex items-center gap-sm text-on-surface-variant">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">event</span>
+<span class="font-title-md text-title-md">Oct 24, 2023</span>
+</div>
+<div class="bg-role-passenger-container text-primary font-label-caps text-label-caps px-sm py-xs rounded-sm">
+                            Round Trip
+                        </div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-base">
+<div class="flex flex-col gap-xs">
+<span class="font-label-caps text-label-caps text-on-surface-variant">Origin</span>
+<span class="font-body-base text-body-base font-medium">uab HO</span>
+</div>
+<div class="flex flex-col gap-xs">
+<span class="font-label-caps text-label-caps text-on-surface-variant">Destination</span>
+<span class="font-body-base text-body-base font-medium">Naypyitaw</span>
+</div>
+<div class="flex flex-col gap-xs md:col-span-2">
+<div class="flex items-center gap-xs mt-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">schedule</span>
+<span class="font-body-sm text-body-sm">Departure: 08:00 AM • Return: 18:00 PM (Oct 25)</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Additional Details Card -->
+<div class="bg-surface rounded-xl border border-hairline p-base shadow-[0px_1px_3px_0px_rgba(15,23,42,0.05)] flex flex-col gap-base">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-base">
+<div class="flex flex-col gap-xs">
+<span class="font-label-caps text-label-caps text-on-surface-variant flex items-center gap-xs">
+<span class="material-symbols-outlined text-[16px]">group</span> Passengers
+                            </span>
+<span class="font-body-base text-body-base font-medium">1</span>
+</div>
+<div class="flex flex-col gap-xs">
+<span class="font-label-caps text-label-caps text-on-surface-variant flex items-center gap-xs">
+<span class="material-symbols-outlined text-[16px]">business_center</span> Purpose
+                            </span>
+<span class="font-body-base text-body-base font-medium">Government Meeting</span>
+</div>
+<div class="flex flex-col gap-xs md:col-span-2 pt-sm border-t border-hairline mt-xs">
+<span class="font-label-caps text-label-caps text-on-surface-variant flex items-center gap-xs">
+<span class="material-symbols-outlined text-[16px]">notes</span> Notes
+                            </span>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-xs">Need a vehicle with extra trunk space for presentation materials. Will need to stop briefly at Branch Office A on the way.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Contextual Info / Decorative -->
+<div class="col-span-1 md:col-span-4 flex flex-col gap-base">
+<div class="bg-surface-container-low rounded-xl border border-hairline p-base flex flex-col gap-sm justify-center items-center text-center h-full min-h-[200px]">
+<span class="material-symbols-outlined text-outline text-[48px] mb-xs" style="font-variation-settings: 'FILL' 0;">verified_user</span>
+<h3 class="font-title-md text-title-md text-on-surface">Ready to Submit</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Please review all details carefully. Once submitted, changes may require admin approval.</p>
+</div>
+</div>
+</div>
+</main>
+<!-- Fixed Action Bar (Mobile & Desktop alignment) -->
+<div class="fixed bottom-0 left-0 w-full bg-surface border-t border-hairline p-margin-mobile z-40 md:relative md:bg-transparent md:border-none md:p-0 md:mt-xl md:max-w-4xl md:mx-auto md:mb-2xl flex flex-col md:flex-row justify-end gap-sm">
+<button class="h-[48px] px-xl rounded-lg font-title-md text-title-md border-[1.5px] border-[#CBD5E1] text-on-surface hover:bg-surface-container-low transition-colors w-full md:w-auto flex items-center justify-center gap-sm">
+<span class="material-symbols-outlined text-[20px]">edit</span> Edit Request
+        </button>
+<button class="h-[48px] px-xl rounded-lg font-title-md text-title-md bg-[#0369A1] text-white hover:bg-primary transition-colors w-full md:w-auto shadow-md flex items-center justify-center gap-sm" id="triggerModal">
+            Submit Request <span class="material-symbols-outlined text-[20px]">send</span>
+</button>
+</div>
+<!-- Confirmation Modal Overlay (Hidden by default) -->
+<div class="fixed inset-0 z-50 hidden flex items-center justify-center" id="confirmModal">
+<!-- Backdrop -->
+<div class="absolute inset-0 bg-[#131b2e]/60 backdrop-blur-sm transition-opacity" id="modalBackdrop"></div>
+<!-- Modal Content -->
+<div class="bg-surface w-full max-w-sm rounded-xl border border-hairline shadow-lg p-xl relative z-10 m-margin-mobile transform scale-95 opacity-0 transition-all duration-200" id="modalContent">
+<div class="flex flex-col gap-base items-center text-center">
+<div class="bg-role-passenger-container p-md rounded-full text-primary mb-xs">
+<span class="material-symbols-outlined text-[32px]" style="font-variation-settings: 'FILL' 1;">help</span>
+</div>
+<h3 class="font-title-lg text-title-lg text-on-surface">Submit this vehicle request?</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-sm">This action will route your request for approval. Ensure all details are accurate.</p>
+<div class="flex flex-col sm:flex-row w-full gap-sm mt-sm">
+<button class="h-[48px] flex-1 rounded-lg font-title-md text-title-md border-[1.5px] border-[#CBD5E1] text-on-surface hover:bg-surface-container-low transition-colors" id="cancelSubmit">
+                        Cancel
+                    </button>
+<button class="h-[48px] flex-1 rounded-lg font-title-md text-title-md bg-[#0369A1] text-white hover:bg-primary transition-colors shadow-md">
+                        Submit
+                    </button>
+</div>
+</div>
+</div>
+</div>
+<script>
+        const trigger = document.getElementById('triggerModal');
+        const modal = document.getElementById('confirmModal');
+        const backdrop = document.getElementById('modalBackdrop');
+        const content = document.getElementById('modalContent');
+        const cancelBtn = document.getElementById('cancelSubmit');
+
+        function openModal() {
+            modal.classList.remove('hidden');
+            // Small delay to allow display block to apply before animating opacity/transform
+            setTimeout(() => {
+                content.classList.remove('scale-95', 'opacity-0');
+                content.classList.add('scale-100', 'opacity-100');
+            }, 10);
+        }
+
+        function closeModal() {
+            content.classList.remove('scale-100', 'opacity-100');
+            content.classList.add('scale-95', 'opacity-0');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 200);
+        }
+
+        trigger.addEventListener('click', openModal);
+        cancelBtn.addEventListener('click', closeModal);
+        backdrop.addEventListener('click', closeModal);
+    </script>
+</body></html>

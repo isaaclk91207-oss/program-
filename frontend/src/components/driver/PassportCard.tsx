@@ -27,7 +27,7 @@ export default function PassportCard({ driver }: { driver: Driver }) {
       <div className="flex items-center gap-4 mb-6">
         <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center">
           <span className="text-2xl font-bold">
-            {driver.name.split(" ").map((n) => n[0]).join("").slice(0, 2)}
+            {(driver.name || "").split(" ").map((n) => n[0]).join("").slice(0, 2)}
           </span>
         </div>
         <div>

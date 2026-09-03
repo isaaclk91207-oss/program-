@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en" style=""><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Transport Requests - AdminPanel</title>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Plus+Jakarta+Sans:wght@500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Configuration -->
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+                "role-passenger": "#3b82f6",
+                "tertiary-container": "#753e03",
+                "outline-variant": "#c0c7d1",
+                "role-driver": "#22c55e",
+                "on-tertiary-fixed": "#2f1500",
+                "on-secondary-fixed-variant": "#00504a",
+                "surface": "#faf8ff",
+                "on-primary": "#ffffff",
+                "on-primary-fixed-variant": "#004a75",
+                "secondary-container": "#9deee5",
+                "surface-bright": "#faf8ff",
+                "surface-variant": "#dae2fc",
+                "surface-tint": "#236391",
+                "error": "#ba1a1a",
+                "surface-canvas": "#F8FAFC",
+                "primary": "#059669",
+                "on-surface": "#131b2e",
+                "primary-fixed": "#cde5ff",
+                "on-secondary-container": "#0c6f67",
+                "secondary": "#006a63",
+                "on-tertiary-container": "#faac6b",
+                "surface-dim": "#d2d9f4",
+                "secondary-fixed": "#a0f1e8",
+                "border-hairline": "#E2E8F0",
+                "surface-container-highest": "#dae2fc",
+                "on-primary-container": "#8ac2f5",
+                "tertiary-fixed": "#ffdcc3",
+                "on-secondary-fixed": "#00201d",
+                "error-container": "#ffdad6",
+                "on-tertiary": "#ffffff",
+                "on-surface-variant": "#41474f",
+                "secondary-fixed-dim": "#84d5cc",
+                "role-admin": "#059669",
+                "on-error": "#ffffff",
+                "on-tertiary-fixed-variant": "#6e3900",
+                "on-background": "#131b2e",
+                "on-primary-fixed": "#001d32",
+                "on-error-container": "#93000a",
+                "surface-container-high": "#e1e7ff",
+                "tertiary": "#552b00",
+                "surface-container-low": "#f2f3ff",
+                "inverse-primary": "#95ccff",
+                "outline": "#717880",
+                "primary-container": "#00507d",
+                "inverse-surface": "#283044",
+                "background": "#faf8ff",
+                "surface-container": "#eaedff",
+                "surface-container-lowest": "#ffffff",
+                "tertiary-fixed-dim": "#ffb77d",
+                "primary-fixed-dim": "#95ccff",
+                "inverse-on-surface": "#eef0ff",
+                "on-secondary": "#ffffff"
+        },
+        "borderRadius": {
+                "DEFAULT": "0.25rem",
+                "lg": "0.5rem",
+                "xl": "0.75rem",
+                "full": "9999px"
+        },
+        "spacing": {
+                "margin-mobile": "16px",
+                "sm": "8px",
+                "base": "16px",
+                "margin-desktop": "32px",
+                "md": "12px",
+                "gutter": "16px",
+                "lg": "20px",
+                "2xl": "32px",
+                "xl": "24px",
+                "xs": "4px"
+        },
+        "fontFamily": {
+                "display-lg": [
+                        "Plus Jakarta Sans"
+                ],
+                "label-caps": [
+                        "Plus Jakarta Sans"
+                ],
+                "title-lg": [
+                        "Plus Jakarta Sans"
+                ],
+                "body-sm": [
+                        "Inter"
+                ],
+                "body-base": [
+                        "Inter"
+                ],
+                "headline-md": [
+                        "Plus Jakarta Sans"
+                ],
+                "headline-lg": [
+                        "Plus Jakarta Sans"
+                ],
+                "title-md": [
+                        "Plus Jakarta Sans"
+                ]
+        },
+        "fontSize": {
+                "display-lg": [
+                        "36px",
+                        {
+                                "lineHeight": "44px",
+                                "letterSpacing": "-0.02em",
+                                "fontWeight": "800"
+                        }
+                ],
+                "label-caps": [
+                        "11px",
+                        {
+                                "lineHeight": "14px",
+                                "letterSpacing": "0.06em",
+                                "fontWeight": "700"
+                        }
+                ],
+                "title-lg": [
+                        "18px",
+                        {
+                                "lineHeight": "24px",
+                                "letterSpacing": "-0.01em",
+                                "fontWeight": "600"
+                        }
+                ],
+                "body-sm": [
+                        "13px",
+                        {
+                                "lineHeight": "18px",
+                                "letterSpacing": "0",
+                                "fontWeight": "400"
+                        }
+                ],
+                "body-base": [
+                        "15px",
+                        {
+                                "lineHeight": "22px",
+                                "letterSpacing": "0",
+                                "fontWeight": "400"
+                        }
+                ],
+                "headline-md": [
+                        "22px",
+                        {
+                                "lineHeight": "28px",
+                                "letterSpacing": "-0.01em",
+                                "fontWeight": "700"
+                        }
+                ],
+                "headline-lg": [
+                        "28px",
+                        {
+                                "lineHeight": "36px",
+                                "letterSpacing": "-0.02em",
+                                "fontWeight": "700"
+                        }
+                ],
+                "title-md": [
+                        "16px",
+                        {
+                                "lineHeight": "22px",
+                                "letterSpacing": "0",
+                                "fontWeight": "600"
+                        }
+                ]
+        }
+},
+    },
+  }
+</script>
+<style>
+        .table-row-hover:hover {
+            background-color: #f8fafc;
+        }
+        
+        .modal-overlay {
+            backdrop-filter: blur(4px);
+        }
+        
+        /* Custom scrollbar for data grid */
+        .custom-scrollbar::-webkit-scrollbar {
+            height: 8px;
+            width: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f5f9; 
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1; 
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8; 
+        }
+    </style>
+</head>
+<body class="bg-surface-canvas font-body-base text-on-surface antialiased min-h-screen flex">
+<!-- JSON Component: SideNavBar -->
+<nav class="fixed left-0 top-0 h-full w-64 bg-surface-container-low dark:bg-inverse-surface border-r border-hairline flex flex-col py-xl z-20">
+<div class="px-xl mb-xl">
+<h1 class="font-headline-lg text-headline-lg font-bold text-role-admin dark:text-inverse-primary">PCCP</h1>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-xs">Admin Control Center</p>
+</div>
+<div class="px-xl mb-xl">
+<button class="w-full bg-role-admin hover:bg-opacity-90 text-on-primary font-title-md text-title-md py-md rounded-lg flex items-center justify-center gap-sm transition-colors duration-200 font-bold">
+<span class="material-symbols-outlined" style='font-variation-settings: "FILL" 1;'>add</span>
+                New Dispatch
+            </button>
+</div>
+<ul class="flex flex-col gap-xs px-base flex-1 overflow-y-auto">
+<li class="">
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant hover:text-role-admin hover:bg-surface-container-highest transition-colors duration-200 font-title-md text-title-md" href="#">
+<span class="material-symbols-outlined" style='font-variation-settings: "FILL" 0;'>dashboard</span>
+                    Dashboard
+                </a>
+</li>
+<li class="">
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-role-admin font-bold border-l-4 border-role-admin bg-surface-container-high transition-colors duration-200 font-title-md text-title-md" href="#">
+<span class="material-symbols-outlined" style='font-variation-settings: "FILL" 1;'>local_shipping</span>
+                    Transport Requests
+                </a>
+</li>
+<li class="">
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant hover:text-role-admin hover:bg-surface-container-highest transition-colors duration-200 font-title-md text-title-md" href="#">
+<span class="material-symbols-outlined" style='font-variation-settings: "FILL" 0;'>inventory_2</span>
+                    Fleet Management
+                </a>
+</li>
+<li class="">
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant hover:text-role-admin hover:bg-surface-container-highest transition-colors duration-200 font-title-md text-title-md" href="#">
+<span class="material-symbols-outlined" style='font-variation-settings: "FILL" 0;'>location_on</span>
+                    GPS &amp; Telematics
+                </a>
+</li>
+<li class="">
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant hover:text-role-admin hover:bg-surface-container-highest transition-colors duration-200 font-title-md text-title-md" href="#">
+<span class="material-symbols-outlined" style='font-variation-settings: "FILL" 0;'>bar_chart</span>
+                    Performance
+                </a>
+</li>
+<li class="">
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant hover:text-role-admin hover:bg-surface-container-highest transition-colors duration-200 font-title-md text-title-md" href="#">
+<span class="material-symbols-outlined" style='font-variation-settings: "FILL" 0;'>group</span>
+                    User Accounts
+                </a>
+</li>
+<li class="">
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant hover:text-role-admin hover:bg-surface-container-highest transition-colors duration-200 font-title-md text-title-md mt-auto" href="#">
+<span class="material-symbols-outlined" style='font-variation-settings: "FILL" 0;'>support_agent</span>
+                    Support
+                </a>
+</li>
+</ul>
+<div class="mt-auto pt-xl px-xl border-t border-hairline flex items-center gap-md">
+<div class="w-10 h-10 rounded-full bg-surface-dim overflow-hidden flex-shrink-0">
+<img alt="Admin User Avatar" class="w-full h-full object-cover" data-alt="Professional headshot of a corporate logistics administrator in a modern office setting. Clean bright lighting, neutral background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBs8Nuj2u3BDV8uHaLo-ZkS3HuW4DfG9oSU-QEqb29hVYk-y0K_nspXJoy3Kj0AFrCQIClDRmbG2bwDFsUzvQSuuB5hrmmTfaR6iCTn7f3z5ewnoydfKud3FefAJcbyXUMSnL78qap4aHrcCzbe3LoWi6vuikl5asoEIJQleibguM5iEFVJE8p_nSZJSFj7GW-ILMYeSOqbCknfXLgLG2ZY5wVHznmsc4fnVAlfPvBEt0RjrhHguh0"/>
+</div>
+<div class="flex-1 min-w-0">
+<p class="font-title-md text-title-md text-on-surface truncate">SysAdmin</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate">Master Control</p>
+</div>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="ml-64 flex-1 flex flex-col h-screen overflow-hidden">
+<!-- JSON Component: TopAppBar -->
+<header class="h-16 bg-surface-container-lowest border-b border-hairline flex justify-between items-center px-margin-desktop w-full z-10 flex-shrink-0">
+<div class="flex-1 max-w-md">
+<div class="relative">
+<span class="material-symbols-outlined absolute left-md top-1/2 -translate-y-1/2 text-outline" style='font-variation-settings: "FILL" 0;'>search</span>
+<input class="w-full bg-surface-canvas border border-outline-variant rounded-lg pl-10 pr-md py-sm focus:bg-white focus:ring-1 focus:ring-role-admin focus:border-role-admin font-body-sm text-body-sm text-on-surface placeholder-outline transition-colors" id="searchInput" onkeyup="filterTable()" placeholder="Search requests, names, or IDs..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-lg">
+<button class="text-role-admin font-title-md text-title-md hover:opacity-80 transition-opacity">
+                    Quick Action
+                </button>
+<div class="flex items-center gap-sm">
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-highest text-on-surface-variant hover:text-role-admin transition-colors">
+<span class="material-symbols-outlined" style='font-variation-settings: "FILL" 0;'>notifications</span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-highest text-on-surface-variant hover:text-role-admin transition-colors">
+<span class="material-symbols-outlined" style='font-variation-settings: "FILL" 0;'>settings</span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-highest text-on-surface-variant hover:text-role-admin transition-colors">
+<span class="material-symbols-outlined" style='font-variation-settings: "FILL" 0;'>help</span>
+</button>
+</div>
+</div>
+</header>
+<!-- Canvas Content -->
+<div class="flex-1 overflow-y-auto p-margin-desktop bg-surface-canvas">
+<!-- Page Header & Filters -->
+<div class="mb-xl">
+<div class="flex items-end justify-between mb-lg">
+<div>
+<h2 class="font-display-lg text-display-lg text-on-surface font-bold">Transport Requests</h2>
+<p class="font-body-base text-body-base text-on-surface-variant mt-xs">Manage and assign corporate travel and logistics dispatches.</p>
+</div>
+<div class="flex gap-md"><div class="relative" id="datePickerContainer"><div class="relative" id="datePickerContainer"><button class="bg-white border border-outline-variant text-on-surface font-title-md text-title-md py-2 px-4 rounded-lg flex items-center gap-2 hover:bg-role-admin/5 hover:border-role-admin hover:text-role-admin transition-all duration-200 shadow-sm group" id="datePickerBtn"><span class="material-symbols-outlined text-outline group-hover:text-role-admin transition-colors" style="font-variation-settings: 'FILL' 0;">calendar_month</span><span class="leading-none" id="selectedDateText">Today</span><span class="material-symbols-outlined text-outline-variant ml-1 group-hover:text-role-admin transition-colors" style="font-variation-settings: 'FILL' 0;">arrow_drop_down</span></button><div class="absolute top-full right-0 mt-2 w-64 bg-white border border-hairline rounded-xl shadow-lg z-50 hidden p-md" id="calendarPopover"><div class="flex justify-between items-center mb-md"><span class="font-bold text-on-surface">October 2023</span><div class="flex gap-1"><span class="material-symbols-outlined text-sm cursor-pointer hover:text-role-admin">chevron_left</span><span class="material-symbols-outlined text-sm cursor-pointer hover:text-role-admin">chevron_right</span></div></div><div class="grid grid-cols-7 gap-1 text-center mb-1"><div class="text-[10px] font-bold text-outline-variant">S</div><div class="text-[10px] font-bold text-outline-variant">M</div><div class="text-[10px] font-bold text-outline-variant">T</div><div class="text-[10px] font-bold text-outline-variant">W</div><div class="text-[10px] font-bold text-outline-variant">T</div><div class="text-[10px] font-bold text-outline-variant">F</div><div class="text-[10px] font-bold text-outline-variant">S</div></div><div class="grid grid-cols-7 gap-1" id="calendarGrid"></div></div></div></div><button class="bg-white border border-outline-variant text-on-surface font-title-md text-title-md py-sm px-md rounded-lg flex items-center gap-sm hover:bg-surface-container-lowest transition-colors shadow-sm"><span class="material-symbols-outlined text-outline" style="font-variation-settings: 'FILL' 0;">filter_list</span>Filter</button></div>
+</div>
+<!-- Status Tabs (Bento Style) -->
+<div class="grid grid-cols-5 gap-md" id="filterCards">
+<div class="bg-white p-md rounded-xl border shadow-sm relative overflow-hidden cursor-pointer border-role-admin ring-1 ring-role-admin/20" data-filter="All" onclick="applyFilter('All', this)">
+<p class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider mb-xs font-bold">All Requests</p>
+<p class="font-headline-md text-headline-md text-on-surface" id="count-all">40</p>
+<div class="absolute -top-4 -right-4 w-16 h-16 bg-role-admin/5 rounded-full blur-xl"></div></div>
+<div class="bg-white p-md rounded-xl border shadow-sm hover:border-outline-variant transition-colors cursor-pointer group border-hairline" data-filter="Pending" onclick="applyFilter('Pending', this)">
+<div class="flex justify-between items-start">
+<p class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider mb-xs font-bold">Pending</p>
+<span class="w-2 h-2 rounded-full bg-error mt-1"></span>
+</div>
+<p class="font-headline-md text-headline-md text-on-surface group-hover:text-role-admin transition-colors" id="count-pending">7</p>
+</div>
+<div class="bg-white p-md rounded-xl border shadow-sm hover:border-outline-variant transition-colors cursor-pointer group border-hairline" data-filter="Assigned" onclick="applyFilter('Assigned', this)">
+<div class="flex justify-between items-start">
+<p class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider mb-xs font-bold">Assigned</p>
+<span class="w-2 h-2 rounded-full bg-role-admin mt-1"></span>
+</div>
+<p class="font-headline-md text-headline-md text-on-surface group-hover:text-role-admin transition-colors" id="count-assigned">15</p>
+</div>
+<div class="bg-white p-md rounded-xl border shadow-sm hover:border-outline-variant transition-colors cursor-pointer group border-hairline" data-filter="In-Progress" onclick="applyFilter('In-Progress', this)">
+<div class="flex justify-between items-start">
+<p class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider mb-xs font-bold">In-Progress</p>
+<span class="w-2 h-2 rounded-full bg-role-admin mt-1"></span>
+</div>
+<p class="font-headline-md text-headline-md text-on-surface group-hover:text-role-admin transition-colors" id="count-in-progress">6</p>
+</div>
+<div class="bg-white p-md rounded-xl border shadow-sm hover:border-outline-variant transition-colors cursor-pointer group border-hairline" data-filter="Completed" onclick="applyFilter('Completed', this)">
+<div class="flex justify-between items-start">
+<p class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider mb-xs font-bold">Completed</p>
+<span class="w-2 h-2 rounded-full bg-outline mt-1"></span>
+</div>
+<p class="font-headline-md text-headline-md text-on-surface group-hover:text-role-admin transition-colors" id="count-completed">12</p>
+</div>
+</div>
+</div>
+<!-- Data Grid / Glassmorphism Card -->
+<div class="bg-white rounded-xl border border-hairline shadow-sm overflow-hidden flex flex-col h-[600px]">
+<!-- Table Header -->
+<div class="bg-surface-container-lowest border-b border-hairline py-sm px-md grid grid-cols-[100px_1.2fr_100px_1.2fr_150px_1.2fr_1.2fr_60px_120px] gap-sm font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider font-bold"><div class="">Req ID</div><div class="">Requester</div><div class="">Trip Type</div><div class="">Purpose</div><div class="">Pickup Date/Time</div><div class="">Pickup</div><div class="">Destination</div><div class="text-center">Pax</div><div class="text-center">Status / Action</div></div>
+<!-- Table Body -->
+<div class="overflow-y-auto custom-scrollbar flex-1 px-sm py-xs" id="tableBody">
+</div>
+</div>
+</div>
+</main>
+<!-- Assignment Modal Interface -->
+<div class="fixed inset-0 z-50 flex items-center justify-center hidden" id="assignModal">
+<!-- Overlay -->
+<div class="absolute inset-0 bg-on-surface/40 modal-overlay" onclick="document.getElementById('assignModal').classList.add('hidden')"></div>
+<!-- Modal Card -->
+<div class="bg-surface-container-lowest rounded-xl shadow-lg border border-hairline w-full max-w-lg relative z-10 overflow-hidden">
+<!-- Accent Line based on admin role color -->
+<div class="h-1 w-full bg-role-admin"></div>
+<div class="p-xl">
+<div class="flex justify-between items-start mb-lg">
+<div>
+<h3 class="font-display-lg text-[24px] text-on-surface font-bold leading-tight">Assign Transport</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Request ID: <span class="font-semibold text-role-admin" id="modalReqId">TRQ-8987</span> • <span class="" id="modalRequester">Kyaw Htet</span></p>
+</div>
+<button class="text-on-surface-variant hover:text-error transition-colors" onclick="document.getElementById('assignModal').classList.add('hidden')">
+<span class="material-symbols-outlined" style='font-variation-settings: "FILL" 0;'>close</span>
+</button>
+</div>
+<div class="bg-surface-canvas p-md rounded-lg mb-lg border border-hairline grid grid-cols-2 gap-sm">
+<div>
+<p class="font-label-caps text-[10px] text-on-surface-variant uppercase">Pickup</p>
+<p class="font-body-sm text-body-sm text-on-surface truncate font-medium" id="modalPickup">Logistics Center</p>
+</div>
+<div>
+<p class="font-label-caps text-[10px] text-on-surface-variant uppercase">Destination</p>
+<p class="font-body-sm text-body-sm text-on-surface truncate font-medium" id="modalDest">Branch Office</p>
+</div>
+<div class="col-span-2">
+<p class="font-label-caps text-[10px] text-on-surface-variant uppercase">Time</p>
+<p class="font-body-sm text-body-sm text-on-surface font-medium text-error" id="modalTime">Oct 24, 2023 11:45 PM</p>
+</div>
+</div>
+<!-- Assignment Form -->
+<form class="space-y-md">
+<!-- Option 1: Internal -->
+<div class="relative">
+<label class="block font-title-md text-title-md text-on-surface mb-xs">Select Corporate Chauffeur</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-md top-1/2 -translate-y-1/2 text-outline-variant" style='font-variation-settings: "FILL" 0;'>person</span>
+<select class="w-full bg-surface-canvas border border-outline-variant rounded-lg pl-10 pr-md py-sm focus:bg-white focus:ring-1 focus:ring-role-admin focus:border-role-admin font-body-base text-body-base text-on-surface appearance-none">
+<option disabled="" selected="" value="">Choose a driver...</option>
+<option value="ko_aung">Ko Aung Naing Win (Available)</option>
+<option value="zaw_min">Zaw Min (Busy until 15:00)</option>
+<option value="tun_tun">Tun Tun (Available)</option>
+</select>
+<span class="material-symbols-outlined absolute right-md top-1/2 -translate-y-1/2 text-outline-variant pointer-events-none" style='font-variation-settings: "FILL" 0;'>arrow_drop_down</span>
+</div>
+</div>
+<div class="relative">
+<label class="block font-title-md text-title-md text-on-surface mb-xs">Select Company Vehicle</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-md top-1/2 -translate-y-1/2 text-outline-variant" style='font-variation-settings: "FILL" 0;'>directions_car</span>
+<select class="w-full bg-surface-canvas border border-outline-variant rounded-lg pl-10 pr-md py-sm focus:bg-white focus:ring-1 focus:ring-role-admin focus:border-role-admin font-body-base text-body-base text-on-surface appearance-none">
+<option disabled="" selected="" value="">Choose a vehicle...</option>
+<option value="v1">Toyota Alphard - YGN-7B-1234</option>
+<option value="v2">Honda Fit - YGN-2C-5678</option>
+<option value="v3">Ford Transit - YGN-9A-9012 (Van)</option>
+</select>
+<span class="material-symbols-outlined absolute right-md top-1/2 -translate-y-1/2 text-outline-variant pointer-events-none" style='font-variation-settings: "FILL" 0;'>arrow_drop_down</span>
+</div>
+</div>
+<div class="flex items-center justify-center py-sm">
+<div class="h-px bg-hairline w-full"></div>
+<span class="px-sm text-on-surface-variant font-label-caps text-label-caps">OR</span>
+<div class="h-px bg-hairline w-full"></div>
+</div>
+<!-- Option 2: External -->
+<label class="flex items-center gap-sm p-md rounded-lg border border-outline-variant hover:bg-surface-canvas cursor-pointer transition-colors group">
+<input class="w-4 h-4 text-role-admin focus:ring-role-admin border-outline-variant" name="assignment_type" type="radio"/>
+<div class="flex-1">
+<p class="font-title-md text-title-md text-on-surface group-hover:text-role-admin transition-colors">Use Grab (External Service)</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Send a voucher code to the requester.</p>
+</div>
+<div class="w-10 h-10 rounded-full bg-surface-dim flex items-center justify-center">
+<img alt="External Service" class="w-6 h-6 object-contain" data-alt="Abstract generic rideshare app icon logo, green and white colors, clean vector style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuADx8MBk98s3BctGPe6qscK8NiDO1V50UEUK96i1CsdoxoPcCNZpboy2yoHYIOnD4VkZfvytL1tcN40hVVuCUkGZ4bFsmc4rA4mrTM-QNc5jqkh4UTm0pACRtVviO36tHs2YOyHhl6jkC2eCERicZubEfuN2lWb2a_mfq98-9gEdXQITEQI4qzE7TD894B0BBzl1W48QOpCWgSJDo5HvRrutZc0Km94R4EhcFO34NI9EB6stle6hCY"/>
+</div>
+</label>
+<div class="pt-lg flex gap-md">
+<button class="flex-1 py-md bg-white border border-outline-variant text-on-surface font-title-md text-title-md rounded-lg hover:bg-surface-canvas transition-colors" onclick="document.getElementById('assignModal').classList.add('hidden')" type="button">
+                            Cancel
+                        </button>
+<button class="flex-1 py-md bg-role-admin text-on-primary font-title-md text-title-md rounded-lg hover:bg-opacity-90 transition-colors shadow-sm font-bold" type="button">
+                            Confirm Assignment
+                        </button>
+</div>
+</form>
+</div>
+</div>
+</div>
+<script>
+    // Data generation
+    const statuses = ['Pending', 'Assigned', 'In-Progress', 'Completed'];
+    const tripTypes = ['One Way', 'Round Trip'];
+    const purposes = ['Executive Commute', 'Client Meeting', 'Site Inspection', 'Recruitment Fair', 'Warehouse Visit', 'Bank Deposit', 'Training Session'];
+    const locations = ['Corporate HQ', 'Sule Square Mall', 'Branch Office', 'Airport Terminal 1', 'Site Alpha', 'University Campus', 'Logistics Center', 'Main Branch', 'Central Bank'];
+    const requesters = [
+        {name: 'Shoon', dept: 'Marketing'}, {name: 'John Doe', dept: 'Sales'}, {name: 'Myo Lwin', dept: 'Engineering'}, 
+        {name: 'Kyaw Htet', dept: 'HR'}, {name: 'Thida', dept: 'Operations'}, {name: 'Su Su', dept: 'Finance'},
+        {name: 'Aung Aung', dept: 'IT'}, {name: 'Daw Aye Aye', dept: 'Legal'}, {name: 'Min Thet', dept: 'Logistics'}
+    ];
+    
+    const data = [];
+    let idCounter = 8992;
+    
+    // Generate dates around Oct 24-26
+    const generateItems = (status, count, targetDate) => {
+        for(let i=0; i<count; i++) {
+            const requester = requesters[Math.floor(Math.random() * requesters.length)];
+            data.push({
+                id: `TRQ-${idCounter--}`,
+                requesterName: requester.name,
+                requesterDept: requester.dept,
+                tripType: tripTypes[Math.floor(Math.random() * tripTypes.length)],
+                purpose: purposes[Math.floor(Math.random() * purposes.length)],
+                date: targetDate,
+                time: `${Math.floor(Math.random() * 8 + 8).toString().padStart(2, '0')}:${['00', '15', '30', '45'][Math.floor(Math.random() * 4)]} ${Math.random() > 0.5 ? 'AM' : 'PM'}`,
+                pickup: locations[Math.floor(Math.random() * locations.length)],
+                dest: locations[Math.floor(Math.random() * locations.length)],
+                pax: Math.floor(Math.random() * 4) + 1,
+                status: status
+            });
+        }
+    }
+    
+    // Generate items for Oct 24 (Default)
+    generateItems('Pending', 7, 'Oct 24, 2023');
+    generateItems('Assigned', 15, 'Oct 24, 2023');
+    generateItems('In-Progress', 6, 'Oct 24, 2023');
+    generateItems('Completed', 12, 'Oct 24, 2023');
+    
+    // Generate some for other days to show filtering
+    generateItems('Pending', 2, 'Oct 25, 2023');
+    generateItems('Assigned', 4, 'Oct 25, 2023');
+    generateItems('Completed', 3, 'Oct 25, 2023');
+    
+    generateItems('Pending', 1, 'Oct 26, 2023');
+    generateItems('In-Progress', 2, 'Oct 26, 2023');
+    
+    // Shuffle the array slightly so it's not all grouped by status
+    for (let i = data.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [data[i], data[j]] = [data[j], data[i]];
+    }
+
+    const tableBody = document.getElementById('tableBody');
+    let currentFilter = 'All';
+    let currentDateFilter = 'All';
+
+    function renderTable(filterStr = '') {
+        tableBody.innerHTML = '';
+        
+        let filteredData = data;
+        
+        if (currentDateFilter !== 'All') {
+            filteredData = filteredData.filter(item => item.date === currentDateFilter);
+        }
+        
+        let statusCounts = {
+            'Pending': 0,
+            'Assigned': 0,
+            'In-Progress': 0,
+            'Completed': 0,
+            'All': filteredData.length
+        };
+        
+        filteredData.forEach(item => {
+            statusCounts[item.status]++;
+        });
+        
+        document.getElementById('count-all').textContent = statusCounts['All'];
+        document.getElementById('count-pending').textContent = statusCounts['Pending'];
+        document.getElementById('count-assigned').textContent = statusCounts['Assigned'];
+        document.getElementById('count-in-progress').textContent = statusCounts['In-Progress'];
+        document.getElementById('count-completed').textContent = statusCounts['Completed'];
+
+        if (currentFilter !== 'All') {
+            filteredData = filteredData.filter(item => item.status === currentFilter);
+        }
+        
+        if (filterStr) {
+            const lowerFilter = filterStr.toLowerCase();
+            filteredData = filteredData.filter(item => 
+                item.id.toLowerCase().includes(lowerFilter) || 
+                item.requesterName.toLowerCase().includes(lowerFilter)
+            );
+        }
+
+        filteredData.forEach(item => {
+            const row = document.createElement('div');
+            row.className = `grid grid-cols-[100px_1.2fr_100px_1.2fr_150px_1.2fr_1.2fr_60px_120px] gap-sm items-center py-2 px-md border-b border-hairline table-row-hover transition-colors`;
+            
+            let statusActionHtml = '';
+            if (item.status === 'Pending') {
+                statusActionHtml = `<button class="bg-role-admin text-on-primary font-title-md text-title-md py-1 px-3 rounded-md hover:bg-opacity-90 transition-colors shadow-sm text-sm whitespace-nowrap w-full" onclick="openModal('${item.id}', '${item.requesterName}', '${item.pickup}', '${item.dest}', '${item.date} ${item.time}')">Assign</button>`;
+            } else {
+                let badgeClass, dotClass, textClass;
+                if(item.status === 'Assigned') { badgeClass = 'bg-secondary-container'; textClass = 'text-on-secondary-container'; dotClass = 'bg-role-admin'; }
+                else if(item.status === 'In-Progress') { badgeClass = 'bg-surface-variant'; textClass = 'text-on-surface-variant'; dotClass = 'bg-role-admin animate-pulse'; }
+                else { badgeClass = 'bg-surface-dim'; textClass = 'text-on-surface-variant'; dotClass = 'bg-outline'; }
+                
+                statusActionHtml = `
+                    <div class="flex flex-col gap-1 w-full items-center">
+                        <span class="inline-flex items-center justify-center px-2 py-0.5 rounded-full ${badgeClass} ${textClass} font-label-caps text-[10px] w-full"><span class="w-1.5 h-1.5 rounded-full ${dotClass} mr-1"></span>${item.status.toUpperCase()}</span>
+                        <button class="text-xs text-role-admin hover:underline font-title-md">Details</button>
+                    </div>`;
+            }
+
+            row.innerHTML = `
+                <div class="font-title-md text-title-md text-role-admin truncate">${item.id}</div>
+                <div class="flex flex-col min-w-0 justify-center">
+                    <span class="font-title-md text-title-md text-on-surface truncate">${item.requesterName}</span>
+                    <span class="text-[11px] text-on-surface-variant truncate">${item.requesterDept}</span>
+                </div>
+                <div class="font-body-sm text-body-sm text-on-surface-variant">${item.tripType}</div>
+                <div class="font-body-sm text-body-sm text-on-surface truncate">${item.purpose}</div>
+                <div>
+                    <p class="font-title-md text-[13px] text-on-surface">${item.date}</p>
+                    <p class="font-body-sm text-[11px] text-on-surface-variant">${item.time}</p>
+                </div>
+                <div class="font-body-sm text-[13px] text-on-surface truncate pr-2">${item.pickup}</div>
+                <div class="font-body-sm text-[13px] text-on-surface truncate pr-2">${item.dest}</div>
+                <div class="font-body-sm text-body-sm text-on-surface text-center">${item.pax}</div>
+                <div class="flex justify-center items-center">
+                    ${statusActionHtml}
+                </div>
+            `;
+            tableBody.appendChild(row);
+        });
+    }
+
+    function applyFilter(filterVal, element) {
+        currentFilter = filterVal;
+        
+        // Update styling of cards
+        const cards = document.querySelectorAll('#filterCards > div');
+        cards.forEach(card => {
+            if (card === element) {
+                card.classList.remove('border-hairline');
+                card.classList.add('border-role-admin', 'ring-1', 'ring-role-admin/20');
+                if(!card.querySelector('.blur-xl')) {
+                    card.innerHTML += `<div class="absolute -top-4 -right-4 w-16 h-16 bg-role-admin/5 rounded-full blur-xl"></div>`;
+                }
+            } else {
+                card.classList.remove('border-role-admin', 'ring-1', 'ring-role-admin/20');
+                card.classList.add('border-hairline');
+                const blur = card.querySelector('.blur-xl');
+                if(blur) blur.remove();
+            }
+        });
+        
+        renderTable(document.getElementById('searchInput').value);
+    }
+    
+    function filterTable() {
+        renderTable(document.getElementById('searchInput').value);
+    }
+    
+    function openModal(id, requester, pickup, dest, time) {
+        document.getElementById('modalReqId').textContent = id;
+        document.getElementById('modalRequester').textContent = requester;
+        document.getElementById('modalPickup').textContent = pickup;
+        document.getElementById('modalDest').textContent = dest;
+        document.getElementById('modalTime').textContent = time;
+        document.getElementById('assignModal').classList.remove('hidden');
+    }
+
+    // Initial render
+    currentDateFilter = 'Oct 24, 2023';
+    document.getElementById('selectedDateText').textContent = 'Oct 24, 2023';
+    renderTable();
+</script>
+<!-- Trip Details Drawer -->
+<div class="fixed inset-0 z-50 flex justify-end hidden" id="detailsDrawer">
+<!-- Overlay -->
+<div class="absolute inset-0 bg-on-surface/40 modal-overlay" onclick="document.getElementById('detailsDrawer').classList.add('hidden')"></div>
+<!-- Drawer Panel -->
+<div class="relative w-full max-w-md bg-surface-container-lowest h-full shadow-lg border-l border-hairline flex flex-col transition-transform duration-300 translate-x-0">
+<!-- Header -->
+<div class="p-xl border-b border-hairline flex justify-between items-center">
+<div>
+<h3 class="font-display-lg text-title-lg font-bold text-role-admin">Trip Details</h3>
+<p class="font-body-sm text-body-sm text-role-admin font-semibold" id="drawerReqId">TRQ-8960</p>
+</div>
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-highest text-on-surface-variant transition-colors" onclick="document.getElementById('detailsDrawer').classList.add('hidden')">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<!-- Content -->
+<div class="flex-1 overflow-y-auto p-xl space-y-xl">
+<!-- Request Info -->
+<section>
+<h4 class="font-label-caps text-label-caps text-outline-variant uppercase tracking-wider mb-md">Request Info</h4>
+<div class="grid grid-cols-2 gap-md">
+<div>
+<p class="text-[11px] text-on-surface-variant">Requester</p>
+<p class="font-title-md text-body-base text-on-surface" id="drawerRequester">Su Su</p>
+</div>
+<div>
+<p class="text-[11px] text-on-surface-variant">Department</p>
+<p class="font-title-md text-body-base text-on-surface" id="drawerDept">Finance</p>
+</div>
+<div class="col-span-2">
+<p class="text-[11px] text-on-surface-variant">Purpose</p>
+<p class="font-title-md text-body-base text-on-surface" id="drawerPurpose">Warehouse Visit</p>
+</div>
+</div>
+</section>
+<!-- Trip Logistics -->
+<section>
+<h4 class="font-label-caps text-label-caps text-outline-variant uppercase tracking-wider mb-md">Trip Logistics</h4>
+<div class="space-y-md">
+<div class="flex items-start gap-sm">
+<span class="material-symbols-outlined text-role-admin text-[20px]">location_on</span>
+<div>
+<p class="text-[11px] text-on-surface-variant">Pickup</p>
+<p class="font-body-base text-on-surface" id="drawerPickup">Corporate HQ</p>
+</div>
+</div>
+<div class="flex items-start gap-sm">
+<span class="material-symbols-outlined text-error text-[20px]">near_me</span>
+<div>
+<p class="text-[11px] text-on-surface-variant">Destination</p>
+<p class="font-body-base text-on-surface" id="drawerDest">Airport Terminal 1</p>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-md pt-sm">
+<div>
+<p class="text-[11px] text-on-surface-variant">Trip Type</p>
+<p class="font-body-base text-on-surface" id="drawerTripType">Round Trip</p>
+</div>
+<div>
+<p class="text-[11px] text-on-surface-variant">Passengers</p>
+<p class="font-body-base text-on-surface" id="drawerPax">2 Pax</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Assignment -->
+<section class="bg-surface-canvas p-md rounded-lg border border-hairline">
+<h4 class="font-label-caps text-label-caps text-outline-variant uppercase tracking-wider mb-md">Assignment</h4>
+<div class="flex items-center gap-md"></div>
+</section>
+<!-- Status Timeline -->
+<section>
+<h4 class="font-label-caps text-label-caps text-outline-variant uppercase tracking-wider mb-md">Status Timeline</h4>
+<div class="space-y-0">
+<div class="flex gap-md">
+<div class="flex flex-col items-center">
+<div class="w-3 h-3 rounded-full bg-role-admin"></div>
+<div class="w-0.5 h-10 bg-role-admin"></div>
+</div>
+<div>
+<p class="font-title-md text-body-sm text-on-surface">Requested</p>
+<p class="text-[11px] text-on-surface-variant">Oct 24, 08:00 AM</p>
+</div>
+</div>
+<div class="flex gap-md"></div>
+<div class="flex gap-md">
+<div class="flex flex-col items-center">
+<div class="w-3 h-3 rounded-full bg-outline"></div>
+</div>
+<div>
+<p class="font-title-md text-body-sm text-outline">Completed</p>
+<p class="text-[11px] text-on-surface-variant">Pending arrival</p>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Footer Action -->
+<div class="p-xl border-t border-hairline"><div class="flex gap-md"><button class="flex-1 py-md bg-white border border-outline-variant text-on-surface font-title-md rounded-lg hover:bg-surface-canvas transition-colors">Edit Assignment</button><button class="flex-1 py-md bg-role-admin text-on-primary font-title-md rounded-lg hover:bg-opacity-90 transition-colors shadow-sm font-bold">Print Manifest</button></div></div>
+</div>
+</div><script class="">
+  function openDetailsDrawer(id) {
+    const item = data.find(d => d.id === id);
+    if (!item) return;
+
+    document.getElementById('drawerReqId').textContent = item.id;
+    document.getElementById('drawerRequester').textContent = item.requesterName;
+    document.getElementById('drawerDept').textContent = item.requesterDept;
+    document.getElementById('drawerPurpose').textContent = item.purpose;
+    document.getElementById('drawerPickup').textContent = item.pickup;
+    document.getElementById('drawerDest').textContent = item.dest;
+    document.getElementById('drawerTripType').textContent = item.tripType;
+    document.getElementById('drawerPax').textContent = item.pax + ' Pax';
+
+    document.getElementById('detailsDrawer').classList.remove('hidden');
+  }
+
+  // Update the renderTable function logic to include the click handler for Details buttons
+  // Since the table is rendered dynamically, we use event delegation or update the render function.
+  // For this implementation, we'll add a global listener for any 'Details' button click.
+  document.addEventListener('click', function(e) {
+    if (e.target && e.target.innerText === 'Details') {
+      // Find the ID from the same row
+      const row = e.target.closest('.grid');
+      const id = row.querySelector('.text-role-admin').textContent;
+      openDetailsDrawer(id);
+    }
+  });
+</script>
+<script class="">const datePickerBtn = document.getElementById('datePickerBtn'); const calendarPopover = document.getElementById('calendarPopover'); const calendarGrid = document.getElementById('calendarGrid'); const selectedDateText = document.getElementById('selectedDateText'); datePickerBtn.addEventListener('click', () => { calendarPopover.classList.toggle('hidden'); if (!calendarPopover.classList.contains('hidden')) { renderCalendar(); } }); function renderCalendar() { calendarGrid.innerHTML = ''; for (let i = 1; i <= 31; i++) { const day = document.createElement('div'); day.className = 'aspect-square flex items-center justify-center text-xs rounded-md cursor-pointer hover:bg-role-admin hover:text-white transition-colors'; if (currentDateFilter === `Oct ${i}, 2023`) day.className += ' bg-role-admin/10 text-role-admin font-bold'; day.textContent = i; day.onclick = () => { const dateStr = `Oct ${i}, 2023`; selectedDateText.textContent = dateStr; currentDateFilter = dateStr; calendarPopover.classList.add('hidden'); renderTable(document.getElementById('searchInput').value); }; calendarGrid.appendChild(day); } } document.addEventListener('click', (e) => { if (!document.getElementById('datePickerContainer').contains(e.target)) { calendarPopover.classList.add('hidden'); } });</script></body></html>

@@ -1,0 +1,20 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const driver_controller_1 = require("../controllers/driver.controller");
+const auth_middleware_1 = require("../middlewares/auth.middleware");
+const rbac_middleware_1 = require("../middlewares/rbac.middleware");
+const router = (0, express_1.Router)();
+router.use(auth_middleware_1.authenticate);
+router.get("/cert-summary", (0, rbac_middleware_1.requireRole)("ADMIN"), driver_controller_1.driverController.getCertSummary);
+router.get("/assessments", (0, rbac_middleware_1.requireRole)("ADMIN"), driver_controller_1.driverController.getAllAssessments);
+router.get("/passengers", (0, rbac_middleware_1.requireRole)("ADMIN"), driver_controller_1.driverController.getPassengers);
+router.get("/", (0, rbac_middleware_1.requireRole)("ADMIN"), driver_controller_1.driverController.getAll);
+router.get("/:id", driver_controller_1.driverController.getById);
+router.post("/", (0, rbac_middleware_1.requireRole)("ADMIN"), driver_controller_1.driverController.create);
+router.put("/:id", (0, rbac_middleware_1.requireRole)("ADMIN"), driver_controller_1.driverController.update);
+router.put("/:id/assessment", (0, rbac_middleware_1.requireRole)("ADMIN"), driver_controller_1.driverController.updateAssessment);
+router.get("/:id/feedback", driver_controller_1.driverController.getFeedback);
+router.delete("/:id", (0, rbac_middleware_1.requireRole)("ADMIN"), driver_controller_1.driverController.delete);
+exports.default = router;
+//# sourceMappingURL=driver.routes.js.map

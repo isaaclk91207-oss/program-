@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Assignment Detail - PCCP Vector</title>
+<!-- Google Fonts: Plus Jakarta Sans (Headlines/Titles) & Inter (Body) -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Plus+Jakarta+Sans:wght@500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Configuration (PCCP Vector Design System) -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-primary-fixed": "#001d32",
+                    "on-background": "#131b2e",
+                    "outline": "#707881",
+                    "inverse-on-surface": "#eef0ff",
+                    "on-secondary-fixed-variant": "#00504a",
+                    "surface-variant": "#dae2fc",
+                    "inverse-surface": "#283044",
+                    "secondary": "#006a63",
+                    "error-container": "#ffdad6",
+                    "border-hairline": "#E2E8F0",
+                    "on-secondary": "#ffffff",
+                    "primary-fixed": "#cde5ff",
+                    "error": "#ba1a1a",
+                    "surface-tint": "#006399",
+                    "inverse-primary": "#94ccff",
+                    "secondary-fixed-dim": "#80d5cb",
+                    "role-passenger": "#2563EB",
+                    "secondary-fixed": "#9cf2e8",
+                    "surface-container-low": "#f2f3ff",
+                    "surface-container-highest": "#dae2fc",
+                    "surface-container-lowest": "#ffffff",
+                    "role-driver": "#7C3AED",
+                    "primary-container": "#0369a1",
+                    "primary-fixed-dim": "#94ccff",
+                    "on-primary-container": "#cbe4ff",
+                    "on-primary": "#ffffff",
+                    "on-tertiary-fixed": "#2e1500",
+                    "tertiary-container": "#955301",
+                    "outline-variant": "#c0c7d1",
+                    "on-surface-variant": "#40474f",
+                    "surface-container-high": "#e1e7ff",
+                    "on-secondary-fixed": "#00201d",
+                    "on-primary-fixed-variant": "#004b74",
+                    "on-error-container": "#93000a",
+                    "secondary-container": "#99efe5",
+                    "tertiary-fixed": "#ffdcc1",
+                    "surface-container": "#eaedff",
+                    "on-tertiary": "#ffffff",
+                    "on-error": "#ffffff",
+                    "tertiary": "#733f00",
+                    "surface-bright": "#faf8ff",
+                    "on-tertiary-container": "#ffdbbe",
+                    "primary": "#00507d",
+                    "surface-dim": "#d2d9f4",
+                    "role-admin": "#059669",
+                    "tertiary-fixed-dim": "#ffb878",
+                    "surface": "#faf8ff",
+                    "on-tertiary-fixed-variant": "#6c3a00",
+                    "on-surface": "#131b2e",
+                    "on-secondary-container": "#006f67",
+                    "background": "#faf8ff",
+                    "surface-canvas": "#F8FAFC"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "xl": "24px",
+                    "xs": "4px",
+                    "base": "16px",
+                    "margin-mobile": "16px",
+                    "2xl": "32px",
+                    "gutter": "16px",
+                    "sm": "8px",
+                    "lg": "20px",
+                    "margin-desktop": "32px",
+                    "md": "12px"
+            },
+            "fontFamily": {
+                    "body-sm": ["Inter"],
+                    "title-lg": ["Plus Jakarta Sans"],
+                    "body-base": ["Inter"],
+                    "display-lg": ["Plus Jakarta Sans"],
+                    "headline-lg": ["Plus Jakarta Sans"],
+                    "title-md": ["Plus Jakarta Sans"],
+                    "label-caps": ["Plus Jakarta Sans"],
+                    "headline-md": ["Plus Jakarta Sans"]
+            },
+            "fontSize": {
+                    "body-sm": ["13px", {"lineHeight": "18px", "letterSpacing": "0", "fontWeight": "400"}],
+                    "title-lg": ["18px", {"lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "body-base": ["15px", {"lineHeight": "22px", "letterSpacing": "0", "fontWeight": "400"}],
+                    "display-lg": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                    "headline-lg": ["28px", {"lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "title-md": ["16px", {"lineHeight": "22px", "letterSpacing": "0", "fontWeight": "600"}],
+                    "label-caps": ["11px", {"lineHeight": "14px", "letterSpacing": "0.06em", "fontWeight": "700"}],
+                    "headline-md": ["22px", {"lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "700"}]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        /* Ambient shadow utility as defined in brand guidelines */
+        .ambient-shadow {
+            box-shadow: 0px 1px 3px rgba(15,23,42,0.05);
+        }
+    </style>
+</head>
+<body class="bg-surface-canvas text-on-surface font-body-base antialiased min-h-screen flex flex-col selection:bg-role-driver selection:text-white">
+<!-- TopAppBar (Secondary Screen Context) -->
+<!-- Applying structural logic from JSON while respecting the "Back" context over Avatar -->
+<header class="fixed top-0 left-0 w-full bg-surface border-b border-border-hairline flex justify-between items-center px-margin-mobile h-16 z-50">
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-low transition-colors text-on-surface-variant active:opacity-80 active:scale-95">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">arrow_back</span>
+</button>
+<h1 class="text-title-lg font-title-lg text-on-surface flex-1 text-center pr-10">Assignment Detail</h1>
+<!-- Empty div to balance flex layout since we don't have a trailing icon in this context -->
+<div class="w-10"></div>
+</header>
+<!-- Main Content Canvas -->
+<!-- Max width 440px for single-column task focus on web, fluid on mobile -->
+<main class="flex-1 w-full max-w-[440px] mx-auto pt-[88px] pb-[140px] px-margin-mobile flex flex-col gap-base">
+<!-- Header Section: ID & Status -->
+<div class="flex items-center justify-between mb-sm">
+<div>
+<p class="text-body-sm font-body-sm text-on-surface-variant mb-xs">Assignment ID</p>
+<h2 class="text-title-md font-title-md text-on-surface">PCCP-TR-2026-0012</h2>
+</div>
+<!-- Role-based contextual badge. Using a neutral/positive tone for 'ASSIGNED' -->
+<div class="bg-secondary-container text-on-secondary-container text-label-caps font-label-caps px-3 py-1 rounded-full border border-secondary-fixed">
+                ASSIGNED
+            </div>
+</div>
+<!-- Schedule Card (Premium minimalist styling) -->
+<div class="bg-secondary-container/30 border border-secondary-fixed rounded-xl p-base flex flex-col gap-xs"><div class="flex items-center gap-sm text-on-secondary-container"><span class="material-symbols-outlined">sync_alt</span><span class="text-title-md font-title-md">MULTI-STOP ROUND TRIP</span></div><p class="text-body-sm font-body-sm text-on-surface-variant">Chauffeur remains assigned to the passenger throughout the scheduled journey.</p></div><div class="bg-surface rounded-xl border border-border-hairline p-base ambient-shadow flex items-start gap-md">
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-primary-container shrink-0">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">event_upcoming</span>
+</div>
+<div>
+<p class="text-body-sm font-body-sm text-on-surface-variant mb-xs">Schedule Date &amp; Time</p>
+<p class="text-title-md font-title-md text-on-surface">18 Aug 2026</p>
+<p class="text-title-md font-title-md text-on-surface text-role-driver mt-xs">08:30 AM</p>
+</div>
+</div>
+<!-- Route Card (Ticket/Timeline Style) -->
+<div class="bg-surface rounded-xl border border-border-hairline p-base ambient-shadow relative overflow-hidden"><div class="absolute top-0 left-0 w-full h-1 bg-role-driver opacity-80"></div><div class="flex justify-between items-center mb-4"><p class="text-label-caps font-label-caps text-on-surface-variant">ROUTE TIMELINE</p><span class="text-label-caps font-label-caps text-role-driver">0 / 5 STOPS COMPLETED</span></div><div class="relative pl-6"><div class="absolute left-[9px] top-2 bottom-6 w-[2px] bg-border-hairline rounded-full"></div><div class="relative mb-6"><div class="absolute -left-6 top-1 w-5 h-5 bg-surface border-[3px] border-role-driver rounded-full z-10 flex items-center justify-center"><div class="w-2 h-2 bg-role-driver rounded-full"></div></div><p class="text-body-sm font-body-sm text-role-driver font-medium">08:30 AM</p><p class="text-body-base font-body-base text-on-surface font-bold">uab HO (Pickup)</p></div><div class="relative mb-6"><div class="absolute -left-6 top-1 w-5 h-5 bg-surface border-[3px] border-border-hairline rounded-full z-10"></div><p class="text-body-sm font-body-sm text-on-surface-variant">09:15 AM</p><p class="text-body-base font-body-base text-on-surface-variant">Customer Office (Stop 1)</p></div><div class="relative mb-6"><div class="absolute -left-6 top-1 w-5 h-5 bg-surface border-[3px] border-border-hairline rounded-full z-10"></div><p class="text-body-sm font-body-sm text-on-surface-variant">10:00 AM</p><p class="text-body-base font-body-base text-on-surface">Meeting Location (Stop 2)</p></div><div class="relative mb-6 bg-surface-container-low p-3 rounded-lg border border-border-hairline -ml-2"><div class="absolute -left-[1.15rem] top-4 w-4 h-4 bg-surface border-2 border-border-hairline rounded-full z-10"></div><p class="text-label-caps font-label-caps text-on-surface-variant">WAITING: 2 HOURS (10:00 AM – 12:00 PM)</p><p class="text-body-sm font-body-sm text-on-surface-variant mt-1">Chauffeur remains with the passenger during the scheduled waiting period.</p></div><div class="relative mb-6"><div class="absolute -left-6 top-1 w-5 h-5 bg-surface border-[3px] border-border-hairline rounded-full z-10"></div><p class="text-body-sm font-body-sm text-on-surface-variant">12:00 PM</p><p class="text-body-base font-body-base text-on-surface">Meeting Location (Return Journey)</p></div><div class="relative mb-6"><div class="absolute -left-6 top-1 w-5 h-5 bg-surface border-[3px] border-border-hairline rounded-full z-10"></div><p class="text-body-sm font-body-sm text-on-surface-variant">01:00 PM</p><p class="text-body-base font-body-base text-on-surface">Customer Office (Return Stop)</p></div><div class="relative"><div class="absolute -left-6 top-1 w-5 h-5 bg-surface border-[3px] border-border-hairline rounded-full z-10"></div><p class="text-body-sm font-body-sm text-on-surface-variant">02:00 PM</p><p class="text-body-base font-body-base text-on-surface">uab HO (Final Destination)</p></div></div></div>
+<!-- Bento Grid for Passenger & Vehicle -->
+<div class="grid grid-cols-2 gap-base">
+<!-- Passenger Card -->
+<div class="bg-surface rounded-xl border border-border-hairline p-md ambient-shadow flex flex-col gap-xs justify-between min-h-[90px]">
+<div class="flex items-center gap-xs text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">person</span>
+<span class="text-label-caps font-label-caps">PASSENGER</span>
+</div>
+<div>
+<p class="text-body-base font-body-base text-on-surface font-medium truncate">Aung Aung</p>
+<p class="text-body-sm font-body-sm text-on-surface-variant">(2 People)</p>
+</div>
+</div>
+<!-- Vehicle Card -->
+<div class="bg-surface rounded-xl border border-border-hairline p-md ambient-shadow flex flex-col gap-xs justify-between min-h-[90px]">
+<div class="flex items-center gap-xs text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">directions_car</span>
+<span class="text-label-caps font-label-caps">VEHICLE</span>
+</div>
+<div>
+<p class="text-body-base font-body-base text-on-surface font-medium truncate">Toyota Alphard</p>
+<p class="text-body-sm font-body-sm text-on-surface-variant">(4D-1200)</p>
+</div>
+</div>
+</div>
+<!-- Service Type & Notes -->
+<div class="bg-surface rounded-xl border border-border-hairline p-base ambient-shadow flex flex-col gap-md">
+<!-- Service Type row -->
+<div class="flex items-center justify-between border-b border-border-hairline pb-md">
+<div class="flex items-center gap-sm text-on-surface-variant">
+<span class="material-symbols-outlined">sync_alt</span>
+<span class="text-body-sm font-body-sm">Service Type</span>
+</div>
+<span class="text-body-base font-body-base text-on-surface font-medium">MULTI-STOP ROUND TRIP</span>
+</div>
+<!-- Notes Section -->
+<div class="flex flex-col gap-sm pt-xs">
+<div class="flex items-center gap-sm text-on-surface-variant">
+<span class="material-symbols-outlined">notes</span>
+<span class="text-body-sm font-body-sm">Note for Driver</span>
+</div>
+<div class="bg-surface-container-low p-md rounded-lg border border-border-hairline border-opacity-50">
+<p class="text-body-base font-body-base text-on-surface italic">"Please wait for the passenger during the scheduled meeting."</p>
+</div>
+</div>
+</div>
+</main>
+<!-- Bottom Action Area (Sticky) -->
+<!-- Contextual Role-Based Styling applied to primary action -->
+<div class="fixed bottom-0 left-0 w-full bg-surface border-t border-border-hairline px-margin-mobile py-4 z-40 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]">
+<div class="w-full max-w-[440px] mx-auto flex flex-col gap-sm">
+<button class="w-full h-[48px] bg-role-driver text-white rounded-lg text-title-md font-title-md flex items-center justify-center gap-2 hover:opacity-90 active:scale-[0.98] transition-all"><span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">location_on</span>Arrived at Pickup</button>
+<button class="w-full h-[48px] bg-transparent text-on-surface-variant border border-outline-variant rounded-lg text-title-md font-title-md flex items-center justify-center gap-2 hover:bg-surface-container-low active:scale-[0.98] transition-all"><span class="material-symbols-outlined text-[20px]">report</span>Report an Issue</button>
+</div>
+</div>
+</body></html>

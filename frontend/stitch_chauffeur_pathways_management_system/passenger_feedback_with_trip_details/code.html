@@ -1,0 +1,499 @@
+<!DOCTYPE html><html lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Passenger Feedback - PCCP Transport</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "outline-variant": "#c0c7d1",
+                      "on-primary": "#ffffff",
+                      "surface-container-high": "#e2e7ff",
+                      "inverse-primary": "#94ccff",
+                      "surface-tint": "#006399",
+                      "surface-container": "#eaedff",
+                      "tertiary": "#733f00",
+                      "surface": "#faf8ff",
+                      "on-error-container": "#93000a",
+                      "primary-fixed-dim": "#94ccff",
+                      "role-driver": "#7C3AED",
+                      "on-tertiary": "#ffffff",
+                      "role-admin": "#059669",
+                      "on-tertiary-fixed-variant": "#6c3a00",
+                      "surface-bright": "#faf8ff",
+                      "on-secondary-fixed-variant": "#00504a",
+                      "on-surface": "#131b2e",
+                      "surface-variant": "#dae2fd",
+                      "outline": "#707881",
+                      "on-primary-fixed": "#001d32",
+                      "background": "#faf8ff",
+                      "border-hairline": "#E2E8F0",
+                      "surface-dim": "#d2d9f4",
+                      "on-primary-fixed-variant": "#004b74",
+                      "inverse-surface": "#283044",
+                      "tertiary-container": "#955301",
+                      "error-container": "#ffdad6",
+                      "on-surface-variant": "#40474f",
+                      "inverse-on-surface": "#eef0ff",
+                      "on-secondary-fixed": "#00201d",
+                      "secondary-fixed-dim": "#80d5cb",
+                      "surface-container-lowest": "#ffffff",
+                      "role-passenger": "#2563EB",
+                      "tertiary-fixed": "#ffdcc1",
+                      "on-tertiary-fixed": "#2e1500",
+                      "primary-container": "#0369a1",
+                      "role-passenger-container": "#DBEAFE",
+                      "secondary": "#006a63",
+                      "tertiary-fixed-dim": "#ffb878",
+                      "primary-fixed": "#cde5ff",
+                      "secondary-container": "#99efe5",
+                      "surface-container-highest": "#dae2fd",
+                      "on-tertiary-container": "#ffdbbe",
+                      "on-secondary-container": "#006f67",
+                      "error": "#ba1a1a",
+                      "surface-canvas": "#F8FAFC",
+                      "on-error": "#ffffff",
+                      "on-background": "#131b2e",
+                      "secondary-fixed": "#9cf2e8",
+                      "role-admin-container": "#D1FAE5",
+                      "surface-container-low": "#f2f3ff",
+                      "role-driver-container": "#EDE9FE",
+                      "on-secondary": "#ffffff",
+                      "primary": "#0369a1",
+                      "on-primary-container": "#cbe4ff"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "gutter": "16px",
+                      "sm": "8px",
+                      "lg": "20px",
+                      "xl": "24px",
+                      "unit": "4px",
+                      "margin-desktop": "32px",
+                      "2xl": "32px",
+                      "md": "12px",
+                      "base": "16px",
+                      "margin-mobile": "16px",
+                      "xs": "4px"
+              },
+              "fontFamily": {
+                      "title-md": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "body-base": [
+                              "Inter"
+                      ],
+                      "label-caps": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "headline-lg": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "stat-lg": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "display-lg": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "title-lg": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "headline-md": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "body-sm": [
+                              "Inter"
+                      ]
+              },
+              "fontSize": {
+                      "title-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "22px",
+                                      "letterSpacing": "0",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "body-base": [
+                              "15px",
+                              {
+                                      "lineHeight": "22px",
+                                      "letterSpacing": "0",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "label-caps": [
+                              "11px",
+                              {
+                                      "lineHeight": "14px",
+                                      "letterSpacing": "0.06em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "headline-lg": [
+                              "28px",
+                              {
+                                      "lineHeight": "36px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "stat-lg": [
+                              "30px",
+                              {
+                                      "lineHeight": "36px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "display-lg": [
+                              "36px",
+                              {
+                                      "lineHeight": "44px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "800"
+                              }
+                      ],
+                      "title-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "24px",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-md": [
+                              "22px",
+                              {
+                                      "lineHeight": "28px",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "body-sm": [
+                              "13px",
+                              {
+                                      "lineHeight": "18px",
+                                      "letterSpacing": "0",
+                                      "fontWeight": "400"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined[data-weight="fill"] {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-surface-canvas text-on-surface font-body-base min-h-screen flex flex-col antialiased">
+<!-- TopAppBar (Web) -->
+<header class="hidden md:flex justify-between items-center w-full px-margin-desktop h-16 bg-surface border-b border-hairline docked full-width top-0 z-50">
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:bg-surface-container-low transition-all duration-200 p-2 rounded-full" data-icon="menu">menu</span>
+<span class="font-display-lg text-display-lg font-extrabold text-primary">PCCP Transport</span>
+</div>
+<div class="flex items-center gap-xl h-full">
+<nav class="flex h-full gap-lg">
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-container-low transition-all duration-200 px-4 h-full border-b-2 border-transparent" href="#">
+<span class="font-label-caps text-label-caps">Trips</span>
+</a>
+<a class="flex flex-col items-center justify-center text-primary font-bold hover:bg-surface-container-low transition-all duration-200 px-4 h-full border-b-2 border-primary" href="#">
+<span class="font-label-caps text-label-caps">Feedback</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-container-low transition-all duration-200 px-4 h-full border-b-2 border-transparent" href="#">
+<span class="font-label-caps text-label-caps">Performance</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-container-low transition-all duration-200 px-4 h-full border-b-2 border-transparent" href="#">
+<span class="font-label-caps text-label-caps">Account</span>
+</a>
+</nav>
+<div class="w-10 h-10 rounded-full bg-surface-container overflow-hidden">
+<img alt="User profile" class="w-full h-full object-cover" data-alt="A professional headshot of a corporate passenger in modern corporate setting. High key lighting, clean slate aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAGt5z5eZlYQMphECvVVc8UFxIFCFBrfBXUkNkwWxOLmr-Q6R3sy8PcvLuxFrrKphHpEN3PhFNxwhhb14gck6h8-RTalBTA74fy4hPXcKST6RRXKXhYtXrLJmCwDDHBTu0ejj0v6kuvUDovGnswLf4bejnHjiDOODGBl33inDqZyeiqzAFwMasXTHkn2GMM7fKddsFoXOu1RO2b7twjlwDcy7_EY5gnQBoHMnJss0ZUUXDL6ywuIuQ">
+</div>
+</div>
+</header>
+<!-- TopAppBar (Mobile) -->
+<header class="flex md:hidden justify-between items-center w-full px-margin-mobile h-12 bg-surface border-b border-hairline docked full-width top-0 z-50">
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-primary cursor-pointer active:opacity-70 transition-all duration-200" data-icon="arrow_back">arrow_back</span>
+</div>
+<span class="font-headline-md text-headline-md font-bold text-on-surface">Feedback</span>
+<div class="w-8 h-8 rounded-full bg-surface-container overflow-hidden">
+<img alt="User profile" class="w-full h-full object-cover" data-alt="A professional headshot of a corporate passenger in modern corporate setting. High key lighting, clean slate aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCfODJI44f4wILRroaL325p4WkoNHMKSOS-LH63QtvzHjA38P-w1WDKg9bxyVjQDnN3immmMv8Otv1hjVdqXQ0m6wRtTnhCaQmHyPQ5pZYtYD2gKmqRhqCFU2cGqyPZp2pG9Lj5X5Ycgt-iv-UDtAuvGQFWj5VxInNt_dbQx7CvHW_cdCkS75RKVGhU1Vy9QieQB5SeRp00ksXEi07VyDAjcZl9eKfrmjQlEN94o2kFNetxymJnd1A">
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-grow flex justify-center w-full px-margin-mobile md:px-margin-desktop py-lg pb-[100px] md:pb-lg overflow-y-auto" id="main-content">
+<div class="w-full max-w-2xl flex flex-col gap-xl">
+<!-- Trip Selection Card -->
+<section class="bg-surface-container-lowest rounded-xl border border-hairline p-base shadow-[0px_1px_3px_0px_rgba(15,23,42,0.05)]">
+<h2 class="font-title-md text-title-md text-on-surface mb-md">Select Trip to Review</h2>
+<div class="border border-primary rounded-lg p-md bg-role-passenger-container cursor-pointer flex items-center justify-between mb-sm transition-all duration-200 hover:shadow-md">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded-full bg-surface-container-lowest flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" data-icon="local_shipping" data-weight="fill">local_shipping</span>
+</div>
+<div>
+<div class="font-title-md text-title-md text-on-surface">Trip #8829 - Main Warehouse to Port</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant">Today, 10:30 AM • Driver: M. Roberts</div>
+</div>
+</div>
+<span class="material-symbols-outlined text-primary" data-icon="check_circle" data-weight="fill">check_circle</span>
+</div>
+<div class="border border-hairline rounded-lg p-md bg-surface-container-lowest cursor-pointer flex items-center justify-between opacity-70 hover:opacity-100 hover:bg-surface-container-low transition-all duration-200">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="local_shipping">local_shipping</span>
+</div>
+<div>
+<div class="font-title-md text-title-md text-on-surface">Trip #8828 - Regional Hub Beta</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant">Yesterday, 14:15 PM • Driver: S. Jenkins</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Rating Section -->
+<section class="bg-surface-container-lowest rounded-xl border border-hairline p-base shadow-[0px_1px_3px_0px_rgba(15,23,42,0.05)] flex flex-col items-center py-xl" id="rating-section">
+<h2 class="font-headline-md text-headline-md text-on-surface mb-sm">How was your journey?</h2>
+<p class="font-body-base text-body-base text-on-surface-variant mb-xl text-center">Your feedback helps us improve our professional chauffeur service.</p>
+<div class="flex gap-sm mb-2xl" id="star-container">
+<button class="p-2 text-outline hover:text-primary transition-colors duration-200 group" data-value="1">
+<span class="material-symbols-outlined text-[40px] group-hover:scale-110 transition-transform" data-icon="star">star</span>
+</button>
+<button class="p-2 text-outline hover:text-primary transition-colors duration-200 group" data-value="2">
+<span class="material-symbols-outlined text-[40px] group-hover:scale-110 transition-transform" data-icon="star">star</span>
+</button>
+<button class="p-2 text-outline hover:text-primary transition-colors duration-200 group" data-value="3">
+<span class="material-symbols-outlined text-[40px] group-hover:scale-110 transition-transform" data-icon="star">star</span>
+</button>
+<button class="p-2 text-outline hover:text-primary transition-colors duration-200 group" data-value="4">
+<span class="material-symbols-outlined text-[40px] group-hover:scale-110 transition-transform" data-icon="star">star</span>
+</button>
+<button class="p-2 text-outline hover:text-primary transition-colors duration-200 group" data-value="5">
+<span class="material-symbols-outlined text-[40px] group-hover:scale-110 transition-transform" data-icon="star">star</span>
+</button>
+</div>
+<div class="w-full hidden" id="feedback-form">
+<div class="mb-lg" id="dynamic-chips-container">
+<!-- Chips will be injected here -->
+</div>
+<div class="flex flex-col gap-xs">
+<label class="font-title-md text-title-md text-on-surface" for="comments">Any comments or suggestions?</label>
+<textarea class="w-full rounded-lg border border-outline-variant bg-surface-container-lowest p-md font-body-base text-body-base text-on-surface focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all duration-200 resize-none placeholder-on-surface-variant/50" id="comments" placeholder="Tell us more about your experience..." rows="4"></textarea>
+</div>
+<button class="w-full mt-xl bg-primary text-on-primary font-title-md text-title-md py-3 rounded-lg hover:bg-on-primary-fixed-variant transition-colors duration-200 h-[48px] md:h-auto" id="submit-btn">
+                    Submit Feedback
+                </button>
+</div>
+</section>
+<!-- Success State -->
+<section class="hidden bg-surface-container-lowest rounded-xl border border-hairline p-base shadow-[0px_1px_3px_0px_rgba(15,23,42,0.05)] flex flex-col items-center py-2xl text-center" id="success-section">
+<div class="w-16 h-16 bg-role-admin-container rounded-full flex items-center justify-center mb-lg">
+<span class="material-symbols-outlined text-[32px] text-role-admin" data-icon="check" data-weight="fill">check</span>
+</div>
+<h2 class="font-headline-md text-headline-md text-on-surface mb-sm">Thank You!</h2>
+<p class="font-body-base text-body-base text-on-surface-variant mb-xl">Your feedback has been submitted successfully.</p>
+<button class="w-full max-w-[200px] bg-primary text-on-primary font-title-md text-title-md py-3 rounded-lg hover:bg-on-primary-fixed-variant transition-colors duration-200" id="done-btn">
+    Done
+</button>
+</section>
+</div>
+</main>
+<!-- BottomNavBar (Mobile) -->
+<nav class="md:hidden bg-surface border-t border-border-hairline shadow-lg fixed bottom-0 w-full z-50 h-20">
+<div class="flex justify-around items-center px-margin-mobile w-full h-full max-w-[800px] mx-auto">
+<button class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-all active:scale-90 duration-200" onclick="location.href='{{DATA:SCREEN:SCREEN_59}}'">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-label-caps text-label-caps mt-1">Home</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-all active:scale-90 duration-200" onclick="location.href='{{DATA:SCREEN:SCREEN_2}}'">
+<span class="material-symbols-outlined" data-icon="assignment">assignment</span>
+<span class="font-label-caps text-label-caps mt-1">Requests</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-all active:scale-90 duration-200" onclick="location.href='{{DATA:SCREEN:SCREEN_58}}'">
+<span class="material-symbols-outlined" data-icon="directions_car">directions_car</span>
+<span class="font-label-caps text-label-caps mt-1">Trips</span>
+</button>
+<button class="flex flex-col items-center justify-center text-primary bg-primary-fixed-dim/20 rounded-xl px-4 py-2 hover:text-primary transition-all active:scale-90 duration-200 relative" onclick="location.href='{{DATA:SCREEN:SCREEN_50}}'">
+<span class="material-symbols-outlined" data-icon="notifications" style="font-variation-settings: 'FILL' 1;">notifications</span>
+<span class="font-label-caps text-label-caps mt-1">Notifications</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-all active:scale-90 duration-200" onclick="location.href='{{DATA:SCREEN:SCREEN_52}}'">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-label-caps text-label-caps mt-1">Account</span>
+</button>
+</div>
+</nav>
+<script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const stars = document.querySelectorAll('#star-container button');
+            const feedbackForm = document.getElementById('feedback-form');
+            const dynamicChipsContainer = document.getElementById('dynamic-chips-container');
+            const submitBtn = document.getElementById('submit-btn');
+            const ratingSection = document.getElementById('rating-section');
+            const successSection = document.getElementById('success-section');
+            const doneBtn = document.getElementById('done-btn');
+
+            const feedbackData = {
+                1: {
+                    title: "What was the main problem?",
+                    chips: ["Unsafe Driving", "Excessive Speed", "Harsh Braking", "Reckless Driving", "Unprofessional Behavior", "Disrespectful Driver", "Ignored Instructions", "Driver Was Very Late", "Poor Communication", "Dirty Vehicle", "Vehicle Problem", "Other"],
+                    type: "negative"
+                },
+                2: {
+                    title: "What could be improved?",
+                    chips: ["Driving", "Safety", "Communication", "Punctuality", "Vehicle Cleanliness", "Vehicle Condition", "Professional Behavior", "Route Selection", "Comfort", "Other"],
+                    type: "negative"
+                },
+                3: {
+                    title: "What could be improved?",
+                    chips: ["Driving Smoothness", "Punctuality", "Communication", "Vehicle Cleanliness", "Vehicle Comfort", "Professional Appearance", "Route Knowledge", "Service Quality", "Other"],
+                    type: "negative"
+                },
+                4: {
+                    title: "What did you like about the service?",
+                    chips: ["Professional & Courteous", "Safe Driving", "Smooth Driving", "Clean Vehicle", "On Time", "Friendly & Helpful", "Good Communication", "Professional Appearance"],
+                    type: "positive"
+                },
+                5: {
+                    title: "What did the driver do well?",
+                    chips: ["Professional & Courteous", "Safe Driving", "Smooth Driving", "Clean Vehicle", "On Time", "Friendly & Helpful", "Good Communication", "Professional Appearance", "Excellent Route Knowledge", "Comfortable Journey"],
+                    type: "positive"
+                }
+            };
+
+            function generateChipsHTML(data, rating) {
+                let html = `<h3 class="font-title-md text-title-md text-on-surface mb-md">${data.title}</h3>
+                            <div class="flex flex-wrap gap-sm">`;
+                
+                const chipClass = data.type === 'positive' 
+                    ? "px-4 py-2 rounded-full border border-hairline bg-surface-container-lowest text-on-surface-variant font-label-caps text-label-caps hover:bg-role-passenger-container hover:text-primary hover:border-primary transition-all duration-200 cursor-pointer"
+                    : "px-4 py-2 rounded-full border border-hairline bg-surface-container-lowest text-on-surface-variant font-label-caps text-label-caps hover:bg-error-container hover:text-error hover:border-error transition-all duration-200 cursor-pointer";
+
+                data.chips.forEach(chip => {
+                    html += `<button class="${chipClass} chip-btn">${chip.toUpperCase()}</button>`;
+                });
+                html += `</div>`;
+
+                if (rating === 4) {
+                     html += `<h3 class="font-title-md text-title-md text-on-surface mt-lg mb-md">What could be improved?</h3>
+                            <div class="flex flex-wrap gap-sm">`;
+                     const negativeData = feedbackData[2]; // Reuse 2 star chips for improvements
+                     const negativeChipClass = "px-4 py-2 rounded-full border border-hairline bg-surface-container-lowest text-on-surface-variant font-label-caps text-label-caps hover:bg-error-container hover:text-error hover:border-error transition-all duration-200 cursor-pointer";
+                     negativeData.chips.forEach(chip => {
+                        html += `<button class="${negativeChipClass} chip-btn">${chip.toUpperCase()}</button>`;
+                     });
+                     html += `</div>`;
+                }
+
+                return html;
+            }
+
+            function setupChipInteractions() {
+                const chips = document.querySelectorAll('.chip-btn');
+                chips.forEach(chip => {
+                    chip.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        const isPositive = chip.classList.contains('hover:bg-role-passenger-container');
+                        if (isPositive) {
+                            chip.classList.toggle('bg-role-passenger-container');
+                            chip.classList.toggle('text-primary');
+                            chip.classList.toggle('border-primary');
+                            chip.classList.toggle('border-1.5');
+                            chip.classList.toggle('bg-surface-container-lowest');
+                            chip.classList.toggle('text-on-surface-variant');
+                        } else {
+                            chip.classList.toggle('bg-error-container');
+                            chip.classList.toggle('text-error');
+                            chip.classList.toggle('border-error');
+                            chip.classList.toggle('border-1.5');
+                            chip.classList.toggle('bg-surface-container-lowest');
+                            chip.classList.toggle('text-on-surface-variant');
+                        }
+                    });
+                });
+            }
+
+            stars.forEach((star) => {
+                star.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const rating = parseInt(star.getAttribute('data-value'));
+                    
+                    // Update stars visual
+                    stars.forEach((s, i) => {
+                        const icon = s.querySelector('span');
+                        if (i < rating) {
+                            icon.setAttribute('data-weight', 'fill');
+                            s.classList.remove('text-outline');
+                            s.classList.add('text-primary');
+                        } else {
+                            icon.removeAttribute('data-weight');
+                            s.classList.remove('text-primary');
+                            s.classList.add('text-outline');
+                        }
+                    });
+
+                    // Update dynamic content
+                    dynamicChipsContainer.innerHTML = generateChipsHTML(feedbackData[rating], rating);
+                    setupChipInteractions();
+                    feedbackForm.classList.remove('hidden');
+                });
+            });
+
+            submitBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                ratingSection.classList.add('hidden');
+                successSection.classList.remove('hidden');
+            });
+
+            doneBtn.addEventListener('click', (e) => {
+                 e.preventDefault();
+                 // Reset form
+                 ratingSection.classList.remove('hidden');
+                 successSection.classList.add('hidden');
+                 feedbackForm.classList.add('hidden');
+                 document.getElementById('comments').value = '';
+                 stars.forEach((s) => {
+                    const icon = s.querySelector('span');
+                    icon.removeAttribute('data-weight');
+                    s.classList.remove('text-primary');
+                    s.classList.add('text-outline');
+                 });
+            });
+        });
+    </script>
+
+
+
+
+
+
+
+
+
+
+
+
+</body></html>

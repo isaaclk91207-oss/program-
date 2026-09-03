@@ -1,0 +1,261 @@
+<!DOCTYPE html><html class="light" lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>PCCP Vector - Passenger Trips</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&amp;family=Inter:wght@400&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-primary-fixed-variant": "#004b74",
+                        "role-driver": "#7C3AED",
+                        "surface-container": "#eaedff",
+                        "secondary-container": "#99efe5",
+                        "on-secondary": "#ffffff",
+                        "primary-fixed-dim": "#94ccff",
+                        "tertiary-fixed": "#ffdcc1",
+                        "border-hairline": "#E2E8F0",
+                        "background": "#faf8ff",
+                        "inverse-on-surface": "#eef0ff",
+                        "inverse-primary": "#94ccff",
+                        "surface-container-low": "#f2f3ff",
+                        "tertiary": "#733f00",
+                        "on-primary-fixed": "#001d32",
+                        "on-surface": "#131b2e",
+                        "on-error-container": "#93000a",
+                        "tertiary-container": "#955301",
+                        "inverse-surface": "#283044",
+                        "primary-container": "#0369a1",
+                        "surface": "#faf8ff",
+                        "on-tertiary-fixed": "#2e1500",
+                        "surface-container-lowest": "#ffffff",
+                        "on-secondary-fixed-variant": "#00504a",
+                        "surface-variant": "#dae2fc",
+                        "primary": "#00507d",
+                        "tertiary-fixed-dim": "#ffb878",
+                        "error": "#ba1a1a",
+                        "on-tertiary-container": "#ffdbbe",
+                        "on-error": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "surface-bright": "#faf8ff",
+                        "on-secondary-container": "#006f67",
+                        "on-tertiary-fixed-variant": "#6c3a00",
+                        "on-tertiary": "#ffffff",
+                        "outline": "#707881",
+                        "surface-tint": "#006399",
+                        "surface-canvas": "#F8FAFC",
+                        "secondary-fixed": "#9cf2e8",
+                        "secondary": "#006a63",
+                        "primary-fixed": "#cde5ff",
+                        "surface-dim": "#d2d9f4",
+                        "surface-container-high": "#e1e7ff",
+                        "on-background": "#131b2e",
+                        "on-secondary-fixed": "#00201d",
+                        "role-passenger": "#2563EB",
+                        "secondary-fixed-dim": "#80d5cb",
+                        "role-admin": "#059669",
+                        "surface-container-highest": "#dae2fc",
+                        "error-container": "#ffdad6",
+                        "on-primary-container": "#cbe4ff",
+                        "on-surface-variant": "#40474f",
+                        "outline-variant": "#c0c7d1"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "16px",
+                        "xl": "24px",
+                        "margin-desktop": "32px",
+                        "base": "16px",
+                        "md": "12px",
+                        "margin-mobile": "16px",
+                        "lg": "20px",
+                        "sm": "8px",
+                        "xs": "4px",
+                        "2xl": "32px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Plus Jakarta Sans"],
+                        "label-caps": ["Plus Jakarta Sans"],
+                        "title-lg": ["Plus Jakarta Sans"],
+                        "body-sm": ["Inter"],
+                        "display-lg": ["Plus Jakarta Sans"],
+                        "title-md": ["Plus Jakarta Sans"],
+                        "body-base": ["Inter"],
+                        "headline-md": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "label-caps": ["11px", { "lineHeight": "14px", "letterSpacing": "0.06em", "fontWeight": "700" }],
+                        "title-lg": ["18px", { "lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "body-sm": ["13px", { "lineHeight": "18px", "letterSpacing": "0", "fontWeight": "400" }],
+                        "display-lg": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+                        "title-md": ["16px", { "lineHeight": "22px", "letterSpacing": "0", "fontWeight": "600" }],
+                        "body-base": ["15px", { "lineHeight": "22px", "letterSpacing": "0", "fontWeight": "400" }],
+                        "headline-md": ["22px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { background-color: theme('colors.surface-canvas'); }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .icon-fill { font-variation-settings: 'FILL' 1; }
+    </style>
+</head>
+<body class="text-on-surface antialiased min-h-screen flex flex-col pb-24 md:pb-0">
+<!-- TopAppBar -->
+<header class="w-full top-0 sticky z-50 shadow-sm border-b border-border-hairline flex justify-between items-center h-16 px-margin-mobile md:px-margin-desktop transition-colors bg-primary">
+<div class="flex items-center justify-center h-10 w-10 overflow-hidden rounded-lg bg-white p-1"><img src="https://lh3.googleusercontent.com/aida-public/AB6AXuBwh9hJ16vL-j8IHosX_e80QtvflYTtlHHSVq1gxhgSYlr_PaU2gu4bUC0eIDkYJbGcd30neVFJ1Ft6SOCNMAbIth_XUMsO9Sdcti5kL6X29phnkH-_Z6IbTEkqltztd0yzt_OOgBaPiZ7OEThEM1OOS_zJzoYgdia2G1RnMSqlxaFIRp58TntLnnvBYmIIPJ5hsDpUzUKXPlsia8vv01pAZM_mR0ochzT240vKIaRU4prapSarrT6tffAeXUYkbMlF" alt="PCCP Logo" class="h-full w-full object-contain"></div>
+<h1 class="text-headline-md font-headline-md font-bold text-on-primary">PCCP Vector</h1>
+<button class="text-on-surface hover:bg-surface-container transition-colors rounded-full p-2 active:opacity-80 transition-opacity flex items-center justify-center relative">
+<span class="material-symbols-outlined text-on-primary" style="font-variation-settings: &quot;FILL&quot; 0;">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full"></span>
+</button>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-grow container mx-auto max-w-3xl px-margin-mobile md:px-margin-desktop py-base space-y-xl">
+<!-- Active Trip Section -->
+<section>
+<h2 class="font-title-lg text-title-lg mb-md text-on-surface">Active Trip</h2>
+<div class="bg-surface-container-lowest rounded-xl shadow-[0_1px_3px_rgba(15,23,42,0.05)] border border-border-hairline overflow-hidden">
+<!-- Map Header Area (Placeholder) -->
+<div class="h-48 bg-surface-container-high relative flex items-center justify-center border-b border-border-hairline" data-alt="A stylized digital map interface showing a route from a corporate headquarters to an airport, marked with a bright blue path line and location pins. The map style is clean, modern, and light-themed, matching a professional transport app interface. Soft lighting, high contrast on route elements." data-location="Yangon" style="background-image: url(&quot;https://lh3.googleusercontent.com/aida-public/AB6AXuCYZvFYNknB71JZQ2VL_t_KMDLyxR9LAoMdh1fP6ncxZ_AvYFcYGRCuKt5eZqHZvMGL5-Z2jCqpZLA3YTQR8iyosI5x3VPK1MDEf0evkwcFBEUg81XGo26Atm7hQGxy_pxlcySY9KtEBnDsI_Up09toGFECiBoLvHzaRBsSl62wLJr8NqN1MhdeKvDd1o5kKt3XnPPMBjjITAeq9MxjXqKRZvVCSweeWaW4DWf1Flyk5mSreZaD3X0&quot;); background-size: cover; background-position: center center;">
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest/80 to-transparent"></div>
+<div class="absolute top-sm right-sm bg-surface-container-lowest px-md py-sm rounded-full shadow-sm flex items-center space-x-2">
+<span class="material-symbols-outlined text-primary text-[18px] icon-fill">schedule</span>
+<span class="font-title-md text-title-md text-primary">ETA 14 Mins</span>
+</div>
+</div>
+<div class="p-base space-y-md">
+<!-- Route -->
+<div class="flex items-start space-x-md">
+<div class="flex flex-col items-center mt-1">
+<div class="w-3 h-3 rounded-full bg-primary"></div>
+<div class="w-0.5 h-10 bg-outline-variant my-1"></div>
+<div class="w-3 h-3 rounded-full border-2 border-primary bg-surface-container-lowest"></div>
+</div>
+<div class="flex-1 space-y-4">
+<div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Pickup</p>
+<p class="font-title-md text-title-md">UAB HQ (Tower A)</p>
+</div>
+<div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Dropoff</p>
+<p class="font-title-md text-title-md">Yangon International Airport</p>
+</div>
+</div>
+</div>
+<hr class="border-border-hairline my-base">
+<!-- Driver Info -->
+<div class="flex items-center justify-between">
+<div class="flex items-center space-x-md">
+<div class="w-12 h-12 rounded-full bg-surface-variant flex items-center justify-center overflow-hidden border border-border-hairline">
+<span class="material-symbols-outlined text-primary text-[28px]">person</span>
+</div>
+<div>
+<p class="font-title-md text-title-md">Ko Aung Naing Win</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Toyota Crown • YGN 3F-1234</p>
+</div>
+</div>
+<button aria-label="Call Driver" class="w-10 h-10 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center active:scale-95 transition-transform">
+<span class="material-symbols-outlined">call</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Upcoming Trips Section -->
+<section>
+<div class="flex justify-between items-end mb-md">
+<h2 class="font-title-lg text-title-lg text-on-surface">Upcoming Trips</h2>
+<button class="font-body-sm text-body-sm text-primary font-medium hover:underline">View All</button>
+</div>
+<div class="space-y-md">
+<!-- Upcoming Trip Card 1 -->
+<div class="bg-surface-container-lowest rounded-xl shadow-[0_1px_3px_rgba(15,23,42,0.05)] border border-border-hairline p-base flex items-start space-x-md">
+<div class="flex flex-col items-center justify-center w-16 h-16 bg-surface-container-low rounded-lg border border-border-hairline shrink-0">
+<span class="font-title-md text-title-md text-primary">Oct</span>
+<span class="font-headline-md text-headline-md text-on-surface">24</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<div>
+<p class="font-title-md text-title-md">09:00 AM</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant flex items-center mt-1">
+<span class="material-symbols-outlined text-[16px] mr-1">directions_car</span>
+                                    Assigned: Kyaw Zin
+                                </p>
+</div>
+<span class="px-2 py-1 bg-surface-container text-on-surface-variant rounded font-label-caps text-label-caps">Round Trip</span>
+</div>
+<div class="mt-sm flex items-center space-x-2 text-on-surface">
+<span class="font-body-base text-body-base truncate max-w-[120px]">UAB HQ</span>
+<span class="material-symbols-outlined text-[16px] text-outline">arrow_right_alt</span>
+<span class="font-body-base text-body-base truncate max-w-[120px]">Lotte Hotel</span>
+</div>
+</div>
+</div>
+<!-- Upcoming Trip Card 2 -->
+<div class="bg-surface-container-lowest rounded-xl shadow-[0_1px_3px_rgba(15,23,42,0.05)] border border-border-hairline p-base flex items-start space-x-md opacity-80">
+<div class="flex flex-col items-center justify-center w-16 h-16 bg-surface-container-low rounded-lg border border-border-hairline shrink-0">
+<span class="font-title-md text-title-md text-on-surface-variant">Oct</span>
+<span class="font-headline-md text-headline-md text-on-surface-variant">26</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<div>
+<p class="font-title-md text-title-md">02:30 PM</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant flex items-center mt-1">
+<span class="material-symbols-outlined text-[16px] mr-1">pending_actions</span>
+                                    Pending Driver
+                                </p>
+</div>
+<span class="px-2 py-1 bg-surface-container text-on-surface-variant rounded font-label-caps text-label-caps">One Way</span>
+</div>
+<div class="mt-sm flex items-center space-x-2 text-on-surface">
+<span class="font-body-base text-body-base truncate max-w-[120px]">UAB HQ</span>
+<span class="material-symbols-outlined text-[16px] text-outline">arrow_right_alt</span>
+<span class="font-body-base text-body-base truncate max-w-[120px]">MICT Park</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="md:hidden fixed bottom-0 w-full z-50 rounded-t-xl bg-surface dark:bg-inverse-surface border-t border-hairline dark:border-outline-variant shadow-md flex justify-around items-center h-[64px] pb-safe"><a class="flex flex-col items-center justify-center text-on-surface-variant px-3 py-1 scale-95 active:scale-90 transition-transform" href="#"><span class="material-symbols-outlined">home</span><span class="font-body-sm text-body-sm mt-1">Home</span></a><a class="flex flex-col items-center justify-center text-on-surface-variant px-3 py-1 scale-95 active:scale-90 transition-transform" href="#"><span class="material-symbols-outlined">assignment</span><span class="font-body-sm text-body-sm mt-1">Requests</span></a><a class="flex flex-col items-center justify-center bg-primary-container text-white rounded-xl px-3 py-1 scale-95 active:scale-90 transition-transform" href="#"><span class="material-symbols-outlined icon-fill">directions_car</span><span class="font-body-sm text-body-sm font-bold mt-1">Trips</span></a><a class="flex flex-col items-center justify-center text-on-surface-variant px-3 py-1 scale-95 active:scale-90 transition-transform" href="#"><span class="material-symbols-outlined">qr_code_scanner</span><span class="font-body-sm text-body-sm mt-1">Scan QR</span></a><a class="flex flex-col items-center justify-center text-on-surface-variant px-3 py-1 scale-95 active:scale-90 transition-transform" href="#"><span class="material-symbols-outlined">person</span><span class="font-body-sm text-body-sm mt-1">Account</span></a></nav>
+<!-- Desktop Nav Placeholder (Hidden on mobile) -->
+<div class="hidden md:flex fixed top-16 left-0 h-full w-64 bg-surface border-r border-border-hairline p-base flex-col shadow-sm">
+<nav class="space-y-2">
+<a class="flex items-center space-x-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container-low transition-colors" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-title-md text-title-md">Home</span>
+</a>
+<a class="flex items-center space-x-3 px-4 py-3 rounded-lg bg-primary-container text-on-primary-container font-medium" href="#">
+<span class="material-symbols-outlined icon-fill">route</span>
+<span class="font-title-md text-title-md">Trips</span>
+</a>
+<a class="flex items-center space-x-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container-low transition-colors" href="#">
+<span class="material-symbols-outlined">assignment</span>
+<span class="font-title-md text-title-md">Requests</span>
+</a>
+</nav>
+</div>
+
+
+
+
+
+
+</body></html>

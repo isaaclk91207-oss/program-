@@ -1,0 +1,266 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Notification Settings - PCCP Vector</title>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Google Fonts: Plus Jakarta Sans & Inter -->
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Theme Configuration -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "outline-variant": "#c0c7d1",
+                        "surface": "#faf8ff",
+                        "on-secondary": "#ffffff",
+                        "tertiary": "#733f00",
+                        "role-driver": "#7C3AED",
+                        "surface-tint": "#006399",
+                        "surface-container": "#eaedff",
+                        "surface-container-low": "#f2f3ff",
+                        "secondary-container": "#99efe5",
+                        "on-tertiary-container": "#ffdbbe",
+                        "surface-canvas": "#F8FAFC",
+                        "inverse-primary": "#94ccff",
+                        "inverse-on-surface": "#eef0ff",
+                        "outline": "#707881",
+                        "on-primary-fixed-variant": "#004b74",
+                        "tertiary-container": "#955301",
+                        "secondary-fixed-dim": "#80d5cb",
+                        "on-error": "#ffffff",
+                        "surface-dim": "#d2d9f4",
+                        "tertiary-fixed": "#ffdcc1",
+                        "on-tertiary-fixed": "#2e1500",
+                        "on-primary": "#ffffff",
+                        "on-surface-variant": "#40474f",
+                        "surface-container-high": "#e1e7ff",
+                        "border-hairline": "#E2E8F0",
+                        "primary-fixed-dim": "#94ccff",
+                        "on-primary-fixed": "#001d32",
+                        "inverse-surface": "#283044",
+                        "tertiary-fixed-dim": "#ffb878",
+                        "primary": "#00507d",
+                        "primary-fixed": "#cde5ff",
+                        "surface-container-highest": "#dae2fc",
+                        "surface-container-lowest": "#ffffff",
+                        "secondary-fixed": "#9cf2e8",
+                        "on-tertiary-fixed-variant": "#6c3a00",
+                        "on-primary-container": "#cbe4ff",
+                        "on-secondary-fixed": "#00201d",
+                        "role-passenger": "#2563EB",
+                        "on-background": "#131b2e",
+                        "primary-container": "#0369a1",
+                        "on-surface": "#131b2e",
+                        "surface-variant": "#dae2fc",
+                        "on-error-container": "#93000a",
+                        "on-secondary-fixed-variant": "#00504a",
+                        "background": "#faf8ff",
+                        "on-secondary-container": "#006f67",
+                        "role-admin": "#059669",
+                        "error": "#ba1a1a",
+                        "error-container": "#ffdad6",
+                        "surface-bright": "#faf8ff",
+                        "on-tertiary": "#ffffff",
+                        "secondary": "#006a63"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "2xl": "32px",
+                        "lg": "20px",
+                        "sm": "8px",
+                        "margin-desktop": "32px",
+                        "xs": "4px",
+                        "xl": "24px",
+                        "margin-mobile": "16px",
+                        "gutter": "16px",
+                        "md": "12px",
+                        "base": "16px"
+                    },
+                    "fontFamily": {
+                        "title-lg": ["Plus Jakarta Sans"],
+                        "title-md": ["Plus Jakarta Sans"],
+                        "label-caps": ["Plus Jakarta Sans"],
+                        "headline-lg": ["Plus Jakarta Sans"],
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "body-base": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "display-lg": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "title-lg": ["18px", { "lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "title-md": ["16px", { "lineHeight": "22px", "letterSpacing": "0", "fontWeight": "600" }],
+                        "label-caps": ["11px", { "lineHeight": "14px", "letterSpacing": "0.06em", "fontWeight": "700" }],
+                        "headline-lg": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-md": ["22px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "body-base": ["15px", { "lineHeight": "22px", "letterSpacing": "0", "fontWeight": "400" }],
+                        "body-sm": ["13px", { "lineHeight": "18px", "letterSpacing": "0", "fontWeight": "400" }],
+                        "display-lg": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "800" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        /* Base styles */
+        body {
+            background-color: theme('colors.surface-canvas');
+            color: theme('colors.on-surface');
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 1;
+        }
+    </style>
+</head>
+<body class="antialiased flex flex-col min-h-screen font-body-base text-body-base">
+<!-- TopAppBar -->
+<header class="bg-surface dark:bg-surface-dim shadow-sm fixed top-0 w-full z-50"><div class="text-title-lg font-title-lg font-extrabold text-primary flex items-center gap-2"><span class="material-symbols-outlined text-role-driver" style="font-variation-settings: 'FILL' 1;">directions_car</span>PCCP Vector</div><nav class="hidden md:flex gap-8 items-center h-full"><a class="h-full flex items-center text-on-surface-variant hover:text-role-driver transition-colors font-title-md text-title-md" href="#">Home</a><a class="h-full flex items-center text-on-surface-variant hover:text-role-driver transition-colors font-title-md text-title-md" href="#">Assignments</a><a class="h-full flex items-center text-on-surface-variant hover:text-role-driver transition-colors font-title-md text-title-md" href="#">Trips</a><a class="h-full flex items-center text-on-surface-variant hover:text-role-driver transition-colors font-title-md text-title-md" href="#">Performance</a></nav><div class="flex items-center gap-4"><button class="text-on-surface-variant hover:bg-surface-container-low transition-colors p-2 rounded-full flex items-center justify-center relative"><span class="material-symbols-outlined" data-icon="notifications">notifications</span><span class="absolute top-1 right-1 w-2 h-2 bg-error rounded-full"></span></button><div class="w-8 h-8 rounded-full overflow-hidden border border-border-hairline"><img alt="Ko Aung Naing Win" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB4r8wZv6N49ud2JunyRMKNj3elGw7gbUF1gYcIoE6KRfHLe_6wOniesURT_SukTqroG6km8iWsfFTCqjN0StSHRS2Jbnl9Jhw_8X4XXs9GqX4f0mJxlPy8LAeSJx1LqEuFCXYcNEA9o6z0oCicGajdVnkkXlhCP3mWMdfXiw5g86UhkMpUvrLc9R7wA-Vqxuhyx-xZZxEuP9GxVW8U6TMUfZ3R7i4PGDJamxSigWR1aVqy_HOtcKQ"></div></div></header>
+<!-- Main Content Area -->
+<main class="flex-grow pt-[88px] pb-[104px] px-margin-mobile md:px-margin-desktop w-full max-w-[600px] mx-auto">
+<div class="mb-xl">
+<h2 class="font-headline-md text-headline-md text-on-surface mb-sm">Notification Settings</h2>
+<p class="font-body-base text-body-base text-on-surface-variant">Manage how you receive alerts and updates while on duty.</p>
+</div>
+<!-- Settings List Container -->
+<div class="bg-surface-container-lowest border border-border-hairline rounded-xl shadow-[0px_1px_3px_rgba(15,23,42,0.05)] overflow-hidden">
+<!-- Toggle Item 1: New Assignments -->
+<label class="flex items-start justify-between p-base border-b border-border-hairline cursor-pointer hover:bg-surface-container-low transition-colors">
+<div class="flex items-start gap-md">
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-role-driver shrink-0">
+<span class="material-symbols-outlined" data-icon="assignment">assignment</span>
+</div>
+<div>
+<div class="font-title-md text-title-md text-on-surface">New Assignments</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant mt-xs">Get notified immediately when dispatch assigns a new load or route to your schedule.</div>
+</div>
+</div>
+<div class="relative inline-block w-12 h-6 mt-xs shrink-0 align-middle select-none transition duration-200 ease-in">
+<input checked="" class="peer absolute block w-6 h-6 rounded-full bg-white border-4 border-outline-variant appearance-none cursor-pointer transition-transform duration-200 ease-in-out peer-checked:translate-x-6 peer-checked:border-role-driver peer-focus:ring-2 peer-focus:ring-role-driver peer-focus:ring-offset-1 z-10 top-0 left-0" id="toggle_assignments" name="toggle_assignments" style="left: -4px; top: -4px; height: 32px; width: 32px; border-width: 6px;" type="checkbox">
+<div class="block w-12 h-6 rounded-full bg-outline-variant peer-checked:bg-role-driver transition-colors duration-200 ease-in-out"></div>
+</div>
+</label>
+<!-- Toggle Item 2: Trip Updates -->
+<label class="flex items-start justify-between p-base border-b border-border-hairline cursor-pointer hover:bg-surface-container-low transition-colors">
+<div class="flex items-start gap-md">
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-role-driver shrink-0">
+<span class="material-symbols-outlined" data-icon="directions_car">directions_car</span>
+</div>
+<div>
+<div class="font-title-md text-title-md text-on-surface">Trip Updates</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant mt-xs">Alerts regarding traffic conditions, route changes, and delivery window modifications.</div>
+</div>
+</div>
+<div class="relative inline-block w-12 h-6 mt-xs shrink-0 align-middle select-none transition duration-200 ease-in">
+<input checked="" class="peer absolute block w-6 h-6 rounded-full bg-white border-4 border-outline-variant appearance-none cursor-pointer transition-transform duration-200 ease-in-out peer-checked:translate-x-6 peer-checked:border-role-driver peer-focus:ring-2 peer-focus:ring-role-driver peer-focus:ring-offset-1 z-10 top-0 left-0" id="toggle_trips" name="toggle_trips" style="left: -4px; top: -4px; height: 32px; width: 32px; border-width: 6px;" type="checkbox">
+<div class="block w-12 h-6 rounded-full bg-outline-variant peer-checked:bg-role-driver transition-colors duration-200 ease-in-out"></div>
+</div>
+</label>
+<!-- Toggle Item 3: Performance Alerts -->
+<label class="flex items-start justify-between p-base border-b border-border-hairline cursor-pointer hover:bg-surface-container-low transition-colors">
+<div class="flex items-start gap-md">
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-role-driver shrink-0">
+<span class="material-symbols-outlined" data-icon="leaderboard">leaderboard</span>
+</div>
+<div>
+<div class="font-title-md text-title-md text-on-surface">Performance Alerts</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant mt-xs">Weekly summaries of your safety score, fuel efficiency, and compliance standing.</div>
+</div>
+</div>
+<div class="relative inline-block w-12 h-6 mt-xs shrink-0 align-middle select-none transition duration-200 ease-in">
+<input class="peer absolute block w-6 h-6 rounded-full bg-white border-4 border-outline-variant appearance-none cursor-pointer transition-transform duration-200 ease-in-out peer-checked:translate-x-6 peer-checked:border-role-driver peer-focus:ring-2 peer-focus:ring-role-driver peer-focus:ring-offset-1 z-10 top-0 left-0" id="toggle_performance" name="toggle_performance" style="left: -4px; top: -4px; height: 32px; width: 32px; border-width: 6px;" type="checkbox">
+<div class="block w-12 h-6 rounded-full bg-outline-variant peer-checked:bg-role-driver transition-colors duration-200 ease-in-out"></div>
+</div>
+</label>
+<!-- Toggle Item 4: System Maintenance -->
+<label class="flex items-start justify-between p-base cursor-pointer hover:bg-surface-container-low transition-colors">
+<div class="flex items-start gap-md">
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-role-driver shrink-0">
+<span class="material-symbols-outlined" data-icon="build">build</span>
+</div>
+<div>
+<div class="font-title-md text-title-md text-on-surface">System Maintenance</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant mt-xs">Important announcements regarding app downtime or critical software updates.</div>
+</div>
+</div>
+<div class="relative inline-block w-12 h-6 mt-xs shrink-0 align-middle select-none transition duration-200 ease-in">
+<input checked="" class="peer absolute block w-6 h-6 rounded-full bg-white border-4 border-outline-variant appearance-none cursor-pointer transition-transform duration-200 ease-in-out peer-checked:translate-x-6 peer-checked:border-role-driver peer-focus:ring-2 peer-focus:ring-role-driver peer-focus:ring-offset-1 z-10 top-0 left-0" id="toggle_system" name="toggle_system" style="left: -4px; top: -4px; height: 32px; width: 32px; border-width: 6px;" type="checkbox">
+<div class="block w-12 h-6 rounded-full bg-outline-variant peer-checked:bg-role-driver transition-colors duration-200 ease-in-out"></div>
+</div>
+</label>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="bg-surface dark:bg-surface-dim border-t border-border-hairline shadow-lg fixed bottom-0 w-full z-50 md:hidden">
+<div class="flex justify-around items-center w-full px-2 py-2 pb-safe max-w-screen-xl mx-auto">
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-container-high transition-all active:scale-90 duration-150 p-2 rounded-xl group w-16" href="#">
+<span class="material-symbols-outlined mb-1 group-hover:text-role-driver transition-colors" data-icon="home">home</span>
+<span class="font-label-caps text-label-caps opacity-80">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-container-high transition-all active:scale-90 duration-150 p-2 rounded-xl group w-16" href="#">
+<span class="material-symbols-outlined mb-1 group-hover:text-role-driver transition-colors" data-icon="assignment">assignment</span>
+<span class="font-label-caps text-label-caps opacity-80">Assignments</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-container-high transition-all active:scale-90 duration-150 p-2 rounded-xl group w-16" href="#">
+<span class="material-symbols-outlined mb-1 group-hover:text-role-driver transition-colors" data-icon="directions_car">directions_car</span>
+<span class="font-label-caps text-label-caps opacity-80">Trips</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-container-high transition-all active:scale-90 duration-150 p-2 rounded-xl group w-16" href="#">
+<span class="material-symbols-outlined mb-1 group-hover:text-role-driver transition-colors" data-icon="leaderboard">leaderboard</span>
+<span class="font-label-caps text-label-caps opacity-80">Performance</span>
+</a>
+<!-- Active Navigation Item -->
+<a class="flex flex-col items-center justify-center text-role-driver bg-primary-container/10 rounded-xl px-2 py-1 transition-all active:scale-90 duration-150 group w-16" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="person" style="font-variation-settings: 'FILL' 1;">person</span>
+<span class="font-label-caps text-label-caps">Account</span>
+</a>
+</div>
+</nav>
+<!-- Desktop Side Navigation Simulation (hidden on mobile, required by responsive pivot rule although not fully requested, it provides a complete shell) -->
+<nav class="hidden md:flex flex-col fixed left-0 top-16 bottom-0 w-64 bg-surface border-r border-border-hairline z-40 p-4 gap-2">
+<div class="px-4 py-2 text-xs font-bold tracking-wider text-outline mb-2">MENU</div>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container-low transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-title-md text-title-md">Home</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container-low transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="assignment">assignment</span>
+<span class="font-title-md text-title-md">Assignments</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container-low transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="directions_car">directions_car</span>
+<span class="font-title-md text-title-md">Trips</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container-low transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="leaderboard">leaderboard</span>
+<span class="font-title-md text-title-md">Performance</span>
+</a>
+<!-- Active -->
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-role-driver bg-primary-container/10 font-bold transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="person" style="font-variation-settings: 'FILL' 1;">person</span>
+<span class="font-title-md text-title-md">Account</span>
+</a>
+</nav>
+<style>
+        /* Responsive adjustments for main content when desktop nav is visible */
+        @media (min-width: 768px) {
+            main {
+                margin-left: 256px; /* Width of the sidebar */
+                max-width: 800px; /* Wider content area on desktop */
+            }
+        }
+    </style>
+
+
+</body></html>

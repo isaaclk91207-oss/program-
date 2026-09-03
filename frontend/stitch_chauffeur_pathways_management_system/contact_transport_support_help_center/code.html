@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Contact Transport Support - PCCP Vector</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-primary-container": "#cbe4ff",
+                        "on-secondary-fixed-variant": "#00504a",
+                        "surface": "#faf8ff",
+                        "inverse-surface": "#283044",
+                        "on-tertiary-fixed": "#2e1500",
+                        "surface-container-high": "#e1e7ff",
+                        "secondary-container": "#99efe5",
+                        "primary-container": "#0369a1",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-variant": "#dae2fc",
+                        "role-driver": "#7C3AED",
+                        "primary": "#00507d",
+                        "tertiary-fixed-dim": "#ffb878",
+                        "surface-container-low": "#f2f3ff",
+                        "on-primary-fixed-variant": "#004b74",
+                        "on-secondary-container": "#006f67",
+                        "border-hairline": "#E2E8F0",
+                        "surface-tint": "#006399",
+                        "background": "#faf8ff",
+                        "inverse-on-surface": "#eef0ff",
+                        "surface-container": "#eaedff",
+                        "tertiary-fixed": "#ffdcc1",
+                        "primary-fixed-dim": "#94ccff",
+                        "inverse-primary": "#94ccff",
+                        "on-surface": "#131b2e",
+                        "tertiary": "#733f00",
+                        "tertiary-container": "#955301",
+                        "on-error-container": "#93000a",
+                        "secondary-fixed": "#9cf2e8",
+                        "on-tertiary": "#ffffff",
+                        "role-passenger": "#2563EB",
+                        "on-primary-fixed": "#001d32",
+                        "secondary": "#006a63",
+                        "on-secondary-fixed": "#00201d",
+                        "on-surface-variant": "#40474f",
+                        "error-container": "#ffdad6",
+                        "primary-fixed": "#cde5ff",
+                        "on-tertiary-fixed-variant": "#6c3a00",
+                        "on-background": "#131b2e",
+                        "outline-variant": "#c0c7d1",
+                        "role-admin": "#059669",
+                        "surface-bright": "#faf8ff",
+                        "error": "#ba1a1a",
+                        "secondary-fixed-dim": "#80d5cb",
+                        "on-primary": "#ffffff",
+                        "on-error": "#ffffff",
+                        "surface-container-highest": "#dae2fc",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-container": "#ffdbbe",
+                        "surface-canvas": "#F8FAFC",
+                        "surface-dim": "#d2d9f4",
+                        "outline": "#707881"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-mobile": "16px",
+                        "base": "16px",
+                        "xs": "4px",
+                        "sm": "8px",
+                        "lg": "20px",
+                        "md": "12px",
+                        "2xl": "32px",
+                        "xl": "24px",
+                        "margin-desktop": "32px",
+                        "gutter": "16px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "title-md": ["Plus Jakarta Sans"],
+                        "label-caps": ["Plus Jakarta Sans"],
+                        "body-base": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "display-lg": ["Plus Jakarta Sans"],
+                        "title-lg": ["Plus Jakarta Sans"],
+                        "headline-lg": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["22px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "title-md": ["16px", { "lineHeight": "22px", "letterSpacing": "0", "fontWeight": "600" }],
+                        "label-caps": ["11px", { "lineHeight": "14px", "letterSpacing": "0.06em", "fontWeight": "700" }],
+                        "body-base": ["15px", { "lineHeight": "22px", "letterSpacing": "0", "fontWeight": "400" }],
+                        "body-sm": ["13px", { "lineHeight": "18px", "letterSpacing": "0", "fontWeight": "400" }],
+                        "display-lg": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+                        "title-lg": ["18px", { "lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "headline-lg": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface-canvas text-on-surface min-h-screen flex flex-col antialiased selection:bg-primary-fixed selection:text-on-primary-fixed">
+<!-- Top Navigation (Suppressed per logic, this is a transactional/support flow context, but header requested) -->
+<header class="w-full flex items-center justify-center pt-2xl pb-lg">
+<div class="flex flex-col items-center gap-sm">
+<span class="material-symbols-outlined text-primary text-[40px]" data-weight="fill">location_on</span>
+<h1 class="font-headline-lg text-headline-lg text-primary tracking-tight">PCCP Vector</h1>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-grow flex flex-col items-center justify-center px-margin-mobile pb-2xl">
+<div class="w-full max-w-[440px] bg-surface-container-lowest rounded-xl shadow-[0px_1px_3px_rgba(15,23,42,0.05)] border border-border-hairline p-2xl">
+<div class="text-center mb-xl">
+<h2 class="font-headline-md text-headline-md text-on-surface mb-sm">Contact Transport Support</h2>
+<p class="font-body-base text-body-base text-on-surface-variant">Need help with your account or a transport request? Our support team is available 24/7.</p>
+</div>
+<div class="flex flex-col gap-md">
+<!-- Support Card: Call -->
+<a class="group flex items-start gap-md p-lg rounded-lg border border-border-hairline bg-surface hover:bg-surface-container-low transition-colors duration-200" href="tel:+959123456789">
+<div class="w-12 h-12 rounded-full bg-primary-container/10 flex items-center justify-center flex-shrink-0 group-hover:bg-primary-container/20 transition-colors">
+<span class="material-symbols-outlined text-primary" data-weight="fill">call</span>
+</div>
+<div class="flex flex-col pt-xs">
+<h3 class="font-title-md text-title-md text-on-surface">Call Support</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-xs">Phone: +95 9 123 456 789</p>
+</div>
+</a>
+<!-- Support Card: Email -->
+<a class="group flex items-start gap-md p-lg rounded-lg border border-border-hairline bg-surface hover:bg-surface-container-low transition-colors duration-200" href="mailto:support@pccp-transport.com">
+<div class="w-12 h-12 rounded-full bg-role-driver/10 flex items-center justify-center flex-shrink-0 group-hover:bg-role-driver/20 transition-colors">
+<span class="material-symbols-outlined text-role-driver" data-weight="fill">mail</span>
+</div>
+<div class="flex flex-col pt-xs">
+<h3 class="font-title-md text-title-md text-on-surface">Email Support</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-xs">Email: support@pccp-transport.com</p>
+</div>
+</a>
+<!-- Support Card: Live Chat -->
+<button class="group flex items-start gap-md p-lg rounded-lg border border-border-hairline bg-surface hover:bg-surface-container-low transition-colors duration-200 w-full text-left">
+<div class="w-12 h-12 rounded-full bg-role-passenger/10 flex items-center justify-center flex-shrink-0 group-hover:bg-role-passenger/20 transition-colors">
+<span class="material-symbols-outlined text-role-passenger" data-weight="fill">chat</span>
+</div>
+<div class="flex flex-col pt-xs">
+<h3 class="font-title-md text-title-md text-on-surface">Live Chat</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-xs">Start a live chat with an agent</p>
+</div>
+</button>
+</div>
+<div class="mt-xl pt-lg border-t border-border-hairline text-center">
+<a class="inline-flex items-center gap-xs font-title-md text-title-md text-primary hover:text-surface-tint transition-colors" href="#">
+<span class="material-symbols-outlined text-[18px]">arrow_back</span>
+                    Back to Sign In
+                </a>
+</div>
+</div>
+</main>
+</body></html>

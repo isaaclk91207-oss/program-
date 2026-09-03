@@ -1,0 +1,437 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+<title>Transport Request Form - Step 1</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@500;600;700;800&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "error": "#ba1a1a",
+                      "role-driver": "#7C3AED",
+                      "surface-bright": "#faf8ff",
+                      "tertiary": "#733f00",
+                      "role-passenger-container": "#DBEAFE",
+                      "on-secondary-container": "#006f67",
+                      "on-surface": "#131b2e",
+                      "secondary": "#006a63",
+                      "secondary-fixed": "#9cf2e8",
+                      "surface-tint": "#006399",
+                      "tertiary-container": "#955301",
+                      "surface-variant": "#dae2fd",
+                      "on-secondary": "#ffffff",
+                      "role-passenger": "#2563EB",
+                      "outline": "#707881",
+                      "inverse-primary": "#94ccff",
+                      "tertiary-fixed-dim": "#ffb878",
+                      "on-error": "#ffffff",
+                      "role-admin": "#059669",
+                      "primary-container": "#0369a1",
+                      "surface-container-highest": "#dae2fd",
+                      "on-tertiary-container": "#ffdbbe",
+                      "on-primary": "#ffffff",
+                      "secondary-container": "#99efe5",
+                      "on-primary-fixed-variant": "#004b74",
+                      "surface-container-low": "#f2f3ff",
+                      "surface-container": "#eaedff",
+                      "surface-container-high": "#e2e7ff",
+                      "primary-fixed-dim": "#94ccff",
+                      "border-hairline": "#E2E8F0",
+                      "on-surface-variant": "#40474f",
+                      "primary-fixed": "#cde5ff",
+                      "on-tertiary-fixed-variant": "#6c3a00",
+                      "surface": "#faf8ff",
+                      "inverse-surface": "#283044",
+                      "surface-dim": "#d2d9f4",
+                      "secondary-fixed-dim": "#80d5cb",
+                      "on-secondary-fixed-variant": "#00504a",
+                      "on-error-container": "#93000a",
+                      "error-container": "#ffdad6",
+                      "on-secondary-fixed": "#00201d",
+                      "inverse-on-surface": "#eef0ff",
+                      "on-tertiary": "#ffffff",
+                      "primary": "#00507d",
+                      "role-driver-container": "#EDE9FE",
+                      "surface-container-lowest": "#ffffff",
+                      "tertiary-fixed": "#ffdcc1",
+                      "on-background": "#131b2e",
+                      "surface-canvas": "#F8FAFC",
+                      "on-primary-container": "#cbe4ff",
+                      "on-tertiary-fixed": "#2e1500",
+                      "outline-variant": "#c0c7d1",
+                      "role-admin-container": "#D1FAE5",
+                      "background": "#faf8ff",
+                      "on-primary-fixed": "#001d32"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "base": "16px",
+                      "unit": "4px",
+                      "2xl": "32px",
+                      "gutter": "16px",
+                      "md": "12px",
+                      "xl": "24px",
+                      "margin-desktop": "32px",
+                      "margin-mobile": "16px",
+                      "lg": "20px",
+                      "xs": "4px",
+                      "sm": "8px"
+              },
+              "fontFamily": {
+                      "body-base": [
+                              "Inter"
+                      ],
+                      "headline-md": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "body-sm": [
+                              "Inter"
+                      ],
+                      "headline-lg": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "display-lg": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "title-md": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "label-caps": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "stat-lg": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "title-lg": [
+                              "Plus Jakarta Sans"
+                      ]
+              },
+              "fontSize": {
+                      "body-base": [
+                              "15px",
+                              {
+                                      "lineHeight": "22px",
+                                      "letterSpacing": "0",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-md": [
+                              "22px",
+                              {
+                                      "lineHeight": "28px",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "body-sm": [
+                              "13px",
+                              {
+                                      "lineHeight": "18px",
+                                      "letterSpacing": "0",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-lg": [
+                              "28px",
+                              {
+                                      "lineHeight": "36px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "display-lg": [
+                              "36px",
+                              {
+                                      "lineHeight": "44px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "800"
+                              }
+                      ],
+                      "title-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "22px",
+                                      "letterSpacing": "0",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "label-caps": [
+                              "11px",
+                              {
+                                      "lineHeight": "14px",
+                                      "letterSpacing": "0.06em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "stat-lg": [
+                              "30px",
+                              {
+                                      "lineHeight": "36px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "title-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "24px",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "600"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+      </script>
+<style>
+        .material-symbols-outlined {
+          font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+      </style>
+</head>
+<body class="bg-surface-canvas text-on-surface antialiased min-h-screen flex flex-col relative pb-[80px]">
+<!-- TopAppBar from JSON Component -->
+<header class="bg-surface text-primary border-b border-hairline flex justify-between items-center w-full px-margin-mobile h-12 sticky top-0 z-50">
+<div class="flex items-center gap-sm">
+<button class="flex items-center justify-center p-sm hover:bg-surface-container-low rounded-full transition-all duration-200 active:opacity-70 text-primary">
+<span class="material-symbols-outlined">close</span>
+</button>
+<h1 class="font-headline-md text-headline-md font-bold">New Request</h1>
+</div>
+<div>
+<!-- Avatar trailing type -->
+<div class="w-8 h-8 rounded-full bg-surface-container-high overflow-hidden border border-hairline">
+<img alt="User profile" class="w-full h-full object-cover" data-alt="A professional headshot of a corporate employee in a brightly lit modern office setting. The lighting is clean and high-key, emphasizing a modern corporate aesthetic with slate and white tones. The overall mood is focused and professional, fitting an enterprise software environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC8e2BVPuJFEmcspumaC82ZQr5gz6HuBGqBDgffiKOUZleR9py5XUHnmW8Edbx5L33ImCoG6EesAgahNatPZGvaTOfU5FgESSKvSL9ARcfgZsRYDZpzYBBaScG6Jiug9bYscKzFNdd4yZfvZ7Z3PIin8rr1k-9u8VbBMYTuu7jG-ajiNtO3rvAPVHhiTonSxVD9lZb64Gq5WIGZVteyyag-ymCVqE98qD9NDfpmqkd0SpXTkBrKK9s">
+</div>
+</div>
+</header>
+<!-- Progress Indicator -->
+<div class="bg-surface px-margin-mobile py-md border-b border-hairline sticky top-12 z-40">
+<div class="flex justify-between items-center mb-xs">
+<span class="font-label-caps text-label-caps text-primary uppercase">Step 1 of 3</span>
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Basic Info</span>
+</div>
+<div class="w-full bg-surface-container-high rounded-full h-1.5 overflow-hidden">
+<div class="bg-primary h-1.5 rounded-full" style="width: 33%"></div>
+</div>
+</div>
+<!-- Main Content Area -->
+<main class="flex-1 px-margin-mobile py-xl md:px-margin-desktop md:max-w-3xl md:mx-auto w-full">
+<form class="flex flex-col gap-2xl">
+<!-- Section A: Request Info -->
+<section class="bg-surface border border-hairline rounded-xl overflow-hidden shadow-[0px_1px_3px_0px_rgba(15,23,42,0.05)]">
+<div class="px-base py-md border-b border-hairline bg-surface-container-lowest">
+<h2 class="font-title-md text-title-md text-on-surface flex items-center gap-sm">
+<span class="material-symbols-outlined text-outline text-[20px]">calendar_today</span>
+                        Request Info
+                    </h2>
+</div>
+<div class="p-base flex flex-col gap-base">
+<!-- Today Date (Read Only) -->
+<div class="flex flex-col gap-xs">
+<label class="font-label-caps text-label-caps text-on-surface-variant uppercase">Today's Date</label>
+<div class="flex items-center px-md py-md bg-surface-container-low border border-hairline rounded-lg text-on-surface-variant font-body-base text-body-base cursor-not-allowed">
+<span class="material-symbols-outlined text-[20px] mr-sm text-outline">event</span>
+                            10-Aug-2026
+                        </div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-base">
+<!-- Request Date Picker -->
+<div class="flex flex-col gap-xs">
+<label class="font-label-caps text-label-caps text-on-surface uppercase" for="requestDate">Request Date <span class="text-error">*</span></label>
+<div class="relative">
+<input class="w-full px-md py-md bg-surface border border-outline-variant rounded-lg text-on-surface font-body-base text-body-base focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all appearance-none" id="requestDate" name="requestDate" required="" type="date">
+</div>
+</div>
+<!-- Request Month (Auto-calc) -->
+<div class="flex flex-col gap-xs">
+<label class="font-label-caps text-label-caps text-on-surface-variant uppercase">Request Month</label>
+<div class="flex items-center px-md py-md bg-surface-container-low border border-hairline rounded-lg text-on-surface-variant font-body-base text-body-base cursor-not-allowed">
+<span id="monthCalcText">--</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Section B: Request Person -->
+<section class="bg-surface border border-hairline rounded-xl overflow-hidden shadow-[0px_1px_3px_0px_rgba(15,23,42,0.05)]">
+<div class="px-base py-md border-b border-hairline bg-surface-container-lowest flex justify-between items-center">
+<h2 class="font-title-md text-title-md text-on-surface flex items-center gap-sm">
+<span class="material-symbols-outlined text-outline text-[20px]">group</span>
+                        Passenger Details
+                    </h2>
+<div class="bg-role-passenger-container text-role-passenger px-sm py-xs rounded-full font-label-caps text-label-caps flex items-center gap-xs border border-primary/10">
+<span class="material-symbols-outlined text-[14px]">person</span>
+<span id="passengerCountDisplay">1</span> Total
+                    </div>
+</div>
+<div class="p-base flex flex-col gap-base">
+<!-- Name (Auto-filled) -->
+<div class="flex flex-col gap-xs">
+<label class="font-label-caps text-label-caps text-on-surface-variant uppercase">Requester Name</label>
+<div class="flex items-center px-md py-md bg-surface-container-low border border-hairline rounded-lg text-on-surface-variant font-body-base text-body-base cursor-not-allowed">
+<span class="material-symbols-outlined text-[20px] mr-sm text-outline">badge</span>
+                            Shoon Lae Shwe Yi Kyaw (You)
+                        </div>
+</div>
+<!-- Additional Passengers -->
+<div class="flex flex-col gap-sm pt-sm border-t border-hairline">
+<label class="font-label-caps text-label-caps text-on-surface uppercase">Additional Passengers</label>
+<div class="flex flex-wrap gap-sm" id="passengerChipsContainer">
+<!-- Chips will be added here via JS -->
+</div>
+<div class="flex items-center gap-sm mt-xs relative">
+<input class="flex-1 px-md py-md bg-surface border border-outline-variant rounded-lg text-on-surface font-body-base text-body-base focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all" id="newPassengerInput" placeholder="Enter passenger name..." type="text">
+<button class="flex items-center justify-center gap-xs px-md py-md bg-surface-container-high hover:bg-surface-variant text-primary border border-hairline rounded-lg transition-colors font-title-md text-title-md" id="addPassengerBtn" type="button">
+<span class="material-symbols-outlined">add</span>
+                                Add
+                            </button>
+</div>
+</div>
+</div>
+</section>
+<!-- Section C: Department -->
+<section class="bg-surface border border-hairline rounded-xl overflow-hidden shadow-[0px_1px_3px_0px_rgba(15,23,42,0.05)]">
+<div class="px-base py-md border-b border-hairline bg-surface-container-lowest">
+<h2 class="font-title-md text-title-md text-on-surface flex items-center gap-sm">
+<span class="material-symbols-outlined text-outline text-[20px]">corporate_fare</span>
+                        Department Info
+                    </h2>
+</div>
+<div class="p-base flex flex-col gap-base">
+<div class="flex flex-col gap-xs">
+<label class="font-label-caps text-label-caps text-on-surface uppercase" for="departmentSelect">Department <span class="text-error">*</span></label>
+<div class="relative">
+<select class="w-full px-md py-md bg-surface border border-outline-variant rounded-lg text-on-surface font-body-base text-body-base focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all appearance-none cursor-pointer" id="departmentSelect">
+<option disabled="" selected="" value="">Select Department</option>
+<option value="sme">SME</option>
+<option value="internal_audit">Internal Audit</option>
+<option value="hr">Human Resources</option>
+<option value="it">Information Technology</option>
+<option value="finance">Finance</option>
+</select>
+<span class="material-symbols-outlined absolute right-md top-1/2 -translate-y-1/2 text-outline pointer-events-none">expand_more</span>
+</div>
+</div>
+<div class="flex flex-col gap-xs">
+<label class="font-label-caps text-label-caps text-on-surface uppercase" for="sectionSelect">Section <span class="text-error">*</span></label>
+<div class="relative">
+<select class="w-full px-md py-md bg-surface border border-outline-variant rounded-lg text-on-surface font-body-base text-body-base focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all appearance-none cursor-pointer" id="sectionSelect">
+<option disabled="" selected="" value="">Select Section</option>
+<option value="sec1">Section 1</option>
+<option value="sec2">Section 2</option>
+<option value="sec3">Section 3</option>
+</select>
+<span class="material-symbols-outlined absolute right-md top-1/2 -translate-y-1/2 text-outline pointer-events-none">expand_more</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Spacer for sticky button -->
+<div class="h-4"></div>
+</form>
+</main>
+<!-- Sticky Next Button -->
+<div class="fixed bottom-0 left-0 w-full bg-surface border-t border-hairline p-margin-mobile shadow-[0px_-4px_6px_-1px_rgba(0,0,0,0.05)] z-40 md:static md:shadow-none md:bg-transparent md:border-none md:px-margin-desktop md:pt-0">
+<div class="md:max-w-3xl md:mx-auto w-full flex justify-end gap-sm">
+<button class="flex-1 md:flex-none px-xl h-[48px] border-[1.5px] border-outline-variant text-on-surface font-title-md text-title-md rounded-lg hover:bg-surface-container-low transition-colors" type="button">
+                Cancel
+            </button>
+<button class="flex-1 md:flex-none px-xl h-[48px] bg-[#0369A1] text-white font-title-md text-title-md rounded-lg hover:bg-primary transition-colors flex items-center justify-center gap-sm" type="button">
+                Next Step
+                <span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Scripts for interactivity -->
+<script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Auto-calc month based on date selection
+            const dateInput = document.getElementById('requestDate');
+            const monthText = document.getElementById('monthCalcText');
+            
+            dateInput.addEventListener('change', (e) => {
+                if(e.target.value) {
+                    const date = new Date(e.target.value);
+                    const monthNames = ["January", "February", "March", "April", "May", "June",
+                        "July", "August", "September", "October", "November", "December"
+                    ];
+                    monthText.textContent = `${monthNames[date.getMonth()]} ${date.getFullYear()}`;
+                    monthText.classList.remove('text-on-surface-variant');
+                    monthText.classList.add('text-on-surface', 'font-medium');
+                } else {
+                    monthText.textContent = '--';
+                    monthText.classList.add('text-on-surface-variant');
+                    monthText.classList.remove('text-on-surface', 'font-medium');
+                }
+            });
+
+            // Passenger Chips Logic
+            const input = document.getElementById('newPassengerInput');
+            const btn = document.getElementById('addPassengerBtn');
+            const container = document.getElementById('passengerChipsContainer');
+            const countDisplay = document.getElementById('passengerCountDisplay');
+            
+            let passengers = [];
+
+            function updateCount() {
+                // 1 (requester) + additional
+                countDisplay.textContent = 1 + passengers.length;
+            }
+
+            function renderChips() {
+                container.innerHTML = '';
+                passengers.forEach((p, index) => {
+                    const chip = document.createElement('div');
+                    chip.className = 'flex items-center gap-xs px-sm py-xs bg-surface-container border border-outline-variant rounded-full font-body-sm text-body-sm text-on-surface';
+                    chip.innerHTML = `
+                        <span class="material-symbols-outlined text-[16px] text-on-surface-variant">person</span>
+                        ${p}
+                        <button type="button" class="flex items-center justify-center w-6 h-6 rounded-full hover:bg-surface-variant text-on-surface-variant hover:text-error transition-colors" data-index="${index}">
+                            <span class="material-symbols-outlined text-[16px] pointer-events-none">close</span>
+                        </button>
+                    `;
+                    container.appendChild(chip);
+                });
+                updateCount();
+            }
+
+            function addPassenger() {
+                const val = input.value.trim();
+                if(val) {
+                    passengers.push(val);
+                    input.value = '';
+                    renderChips();
+                }
+            }
+
+            btn.addEventListener('click', addPassenger);
+            input.addEventListener('keypress', (e) => {
+                if(e.key === 'Enter') {
+                    e.preventDefault();
+                    addPassenger();
+                }
+            });
+
+            container.addEventListener('click', (e) => {
+                const btn = e.target.closest('button');
+                if(btn) {
+                    const index = btn.getAttribute('data-index');
+                    passengers.splice(index, 1);
+                    renderChips();
+                }
+            });
+        });
+    </script>
+</body></html>

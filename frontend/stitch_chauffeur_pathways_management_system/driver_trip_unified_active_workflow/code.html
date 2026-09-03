@@ -1,0 +1,316 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Active Trip Control</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-primary-fixed": "#001d32",
+                        "on-background": "#131b2e",
+                        "outline": "#707881",
+                        "inverse-on-surface": "#eef0ff",
+                        "on-secondary-fixed-variant": "#00504a",
+                        "surface-variant": "#dae2fc",
+                        "inverse-surface": "#283044",
+                        "secondary": "#006a63",
+                        "error-container": "#ffdad6",
+                        "border-hairline": "#E2E8F0",
+                        "on-secondary": "#ffffff",
+                        "primary-fixed": "#cde5ff",
+                        "error": "#ba1a1a",
+                        "surface-tint": "#006399",
+                        "inverse-primary": "#94ccff",
+                        "secondary-fixed-dim": "#80d5cb",
+                        "role-passenger": "#2563EB",
+                        "secondary-fixed": "#9cf2e8",
+                        "surface-container-low": "#f2f3ff",
+                        "surface-container-highest": "#dae2fc",
+                        "surface-container-lowest": "#ffffff",
+                        "role-driver": "#7C3AED",
+                        "primary-container": "#0369a1",
+                        "primary-fixed-dim": "#94ccff",
+                        "on-primary-container": "#cbe4ff",
+                        "on-primary": "#ffffff",
+                        "on-tertiary-fixed": "#2e1500",
+                        "tertiary-container": "#955301",
+                        "outline-variant": "#c0c7d1",
+                        "on-surface-variant": "#40474f",
+                        "surface-container-high": "#e1e7ff",
+                        "on-secondary-fixed": "#00201d",
+                        "on-primary-fixed-variant": "#004b74",
+                        "on-error-container": "#93000a",
+                        "secondary-container": "#99efe5",
+                        "tertiary-fixed": "#ffdcc1",
+                        "surface-container": "#eaedff",
+                        "on-tertiary": "#ffffff",
+                        "on-error": "#ffffff",
+                        "tertiary": "#733f00",
+                        "surface-bright": "#faf8ff",
+                        "on-tertiary-container": "#ffdbbe",
+                        "primary": "#00507d",
+                        "surface-dim": "#d2d9f4",
+                        "role-admin": "#059669",
+                        "tertiary-fixed-dim": "#ffb878",
+                        "surface": "#faf8ff",
+                        "on-tertiary-fixed-variant": "#6c3a00",
+                        "on-surface": "#131b2e",
+                        "on-secondary-container": "#006f67",
+                        "background": "#faf8ff",
+                        "surface-canvas": "#F8FAFC"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xl": "24px",
+                        "xs": "4px",
+                        "base": "16px",
+                        "margin-mobile": "16px",
+                        "2xl": "32px",
+                        "gutter": "16px",
+                        "sm": "8px",
+                        "lg": "20px",
+                        "margin-desktop": "32px",
+                        "md": "12px"
+                    },
+                    "fontFamily": {
+                        "body-sm": ["Inter"],
+                        "title-lg": ["Plus Jakarta Sans"],
+                        "body-base": ["Inter"],
+                        "display-lg": ["Plus Jakarta Sans"],
+                        "headline-lg": ["Plus Jakarta Sans"],
+                        "title-md": ["Plus Jakarta Sans"],
+                        "label-caps": ["Plus Jakarta Sans"],
+                        "headline-md": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "body-sm": ["13px", { "lineHeight": "18px", "letterSpacing": "0", "fontWeight": "400" }],
+                        "title-lg": ["18px", { "lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "body-base": ["15px", { "lineHeight": "22px", "letterSpacing": "0", "fontWeight": "400" }],
+                        "display-lg": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+                        "headline-lg": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "title-md": ["16px", { "lineHeight": "22px", "letterSpacing": "0", "fontWeight": "600" }],
+                        "label-caps": ["11px", { "lineHeight": "14px", "letterSpacing": "0.06em", "fontWeight": "700" }],
+                        "headline-md": ["22px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .timeline-line::before {
+            content: '';
+            position: absolute;
+            left: 11px;
+            top: 24px;
+            bottom: -8px;
+            width: 2px;
+            background-color: #E2E8F0;
+            z-index: 0;
+        }
+        .timeline-item:last-child .timeline-line::before {
+            display: none;
+        }
+    </style>
+</head>
+<body class="bg-surface-canvas text-on-background font-body-base antialiased pb-[100px]">
+<!-- Top App Bar (Secondary / Back Navigation) -->
+<header class="bg-surface border-b border-border-hairline flex justify-between items-center px-margin-mobile w-full h-16 sticky top-0 z-50 shadow-[0_1px_3px_rgba(15,23,42,0.05)]">
+<div class="flex items-center gap-4">
+<button aria-label="Go back" class="p-2 -ml-2 rounded-full hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined text-on-surface">arrow_back</span>
+</button>
+<h1 class="text-title-lg font-title-lg text-on-background">Current Trip</h1>
+</div>
+<button aria-label="More options" class="p-2 -mr-2 rounded-full hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined text-on-surface">more_vert</span>
+</button>
+</header>
+<main class="max-w-[440px] mx-auto p-margin-mobile md:p-margin-desktop space-y-xl">
+<!-- Trip Header Card -->
+<section class="bg-surface rounded-xl border border-border-hairline p-base shadow-[0_1px_3px_rgba(15,23,42,0.05)] space-y-md">
+<div class="flex justify-between items-start">
+<div>
+<span class="text-label-caps font-label-caps text-outline uppercase tracking-wider block mb-1">Assignment ID</span>
+<p class="text-title-md font-title-md text-on-background">PCCP-TR-2026-0012</p>
+<p class="text-body-sm font-body-sm text-on-surface-variant mt-1">Driver: Ko Aung Naing Win (D-8829)</p>
+<p class="text-body-sm font-body-sm text-on-surface-variant mt-1">Service: Round Trip</p>
+</div>
+<div class="bg-role-driver/10 text-role-driver px-3 py-1 rounded-full flex items-center gap-1" id="status-badge">
+<span class="material-symbols-outlined text-[16px]">sync</span>
+<span class="text-label-caps font-label-caps" id="status-badge-text">IN JOURNEY</span>
+</div>
+</div>
+</section>
+<!-- Passenger & Vehicle Info -->
+<section class="bg-surface rounded-xl border border-border-hairline shadow-[0_1px_3px_rgba(15,23,42,0.05)] divide-y divide-border-hairline">
+<!-- Passenger -->
+<div class="p-base flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-role-driver" style="font-variation-settings: 'FILL' 1;">person</span>
+</div>
+<div class="flex-1">
+<p class="text-title-md font-title-md text-on-background">Aung Aung</p>
+<p class="text-body-sm font-body-sm text-on-surface-variant flex items-center gap-1 mt-0.5"><span class="material-symbols-outlined text-[14px]">group</span> 2 People</p>
+</div>
+<button class="w-10 h-10 rounded-full bg-surface-container-low flex items-center justify-center hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-primary">call</span>
+</button>
+</div>
+<!-- Vehicle -->
+<div class="p-base flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-role-driver" style="font-variation-settings: 'FILL' 1;">directions_car</span>
+</div>
+<div>
+<p class="text-title-md font-title-md text-on-background">Toyota Alphard</p>
+<p class="text-body-sm font-body-sm text-on-surface-variant mt-0.5 border border-outline-variant rounded px-1.5 py-0.5 inline-block font-mono bg-surface-container-lowest">4D-1200</p>
+</div>
+</div>
+</section>
+<!-- Route Information -->
+<section class="bg-surface rounded-xl border border-border-hairline p-base shadow-[0_1px_3px_rgba(15,23,42,0.05)]">
+<h2 class="text-title-md font-title-md mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-outline">route</span>
+                Route Details
+            </h2>
+<div class="relative pl-8 space-y-6">
+<!-- Vertical Line -->
+<div class="absolute left-[11px] top-3 bottom-3 w-[2px] bg-border-hairline"></div>
+<!-- Pickup -->
+<div class="relative">
+<div class="absolute -left-[32px] top-1 w-6 h-6 rounded-full bg-surface border-2 border-role-driver flex items-center justify-center z-10">
+<div class="w-2 h-2 rounded-full bg-role-driver"></div>
+</div>
+<div>
+<p class="text-label-caps font-label-caps text-outline uppercase tracking-wider">Pickup</p>
+<p class="text-body-base font-body-base text-on-background mt-1">uab HO</p>
+</div>
+</div>
+<!-- Dropoff -->
+<div class="relative">
+<div class="absolute -left-[32px] top-1 w-6 h-6 rounded-full bg-surface border-2 border-primary flex items-center justify-center z-10">
+<span class="material-symbols-outlined text-[14px] text-primary" style="font-variation-settings: 'FILL' 1;">location_on</span>
+</div>
+<div>
+<p class="text-label-caps font-label-caps text-outline uppercase tracking-wider">Destination</p>
+<p class="text-body-base font-body-base text-on-background mt-1">Yangon International Airport</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Trip Status Timeline -->
+<section class="bg-surface rounded-xl border border-border-hairline p-base shadow-[0_1px_3px_rgba(15,23,42,0.05)]">
+<h2 class="text-title-md font-title-md mb-4">Trip Status</h2>
+<div class="space-y-0" id="timeline-container">
+<!-- Timeline items will be injected by JS -->
+</div>
+</section>
+</main>
+<!-- Fixed Action Bar -->
+<div class="fixed bottom-0 left-0 w-full bg-surface border-t border-border-hairline p-margin-mobile shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)] z-50">
+<div class="max-w-[440px] mx-auto text-center" id="action-container">
+<button class="w-full h-12 bg-role-driver text-white rounded-lg text-title-md font-title-md flex items-center justify-center gap-2 hover:bg-role-driver/90 transition-colors active:scale-[0.98]" id="action-btn">
+                Arrived at Destination
+                <span class="material-symbols-outlined">chevron_right</span>
+</button>
+<p class="hidden text-title-md font-title-md text-role-driver mt-2 mb-2" id="completion-text">Trip Completed</p>
+</div>
+</div>
+<script>
+    // Trip Status Lifecycle Data
+    const statuses = [
+        { id: 1, label: 'Assignment Accepted', badge: 'ACCEPTED', buttonText: 'Start Trip' },
+        { id: 2, label: 'On the Way', badge: 'ON THE WAY', buttonText: 'Arrived at Pickup' },
+        { id: 3, label: 'Arrived at Pickup', badge: 'AT PICKUP', buttonText: 'Passenger On Board' },
+        { id: 4, label: 'Passenger On Board', badge: 'PASSENGER ON BOARD', buttonText: 'Start Journey' },
+        { id: 5, label: 'In Journey', badge: 'IN JOURNEY', buttonText: 'Arrived at Destination' },
+        { id: 6, label: 'Arrived at Destination', badge: 'AT DESTINATION', buttonText: 'Complete Trip' },
+        { id: 7, label: 'Completed', badge: 'COMPLETED', buttonText: 'View Trip Summary' }
+    ];
+
+    let currentStatusId = 5; // Start at In Journey
+
+    function renderTimeline() {
+        const container = document.getElementById('timeline-container');
+        container.innerHTML = '';
+
+        statuses.forEach(status => {
+            let iconHtml = '';
+            let textClasses = '';
+            
+            if (status.id < currentStatusId) {
+                // Completed
+                iconHtml = `<div class="timeline-line absolute left-0 top-0 w-6 h-6 rounded-full bg-role-admin text-on-primary flex items-center justify-center z-10"><span class="material-symbols-outlined text-[14px]">check</span></div>`;
+                textClasses = `text-body-base font-body-base text-on-surface-variant line-through opacity-70`;
+            } else if (status.id === currentStatusId) {
+                // Current
+                iconHtml = `<div class="timeline-line absolute left-0 top-0 w-6 h-6 rounded-full bg-surface border-2 border-role-driver flex items-center justify-center z-10"><div class="w-2.5 h-2.5 rounded-full bg-role-driver animate-pulse"></div></div>`;
+                textClasses = `text-title-md font-title-md text-on-background text-role-driver`;
+            } else {
+                // Future
+                iconHtml = `<div class="timeline-line absolute left-0 top-0 w-6 h-6 rounded-full bg-surface border-2 border-outline-variant flex items-center justify-center z-10"></div>`;
+                textClasses = `text-body-base font-body-base text-outline`;
+            }
+
+            const itemHtml = `
+                <div class="timeline-item relative pl-10 pb-6">
+                    ${iconHtml}
+                    <p class="${textClasses}">${status.label}</p>
+                </div>
+            `;
+            container.innerHTML += itemHtml;
+        });
+    }
+
+    function updateUI() {
+        const currentStatus = statuses.find(s => s.id === currentStatusId);
+        
+        // Update Badge
+        document.getElementById('status-badge-text').innerText = currentStatus.badge;
+        
+        // Update Timeline
+        renderTimeline();
+
+        // Update Action Button
+        const btn = document.getElementById('action-btn');
+        const completionText = document.getElementById('completion-text');
+        
+        btn.innerHTML = `${currentStatus.buttonText} <span class="material-symbols-outlined">chevron_right</span>`;
+        
+        if (currentStatusId === 7) {
+            completionText.classList.remove('hidden');
+            btn.classList.replace('bg-role-driver', 'bg-surface-container-high');
+            btn.classList.replace('text-white', 'text-role-driver');
+             btn.classList.replace('hover:bg-role-driver/90', 'hover:bg-surface-container');
+        } else {
+            completionText.classList.add('hidden');
+            btn.classList.replace('bg-surface-container-high', 'bg-role-driver');
+            btn.classList.replace('text-role-driver', 'text-white');
+             btn.classList.replace('hover:bg-surface-container', 'hover:bg-role-driver/90');
+        }
+    }
+
+    // Initialize
+    updateUI();
+
+    // Button click handler
+    document.getElementById('action-btn').addEventListener('click', () => {
+        if (currentStatusId < 7) {
+            currentStatusId++;
+            updateUI();
+        }
+    });
+
+</script>
+</body></html>

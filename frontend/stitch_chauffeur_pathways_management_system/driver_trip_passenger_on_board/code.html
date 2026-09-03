@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Driver Trip Status - Passenger On Board</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "surface-container-low": "#f2f3ff",
+                      "role-admin-container": "#D1FAE5",
+                      "on-background": "#131b2e",
+                      "tertiary": "#733f00",
+                      "border-hairline": "#E2E8F0",
+                      "error-container": "#ffdad6",
+                      "tertiary-fixed": "#ffdcc1",
+                      "inverse-surface": "#283044",
+                      "surface-dim": "#d2d9f4",
+                      "on-tertiary": "#ffffff",
+                      "on-primary-container": "#cbe4ff",
+                      "surface-variant": "#dae2fd",
+                      "on-tertiary-container": "#ffdbbe",
+                      "surface-container": "#eaedff",
+                      "secondary-fixed-dim": "#80d5cb",
+                      "outline": "#707881",
+                      "on-secondary-container": "#006f67",
+                      "role-passenger": "#2563EB",
+                      "role-driver-container": "#EDE9FE",
+                      "surface-container-high": "#e2e7ff",
+                      "primary-fixed": "#cde5ff",
+                      "surface-bright": "#faf8ff",
+                      "on-secondary-fixed-variant": "#00504a",
+                      "background": "#faf8ff",
+                      "on-primary-fixed-variant": "#004b74",
+                      "surface-container-lowest": "#ffffff",
+                      "on-secondary-fixed": "#00201d",
+                      "inverse-primary": "#94ccff",
+                      "primary": "#00507d",
+                      "surface-container-highest": "#dae2fd",
+                      "primary-container": "#0369a1",
+                      "role-driver": "#7C3AED",
+                      "on-primary-fixed": "#001d32",
+                      "surface-tint": "#006399",
+                      "secondary-fixed": "#9cf2e8",
+                      "outline-variant": "#c0c7d1",
+                      "secondary-container": "#99efe5",
+                      "on-surface": "#131b2e",
+                      "on-secondary": "#ffffff",
+                      "role-passenger-container": "#DBEAFE",
+                      "tertiary-fixed-dim": "#ffb878",
+                      "on-error": "#ffffff",
+                      "surface": "#faf8ff",
+                      "on-tertiary-fixed": "#2e1500",
+                      "error": "#ba1a1a",
+                      "on-error-container": "#93000a",
+                      "secondary": "#006a63",
+                      "inverse-on-surface": "#eef0ff",
+                      "primary-fixed-dim": "#94ccff",
+                      "tertiary-container": "#955301",
+                      "on-surface-variant": "#40474f",
+                      "role-admin": "#059669",
+                      "on-primary": "#ffffff",
+                      "on-tertiary-fixed-variant": "#6c3a00",
+                      "surface-canvas": "#F8FAFC"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "unit": "4px",
+                      "2xl": "32px",
+                      "xs": "4px",
+                      "md": "12px",
+                      "xl": "24px",
+                      "gutter": "16px",
+                      "margin-mobile": "16px",
+                      "sm": "8px",
+                      "margin-desktop": "32px",
+                      "base": "16px",
+                      "lg": "20px"
+              },
+              "fontFamily": {
+                      "headline-md": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "body-base": [
+                              "Inter"
+                      ],
+                      "body-sm": [
+                              "Inter"
+                      ],
+                      "label-caps": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "title-lg": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "stat-lg": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "title-md": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "display-lg": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "headline-lg": [
+                              "Plus Jakarta Sans"
+                      ]
+              },
+              "fontSize": {
+                      "headline-md": [
+                              "22px",
+                              {
+                                      "lineHeight": "28px",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "body-base": [
+                              "15px",
+                              {
+                                      "lineHeight": "22px",
+                                      "letterSpacing": "0",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "body-sm": [
+                              "13px",
+                              {
+                                      "lineHeight": "18px",
+                                      "letterSpacing": "0",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "label-caps": [
+                              "11px",
+                              {
+                                      "lineHeight": "14px",
+                                      "letterSpacing": "0.06em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "title-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "24px",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "stat-lg": [
+                              "30px",
+                              {
+                                      "lineHeight": "36px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "title-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "22px",
+                                      "letterSpacing": "0",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "display-lg": [
+                              "36px",
+                              {
+                                      "lineHeight": "44px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "800"
+                              }
+                      ],
+                      "headline-lg": [
+                              "28px",
+                              {
+                                      "lineHeight": "36px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+      </script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&amp;family=Inter:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .fill-icon {
+             font-variation-settings: 'FILL' 1;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface-canvas text-on-surface font-body-base antialiased min-h-screen flex flex-col pt-14 pb-16 md:flex-row md:pt-0 md:pb-0">
+<!-- TopAppBar -->
+<header class="bg-surface dark:bg-surface-dim text-role-driver dark:text-role-driver-container font-title-lg text-title-lg fixed top-0 w-full z-50 border-b border-outline-variant dark:border-outline flat no shadows flex justify-between items-center px-margin-mobile h-14 w-full md:hidden">
+<button class="hover:bg-surface-container-low transition-colors active:opacity-80 p-sm rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="menu">menu</span>
+</button>
+<div class="font-headline-md text-headline-md font-bold text-role-driver dark:text-role-driver-container">Driver Portal</div>
+<button class="hover:bg-surface-container-low transition-colors active:opacity-80 p-sm rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+</button>
+</header>
+<!-- SideNav (Desktop) -->
+<aside class="hidden md:flex flex-col w-[260px] fixed h-screen border-r border-border-hairline bg-surface z-40">
+<div class="h-14 flex items-center px-margin-desktop border-b border-border-hairline">
+<div class="font-headline-md text-headline-md font-bold text-role-driver">Driver Portal</div>
+</div>
+<nav class="flex-1 py-xl px-gutter space-y-sm overflow-y-auto">
+<a class="flex items-center space-x-md px-md py-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-title-md text-title-md">Home</span>
+</a>
+<a class="flex items-center space-x-md px-md py-sm rounded-lg bg-role-driver-container text-role-driver font-bold" href="#">
+<span class="material-symbols-outlined fill-icon" data-icon="assignment" data-weight="fill">assignment</span>
+<span class="font-title-md text-title-md">Assignments</span>
+</a>
+<a class="flex items-center space-x-md px-md py-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="route">route</span>
+<span class="font-title-md text-title-md">Trips</span>
+</a>
+<a class="flex items-center space-x-md px-md py-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="query_stats">query_stats</span>
+<span class="font-title-md text-title-md">Performance</span>
+</a>
+<a class="flex items-center space-x-md px-md py-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-title-md text-title-md">Account</span>
+</a>
+</nav>
+<div class="p-gutter border-t border-border-hairline">
+<div class="flex items-center space-x-md">
+<div class="w-10 h-10 rounded-full bg-surface-container-highest flex items-center justify-center text-role-driver">
+<span class="material-symbols-outlined">person</span>
+</div>
+<div>
+<div class="font-title-md text-title-md text-on-surface">Driver Profile</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant">Active Shift</div>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="flex-1 md:ml-[260px] p-margin-mobile md:p-margin-desktop overflow-y-auto">
+<!-- Header Section -->
+<div class="mb-2xl flex flex-col md:flex-row md:items-end justify-between gap-gutter">
+<div>
+<h1 class="font-display-lg text-display-lg text-on-background mb-xs">Trip Status</h1>
+<p class="font-body-base text-body-base text-on-surface-variant">Manage your current passenger assignment.</p>
+</div>
+<!-- Status Badge -->
+<div class="inline-flex items-center px-md py-xs rounded-full bg-role-driver-container text-role-driver font-label-caps text-label-caps uppercase border border-role-driver/20 shadow-sm self-start md:self-auto">
+<span class="material-symbols-outlined text-[16px] mr-xs">person_check</span>
+                PASSENGER ON BOARD
+            </div>
+</div>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-gutter lg:gap-2xl">
+<!-- Primary Action & Route Card (Spans 2 columns on lg) -->
+<div class="lg:col-span-2 bg-surface-container-lowest rounded-xl border border-border-hairline shadow-sm overflow-hidden flex flex-col">
+<div class="p-base border-b border-border-hairline bg-surface-bright flex justify-between items-center">
+<h2 class="font-title-lg text-title-lg text-on-surface flex items-center">
+<span class="material-symbols-outlined text-role-driver mr-sm">directions_car</span>
+                         Current Assignment
+                     </h2>
+</div>
+<div class="p-base md:p-xl flex-1 flex flex-col justify-between">
+<div class="mb-xl">
+<div class="flex items-start space-x-md mb-lg relative">
+<div class="flex flex-col items-center">
+<div class="w-6 h-6 rounded-full bg-role-passenger-container text-role-passenger flex items-center justify-center border-2 border-surface-container-lowest z-10">
+<span class="material-symbols-outlined text-[14px]">location_on</span>
+</div>
+<div class="w-0.5 h-12 bg-border-hairline my-xs"></div>
+<div class="w-6 h-6 rounded-full bg-role-driver text-on-primary flex items-center justify-center border-2 border-surface-container-lowest z-10">
+<span class="material-symbols-outlined text-[14px]">flag</span>
+</div>
+</div>
+<div class="flex-1 pt-xs">
+<div class="mb-lg">
+<p class="font-label-caps text-label-caps text-on-surface-variant uppercase mb-1">Pickup Location</p>
+<p class="font-title-md text-title-md text-on-surface">Central Station, Gate B</p>
+</div>
+<div>
+<p class="font-label-caps text-label-caps text-on-surface-variant uppercase mb-1">Destination</p>
+<p class="font-title-md text-title-md text-on-surface font-semibold text-role-driver">Sector 4 Medical Clinic</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">12.5 miles • Est. 28 mins</p>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-auto">
+<button class="w-full h-12 md:h-14 bg-role-driver text-on-primary rounded-lg font-title-md text-title-md hover:bg-role-driver/90 transition-colors shadow-sm flex items-center justify-center active:scale-[0.98]">
+<span class="material-symbols-outlined mr-sm">play_arrow</span>
+                            Start Journey
+                        </button>
+</div>
+</div>
+</div>
+<!-- Passenger Info Card -->
+<div class="bg-surface-container-lowest rounded-xl border border-border-hairline shadow-sm overflow-hidden flex flex-col">
+<div class="p-base border-b border-border-hairline bg-surface-bright">
+<h2 class="font-title-lg text-title-lg text-on-surface flex items-center">
+<span class="material-symbols-outlined text-outline mr-sm">badge</span>
+                         Passenger Details
+                     </h2>
+</div>
+<div class="p-base flex-1 flex flex-col">
+<div class="flex items-center space-x-md mb-base pb-base border-b border-border-hairline">
+<div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center text-outline overflow-hidden border border-border-hairline">
+<img class="w-full h-full object-cover" data-alt="A professional headshot of an elderly passenger looking calm and ready for a ride. The lighting is soft and natural, emphasizing a trustworthy and pleasant demeanor. Corporate modern aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAUw6e9u4osxEP3U79QA3J-zWQaO9gawayuRjAADfgYwsR_kq74azXzUl_i75lSHYaMDxynukwAuBS6o01Qk2NAE9J3VoUWJvvGoOWY4_2BZOKHivnXO31LD7MgfE7P7KOMlEiYo5LneiHJGDGpegIv40HSdK0DkwSkLMAaZxe0OPBenDxs_-Lb-JKcZZ1OGxFt49r99sN5hjNrb3faho5wB9kC3eJ3bO3FX7VBtIcLGSh2PK1hP_M"/>
+</div>
+<div>
+<div class="font-title-md text-title-md text-on-surface">John Doe</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant">ID: P-84729</div>
+</div>
+</div>
+<div class="space-y-sm flex-1">
+<div class="flex justify-between items-center py-sm">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Assistance Required</span>
+<span class="font-body-sm text-body-sm text-on-surface font-medium">None</span>
+</div>
+<div class="flex justify-between items-center py-sm">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Notes</span>
+<span class="font-body-sm text-body-sm text-on-surface font-medium">Medical appt.</span>
+</div>
+</div>
+<div class="mt-base pt-base border-t border-border-hairline flex gap-sm">
+<button class="flex-1 py-sm px-md rounded-lg border-1.5 border-border-hairline text-on-surface font-title-md text-title-md hover:bg-surface-container-low transition-colors flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px] mr-sm">call</span>
+                            Call
+                        </button>
+</div>
+</div>
+</div>
+<!-- Map Context (Full width below) -->
+<div class="lg:col-span-3 bg-surface-container-lowest rounded-xl border border-border-hairline shadow-sm overflow-hidden h-[300px] relative">
+<img class="w-full h-full object-cover" data-alt="A clean, modern digital map interface showing a route from a pickup point to a medical clinic destination. The map style is corporate and technical, using subtle slate and blue tones, with clear route lines and location pins." data-location="Sector 4" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC41AcqFLiTRBA_OByW49gGysmOjMca4ipkSI1FxsR8i3IOclRBFXVo3NCoJn7-ZjkoZCE5EbUggj4SrH-xp2qmyQwktLB_vRO1M8lpqrXTiKLF-iCbV9LHMFrvsQixZKG_fV5UMM05I4_Zf4HDFu5KmCp9tneKTDRAsvNXKlxOpM663tRkK32AEDnjDZUQaFc21aXrbE5-RYMXD-3njV9G1j7s9sfj-5hbhrCCVkxrOqqAFpT3l0I"/>
+<div class="absolute top-4 left-4 bg-surface/90 backdrop-blur-sm px-md py-sm rounded-lg border border-border-hairline shadow-sm">
+<div class="font-label-caps text-label-caps text-on-surface-variant uppercase">Live Traffic</div>
+<div class="font-title-md text-title-md text-on-surface flex items-center">
+<div class="w-2 h-2 rounded-full bg-role-admin mr-sm"></div>
+                         Clear to destination
+                     </div>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar (Mobile) -->
+<nav class="bg-surface dark:bg-surface-dim text-role-driver dark:text-role-driver-container font-label-caps text-label-caps fixed bottom-0 w-full z-50 pb-safe border-t border-outline-variant dark:border-outline bg-surface shadow-sm flex justify-around items-center w-full h-16 px-2 md:hidden">
+<button class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline px-3 py-1.5 hover:text-role-driver dark:hover:text-role-driver-container scale-95 active:scale-90 transition-transform duration-150">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span>Home</span>
+</button>
+<button class="flex flex-col items-center justify-center bg-role-driver-container dark:bg-role-driver text-on-secondary-container dark:text-on-primary rounded-xl px-3 py-1.5 hover:text-role-driver dark:hover:text-role-driver-container scale-95 active:scale-90 transition-transform duration-150">
+<span class="material-symbols-outlined fill-icon" data-icon="assignment" data-weight="fill">assignment</span>
+<span>Assignments</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline px-3 py-1.5 hover:text-role-driver dark:hover:text-role-driver-container scale-95 active:scale-90 transition-transform duration-150">
+<span class="material-symbols-outlined" data-icon="route">route</span>
+<span>Trips</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline px-3 py-1.5 hover:text-role-driver dark:hover:text-role-driver-container scale-95 active:scale-90 transition-transform duration-150">
+<span class="material-symbols-outlined" data-icon="query_stats">query_stats</span>
+<span>Performance</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline px-3 py-1.5 hover:text-role-driver dark:hover:text-role-driver-container scale-95 active:scale-90 transition-transform duration-150">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span>Account</span>
+</button>
+</nav>
+</body></html>

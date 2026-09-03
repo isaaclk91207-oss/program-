@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Driver Assessment</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "inverse-primary": "#94ccff",
+                        "surface-container": "#eaedff",
+                        "secondary-fixed-dim": "#80d5cb",
+                        "on-tertiary-container": "#ffdbbe",
+                        "on-primary-container": "#cbe4ff",
+                        "on-error-container": "#93000a",
+                        "on-primary-fixed": "#001d32",
+                        "primary-fixed": "#cde5ff",
+                        "secondary-fixed": "#9cf2e8",
+                        "on-secondary-fixed": "#00201d",
+                        "error": "#ba1a1a",
+                        "surface-bright": "#faf8ff",
+                        "on-primary": "#ffffff",
+                        "secondary": "#006a63",
+                        "surface-tint": "#006399",
+                        "surface-container-low": "#f2f3ff",
+                        "surface-canvas": "#F8FAFC",
+                        "primary-container": "#0369a1",
+                        "on-secondary": "#ffffff",
+                        "border-hairline": "#E2E8F0",
+                        "on-tertiary": "#ffffff",
+                        "inverse-surface": "#283044",
+                        "on-secondary-container": "#006f67",
+                        "primary-fixed-dim": "#94ccff",
+                        "on-secondary-fixed-variant": "#00504a",
+                        "tertiary": "#733f00",
+                        "surface-variant": "#dae2fc",
+                        "role-driver": "#7C3AED",
+                        "secondary-container": "#99efe5",
+                        "surface-container-lowest": "#ffffff",
+                        "on-surface-variant": "#40474f",
+                        "on-tertiary-fixed": "#2e1500",
+                        "outline": "#707881",
+                        "surface-container-high": "#e1e7ff",
+                        "tertiary-fixed-dim": "#ffb878",
+                        "surface-container-highest": "#dae2fc",
+                        "surface": "#faf8ff",
+                        "inverse-on-surface": "#eef0ff",
+                        "role-passenger": "#2563EB",
+                        "tertiary-container": "#955301",
+                        "on-error": "#ffffff",
+                        "surface-dim": "#d2d9f4",
+                        "primary": "#00507d",
+                        "background": "#faf8ff",
+                        "tertiary-fixed": "#ffdcc1",
+                        "on-background": "#131b2e",
+                        "on-primary-fixed-variant": "#004b74",
+                        "error-container": "#ffdad6",
+                        "on-tertiary-fixed-variant": "#6c3a00",
+                        "on-surface": "#131b2e",
+                        "role-admin": "#059669",
+                        "outline-variant": "#c0c7d1"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-mobile": "16px",
+                        "lg": "20px",
+                        "margin-desktop": "32px",
+                        "xl": "24px",
+                        "base": "16px",
+                        "gutter": "16px",
+                        "md": "12px",
+                        "xs": "4px",
+                        "sm": "8px",
+                        "2xl": "32px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Plus Jakarta Sans"],
+                        "body-sm": ["Inter"],
+                        "title-lg": ["Plus Jakarta Sans"],
+                        "label-caps": ["Plus Jakarta Sans"],
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "title-md": ["Plus Jakarta Sans"],
+                        "body-base": ["Inter"],
+                        "display-lg": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-sm": ["13px", { "lineHeight": "18px", "letterSpacing": "0", "fontWeight": "400" }],
+                        "title-lg": ["18px", { "lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "label-caps": ["11px", { "lineHeight": "14px", "letterSpacing": "0.06em", "fontWeight": "700" }],
+                        "headline-md": ["22px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "title-md": ["16px", { "lineHeight": "22px", "letterSpacing": "0", "fontWeight": "600" }],
+                        "body-base": ["15px", { "lineHeight": "22px", "letterSpacing": "0", "fontWeight": "400" }],
+                        "display-lg": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "800" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined.fill {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .star-rating .material-symbols-outlined {
+            cursor: pointer;
+            transition: color 0.2s ease-in-out, transform 0.1s ease-in-out;
+        }
+        .star-rating .material-symbols-outlined:hover {
+            transform: scale(1.1);
+        }
+        .chip {
+            transition: all 0.2s ease;
+        }
+        .chip.active {
+            background-color: theme('colors.role-passenger');
+            color: theme('colors.on-primary');
+            border-color: theme('colors.role-passenger');
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface-canvas min-h-screen text-on-surface flex justify-center">
+<div class="w-full max-w-[440px] bg-surface relative min-h-screen flex flex-col shadow-sm">
+<!-- TopAppBar (Transactional - modified) -->
+<header class="flex justify-between items-center h-16 px-margin-mobile w-full sticky top-0 bg-surface z-10 border-b border-border-hairline">
+<button aria-label="Back" class="text-on-surface-variant hover:bg-surface-container transition-colors rounded-full p-2 active:opacity-80">
+<span class="material-symbols-outlined" data-icon="arrow_back">arrow_back</span>
+</button>
+<h1 class="font-headline-md text-headline-md text-primary font-bold">Feedback</h1>
+<div class="w-10"></div> <!-- Spacer for centering -->
+</header>
+<main class="flex-1 overflow-y-auto px-margin-mobile py-xl flex flex-col gap-xl pb-[100px]">
+<!-- Trip Context -->
+<div class="flex flex-col items-center text-center gap-sm mt-md">
+<div class="w-20 h-20 rounded-full bg-surface-container-high flex items-center justify-center mb-sm overflow-hidden border border-border-hairline">
+<img alt="Driver Avatar" class="w-full h-full object-cover" data-alt="A professional portrait of a male driver in a neat uniform, smiling subtly in a bright, modern setting with soft, high-key lighting. Corporate modern aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBsU8jO9_ldLuQ9rm9CZP-9zYuWGz3heBFSFYTPf0Ck_xrzk7IurWBbOhV9TmQtP2XeyqECMqw5ANd3mDu5qr6djufV-Cqu3KXxsx8VKilpMv_smncV7blT2lESkhoSC4liJ7z_Cz2k6W9TbkXV5qgsEY2WHhqRays08ClZmHPzOD-BnA2l8zI2HXjz6H9VtLPnzmdhNASjijVRn5z_G0Xu7_fa6XT93HpWX9gywWHbZZ2u78qTIBQ"/>
+</div>
+<h2 class="font-title-lg text-title-lg text-on-surface">Ko Aung Naing Win</h2>
+<p class="font-body-sm text-body-sm text-outline flex items-center justify-center gap-1">
+<span class="material-symbols-outlined text-[16px]" data-icon="route">route</span>
+                    Trip: PCCP-TR-2026-0012
+                </p>
+</div>
+<!-- Rating Section -->
+<div class="bg-surface-container-low rounded-xl p-xl flex flex-col items-center gap-md border border-border-hairline mt-md">
+<p class="font-title-md text-title-md text-on-surface">How was your trip?</p>
+<div class="flex gap-2 star-rating" id="starContainer">
+<!-- 5 Stars Pre-selected -->
+<span class="material-symbols-outlined fill text-[40px] text-[#F59E0B]" data-icon="star" data-value="1">star</span>
+<span class="material-symbols-outlined fill text-[40px] text-[#F59E0B]" data-icon="star" data-value="2">star</span>
+<span class="material-symbols-outlined fill text-[40px] text-[#F59E0B]" data-icon="star" data-value="3">star</span>
+<span class="material-symbols-outlined fill text-[40px] text-[#F59E0B]" data-icon="star" data-value="4">star</span>
+<span class="material-symbols-outlined fill text-[40px] text-[#F59E0B]" data-icon="star" data-value="5">star</span>
+</div>
+<p class="font-label-caps text-label-caps text-role-passenger mt-sm">EXCELLENT</p>
+</div>
+<!-- Chips Section -->
+<div class="flex flex-col gap-md">
+<h3 class="font-title-md text-title-md text-on-surface">What went well?</h3>
+<div class="flex flex-wrap gap-sm">
+<button class="chip font-body-sm text-body-sm px-4 py-2 rounded-full border border-outline-variant text-on-surface-variant hover:bg-surface-container bg-surface flex items-center gap-1 active">
+<span class="material-symbols-outlined text-[18px]" data-icon="thumb_up">thumb_up</span> Professional &amp; Polite
+                    </button>
+<button class="chip font-body-sm text-body-sm px-4 py-2 rounded-full border border-outline-variant text-on-surface-variant hover:bg-surface-container bg-surface flex items-center gap-1 active">
+<span class="material-symbols-outlined text-[18px]" data-icon="verified_user">verified_user</span> Safe Driving
+                    </button>
+<button class="chip font-body-sm text-body-sm px-4 py-2 rounded-full border border-outline-variant text-on-surface-variant hover:bg-surface-container bg-surface flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px]" data-icon="schedule">schedule</span> On Time
+                    </button>
+<button class="chip font-body-sm text-body-sm px-4 py-2 rounded-full border border-outline-variant text-on-surface-variant hover:bg-surface-container bg-surface flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px]" data-icon="local_car_wash">local_car_wash</span> Clean Vehicle
+                    </button>
+<button class="chip font-body-sm text-body-sm px-4 py-2 rounded-full border border-outline-variant text-on-surface-variant hover:bg-surface-container bg-surface flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px]" data-icon="route">route</span> Efficient Route
+                    </button>
+</div>
+</div>
+<!-- Comment Input -->
+<div class="flex flex-col gap-sm">
+<label class="font-title-md text-title-md text-on-surface" for="feedbackComment">Any compliments?</label>
+<div class="relative">
+<textarea class="w-full bg-surface-canvas border border-outline-variant rounded-xl p-4 font-body-base text-body-base text-on-surface focus:border-role-passenger focus:ring-1 focus:ring-role-passenger focus:bg-surface transition-colors resize-none" id="feedbackComment" placeholder="Leave a comment (optional)" rows="4"></textarea>
+</div>
+</div>
+</main>
+<!-- Fixed Bottom Action -->
+<div class="fixed bottom-0 w-full max-w-[440px] bg-surface p-margin-mobile border-t border-border-hairline z-20">
+<button class="w-full h-12 bg-role-passenger text-on-primary rounded-xl font-title-md text-title-md flex items-center justify-center gap-2 hover:opacity-90 active:scale-[0.98] transition-all shadow-sm">
+                Submit Feedback
+                <span class="material-symbols-outlined" data-icon="send">send</span>
+</button>
+</div>
+</div>
+<script>
+        // Simple chip interaction script
+        document.querySelectorAll('.chip').forEach(chip => {
+            chip.addEventListener('click', function() {
+                this.classList.toggle('active');
+            });
+        });
+    </script>
+</body></html>

@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Driver Trip Status - At Destination</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-low": "#f2f3ff",
+                        "role-admin-container": "#D1FAE5",
+                        "on-background": "#131b2e",
+                        "tertiary": "#733f00",
+                        "border-hairline": "#E2E8F0",
+                        "error-container": "#ffdad6",
+                        "tertiary-fixed": "#ffdcc1",
+                        "inverse-surface": "#283044",
+                        "surface-dim": "#d2d9f4",
+                        "on-tertiary": "#ffffff",
+                        "on-primary-container": "#cbe4ff",
+                        "surface-variant": "#dae2fd",
+                        "on-tertiary-container": "#ffdbbe",
+                        "surface-container": "#eaedff",
+                        "secondary-fixed-dim": "#80d5cb",
+                        "outline": "#707881",
+                        "on-secondary-container": "#006f67",
+                        "role-passenger": "#2563EB",
+                        "role-driver-container": "#EDE9FE",
+                        "surface-container-high": "#e2e7ff",
+                        "primary-fixed": "#cde5ff",
+                        "surface-bright": "#faf8ff",
+                        "on-secondary-fixed-variant": "#00504a",
+                        "background": "#faf8ff",
+                        "on-primary-fixed-variant": "#004b74",
+                        "surface-container-lowest": "#ffffff",
+                        "on-secondary-fixed": "#00201d",
+                        "inverse-primary": "#94ccff",
+                        "primary": "#00507d",
+                        "surface-container-highest": "#dae2fd",
+                        "primary-container": "#0369a1",
+                        "role-driver": "#7C3AED",
+                        "on-primary-fixed": "#001d32",
+                        "surface-tint": "#006399",
+                        "secondary-fixed": "#9cf2e8",
+                        "outline-variant": "#c0c7d1",
+                        "secondary-container": "#99efe5",
+                        "on-surface": "#131b2e",
+                        "on-secondary": "#ffffff",
+                        "role-passenger-container": "#DBEAFE",
+                        "tertiary-fixed-dim": "#ffb878",
+                        "on-error": "#ffffff",
+                        "surface": "#faf8ff",
+                        "on-tertiary-fixed": "#2e1500",
+                        "error": "#ba1a1a",
+                        "on-error-container": "#93000a",
+                        "secondary": "#006a63",
+                        "inverse-on-surface": "#eef0ff",
+                        "primary-fixed-dim": "#94ccff",
+                        "tertiary-container": "#955301",
+                        "on-surface-variant": "#40474f",
+                        "role-admin": "#059669",
+                        "on-primary": "#ffffff",
+                        "on-tertiary-fixed-variant": "#6c3a00",
+                        "surface-canvas": "#F8FAFC"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "unit": "4px",
+                        "2xl": "32px",
+                        "xs": "4px",
+                        "md": "12px",
+                        "xl": "24px",
+                        "gutter": "16px",
+                        "margin-mobile": "16px",
+                        "sm": "8px",
+                        "margin-desktop": "32px",
+                        "base": "16px",
+                        "lg": "20px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "body-base": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "label-caps": ["Plus Jakarta Sans"],
+                        "title-lg": ["Plus Jakarta Sans"],
+                        "stat-lg": ["Plus Jakarta Sans"],
+                        "title-md": ["Plus Jakarta Sans"],
+                        "display-lg": ["Plus Jakarta Sans"],
+                        "headline-lg": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["22px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "body-base": ["15px", { "lineHeight": "22px", "letterSpacing": "0", "fontWeight": "400" }],
+                        "body-sm": ["13px", { "lineHeight": "18px", "letterSpacing": "0", "fontWeight": "400" }],
+                        "label-caps": ["11px", { "lineHeight": "14px", "letterSpacing": "0.06em", "fontWeight": "700" }],
+                        "title-lg": ["18px", { "lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "stat-lg": ["30px", { "lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "title-md": ["16px", { "lineHeight": "22px", "letterSpacing": "0", "fontWeight": "600" }],
+                        "display-lg": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+                        "headline-lg": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .pb-safe { padding-bottom: env(safe-area-inset-bottom); }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface-canvas text-on-surface antialiased min-h-screen flex flex-col md:flex-row">
+<!-- TopAppBar (Web & Mobile) -->
+<header class="fixed top-0 w-full z-50 border-b border-outline-variant dark:border-outline bg-surface dark:bg-surface-dim flex justify-between items-center px-margin-mobile h-14 md:hidden">
+<div class="flex items-center gap-xs">
+<button class="p-xs text-role-driver dark:text-role-driver-container hover:bg-surface-container-low transition-colors active:opacity-80 transition-opacity rounded-full">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">menu</span>
+</button>
+<h1 class="font-headline-md text-headline-md font-bold text-role-driver dark:text-role-driver-container">Driver Portal</h1>
+</div>
+<div class="flex items-center">
+<button class="p-xs hover:bg-surface-container-low transition-colors active:opacity-80 transition-opacity rounded-full">
+<div class="w-8 h-8 rounded-full bg-role-driver-container flex items-center justify-center text-role-driver font-title-md">
+                    DP
+                </div>
+</button>
+</div>
+</header>
+<!-- SideNav (Desktop Only) -->
+<nav class="hidden md:flex flex-col w-[260px] fixed h-screen bg-surface border-r border-outline-variant z-40 top-0 left-0 pt-base">
+<div class="px-gutter mb-xl flex items-center gap-sm">
+<h1 class="font-headline-md text-headline-md font-bold text-role-driver">Driver Portal</h1>
+</div>
+<div class="flex flex-col gap-xs px-sm flex-grow">
+<!-- Home -->
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low transition-colors" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">home</span>
+<span class="font-title-md text-title-md">Home</span>
+</a>
+<!-- Assignments (Active) -->
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-role-driver font-bold bg-role-driver-container hover:bg-surface-container-low transition-colors" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">assignment</span>
+<span class="font-title-md text-title-md">Assignments</span>
+</a>
+<!-- Trips -->
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low transition-colors" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">route</span>
+<span class="font-title-md text-title-md">Trips</span>
+</a>
+<!-- Performance -->
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low transition-colors" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">query_stats</span>
+<span class="font-title-md text-title-md">Performance</span>
+</a>
+</div>
+<div class="mt-auto border-t border-outline-variant p-sm">
+<!-- Account -->
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low transition-colors" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">person</span>
+<span class="font-title-md text-title-md">Account</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="flex-1 mt-14 md:mt-0 md:ml-[260px] mb-16 md:mb-0 p-margin-mobile md:p-margin-desktop overflow-y-auto">
+<!-- Header Section -->
+<div class="flex flex-col gap-md mb-xl">
+<div class="flex items-center justify-between">
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Trip Details</h2>
+<div class="px-md py-xs rounded-full bg-role-driver-container text-role-driver font-label-caps text-label-caps uppercase flex items-center gap-xs">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">location_on</span>
+                    AT DESTINATION
+                </div>
+</div>
+<p class="font-body-base text-body-base text-on-surface-variant">Trip #TRP-8472-B</p>
+</div>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter lg:gap-2xl">
+<!-- Map Card (Large) -->
+<div class="lg:col-span-8 bg-surface-container-lowest rounded-xl border border-border-hairline shadow-sm overflow-hidden flex flex-col h-[400px]">
+<div class="flex-1 w-full relative bg-surface-container-low">
+<!-- Placeholder for Map Image -->
+<img class="w-full h-full object-cover absolute inset-0" data-alt="A highly detailed, professional digital map interface showing a delivery route terminating at a warehouse district. The aesthetic is clean, corporate modern, using a light slate background with crisp, technical lines indicating roads. A distinct marker indicates the destination point. The lighting is bright and even, conveying a sense of technical precision and enterprise reliability." data-location="Los Angeles" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAKHYSAvuVWH9As2u2EtDjdJqG84tLnkKPqAb3zy09ZL0_s4xlnzgITRjB-29_0ffEbu4symA2e2ejrVHBq-35-tojOGiYjSuHqliShdNSS1bRTOZzS-hvtuGzRkWuFiqJsqTK9q4k-I7jC-wqGGYhOyezH2eplOok8r_lMqWVznAs0-cht1KKWLjhF-0fcaeSd8FWBb6GqWWF7lyA5yYOzuM5T4VZnLLHe7fMPBaATQpK4VEpribo"/>
+<!-- Destination Overlay Info -->
+<div class="absolute bottom-base left-base right-base lg:right-auto lg:w-80 bg-surface-container-lowest/90 backdrop-blur-sm border border-border-hairline rounded-lg p-base shadow-sm">
+<div class="flex items-start gap-md">
+<div class="w-10 h-10 rounded-full bg-role-driver-container flex items-center justify-center text-role-driver shrink-0">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">flag</span>
+</div>
+<div>
+<h3 class="font-title-md text-title-md text-on-surface mb-xs">Logistics Hub West</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">14200 Central Ave, Los Angeles, CA 90001</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Action & Info Panel (Small) -->
+<div class="lg:col-span-4 flex flex-col gap-gutter lg:gap-2xl">
+<!-- Trip Summary Card -->
+<div class="bg-surface-container-lowest rounded-xl border border-border-hairline shadow-sm p-base flex flex-col gap-md">
+<h3 class="font-title-lg text-title-lg text-on-surface border-b border-border-hairline pb-sm">Current Status</h3>
+<div class="flex flex-col gap-sm">
+<div class="flex justify-between items-center">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Arrival Time</span>
+<span class="font-title-md text-title-md text-on-surface">14:32 PST</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Wait Time</span>
+<span class="font-title-md text-title-md text-on-surface text-amber-600">18 mins</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Client Contact</span>
+<span class="font-title-md text-title-md text-on-surface">Available</span>
+</div>
+</div>
+<div class="mt-sm p-sm bg-surface-container-low rounded-lg border border-border-hairline">
+<p class="font-body-sm text-body-sm text-on-surface-variant"><strong class="text-on-surface">Instructions:</strong> Proceed to Loading Dock B. Present manifest ID #8472 to the dock supervisor for offloading sequence.</p>
+</div>
+</div>
+<!-- Primary Action Card -->
+<div class="bg-surface-container-lowest rounded-xl border border-border-hairline shadow-sm p-base flex flex-col justify-center gap-md flex-grow">
+<div class="text-center mb-sm">
+<span class="material-symbols-outlined text-[48px] text-role-driver mb-sm" style="font-variation-settings: 'FILL' 0;">task_alt</span>
+<h3 class="font-title-lg text-title-lg text-on-surface">Ready to Complete?</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-xs">Ensure all cargo is offloaded and signed for before finalizing the trip.</p>
+</div>
+<button class="w-full bg-role-driver text-on-primary font-title-md text-title-md rounded-lg py-md px-base h-[48px] flex items-center justify-center gap-sm hover:opacity-90 transition-opacity focus:outline-none focus:ring-2 focus:ring-role-driver focus:ring-offset-2">
+                        Complete Trip
+                        <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 0;">check_circle</span>
+</button>
+<button class="w-full border-[1.5px] border-outline-variant text-on-surface-variant font-title-md text-title-md rounded-lg py-sm px-base flex items-center justify-center gap-sm hover:bg-surface-container-low transition-colors">
+                        Report Issue
+                    </button>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 w-full z-50 pb-safe border-t border-outline-variant dark:border-outline bg-surface shadow-sm flex justify-around items-center h-16 px-2">
+<!-- Home -->
+<button class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline px-3 py-1.5 hover:text-role-driver dark:hover:text-role-driver-container scale-95 active:scale-90 transition-transform duration-150">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 0;">home</span>
+<span class="font-label-caps text-label-caps">Home</span>
+</button>
+<!-- Assignments (Active) -->
+<button class="flex flex-col items-center justify-center bg-role-driver-container dark:bg-role-driver text-on-secondary-container dark:text-on-primary rounded-xl px-3 py-1.5 hover:text-role-driver dark:hover:text-role-driver-container scale-95 active:scale-90 transition-transform duration-150">
+<span class="material-symbols-outlined mb-1 text-role-driver dark:text-on-primary" style="font-variation-settings: 'FILL' 1;">assignment</span>
+<span class="font-label-caps text-label-caps text-role-driver dark:text-on-primary">Assignments</span>
+</button>
+<!-- Trips -->
+<button class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline px-3 py-1.5 hover:text-role-driver dark:hover:text-role-driver-container scale-95 active:scale-90 transition-transform duration-150">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 0;">route</span>
+<span class="font-label-caps text-label-caps">Trips</span>
+</button>
+<!-- Performance -->
+<button class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline px-3 py-1.5 hover:text-role-driver dark:hover:text-role-driver-container scale-95 active:scale-90 transition-transform duration-150">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 0;">query_stats</span>
+<span class="font-label-caps text-label-caps">Performance</span>
+</button>
+<!-- Account -->
+<button class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline px-3 py-1.5 hover:text-role-driver dark:hover:text-role-driver-container scale-95 active:scale-90 transition-transform duration-150">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 0;">person</span>
+<span class="font-label-caps text-label-caps">Account</span>
+</button>
+</nav>
+</body></html>

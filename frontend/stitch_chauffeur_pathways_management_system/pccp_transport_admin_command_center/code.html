@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Transport Admin - Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "outline-variant": "#c0c7d1",
+                      "surface-container-lowest": "#ffffff",
+                      "on-background": "#131b2e",
+                      "inverse-surface": "#283044",
+                      "role-passenger": "#3b82f6",
+                      "on-secondary-fixed": "#00201d",
+                      "on-primary": "#ffffff",
+                      "outline": "#717880",
+                      "on-secondary-fixed-variant": "#00504a",
+                      "primary": "#00385a",
+                      "surface-tint": "#236391",
+                      "on-tertiary-fixed": "#2f1500",
+                      "on-primary-container": "#8ac2f5",
+                      "secondary": "#006a63",
+                      "surface-dim": "#d2d9f4",
+                      "inverse-primary": "#95ccff",
+                      "primary-container": "#00507d",
+                      "surface-container-high": "#e1e7ff",
+                      "tertiary-fixed": "#ffdcc3",
+                      "role-driver": "#22c55e",
+                      "on-primary-fixed": "#001d32",
+                      "on-tertiary": "#ffffff",
+                      "tertiary": "#552b00",
+                      "on-error-container": "#93000a",
+                      "on-error": "#ffffff",
+                      "error": "#ba1a1a",
+                      "surface-bright": "#faf8ff",
+                      "on-primary-fixed-variant": "#004a75",
+                      "border-hairline": "#E2E8F0",
+                      "role-admin": "#8b5cf6",
+                      "surface-variant": "#dae2fc",
+                      "on-tertiary-fixed-variant": "#6e3900",
+                      "background": "#faf8ff",
+                      "surface-container-highest": "#dae2fc",
+                      "secondary-container": "#9deee5",
+                      "on-secondary": "#ffffff",
+                      "error-container": "#ffdad6",
+                      "surface-container-low": "#f2f3ff",
+                      "surface": "#faf8ff",
+                      "primary-fixed": "#cde5ff",
+                      "on-secondary-container": "#0c6f67",
+                      "on-tertiary-container": "#faac6b",
+                      "primary-fixed-dim": "#95ccff",
+                      "tertiary-container": "#753e03",
+                      "secondary-fixed": "#a0f1e8",
+                      "secondary-fixed-dim": "#84d5cc",
+                      "tertiary-fixed-dim": "#ffb77d",
+                      "surface-container": "#eaedff",
+                      "surface-canvas": "#F8FAFC",
+                      "inverse-on-surface": "#eef0ff",
+                      "on-surface-variant": "#41474f",
+                      "on-surface": "#131b2e"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "2xl": "32px",
+                      "lg": "20px",
+                      "gutter": "16px",
+                      "base": "16px",
+                      "md": "12px",
+                      "margin-desktop": "32px",
+                      "xl": "24px",
+                      "margin-mobile": "16px",
+                      "sm": "8px",
+                      "xs": "4px"
+              },
+              "fontFamily": {
+                      "headline-lg": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "body-sm": [
+                              "Inter"
+                      ],
+                      "headline-md": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "label-caps": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "title-lg": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "body-base": [
+                              "Inter"
+                      ],
+                      "display-lg": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "title-md": [
+                              "Plus Jakarta Sans"
+                      ]
+              },
+              "fontSize": {
+                      "headline-lg": [
+                              "28px",
+                              {
+                                      "lineHeight": "36px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "body-sm": [
+                              "13px",
+                              {
+                                      "lineHeight": "18px",
+                                      "letterSpacing": "0",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-md": [
+                              "22px",
+                              {
+                                      "lineHeight": "28px",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "label-caps": [
+                              "11px",
+                              {
+                                      "lineHeight": "14px",
+                                      "letterSpacing": "0.06em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "title-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "24px",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "body-base": [
+                              "15px",
+                              {
+                                      "lineHeight": "22px",
+                                      "letterSpacing": "0",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "display-lg": [
+                              "36px",
+                              {
+                                      "lineHeight": "44px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "800"
+                              }
+                      ],
+                      "title-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "22px",
+                                      "letterSpacing": "0",
+                                      "fontWeight": "600"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+      </script>
+<style>
+        body { font-family: 'Inter', sans-serif; background-color: #F8FAFC; }
+        h1, h2, h3, h4, h5, h6, .font-title, .font-headline { font-family: 'Plus Jakarta Sans', sans-serif; }
+    </style>
+</head>
+<body class="bg-surface-canvas text-on-surface h-screen overflow-hidden flex">
+<!-- SideNavBar -->
+<nav class="hidden md:flex flex-col h-full py-xl bg-surface dark:bg-on-background h-screen w-64 fixed left-0 top-0 border-r border-hairline dark:border-outline-variant flat no shadows z-50">
+<div class="px-gutter mb-xl flex flex-col items-center">
+<div class="w-16 h-16 rounded-full bg-surface-container-highest flex items-center justify-center mb-sm shadow-sm relative overflow-hidden">
+<img alt="Admin User Profile" class="w-full h-full object-cover" data-alt="A professional headshot of an administrative professional in a modern office environment. High key lighting, clean corporate aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC0ixBXzWqPBlbehoHRepPGJLd-WWZhF_Lvu-F7hQF5k0OCuUsGqdGm6Su8B8glo0Vzgu8dwVZh0vfgOvSturJWyVrAAhTZepadsDWfvgpeGINYTf6Pu62xlnT17H3RNpveSrfwZmAzUumIeDL5-h2FmC3OgEq5bB5vBJDAcDMr41hZhNvMzt1A6DbDnk3m879l5EZEEPHZBdK-DbTrFY89wN_ktgYr59cXx5dcbLVhT1eU9zIfzZU"/>
+</div>
+<div class="font-headline-md text-headline-md font-bold text-primary dark:text-inverse-primary text-center">PCCP Transport</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant text-center">Admin Portal</div>
+</div>
+<div class="flex-1 overflow-y-auto w-full px-sm space-y-sm">
+<a class="flex items-center space-x-md px-gutter py-md rounded-lg text-role-admin font-bold border-r-4 border-role-admin bg-surface-container-high dark:bg-surface-container-highest hover:bg-surface-container-low dark:hover:bg-inverse-surface transition-colors" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+<span class="font-title-md text-title-md">Dashboard</span>
+</a>
+<a class="flex items-center space-x-md px-gutter py-md rounded-lg text-on-surface-variant dark:text-outline-variant hover:text-on-surface dark:hover:text-surface-bright hover:bg-surface-container-low dark:hover:bg-inverse-surface transition-colors" href="#">
+<span class="material-symbols-outlined">pending_actions</span>
+<span class="font-title-md text-title-md">Transport Requests</span>
+</a>
+<a class="flex items-center space-x-md px-gutter py-md rounded-lg text-on-surface-variant dark:text-outline-variant hover:text-on-surface dark:hover:text-surface-bright hover:bg-surface-container-low dark:hover:bg-inverse-surface transition-colors" href="#">
+<span class="material-symbols-outlined">directions_car</span>
+<span class="font-title-md text-title-md">Fleet Management</span>
+</a>
+<a class="flex items-center space-x-md px-gutter py-md rounded-lg text-on-surface-variant dark:text-outline-variant hover:text-on-surface dark:hover:text-surface-bright hover:bg-surface-container-low dark:hover:bg-inverse-surface transition-colors" href="#">
+<span class="material-symbols-outlined">satellite_alt</span>
+<span class="font-title-md text-title-md">GPS &amp; Telematics</span>
+</a>
+<a class="flex items-center space-x-md px-gutter py-md rounded-lg text-on-surface-variant dark:text-outline-variant hover:text-on-surface dark:hover:text-surface-bright hover:bg-surface-container-low dark:hover:bg-inverse-surface transition-colors" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span class="font-title-md text-title-md">Performance</span>
+</a>
+<a class="flex items-center space-x-md px-gutter py-md rounded-lg text-on-surface-variant dark:text-outline-variant hover:text-on-surface dark:hover:text-surface-bright hover:bg-surface-container-low dark:hover:bg-inverse-surface transition-colors" href="#">
+<span class="material-symbols-outlined">manage_accounts</span>
+<span class="font-title-md text-title-md">User Accounts</span>
+</a>
+<a class="flex items-center space-x-md px-gutter py-md rounded-lg text-on-surface-variant dark:text-outline-variant hover:text-on-surface dark:hover:text-surface-bright hover:bg-surface-container-low dark:hover:bg-inverse-surface transition-colors" href="#">
+<span class="material-symbols-outlined">security</span>
+<span class="font-title-md text-title-md">Support</span>
+</a>
+</div>
+<div class="px-gutter mt-auto pt-lg border-t border-hairline">
+<button class="w-full flex items-center justify-center space-x-sm bg-surface-container-low text-primary px-4 py-3 rounded-lg font-title-md text-title-md hover:bg-surface-variant transition-colors">
+<span class="material-symbols-outlined">add_circle</span>
+<span>New Account</span>
+</button>
+</div>
+</nav>
+<!-- Main Content Wrapper -->
+<div class="flex-1 md:ml-64 flex flex-col h-screen relative">
+<!-- TopAppBar -->
+<header class="flex justify-between items-center px-gutter w-full fixed top-0 right-0 left-64 h-16 bg-surface-container-lowest dark:bg-on-background border-b border-hairline dark:border-outline-variant shadow-sm dark:shadow-none z-40">
+<div class="flex items-center">
+<h1 class="font-headline-md text-headline-md font-extrabold text-primary dark:text-inverse-primary">Transport Admin</h1>
+</div>
+<div class="flex-1 flex justify-center px-lg">
+<div class="relative w-full max-w-md">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-surface-canvas border border-outline-variant rounded-full focus:outline-none focus:ring-2 focus:ring-role-admin focus:bg-surface-container-lowest transition-colors text-body-base font-body-base" placeholder="Search modules, users..." type="text"/>
+</div>
+</div>
+<div class="flex items-center space-x-sm">
+<button class="text-on-surface-variant dark:text-outline-variant hover:bg-surface-variant dark:hover:bg-inverse-surface rounded-full p-2 transition-colors relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<button class="text-on-surface-variant dark:text-outline-variant hover:bg-surface-variant dark:hover:bg-inverse-surface rounded-full p-2 transition-colors">
+<span class="material-symbols-outlined">settings</span>
+</button>
+<div class="w-8 h-8 rounded-full ml-sm bg-surface-variant overflow-hidden cursor-pointer hover:ring-2 hover:ring-role-admin transition-all">
+<img alt="Administrator Profile" class="w-full h-full object-cover" data-alt="Small thumbnail profile picture of an admin user." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCNI2qqPss7-yf7YrlUFIJvaWoL1rnNCZ3k_vgeo3BZrnPRsWOiQMwUcrXb99Cba7r_kj3dSLqKsnIMuxJ1_PmsIlz8sxOkT60kQvE6mARK7GgkhfFR5tuZl0l61G-NFcdBG1g4DACrLOByw0kt8OtcAyN5yYBIxjycGjFF0x5yEBNk9_A7UyHUsY6EmquBrtAB0u3o_cKS7vCGSR5W7v8w8Te3Jn-nDti3SoW_g5GhaMt7x1lFqhs"/>
+</div>
+</div>
+</header>
+<!-- Canvas -->
+<main class="flex-1 overflow-y-auto mt-16 p-gutter md:p-margin-desktop bg-surface-canvas">
+<div class="flex justify-between items-end mb-xl">
+<div>
+<h2 class="font-display-lg text-display-lg text-on-surface mb-xs">Admin Dashboard</h2>
+<p class="font-body-base text-body-base text-on-surface-variant">Overview of transport operations and system health.</p>
+</div>
+</div>
+<div class="grid grid-cols-1 xl:grid-cols-2 gap-lg">
+<!-- 1. TRANSPORT MANAGEMENT ENGINE -->
+<section class="bg-surface-container-lowest rounded-xl border border-hairline shadow-sm overflow-hidden flex flex-col relative group hover:-translate-y-[2px] transition-transform duration-300">
+<div class="absolute top-0 left-0 w-full h-1 bg-role-admin"></div>
+<div class="p-lg border-b border-hairline flex justify-between items-center bg-surface-container-lowest/50 backdrop-blur-sm">
+<div class="flex items-center space-x-md">
+<div class="w-10 h-10 rounded-lg bg-role-admin/10 flex items-center justify-center text-role-admin">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">directions_bus</span>
+</div>
+<h3 class="font-title-lg text-title-lg text-on-surface">Transport Requests</h3>
+</div>
+<button class="text-primary font-title-md text-title-md hover:underline">View All</button>
+</div>
+<div class="p-0 flex-1 overflow-y-auto">
+<!-- Request Item -->
+<div class="p-lg border-b border-hairline hover:bg-surface-container-low transition-colors flex justify-between items-center">
+<div>
+<div class="flex items-center space-x-sm mb-xs">
+<span class="px-2 py-0.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-label-caps text-label-caps">Pending</span>
+<span class="font-title-md text-title-md text-on-surface">Req #1042</span>
+</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant">Office to Airport (3 pax)</div>
+</div>
+<button class="px-4 py-2 bg-role-admin text-white rounded-lg font-title-md text-title-md shadow-sm hover:bg-role-admin/90 transition-colors flex items-center space-x-xs">
+<span>Assign</span>
+</button>
+</div>
+<!-- Request Item -->
+<div class="p-lg border-b border-hairline hover:bg-surface-container-low transition-colors flex justify-between items-center">
+<div>
+<div class="flex items-center space-x-sm mb-xs">
+<span class="px-2 py-0.5 rounded-full bg-role-passenger/10 text-role-passenger font-label-caps text-label-caps">Assigned</span>
+<span class="font-title-md text-title-md text-on-surface">Req #1041</span>
+</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant">Site B to HQ (1 pax)</div>
+</div>
+<button class="px-4 py-2 border border-outline-variant text-on-surface-variant rounded-lg font-title-md text-title-md hover:bg-surface-variant transition-colors flex items-center space-x-xs">
+<span>Details</span>
+</button>
+</div>
+</div>
+</section>
+<!-- 2. GPS & TELEMATICS ENGINE -->
+<section class="bg-surface-container-lowest rounded-xl border border-hairline shadow-sm overflow-hidden flex flex-col relative group hover:-translate-y-[2px] transition-transform duration-300">
+<div class="absolute top-0 left-0 w-full h-1 bg-role-admin"></div>
+<div class="p-lg border-b border-hairline flex justify-between items-center">
+<div class="flex items-center space-x-md">
+<div class="w-10 h-10 rounded-lg bg-role-admin/10 flex items-center justify-center text-role-admin">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">satellite_alt</span>
+</div>
+<h3 class="font-title-lg text-title-lg text-on-surface">GPS &amp; Telematics</h3>
+</div>
+</div>
+<div class="p-lg flex-1 flex flex-col space-y-md">
+<!-- Mini Map Placeholder -->
+<div class="w-full h-40 bg-surface-variant rounded-lg overflow-hidden relative">
+<img alt="Live Map" class="w-full h-full object-cover opacity-80 mix-blend-multiply" data-alt="A clean, minimalist vector map showing stylized roads and blue/purple dot markers indicating active vehicles in a city grid. UI aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDFDNPsW5rBT8t6kFqivXLefje0mThaPMHFxbCAoohveHBKVG6xN8HKLV62oVeq8bgx1lTAKgH2DPTKmfTyjQhQKdrNE7VGUS05vbGY-Up-qbXo-ZIc0Z7y0Lk8Qj_1gbVJhEEsHLfjAdRAhO72AGTYwsKpCTEAjpnyL1K1qdirZpzlF_vp22i1yXLDG1wGNMKSyBabMiCMCHSAh4yFnzv8QexVO-jRCzwkkEu1pbbLDl1qDxDmQWE"/>
+<div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+<span class="px-3 py-1 bg-surface/90 backdrop-blur rounded-full text-title-md font-title-md shadow-sm">12 Active Trips</span>
+</div>
+</div>
+<div class="grid grid-cols-3 gap-sm">
+<div class="bg-surface-container-low p-sm rounded-lg text-center">
+<div class="font-body-sm text-body-sm text-on-surface-variant mb-xs">Total Mileage</div>
+<div class="font-title-lg text-title-lg text-primary">1,240 km</div>
+</div>
+<div class="bg-surface-container-low p-sm rounded-lg text-center">
+<div class="font-body-sm text-body-sm text-on-surface-variant mb-xs">Active Vehicles</div>
+<div class="font-title-lg text-title-lg text-primary">24</div>
+</div>
+<div class="bg-surface-container-low p-sm rounded-lg text-center border-l-2 border-error">
+<div class="font-body-sm text-body-sm text-on-surface-variant mb-xs">Driving Events</div>
+<div class="font-title-lg text-title-lg text-error">3</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 3. DRIVER PERFORMANCE ENGINE -->
+<section class="bg-surface-container-lowest rounded-xl border border-hairline shadow-sm overflow-hidden flex flex-col relative group hover:-translate-y-[2px] transition-transform duration-300">
+<div class="absolute top-0 left-0 w-full h-1 bg-role-driver"></div>
+<div class="p-lg border-b border-hairline flex justify-between items-center">
+<div class="flex items-center space-x-md">
+<div class="w-10 h-10 rounded-lg bg-role-driver/10 flex items-center justify-center text-role-driver">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">speed</span>
+</div>
+<h3 class="font-title-lg text-title-lg text-on-surface">Driver Performance</h3>
+</div>
+</div>
+<div class="p-lg flex-1">
+<div class="flex justify-between items-center mb-md">
+<span class="font-title-md text-title-md text-on-surface-variant">Top Drivers</span>
+<span class="font-title-md text-title-md text-role-driver">Safety Score</span>
+</div>
+<div class="space-y-sm">
+<div class="flex items-center justify-between p-sm hover:bg-surface-container-low rounded-lg transition-colors">
+<div class="flex items-center space-x-sm">
+<div class="w-8 h-8 rounded-full bg-surface-variant overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Small thumbnail portrait of a professional corporate driver." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDJSgZ929JxOErcSG3HGq8OA_SN5GLmLwkc6DHngGox4h5m2CvoqJjBEzECfLTDnwhYQ-Q3fMmb4vQ0yB9NNPkOTi_jZdHNeJ5xISoHH_vEd9yCmh5wgj1KRwbSLqGrpOEMhTx4tfTGvXCdzu7IsodG0riCJr1U44hONRJkjCBr8nO7qj7khj3aWkPlsJ1UJm0XAET3gi4AhCuFSQ0hfvy6m2M3sH7CmryZK1txk3suklEbPXJ68C4"/>
+</div>
+<span class="font-body-base text-body-base text-on-surface">Alex Mercer</span>
+</div>
+<div class="font-title-md text-title-md text-primary">98%</div>
+</div>
+<div class="flex items-center justify-between p-sm hover:bg-surface-container-low rounded-lg transition-colors">
+<div class="flex items-center space-x-sm">
+<div class="w-8 h-8 rounded-full bg-surface-variant overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Small thumbnail portrait of a professional corporate driver." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDpiUtnx8SU6h9NTfU62zXDbbU5XT1LNCKQDmVzNf-axnRY2gAqPVAOzd4gmbECXwx8t6CKEyZv60uDEMLuW_fRsP2ogRJmiCMzN3LHcWYuWwYcLXG8EhRQ2kq9Ze7Q7pomIFXBXIXh8fW9B61h3UWtZ5RSoq0-itFR8CANAmzG2lIQVURzQ1xicoWwl4H4lLzH-hkTEUwM39DaBLhvD8V-EXm-BUqEHGPLT_I5q_77VMo7tOA-gvk"/>
+</div>
+<span class="font-body-base text-body-base text-on-surface">Sarah Connor</span>
+</div>
+<div class="font-title-md text-title-md text-primary">96%</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 4. PCCP CAREER ENGINE -->
+<section class="bg-surface-container-lowest rounded-xl border border-hairline shadow-sm overflow-hidden flex flex-col relative group hover:-translate-y-[2px] transition-transform duration-300">
+<div class="absolute top-0 left-0 w-full h-1 bg-role-admin"></div>
+<div class="p-lg border-b border-hairline flex justify-between items-center">
+<div class="flex items-center space-x-md">
+<div class="w-10 h-10 rounded-lg bg-role-admin/10 flex items-center justify-center text-role-admin">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">military_tech</span>
+</div>
+<h3 class="font-title-lg text-title-lg text-on-surface">Career Path</h3>
+</div>
+</div>
+<div class="p-lg flex-1 flex flex-col justify-center">
+<div class="flex items-center justify-between space-x-2 w-full">
+<div class="flex flex-col items-center flex-1">
+<div class="w-12 h-12 rounded-full border-2 border-outline-variant flex items-center justify-center font-title-md text-title-md bg-surface-canvas text-on-surface-variant relative z-10">
+                                    CD
+                                </div>
+<div class="font-body-sm text-body-sm mt-xs">45</div>
+</div>
+<div class="h-[2px] flex-1 bg-outline-variant"></div>
+<div class="flex flex-col items-center flex-1">
+<div class="w-12 h-12 rounded-full border-2 border-primary flex items-center justify-center font-title-md text-title-md bg-primary text-white relative z-10 shadow-sm">
+                                    CC
+                                </div>
+<div class="font-body-sm text-body-sm mt-xs font-bold">28</div>
+</div>
+<div class="h-[2px] flex-1 bg-outline-variant"></div>
+<div class="flex flex-col items-center flex-1">
+<div class="w-12 h-12 rounded-full border-2 border-outline-variant flex items-center justify-center font-title-md text-title-md bg-surface-canvas text-on-surface-variant relative z-10">
+                                    CPC
+                                </div>
+<div class="font-body-sm text-body-sm mt-xs">12</div>
+</div>
+<div class="h-[2px] flex-1 bg-outline-variant"></div>
+<div class="flex flex-col items-center flex-1">
+<div class="w-12 h-12 rounded-full border-2 border-outline-variant flex items-center justify-center font-title-md text-title-md bg-surface-canvas text-on-surface-variant relative z-10">
+                                    CMC
+                                </div>
+<div class="font-body-sm text-body-sm mt-xs">4</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+</main>
+</div>
+</body></html>

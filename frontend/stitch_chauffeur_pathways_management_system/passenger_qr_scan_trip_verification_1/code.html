@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>PCCP Passenger - Scan QR</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-fixed": "#ffdcc1",
+                        "surface-tint": "#006399",
+                        "on-tertiary-fixed": "#2e1500",
+                        "on-secondary-fixed-variant": "#00504a",
+                        "surface-container-low": "#f2f3ff",
+                        "primary-fixed": "#cde5ff",
+                        "on-surface-variant": "#40474f",
+                        "on-secondary-fixed": "#00201d",
+                        "border-hairline": "#E2E8F0",
+                        "on-tertiary": "#ffffff",
+                        "outline": "#707881",
+                        "surface-container-highest": "#dae2fc",
+                        "inverse-surface": "#283044",
+                        "on-error": "#ffffff",
+                        "secondary-fixed": "#9cf2e8",
+                        "on-tertiary-fixed-variant": "#6c3a00",
+                        "secondary": "#006a63",
+                        "primary-fixed-dim": "#94ccff",
+                        "error": "#ba1a1a",
+                        "on-secondary": "#ffffff",
+                        "role-admin": "#059669",
+                        "tertiary-fixed-dim": "#ffb878",
+                        "on-secondary-container": "#006f67",
+                        "background": "#faf8ff",
+                        "error-container": "#ffdad6",
+                        "surface-container": "#eaedff",
+                        "on-tertiary-container": "#ffdbbe",
+                        "tertiary": "#733f00",
+                        "role-driver": "#7C3AED",
+                        "tertiary-container": "#955301",
+                        "secondary-fixed-dim": "#80d5cb",
+                        "inverse-primary": "#94ccff",
+                        "surface-dim": "#d2d9f4",
+                        "on-background": "#131b2e",
+                        "surface-bright": "#faf8ff",
+                        "surface-container-lowest": "#ffffff",
+                        "secondary-container": "#99efe5",
+                        "surface": "#faf8ff",
+                        "role-passenger": "#2563EB",
+                        "on-primary-fixed": "#001d32",
+                        "surface-canvas": "#F8FAFC",
+                        "on-primary-container": "#cbe4ff",
+                        "inverse-on-surface": "#eef0ff",
+                        "on-primary-fixed-variant": "#004b74",
+                        "primary-container": "#0369a1",
+                        "surface-container-high": "#e1e7ff",
+                        "primary": "#00507d",
+                        "on-surface": "#131b2e",
+                        "surface-variant": "#dae2fc",
+                        "on-error-container": "#93000a",
+                        "outline-variant": "#c0c7d1",
+                        "on-primary": "#ffffff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "md": "12px",
+                        "lg": "20px",
+                        "base": "16px",
+                        "sm": "8px",
+                        "2xl": "32px",
+                        "gutter": "16px",
+                        "xl": "24px",
+                        "xs": "4px",
+                        "margin-desktop": "32px",
+                        "margin-mobile": "16px"
+                    },
+                    "fontFamily": {
+                        "body-base": ["Inter"],
+                        "title-lg": ["Plus Jakarta Sans"],
+                        "title-md": ["Plus Jakarta Sans"],
+                        "headline-lg": ["Plus Jakarta Sans"],
+                        "body-sm": ["Inter"],
+                        "label-caps": ["Plus Jakarta Sans"],
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "display-lg": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "body-base": ["15px", { "lineHeight": "22px", "letterSpacing": "0", "fontWeight": "400" }],
+                        "title-lg": ["18px", { "lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "title-md": ["16px", { "lineHeight": "22px", "letterSpacing": "0", "fontWeight": "600" }],
+                        "headline-lg": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-sm": ["13px", { "lineHeight": "18px", "letterSpacing": "0", "fontWeight": "400" }],
+                        "label-caps": ["11px", { "lineHeight": "14px", "letterSpacing": "0.06em", "fontWeight": "700" }],
+                        "headline-md": ["22px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "display-lg": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "800" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .scanner-frame {
+            box-shadow: 0 0 0 9999px rgba(15, 23, 42, 0.7);
+        }
+        .scan-line {
+            animation: scan 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+        }
+        @keyframes scan {
+            0%, 100% { transform: translateY(0); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; transform: translateY(240px); }
+        }
+    </style>
+</head>
+<body class="bg-surface-canvas text-on-surface antialiased min-h-screen flex flex-col font-body-base overflow-x-hidden">
+<!-- TopAppBar -->
+<header class="w-full top-0 sticky z-50 bg-surface dark:bg-on-background shadow-sm flex justify-between items-center px-margin-mobile h-16 max-w-[1280px] mx-auto">
+<div class="flex items-center gap-sm">
+<!-- Brand Logo/Headline -->
+<h1 class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed-dim">PCCP Vector</h1>
+</div>
+<div class="flex items-center gap-sm">
+<!-- Trailing Icon -->
+<button class="p-2 rounded-full hover:bg-surface-container-low dark:hover:bg-surface-container-highest transition-colors active:scale-95 duration-100 text-on-surface-variant dark:text-outline-variant">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">notifications</span>
+</button>
+<!-- Leading Avatar (Repurposed as profile access) -->
+<div class="w-8 h-8 rounded-full bg-surface-container-high overflow-hidden border border-border-hairline">
+<img alt="User Profile" class="w-full h-full object-cover" data-alt="A small, professional headshot of an Asian male in corporate attire, well-lit, isolated on a light gray background, suitable for a small avatar icon in a UI." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCaiKORLKrnshWZvWP-PUa8ZQh7qJa2DXOZb96BFzox1B5Sw1nINImoIDTP8jHq6VlISESEMf79OlaY8cST3gIo6JmWJmSI84i1yv1EyAAVqd-qcvWa_wiFhxgAHoclzva_3kLQySO-816VAJ8JIFqxUawuTaVUTbVt2F1B4GmBkhiWD1I6zkiokJO07dbEsvXPcmC9hDj2-Io1ZuW_KV9l-gXGruJ59tJdcYeTpErGFvNHpjxylMg"/>
+</div>
+</div>
+</header>
+<!-- Main Canvas -->
+<main class="flex-grow flex flex-col items-center justify-start pt-xl px-margin-mobile pb-32 max-w-[440px] mx-auto w-full relative">
+<div class="text-center mb-lg w-full">
+<h2 class="font-title-lg text-title-lg text-on-surface mb-xs">Scan QR</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Align QR Code to Verify Trip</p>
+</div>
+<!-- Scanner Viewfinder -->
+<div class="relative w-64 h-64 mx-auto mb-xl rounded-xl overflow-hidden bg-black flex items-center justify-center shadow-lg">
+<!-- Simulated Camera Feed -->
+<div class="absolute inset-0 bg-surface-container-high opacity-50 mix-blend-overlay">
+<img alt="Simulated camera feed" class="w-full h-full object-cover opacity-60" data-alt="A slightly blurred, high-contrast black and white image of a complex QR code printed on a physical white card, viewed from a slight angle as if seen through a smartphone camera lens, with soft office lighting reflecting slightly off the card surface." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCQs67LJPunUB-fRsjtpIkRb0gwhSRb_XjlX2iYM2w8MQiiq-YDvWWEpvimqKhxb9hxtJkk1bkZVN4clDQxI5YrDb9BjXNrkSnX3BqsdCtkPT_6ZlWjYEAeEs_MMiDUFIltr4NLk99lGEYRC1yR1tsNQ55h7TS0Yj45QBeih8HAKB3iLmU4kykKn-iZfyOJnBJZNEQZ-9smvhGTuM7JY3IlgEDNmr5L9JfDLi9nPhtZNzFtntok1eU"/>
+</div>
+<!-- Scanner Overlay Frame -->
+<div class="absolute inset-0 scanner-frame pointer-events-none rounded-xl"></div>
+<!-- Corner Markers -->
+<div class="absolute top-4 left-4 w-8 h-8 border-t-4 border-l-4 border-primary rounded-tl-lg"></div>
+<div class="absolute top-4 right-4 w-8 h-8 border-t-4 border-r-4 border-primary rounded-tr-lg"></div>
+<div class="absolute bottom-4 left-4 w-8 h-8 border-b-4 border-l-4 border-primary rounded-bl-lg"></div>
+<div class="absolute bottom-4 right-4 w-8 h-8 border-b-4 border-r-4 border-primary rounded-br-lg"></div>
+<!-- Animated Scan Line -->
+<div class="absolute top-0 left-4 right-4 h-0.5 bg-role-passenger shadow-[0_0_8px_2px_rgba(37,99,235,0.6)] scan-line rounded-full z-10"></div>
+</div>
+<!-- Simulated Result Card (Placeholder) -->
+<div class="w-full bg-surface-container-lowest border border-border-hairline rounded-xl shadow-[0px_1px_3px_rgba(15,23,42,0.05)] p-base mt-lg relative overflow-hidden group">
+<!-- Top accent bar -->
+<div class="absolute top-0 left-0 w-full h-1 bg-role-passenger"></div>
+<div class="flex items-start justify-between mb-sm mt-xs">
+<div>
+<span class="inline-flex items-center px-2 py-0.5 rounded-full bg-surface-container-high text-on-surface font-label-caps text-label-caps mb-xs">Ready for Scan</span>
+<h3 class="font-title-md text-title-md text-on-surface">Trip Details</h3>
+</div>
+<span class="material-symbols-outlined text-outline-variant" style="font-variation-settings: 'FILL' 1;">directions_car</span>
+</div>
+<div class="space-y-sm mt-md">
+<div class="flex justify-between items-center py-xs border-b border-border-hairline/50">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Request ID</span>
+<span class="font-body-base text-body-base font-semibold text-on-surface">PCCP-TR-2026-0001</span>
+</div>
+<div class="flex justify-between items-center py-xs border-b border-border-hairline/50">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Driver</span>
+<span class="font-body-base text-body-base text-on-surface">Ko Aung Naing Win</span>
+</div>
+<div class="flex justify-between items-center py-xs border-b border-border-hairline/50">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Car ID</span>
+<span class="font-body-base text-body-base text-on-surface">YGN 3F-1234</span>
+</div>
+<div class="flex justify-between items-center py-xs">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Car Type</span>
+<span class="font-body-base text-body-base text-on-surface">Toyota Crown</span>
+</div>
+</div>
+<!-- Action Button Placeholder -->
+<button class="w-full mt-md bg-surface-container text-on-surface-variant font-title-md text-title-md py-md rounded-lg flex items-center justify-center gap-xs opacity-50 cursor-not-allowed transition-all">
+<span class="material-symbols-outlined text-[20px]">check_circle</span>
+                Confirm Vehicle
+            </button>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-2 py-3 bg-surface dark:bg-inverse-surface border-t border-border-hairline shadow-lg rounded-t-xl">
+<!-- Home (Inactive) -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant px-4 py-1 hover:bg-surface-container dark:hover:bg-surface-container-high transition-all active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">home</span>
+<span class="font-label-caps text-label-caps mt-1">Home</span>
+</a>
+<!-- Requests (Inactive) -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant px-4 py-1 hover:bg-surface-container dark:hover:bg-surface-container-high transition-all active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">assignment</span>
+<span class="font-label-caps text-label-caps mt-1">Requests</span>
+</a>
+<!-- Trips (Inactive) -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant px-4 py-1 hover:bg-surface-container dark:hover:bg-surface-container-high transition-all active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">route</span>
+<span class="font-label-caps text-label-caps mt-1">Trips</span>
+</a>
+<!-- Scan QR (Active) -->
+<a class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-2xl px-4 py-1 hover:bg-surface-container dark:hover:bg-surface-container-high transition-all active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">qr_code_scanner</span>
+<span class="font-label-caps text-label-caps mt-1">Scan QR</span>
+</a>
+<!-- Account (Inactive) -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant px-4 py-1 hover:bg-surface-container dark:hover:bg-surface-container-high transition-all active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">person</span>
+<span class="font-label-caps text-label-caps mt-1">Account</span>
+</a>
+</nav>
+</body></html>

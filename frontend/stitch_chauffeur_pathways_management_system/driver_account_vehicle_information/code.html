@@ -1,0 +1,273 @@
+<!DOCTYPE html><html class="light" lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Assigned Vehicle</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-primary-fixed": "#001d32",
+                      "on-background": "#131b2e",
+                      "outline": "#707881",
+                      "inverse-on-surface": "#eef0ff",
+                      "on-secondary-fixed-variant": "#00504a",
+                      "surface-variant": "#dae2fc",
+                      "inverse-surface": "#283044",
+                      "secondary": "#006a63",
+                      "error-container": "#ffdad6",
+                      "border-hairline": "#E2E8F0",
+                      "on-secondary": "#ffffff",
+                      "primary-fixed": "#cde5ff",
+                      "error": "#ba1a1a",
+                      "surface-tint": "#006399",
+                      "inverse-primary": "#94ccff",
+                      "secondary-fixed-dim": "#80d5cb",
+                      "role-passenger": "#2563EB",
+                      "secondary-fixed": "#9cf2e8",
+                      "surface-container-low": "#f2f3ff",
+                      "surface-container-highest": "#dae2fc",
+                      "surface-container-lowest": "#ffffff",
+                      "role-driver": "#7C3AED",
+                      "primary-container": "#0369a1",
+                      "primary-fixed-dim": "#94ccff",
+                      "on-primary-container": "#cbe4ff",
+                      "on-primary": "#ffffff",
+                      "on-tertiary-fixed": "#2e1500",
+                      "tertiary-container": "#955301",
+                      "outline-variant": "#c0c7d1",
+                      "on-surface-variant": "#40474f",
+                      "surface-container-high": "#e1e7ff",
+                      "on-secondary-fixed": "#00201d",
+                      "on-primary-fixed-variant": "#004b74",
+                      "on-error-container": "#93000a",
+                      "secondary-container": "#99efe5",
+                      "tertiary-fixed": "#ffdcc1",
+                      "surface-container": "#eaedff",
+                      "on-tertiary": "#ffffff",
+                      "on-error": "#ffffff",
+                      "tertiary": "#733f00",
+                      "surface-bright": "#faf8ff",
+                      "on-tertiary-container": "#ffdbbe",
+                      "primary": "#00507d",
+                      "surface-dim": "#d2d9f4",
+                      "role-admin": "#059669",
+                      "tertiary-fixed-dim": "#ffb878",
+                      "surface": "#faf8ff",
+                      "on-tertiary-fixed-variant": "#6c3a00",
+                      "on-surface": "#131b2e",
+                      "on-secondary-container": "#006f67",
+                      "background": "#faf8ff",
+                      "surface-canvas": "#F8FAFC"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "xl": "24px",
+                      "xs": "4px",
+                      "base": "16px",
+                      "margin-mobile": "16px",
+                      "2xl": "32px",
+                      "gutter": "16px",
+                      "sm": "8px",
+                      "lg": "20px",
+                      "margin-desktop": "32px",
+                      "md": "12px"
+              },
+              "fontFamily": {
+                      "body-sm": [
+                              "Inter"
+                      ],
+                      "title-lg": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "body-base": [
+                              "Inter"
+                      ],
+                      "display-lg": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "headline-lg": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "title-md": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "label-caps": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "headline-md": [
+                              "Plus Jakarta Sans"
+                      ]
+              },
+              "fontSize": {
+                      "body-sm": [
+                              "13px",
+                              {
+                                      "lineHeight": "18px",
+                                      "letterSpacing": "0",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "title-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "24px",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "body-base": [
+                              "15px",
+                              {
+                                      "lineHeight": "22px",
+                                      "letterSpacing": "0",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "display-lg": [
+                              "36px",
+                              {
+                                      "lineHeight": "44px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "800"
+                              }
+                      ],
+                      "headline-lg": [
+                              "28px",
+                              {
+                                      "lineHeight": "36px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "title-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "22px",
+                                      "letterSpacing": "0",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "label-caps": [
+                              "11px",
+                              {
+                                      "lineHeight": "14px",
+                                      "letterSpacing": "0.06em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "headline-md": [
+                              "22px",
+                              {
+                                      "lineHeight": "28px",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "700"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+      </script>
+</head>
+<body class="bg-surface-canvas text-on-background min-h-screen flex flex-col font-body-base pb-safe">
+<!-- Top App Bar -->
+<header class="bg-surface docked full-width top-0 border-b border-border-hairline flat no shadows flex justify-between items-center px-margin-mobile w-full h-16 sticky z-50">
+<div class="flex items-center gap-sm">
+<button class="p-2 -ml-2 rounded-full hover:bg-surface-container-low transition-colors text-on-surface-variant flex items-center justify-center">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">arrow_back</span>
+</button>
+<h1 class="text-title-lg font-title-lg font-extrabold text-on-background tracking-tight">Assigned Vehicle</h1>
+</div>
+<div class="flex items-center">
+<!-- Trailing Icon Placeholder from JSON if needed, but omitted here as it's a sub-page -->
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-1 w-full max-w-[1280px] mx-auto px-margin-mobile md:px-margin-desktop py-xl md:py-2xl flex flex-col gap-base">
+<!-- Primary Vehicle Card -->
+<div class="bg-surface-container-lowest rounded-xl shadow-sm border border-border-hairline overflow-hidden w-full max-w-[440px] mx-auto">
+<!-- Vehicle Image Placeholder -->
+<div class="w-full h-48 bg-surface-container-high relative">
+<img class="w-full h-full object-cover absolute inset-0" data-alt="A high-quality, front-side three-quarter angle photograph of a sleek, black Toyota Alphard executive MPV parked in a modern, well-lit underground parking garage. The lighting is crisp and cool, highlighting the polished chrome accents and glossy paintwork. The overall aesthetic is professional, premium, and functional, matching a high-end corporate transport service." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCczWSkgE5OpNOXihkWpIu7T30bossKHIAguKOotN2YDOXIU7ltUWendlzjSPeqQo75d2zS1hzmYqyNvXNB0TXBMRZzR5ZrNPOhHAjqc38nw62lOVtKHvQqqQbTgT1edkXA0PQA3F1lVcN3j3kdT4guwv_Of0kg-OjhQLFjifey4e8mt1XiLJXXd2T6k2yo3AYa7v6s-QgBN1LDuqB4jYLDpE-ZDh6fdrpk1bNZuVZpq81-6zQj5iQ">
+<!-- Status Badge Overlay -->
+<div class="absolute top-4 right-4 bg-secondary-container text-on-secondary-container px-3 py-1 rounded-full text-label-caps font-label-caps flex items-center gap-xs shadow-sm">
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                    Assigned
+                </div>
+</div>
+<!-- Vehicle Header Info -->
+<div class="p-base border-b border-border-hairline">
+<div class="flex items-start justify-between mb-xs">
+<div>
+<h2 class="text-headline-md font-headline-md text-on-background">Toyota Alphard</h2>
+<p class="text-body-base font-body-base text-on-surface-variant mt-xs">Executive MPV</p>
+</div>
+<div class="bg-surface-variant text-on-surface-variant px-3 py-2 rounded-lg border border-outline-variant/30 flex items-center justify-center min-w-[100px]">
+<span class="text-title-md font-title-md font-bold tracking-wider">4D-1200</span>
+</div>
+</div>
+</div>
+<!-- Data List -->
+<div class="p-base flex flex-col gap-md">
+<!-- Data Item -->
+<div class="flex items-center justify-between py-xs">
+<div class="flex items-center gap-md text-on-surface-variant">
+<span class="material-symbols-outlined text-outline">tag</span>
+<span class="text-body-sm font-body-sm">Vehicle ID</span>
+</div>
+<span class="text-body-base font-body-base text-on-background font-medium">VEH-8472-ALPH</span>
+</div>
+<div class="h-px bg-border-hairline w-full"></div>
+<!-- Data Item -->
+<div class="flex items-center justify-between py-xs">
+<div class="flex items-center gap-md text-on-surface-variant">
+<span class="material-symbols-outlined text-outline">directions_car</span>
+<span class="text-body-sm font-body-sm">Vehicle Type</span>
+</div>
+<span class="text-body-base font-body-base text-on-background font-medium">Luxury Passenger Van</span>
+</div>
+<div class="h-px bg-border-hairline w-full"></div>
+<!-- Data Item -->
+<div class="flex items-center justify-between py-xs">
+<div class="flex items-center gap-md text-on-surface-variant">
+<span class="material-symbols-outlined text-outline">person</span>
+<span class="text-body-sm font-body-sm">Current Driver</span>
+</div>
+<div class="flex items-center gap-sm">
+<div class="w-6 h-6 rounded-full bg-role-driver/10 text-role-driver flex items-center justify-center text-[10px] font-bold">
+                            KN
+                        </div>
+<span class="text-body-base font-body-base text-on-background font-medium">Ko Aung Naing Win</span>
+</div>
+</div>
+<div class="h-px bg-border-hairline w-full"></div>
+<!-- Data Item -->
+<div class="flex items-center justify-between py-xs">
+<div class="flex items-center gap-md text-on-surface-variant">
+<span class="material-symbols-outlined text-outline">route</span>
+<span class="text-body-sm font-body-sm">Current Assignment</span>
+</div>
+<span class="text-body-base font-body-base text-role-driver font-medium">PCCP-TR-2026-0012</span>
+</div>
+</div>
+<!-- Information Footer -->
+<div class="bg-surface-container-low p-base text-center">
+<p class="text-body-sm font-body-sm text-outline flex items-center justify-center gap-xs">
+<span class="material-symbols-outlined text-[16px]">info</span>
+                    View-only mode. Contact dispatch for changes.
+                </p>
+</div>
+</div>
+</main>
+</body></html>

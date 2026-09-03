@@ -1,0 +1,216 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Driver Professional Assessment</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@500;600;700;800&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-primary-fixed": "#001d32",
+                        "on-background": "#131b2e",
+                        "outline": "#707881",
+                        "inverse-on-surface": "#eef0ff",
+                        "on-secondary-fixed-variant": "#00504a",
+                        "surface-variant": "#dae2fc",
+                        "inverse-surface": "#283044",
+                        "secondary": "#006a63",
+                        "error-container": "#ffdad6",
+                        "border-hairline": "#E2E8F0",
+                        "on-secondary": "#ffffff",
+                        "primary-fixed": "#cde5ff",
+                        "error": "#ba1a1a",
+                        "surface-tint": "#006399",
+                        "inverse-primary": "#94ccff",
+                        "secondary-fixed-dim": "#80d5cb",
+                        "role-passenger": "#2563EB",
+                        "secondary-fixed": "#9cf2e8",
+                        "surface-container-low": "#f2f3ff",
+                        "surface-container-highest": "#dae2fc",
+                        "surface-container-lowest": "#ffffff",
+                        "role-driver": "#7C3AED",
+                        "primary-container": "#0369a1",
+                        "primary-fixed-dim": "#94ccff",
+                        "on-primary-container": "#cbe4ff",
+                        "on-primary": "#ffffff",
+                        "on-tertiary-fixed": "#2e1500",
+                        "tertiary-container": "#955301",
+                        "outline-variant": "#c0c7d1",
+                        "on-surface-variant": "#40474f",
+                        "surface-container-high": "#e1e7ff",
+                        "on-secondary-fixed": "#00201d",
+                        "on-primary-fixed-variant": "#004b74",
+                        "on-error-container": "#93000a",
+                        "secondary-container": "#99efe5",
+                        "tertiary-fixed": "#ffdcc1",
+                        "surface-container": "#eaedff",
+                        "on-tertiary": "#ffffff",
+                        "on-error": "#ffffff",
+                        "tertiary": "#733f00",
+                        "surface-bright": "#faf8ff",
+                        "on-tertiary-container": "#ffdbbe",
+                        "primary": "#00507d",
+                        "surface-dim": "#d2d9f4",
+                        "role-admin": "#059669",
+                        "tertiary-fixed-dim": "#ffb878",
+                        "surface": "#faf8ff",
+                        "on-tertiary-fixed-variant": "#6c3a00",
+                        "on-surface": "#131b2e",
+                        "on-secondary-container": "#006f67",
+                        "background": "#faf8ff",
+                        "surface-canvas": "#F8FAFC"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xl": "24px",
+                        "xs": "4px",
+                        "base": "16px",
+                        "margin-mobile": "16px",
+                        "2xl": "32px",
+                        "gutter": "16px",
+                        "sm": "8px",
+                        "lg": "20px",
+                        "margin-desktop": "32px",
+                        "md": "12px"
+                    },
+                    "fontFamily": {
+                        "body-sm": ["Inter"],
+                        "title-lg": ["Plus Jakarta Sans"],
+                        "body-base": ["Inter"],
+                        "display-lg": ["Plus Jakarta Sans"],
+                        "headline-lg": ["Plus Jakarta Sans"],
+                        "title-md": ["Plus Jakarta Sans"],
+                        "label-caps": ["Plus Jakarta Sans"],
+                        "headline-md": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "body-sm": ["13px", {"lineHeight": "18px", "letterSpacing": "0", "fontWeight": "400"}],
+                        "title-lg": ["18px", {"lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "body-base": ["15px", {"lineHeight": "22px", "letterSpacing": "0", "fontWeight": "400"}],
+                        "display-lg": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                        "headline-lg": ["28px", {"lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "title-md": ["16px", {"lineHeight": "22px", "letterSpacing": "0", "fontWeight": "600"}],
+                        "label-caps": ["11px", {"lineHeight": "14px", "letterSpacing": "0.06em", "fontWeight": "700"}],
+                        "headline-md": ["22px", {"lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "700"}]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-surface-canvas text-on-surface font-body-base min-h-screen flex flex-col antialiased">
+<!-- Top Navigation (Task-Focused / Sub-page) -->
+<header class="bg-surface border-b border-border-hairline flex items-center h-16 px-margin-mobile md:px-margin-desktop sticky top-0 z-50">
+<button aria-label="Go back" class="mr-4 flex items-center justify-center p-2 rounded-full hover:bg-surface-container-low transition-colors text-role-driver">
+<span class="material-symbols-outlined" data-icon="arrow_back">arrow_back</span>
+</button>
+<h1 class="text-headline-md font-headline-md text-on-surface flex-grow">Professional Assessment</h1>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-grow p-margin-mobile md:p-margin-desktop flex justify-center">
+<div class="w-full max-w-[640px] space-y-xl">
+<!-- Driver Profile Header & Status -->
+<section class="bg-surface rounded-xl border border-border-hairline shadow-[0px_1px_3px_rgba(15,23,42,0.05)] p-xl overflow-hidden relative">
+<!-- Subtle decorative background accent -->
+<div class="absolute top-0 right-0 w-32 h-32 bg-role-admin/10 rounded-bl-full -mr-16 -mt-16 pointer-events-none"></div>
+<div class="flex items-start gap-base relative z-10">
+<div class="w-16 h-16 rounded-full overflow-hidden bg-surface-container-highest shrink-0 border-2 border-surface border-role-driver/20">
+<img alt="Driver Avatar" class="w-full h-full object-cover" data-alt="A professional headshot of a mature, dependable-looking transport driver wearing a clean corporate uniform, smiling subtly. The background is a soft, blurred modern corporate office setting with high-key lighting, emphasizing a clean, trustworthy aesthetic with a palette of whites, deep blues, and subtle skin tones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAXMCYzd7DWacR-CHMi-q_1q6_bGAX6la14-z37UTZZ1U_3JoROx0naklGDFpjkGq4x7NjT1FVKv3KuNbhXU8h2A0WpZn05_NyrPYKHlUXyTSaNbQRAsIsBb0jqLoAaP_JWUUEFl4rSmkK2NAcj9GNAd5t3WSv0G4uYj4IUJpWS8NJ-UcZ77Juhv0bz674s43jDlO0NEj0Z5up7jqzqSTwBL0N0zDdrRJvAB-7Ie3q8ehp3PW3k1Us">
+</div>
+<div class="flex-grow">
+<h2 class="text-title-lg font-title-lg text-on-surface mb-xs">Michael Chen</h2>
+<p class="text-body-sm font-body-sm text-on-surface-variant mb-base">Driver ID: DRV-8842-XC</p>
+<div class="inline-flex items-center gap-xs bg-role-admin/10 text-role-admin px-sm py-1 rounded-full">
+<span class="material-symbols-outlined text-[16px]" data-icon="verified">verified</span>
+<span class="text-label-caps font-label-caps">Approved by Transport Admin</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Assessment Areas - Bento Grid Style -->
+<section class="grid grid-cols-1 md:grid-cols-2 gap-base">
+<!-- Safety -->
+<div class="bg-surface rounded-xl border border-border-hairline shadow-[0px_1px_3px_rgba(15,23,42,0.05)] p-base flex flex-col hover:border-role-driver/30 transition-colors">
+<div class="flex items-center gap-sm mb-md">
+<div class="w-8 h-8 rounded-full bg-role-admin/10 flex items-center justify-center text-role-admin">
+<span class="material-symbols-outlined text-[18px]" data-icon="health_and_safety">health_and_safety</span>
+</div>
+<h3 class="text-title-md font-title-md text-on-surface">Safety</h3>
+</div>
+<div class="mt-auto flex items-center justify-between">
+<span class="text-body-sm font-body-sm text-on-surface-variant">Assessment Result</span>
+<span class="text-body-base font-body-base font-semibold text-role-admin">Passed</span>
+</div>
+</div>
+<!-- Conduct -->
+<div class="bg-surface rounded-xl border border-border-hairline shadow-[0px_1px_3px_rgba(15,23,42,0.05)] p-base flex flex-col hover:border-role-driver/30 transition-colors">
+<div class="flex items-center gap-sm mb-md">
+<div class="w-8 h-8 rounded-full bg-role-admin/10 flex items-center justify-center text-role-admin">
+<span class="material-symbols-outlined text-[18px]" data-icon="assignment_ind">assignment_ind</span>
+</div>
+<h3 class="text-title-md font-title-md text-on-surface">Conduct</h3>
+</div>
+<div class="mt-auto flex items-center justify-between">
+<span class="text-body-sm font-body-sm text-on-surface-variant">Assessment Result</span>
+<span class="text-body-base font-body-base font-semibold text-role-admin">Passed</span>
+</div>
+</div>
+<!-- Vehicle Care -->
+<div class="bg-surface rounded-xl border border-border-hairline shadow-[0px_1px_3px_rgba(15,23,42,0.05)] p-base flex flex-col hover:border-role-driver/30 transition-colors">
+<div class="flex items-center gap-sm mb-md">
+<div class="w-8 h-8 rounded-full bg-role-admin/10 flex items-center justify-center text-role-admin">
+<span class="material-symbols-outlined text-[18px]" data-icon="directions_car">directions_car</span>
+</div>
+<h3 class="text-title-md font-title-md text-on-surface">Vehicle Care</h3>
+</div>
+<div class="mt-auto flex items-center justify-between">
+<span class="text-body-sm font-body-sm text-on-surface-variant">Assessment Result</span>
+<span class="text-body-base font-body-base font-semibold text-role-admin">Passed</span>
+</div>
+</div>
+<!-- Customer Service -->
+<div class="bg-surface rounded-xl border border-border-hairline shadow-[0px_1px_3px_rgba(15,23,42,0.05)] p-base flex flex-col hover:border-role-driver/30 transition-colors">
+<div class="flex items-center gap-sm mb-md">
+<div class="w-8 h-8 rounded-full bg-role-admin/10 flex items-center justify-center text-role-admin">
+<span class="material-symbols-outlined text-[18px]" data-icon="support_agent">support_agent</span>
+</div>
+<h3 class="text-title-md font-title-md text-on-surface">Customer Service</h3>
+</div>
+<div class="mt-auto flex items-center justify-between">
+<span class="text-body-sm font-body-sm text-on-surface-variant">Assessment Result</span>
+<span class="text-body-base font-body-base font-semibold text-role-admin">Passed</span>
+</div>
+</div>
+<!-- English Proficiency (Full Width) -->
+<div class="bg-surface rounded-xl border border-border-hairline shadow-[0px_1px_3px_rgba(15,23,42,0.05)] p-base flex flex-col md:col-span-2 hover:border-role-driver/30 transition-colors">
+<div class="flex items-center gap-sm mb-md">
+<div class="w-8 h-8 rounded-full bg-primary-container/10 flex items-center justify-center text-primary-container">
+<span class="material-symbols-outlined text-[18px]" data-icon="language">language</span>
+</div>
+<h3 class="text-title-md font-title-md text-on-surface">English Proficiency</h3>
+</div>
+<div class="mt-auto flex items-center justify-between border-t border-border-hairline pt-md">
+<span class="text-body-sm font-body-sm text-on-surface-variant">Spoken &amp; Written Level</span>
+<span class="text-body-base font-body-base font-medium text-primary-container">Intermediate</span>
+</div>
+</div>
+</section>
+<div class="text-center mt-lg">
+<p class="text-body-sm font-body-sm text-on-surface-variant flex items-center justify-center gap-xs">
+<span class="material-symbols-outlined text-[16px]" data-icon="info">info</span>
+                    This is a view-only record.
+                </p>
+</div>
+</div>
+</main>
+</body></html>

@@ -1,0 +1,282 @@
+<!DOCTYPE html><html lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Passenger Account - PCCP Vector</title>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Google Fonts: Plus Jakarta Sans & Inter -->
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Plus+Jakarta+Sans:wght@500;600;700;800&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Config -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary-container": "#006f67",
+                        "on-primary-fixed-variant": "#004b74",
+                        "on-surface": "#131b2e",
+                        "on-tertiary-container": "#ffdbbe",
+                        "tertiary-fixed": "#ffdcc1",
+                        "inverse-on-surface": "#eef0ff",
+                        "surface-container-low": "#f2f3ff",
+                        "secondary-fixed": "#9cf2e8",
+                        "on-primary-fixed": "#001d32",
+                        "on-error": "#ffffff",
+                        "surface-container-high": "#e1e7ff",
+                        "on-primary-container": "#cbe4ff",
+                        "on-error-container": "#93000a",
+                        "secondary": "#006a63",
+                        "surface": "#faf8ff",
+                        "outline": "#707881",
+                        "secondary-container": "#99efe5",
+                        "on-secondary-fixed-variant": "#00504a",
+                        "surface-variant": "#dae2fc",
+                        "on-secondary-fixed": "#00201d",
+                        "surface-tint": "#006399",
+                        "on-tertiary-fixed-variant": "#6c3a00",
+                        "outline-variant": "#c0c7d1",
+                        "error": "#ba1a1a",
+                        "on-secondary": "#ffffff",
+                        "primary-container": "#0369a1",
+                        "primary": "#00507d",
+                        "role-admin": "#059669",
+                        "surface-canvas": "#F8FAFC",
+                        "tertiary-fixed-dim": "#ffb878",
+                        "on-tertiary-fixed": "#2e1500",
+                        "surface-bright": "#faf8ff",
+                        "inverse-surface": "#283044",
+                        "role-passenger": "#2563EB",
+                        "on-primary": "#ffffff",
+                        "tertiary-container": "#955301",
+                        "primary-fixed-dim": "#94ccff",
+                        "primary-fixed": "#cde5ff",
+                        "on-background": "#131b2e",
+                        "tertiary": "#733f00",
+                        "on-tertiary": "#ffffff",
+                        "secondary-fixed-dim": "#80d5cb",
+                        "on-surface-variant": "#40474f",
+                        "error-container": "#ffdad6",
+                        "surface-container-lowest": "#ffffff",
+                        "background": "#faf8ff",
+                        "inverse-primary": "#94ccff",
+                        "surface-container": "#eaedff",
+                        "surface-container-highest": "#dae2fc",
+                        "surface-dim": "#d2d9f4",
+                        "role-driver": "#7C3AED",
+                        "border-hairline": "#E2E8F0"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xl": "24px",
+                        "margin-mobile": "16px",
+                        "gutter": "16px",
+                        "margin-desktop": "32px",
+                        "xs": "4px",
+                        "2xl": "32px",
+                        "md": "12px",
+                        "lg": "20px",
+                        "base": "16px",
+                        "sm": "8px"
+                    },
+                    "fontFamily": {
+                        "body-sm": ["Inter"],
+                        "title-lg": ["Plus Jakarta Sans"],
+                        "headline-lg": ["Plus Jakarta Sans"],
+                        "label-caps": ["Plus Jakarta Sans"],
+                        "body-base": ["Inter"],
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "title-md": ["Plus Jakarta Sans"],
+                        "display-lg": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "body-sm": ["13px", { "lineHeight": "18px", "letterSpacing": "0", "fontWeight": "400" }],
+                        "title-lg": ["18px", { "lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "headline-lg": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "label-caps": ["11px", { "lineHeight": "14px", "letterSpacing": "0.06em", "fontWeight": "700" }],
+                        "body-base": ["15px", { "lineHeight": "22px", "letterSpacing": "0", "fontWeight": "400" }],
+                        "headline-md": ["22px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "title-md": ["16px", { "lineHeight": "22px", "letterSpacing": "0", "fontWeight": "600" }],
+                        "display-lg": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "800" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined.filled {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-surface-canvas text-on-surface font-body-base antialiased min-h-screen flex flex-col w-full">
+<!-- Top App Bar (From JSON) -->
+<header class="md:hidden flex justify-between items-center w-full px-margin-mobile h-16 bg-surface-container-highest border-b border-outline-variant fixed top-0 z-40"><div class="flex items-center gap-2">
+<span class="text-title-lg font-title-lg font-extrabold text-primary">PCCP Transport</span>
+</div>
+
+<button class="p-2 text-primary hover:bg-surface-container-low rounded-full transition-colors relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full"></span>
+</button></header>
+<!-- Main Content -->
+<main class="flex-1 w-full px-margin-mobile mb-2xl h-full mt-16 pb-32">
+<!-- Profile Header -->
+<div class="flex flex-col items-center justify-center py-2xl">
+<div class="relative mb-md">
+<div class="h-24 w-24 rounded-full overflow-hidden border-2 border-primary-container shadow-sm bg-white">
+<img alt="Shoon Profile" class="h-full w-full object-cover" data-alt="A professional headshot of a young Asian male in corporate attire, well-lit, confident expression, shallow depth of field, suitable for an enterprise application profile avatar." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAtjGjX0FeDs75qtTdGaVwIDXzIIKJcxfDxLi-FUqx8566ifsvmOscx1yo7bzRo1wptxGzzrIggkCzpGSKOiy2fFrfHhTSuKagE5-gAkLlx16NRgJw7_hfQnGDmq1ZLSRY8G4HrB1xdJtnWMuKk-gqmQru1D6MK4YRRYIqfWNCb9XgoE86ull4lfsnWNiCyiLdgSZtAyCd4ndm2k-VR8zHPucurcs-aN1Hr9_LRYitU2QNvqgvZELU">
+</div>
+<button class="absolute bottom-0 right-0 h-8 w-8 bg-surface rounded-full shadow-sm border border-border-hairline flex items-center justify-center text-primary-container hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-[18px]" data-icon="edit">edit</span>
+</button>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface mb-xs">Shoon</h1>
+<span class="inline-flex items-center px-sm py-xs bg-role-passenger/10 text-role-passenger font-label-caps text-label-caps rounded-full">
+                SME Department
+            </span>
+</div>
+<!-- Section 1: Personal Information -->
+<section class="bg-surface rounded-xl border border-border-hairline shadow-[0_1px_3px_rgba(15,23,42,0.05)] overflow-hidden mb-lg">
+<h2 class="font-title-md text-title-md text-on-surface px-base py-md border-b border-border-hairline bg-surface-bright">Personal Information</h2>
+<div class="flex flex-col">
+<div class="flex items-center justify-between px-base py-md border-b border-border-hairline hover:bg-surface-canvas transition-colors">
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-outline" data-icon="mail">mail</span>
+<div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Email</p>
+<p class="font-body-base text-body-base text-on-surface font-medium">shoon@pccp.corp</p>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-between px-base py-md border-b border-border-hairline hover:bg-surface-canvas transition-colors">
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-outline" data-icon="badge">badge</span>
+<div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Employee ID</p>
+<p class="font-body-base text-body-base text-on-surface font-medium">EMP-20394</p>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-between px-base py-md hover:bg-surface-canvas transition-colors cursor-pointer">
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-outline" data-icon="call">call</span>
+<div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Phone Number</p>
+<p class="font-body-base text-body-base text-on-surface font-medium">+65 9123 4567</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline" data-icon="chevron_right">chevron_right</span>
+</div>
+</div>
+</section>
+<!-- Section 2: Preferences -->
+<section class="bg-surface rounded-xl border border-border-hairline shadow-[0_1px_3px_rgba(15,23,42,0.05)] overflow-hidden mb-lg">
+<h2 class="font-title-md text-title-md text-on-surface px-base py-md border-b border-border-hairline bg-surface-bright">Preferences</h2>
+<div class="flex flex-col">
+<div class="flex items-center justify-between px-base py-md border-b border-border-hairline">
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-outline" data-icon="notifications_active">notifications_active</span>
+<span class="font-body-base text-body-base text-on-surface font-medium">Push Notifications</span>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox" value="">
+<div class="w-11 h-6 bg-surface-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-border-hairline after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-container"></div>
+</label>
+</div>
+<div class="flex items-center justify-between px-base py-md border-b border-border-hairline hover:bg-surface-canvas transition-colors cursor-pointer">
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-outline" data-icon="language">language</span>
+<span class="font-body-base text-body-base text-on-surface font-medium">Language</span>
+</div>
+<div class="flex items-center gap-xs">
+<span class="font-body-sm text-body-sm text-on-surface-variant">English</span>
+<span class="material-symbols-outlined text-outline" data-icon="chevron_right">chevron_right</span>
+</div>
+</div>
+<div class="flex items-center justify-between px-base py-md">
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-outline" data-icon="dark_mode">dark_mode</span>
+<span class="font-body-base text-body-base text-on-surface font-medium">Dark Mode</span>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer" type="checkbox" value="">
+<div class="w-11 h-6 bg-surface-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-border-hairline after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-container"></div>
+</label>
+</div>
+</div>
+</section>
+<!-- Section 3: Support & Legal -->
+<section class="bg-surface rounded-xl border border-border-hairline shadow-[0_1px_3px_rgba(15,23,42,0.05)] overflow-hidden mb-xl">
+<div class="flex flex-col">
+<div class="flex items-center justify-between px-base py-md border-b border-border-hairline hover:bg-surface-canvas transition-colors cursor-pointer">
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-outline" data-icon="help">help</span>
+<span class="font-body-base text-body-base text-on-surface font-medium">Help Center</span>
+</div>
+<span class="material-symbols-outlined text-outline" data-icon="chevron_right">chevron_right</span>
+</div>
+<div class="flex items-center justify-between px-base py-md border-b border-border-hairline hover:bg-surface-canvas transition-colors cursor-pointer">
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-outline" data-icon="description">description</span>
+<span class="font-body-base text-body-base text-on-surface font-medium">Terms of Service</span>
+</div>
+<span class="material-symbols-outlined text-outline" data-icon="chevron_right">chevron_right</span>
+</div>
+<div class="flex items-center justify-between px-base py-md hover:bg-surface-canvas transition-colors cursor-pointer">
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-outline" data-icon="policy">policy</span>
+<span class="font-body-base text-body-base text-on-surface font-medium">Privacy Policy</span>
+</div>
+<span class="material-symbols-outlined text-outline" data-icon="chevron_right">chevron_right</span>
+</div>
+</div>
+</section>
+<!-- Logout Button -->
+<button class="w-full h-12 flex items-center justify-center gap-sm bg-error-container text-error rounded-lg font-title-md text-title-md font-semibold active:opacity-80 transition-opacity border border-error/20">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+             Log Out
+         </button>
+<p class="text-center font-body-sm text-body-sm text-outline mt-lg">App Version 2.14.0 (Build 893)</p>
+</main>
+<!-- Bottom Navigation Bar (From JSON, 'Account' is Active) -->
+<nav class="md:hidden fixed bottom-0 w-full z-50 rounded-t-xl bg-surface dark:bg-inverse-surface border-t border-hairline dark:border-outline-variant shadow-md flex justify-around items-center h-[64px] pb-safe">
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-3 py-1 scale-95 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-body-sm text-body-sm mt-1">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-3 py-1 scale-95 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined">assignment</span>
+<span class="font-body-sm text-body-sm mt-1">Requests</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-3 py-1 scale-95 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined">directions_car</span>
+<span class="font-body-sm text-body-sm mt-1">Trips</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-3 py-1 scale-95 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined">qr_code_scanner</span>
+<span class="font-body-sm text-body-sm mt-1">Scan QR</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-primary-container text-white rounded-xl px-3 py-1 scale-95 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined filled">person</span>
+<span class="font-body-sm text-body-sm font-bold mt-1">Account</span>
+</a>
+</nav>
+
+
+
+
+</body></html>

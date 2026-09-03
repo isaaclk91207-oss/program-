@@ -1,0 +1,1 @@
+{"root":["./src/app.ts","./src/config.ts","./src/types.ts","./src/routes/admin.routes.ts","./src/routes/driver.routes.ts","./src/routes/index.ts","./src/routes/reports.routes.ts","./src/routes/transport.routes.ts","./src/routes/trip.routes.ts","./src/routes/vehicle.routes.ts","./src/services/netpros.service.ts","./src/services/wialon-reports.ts"],"version":"5.9.3"}

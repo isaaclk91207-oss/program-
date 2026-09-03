@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/>
+<title>Driver Assignment Detail - PCCP Vector</title>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Plus+Jakarta+Sans:wght@500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Configuration -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary": "#ffffff",
+                        "primary-fixed-dim": "#94ccff",
+                        "outline": "#707881",
+                        "primary": "#00507d",
+                        "surface": "#faf8ff",
+                        "on-surface-variant": "#40474f",
+                        "primary-container": "#0369a1",
+                        "primary-fixed": "#cde5ff",
+                        "secondary": "#006a63",
+                        "tertiary-fixed": "#ffdcc1",
+                        "surface-container": "#eaedff",
+                        "on-tertiary": "#ffffff",
+                        "secondary-fixed": "#9cf2e8",
+                        "surface-canvas": "#F8FAFC",
+                        "on-surface": "#131b2e",
+                        "surface-container-low": "#f2f3ff",
+                        "surface-variant": "#dae2fc",
+                        "on-tertiary-container": "#ffdbbe",
+                        "surface-container-highest": "#dae2fc",
+                        "inverse-surface": "#283044",
+                        "error": "#ba1a1a",
+                        "role-driver": "#7C3AED",
+                        "tertiary": "#733f00",
+                        "error-container": "#ffdad6",
+                        "on-tertiary-fixed": "#2e1500",
+                        "surface-container-high": "#e1e7ff",
+                        "background": "#faf8ff",
+                        "border-hairline": "#E2E8F0",
+                        "tertiary-fixed-dim": "#ffb878",
+                        "on-primary-container": "#cbe4ff",
+                        "on-error-container": "#93000a",
+                        "on-tertiary-fixed-variant": "#6c3a00",
+                        "on-error": "#ffffff",
+                        "on-primary-fixed": "#001d32",
+                        "secondary-container": "#99efe5",
+                        "inverse-on-surface": "#eef0ff",
+                        "surface-dim": "#d2d9f4",
+                        "secondary-fixed-dim": "#80d5cb",
+                        "surface-bright": "#faf8ff",
+                        "on-secondary-fixed-variant": "#00504a",
+                        "on-background": "#131b2e",
+                        "outline-variant": "#c0c7d1",
+                        "role-admin": "#059669",
+                        "on-secondary-fixed": "#00201d",
+                        "on-primary-fixed-variant": "#004b74",
+                        "surface-tint": "#006399",
+                        "surface-container-lowest": "#ffffff",
+                        "tertiary-container": "#955301",
+                        "inverse-primary": "#94ccff",
+                        "on-secondary-container": "#006f67",
+                        "role-passenger": "#2563EB",
+                        "on-primary": "#ffffff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xs": "4px",
+                        "2xl": "32px",
+                        "md": "12px",
+                        "gutter": "16px",
+                        "base": "16px",
+                        "margin-mobile": "16px",
+                        "margin-desktop": "32px",
+                        "lg": "20px",
+                        "xl": "24px",
+                        "sm": "8px",
+                        "safe": "env(safe-area-inset-bottom)"
+                    },
+                    "fontFamily": {
+                        "body-sm": ["Inter"],
+                        "display-lg": ["Plus Jakarta Sans"],
+                        "headline-lg": ["Plus Jakarta Sans"],
+                        "label-caps": ["Plus Jakarta Sans"],
+                        "body-base": ["Inter"],
+                        "title-md": ["Plus Jakarta Sans"],
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "title-lg": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "body-sm": ["13px", {"lineHeight": "18px", "letterSpacing": "0", "fontWeight": "400"}],
+                        "display-lg": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                        "headline-lg": ["28px", {"lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "label-caps": ["11px", {"lineHeight": "14px", "letterSpacing": "0.06em", "fontWeight": "700"}],
+                        "body-base": ["15px", {"lineHeight": "22px", "letterSpacing": "0", "fontWeight": "400"}],
+                        "title-md": ["16px", {"lineHeight": "22px", "letterSpacing": "0", "fontWeight": "600"}],
+                        "headline-md": ["22px", {"lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                        "title-lg": ["18px", {"lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            -webkit-tap-highlight-color: transparent;
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .pb-safe { padding-bottom: env(safe-area-inset-bottom, 16px); }
+        .min-h-screen-safe { min-height: calc(100vh - env(safe-area-inset-bottom)); }
+        
+        /* Ambient subtle gradient background */
+        .bg-ambient-layer {
+            background-image: radial-gradient(circle at 100% 0%, rgba(124, 58, 237, 0.03) 0%, transparent 40%),
+                              radial-gradient(circle at 0% 100%, rgba(124, 58, 237, 0.02) 0%, transparent 40%);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface-canvas text-on-surface antialiased min-h-screen font-body-base bg-ambient-layer flex flex-col md:flex-row relative overflow-x-hidden">
+<!-- TopAppBar (Secondary Screen Layout) -->
+<!-- Suppressed Top Nav Links for Task-Focused Intent, showing Back button instead of Menu -->
+<header class="fixed top-0 w-full z-50 bg-surface border-b border-outline-variant flat no shadows flex justify-between items-center px-margin-mobile h-14 md:hidden">
+<button aria-label="Go back" class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-low transition-colors text-role-driver">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">arrow_back</span>
+</button>
+<h1 class="font-title-lg text-title-lg text-role-driver font-bold truncate px-4 flex-1 text-center">Assignment Detail</h1>
+<div class="w-10 h-10 rounded-full overflow-hidden border border-outline-variant flex-shrink-0">
+<img alt="Driver Profile" class="w-full h-full object-cover" data-alt="A professional headshot of an Asian male executive chauffeur in a crisp dark suit and white shirt, shot in a bright modern studio setting with soft lighting. Corporate modern aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC8SOFbozT3KkVlcaRV2V1b1oJ8n1ABSZQrAcNGDlvsGkzoQFTb3AU0gAfQqjfKasuq0wa3GcWMmWdGMF-30to8QwEKTubXOp8795neegzly1tDV5qsWGRQ-9mK8rtN4Iglfjv_3L5R0kL_N1F5CKItRNt2lu13YGat1JOUNRBfqfrYD_YNdO75bRGjv6fuCpyxVix2z_hZNvSthtYDliVq8AdLJ3vUvvO3DrhADPHusiHzvR_94gI"/>
+</div>
+</header>
+<!-- Desktop Sidebar (Hidden on mobile, showing minimal nav context) -->
+<aside class="hidden md:flex flex-col w-64 bg-surface border-r border-outline-variant fixed h-full z-40 pt-20">
+<div class="px-6 py-4 flex flex-col items-center border-b border-outline-variant">
+<div class="w-20 h-20 rounded-full overflow-hidden border-2 border-surface-container mb-3 shadow-sm">
+<img alt="Driver Profile" class="w-full h-full object-cover" data-alt="A professional headshot of an Asian male executive chauffeur in a crisp dark suit and white shirt, shot in a bright modern studio setting with soft lighting. Corporate modern aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC6X2Xl4itFPZomWzCcZ3r1HUInvxZVfNjk1zXNTNu-lk3YWhrz6Lz-8RaWK-OuxhGjF70tF6gILA3XdLBnMzXHWrea7tvvtiWsU-XSJ6LDk-A5swe6Q66O8PIkXSSTDDmkymtgXg_vdsyCTJLB0ZcIXcxLZkVJEjmGeBXuzaLGLcACmDDuIcEuVNYwzeNF1tRTr5xmK7P6K10HdmWYVC7deUui0RT9-h1vswEABJkdY-q7BYPIa_Y"/>
+</div>
+<h2 class="font-title-md text-title-md text-on-surface text-center">Ko Aung Naing Win</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">D-8829</p>
+<div class="mt-2 bg-surface-container-low text-role-driver font-label-caps text-label-caps px-2 py-1 rounded-md border border-outline-variant/30 flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">verified</span>
+                 CC — Certified
+            </div>
+</div>
+<nav class="flex-1 overflow-y-auto py-4 px-3 flex flex-col gap-1">
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-low transition-colors" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">home</span>
+<span class="font-title-md text-title-md">Home</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-role-driver-container/20 text-role-driver font-semibold" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">assignment</span>
+<span class="font-title-md text-title-md">Assignments</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-low transition-colors" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">route</span>
+<span class="font-title-md text-title-md">Trips</span>
+</a>
+</nav>
+</aside>
+<!-- Main Content Canvas -->
+<main class="flex-1 w-full max-w-[1280px] mx-auto md:ml-64 pt-[72px] pb-[96px] md:pt-10 md:pb-10 px-margin-mobile md:px-margin-desktop md:flex md:justify-center">
+<!-- Task Focused Container (Max width for readability) -->
+<div class="w-full max-w-[480px] md:max-w-[540px] flex flex-col gap-base">
+<!-- Header Section (Desktop Only Header) -->
+<div class="hidden md:flex items-center gap-4 mb-4">
+<button aria-label="Go back" class="w-10 h-10 flex items-center justify-center rounded-full bg-surface border border-outline-variant hover:bg-surface-container-low transition-colors text-on-surface-variant">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">arrow_back</span>
+</button>
+<h1 class="font-headline-lg text-headline-lg text-on-surface">Assignment Detail</h1>
+</div>
+<!-- Status & Core Info Card -->
+<div class="bg-surface rounded-xl border border-border-hairline shadow-[0px_1px_3px_rgba(15,23,42,0.05)] p-5 flex flex-col gap-4">
+<div class="flex justify-between items-start">
+<div>
+<p class="font-label-caps text-label-caps text-on-surface-variant mb-1 uppercase tracking-wider">Assignment ID</p>
+<p class="font-title-lg text-title-lg text-on-surface">PCCP-TR-2026-0012</p>
+</div>
+<div class="bg-role-driver/10 text-role-driver border border-role-driver/20 px-3 py-1.5 rounded-full flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-role-driver animate-pulse"></span>
+<span class="font-label-caps text-label-caps font-bold">ASSIGNED</span>
+</div>
+</div>
+<div class="h-px w-full bg-outline-variant/30"></div>
+<div class="flex items-center gap-4">
+<div class="flex-1 flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-surface-container-low flex items-center justify-center text-role-driver">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">schedule</span>
+</div>
+<div>
+<p class="font-label-caps text-label-caps text-on-surface-variant">TIME</p>
+<p class="font-title-md text-title-md text-on-surface">08:30 AM</p>
+</div>
+</div>
+<div class="w-px h-10 bg-outline-variant/30"></div>
+<div class="flex-1 flex items-center gap-3 pl-2">
+<div class="w-10 h-10 rounded-full bg-surface-container-low flex items-center justify-center text-role-driver">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">swap_horiz</span>
+</div>
+<div>
+<p class="font-label-caps text-label-caps text-on-surface-variant">SERVICE TYPE</p>
+<p class="font-title-md text-title-md text-on-surface">Round Trip</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Route Map Canvas Placeholder (Abstracted) -->
+<div class="h-40 w-full rounded-xl border border-border-hairline overflow-hidden relative shadow-[0px_1px_3px_rgba(15,23,42,0.05)] bg-surface-container-lowest">
+<div class="bg-cover bg-center w-full h-full opacity-60" data-alt="A modern, clean vector map snippet of Yangon city with a subtle purple route line overlaid, soft grayscale map tones with a corporate aesthetic, UI background element." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDaV70nAqTsBYsjzopaSUzkxIwJkosEa0h0Cd8rlIV-Il0MBRlWDI0zDA5hDKnt4-F0joEaPeDV902A4WQ1PIaeCN7lxd-KQM6aZ8cO8b9i65VMEcCT8U5u5XQ9FCINfXo-1mybHZCoeJUL8jyOa3J31x5vc7AVqQyRDxrocIhFrSzKBeKfb--I5FEICJlQcLmiCHeimMsaJcpc_CXc6yZxMn5vNMhHWsgsLhwBTkmqA0IB1J8Cn0c')"></div>
+<!-- Interactive Route Overlay -->
+<div class="absolute inset-0 p-4 flex flex-col justify-center">
+<div class="flex items-stretch gap-4 bg-surface/90 backdrop-blur-sm p-3 rounded-lg border border-outline-variant/20 shadow-sm max-w-[90%] mx-auto w-full">
+<div class="flex flex-col items-center justify-between py-1 w-6">
+<div class="w-3 h-3 rounded-full border-2 border-role-driver bg-surface"></div>
+<div class="flex-1 w-0.5 bg-role-driver/30 my-1 border-dashed border-l border-role-driver/50"></div>
+<span class="material-symbols-outlined text-role-driver text-[18px]" style="font-variation-settings: 'FILL' 1;">location_on</span>
+</div>
+<div class="flex flex-col justify-between py-0.5 flex-1 gap-2">
+<div>
+<p class="font-label-caps text-label-caps text-on-surface-variant leading-none mb-1">PICKUP</p>
+<p class="font-title-md text-title-md text-on-surface leading-tight truncate">uab HO</p>
+</div>
+<div>
+<p class="font-label-caps text-label-caps text-on-surface-variant leading-none mb-1">DESTINATION</p>
+<p class="font-title-md text-title-md text-on-surface leading-tight truncate">Yangon International Airport</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Bento Grid Details -->
+<div class="grid grid-cols-2 gap-base">
+<!-- Passenger Info -->
+<div class="bg-surface rounded-xl border border-border-hairline shadow-[0px_1px_3px_rgba(15,23,42,0.05)] p-4 flex flex-col justify-between col-span-2 sm:col-span-1 min-h-[120px]">
+<div class="flex items-center gap-2 mb-2 text-on-surface-variant">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 0;">person</span>
+<h3 class="font-label-caps text-label-caps">PASSENGER</h3>
+</div>
+<div>
+<p class="font-title-md text-title-md text-on-surface">Aung Aung</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1 flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">group</span>
+                            2 People
+                        </p>
+</div>
+</div>
+<!-- Vehicle Info -->
+<div class="bg-surface rounded-xl border border-border-hairline shadow-[0px_1px_3px_rgba(15,23,42,0.05)] p-4 flex flex-col justify-between col-span-2 sm:col-span-1 min-h-[120px]">
+<div class="flex items-center gap-2 mb-2 text-on-surface-variant">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 0;">directions_car</span>
+<h3 class="font-label-caps text-label-caps">VEHICLE</h3>
+</div>
+<div>
+<p class="font-title-md text-title-md text-on-surface">Toyota Alphard</p>
+<div class="mt-2 inline-flex items-center justify-center px-2 py-0.5 bg-surface-container-low border border-outline-variant/50 rounded text-on-surface font-title-md text-title-md font-mono text-sm shadow-sm">
+                            4D-1200
+                        </div>
+</div>
+</div>
+</div>
+<!-- Driver Context Panel (Glassmorphism inspired card) -->
+<div class="relative overflow-hidden rounded-xl border border-role-driver/20 bg-surface shadow-[0px_1px_3px_rgba(15,23,42,0.05)] p-5 mt-2">
+<!-- Subtle decorative background element for the "Chauffeur" prestige -->
+<div class="absolute right-[-20%] top-[-20%] w-32 h-32 bg-role-driver/5 rounded-full blur-2xl pointer-events-none"></div>
+<div class="flex items-start gap-4 relative z-10">
+<div class="w-12 h-12 rounded-full overflow-hidden border border-outline-variant flex-shrink-0">
+<img alt="Driver Profile" class="w-full h-full object-cover" data-alt="A professional headshot of an Asian male executive chauffeur in a crisp dark suit and white shirt, shot in a bright modern studio setting with soft lighting. Corporate modern aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD4n7__SJrNLdfCDBXoGQv5eHP1Gt_DWjKmfik4TstGEf0y1FNrlU5TQceCTeI7GS1kjkGDkU1WoOmPjfVYmrBcKdNFtI5MKk19XY-JTdrLLz2rSaBF7ZbxA4OKO5Yr5JJDaAANWJo04CBKHqt0GmCLpfpEDDNDuVgT7uKAr8Yex91MZhPFXH89tSJjCnY3YnrJOcnJ37odmap9Xxs_vaIcHa4CdJUdQgMXbHOWaXq30ia3M9KprSg"/>
+</div>
+<div class="flex-1">
+<h3 class="font-title-lg text-title-lg text-on-surface">Ko Aung Naing Win</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-3">D-8829</p>
+<div class="flex flex-wrap gap-2">
+<div class="bg-surface-container px-2 py-1 rounded-md border border-outline-variant/30 flex items-center gap-1.5">
+<span class="material-symbols-outlined text-tertiary-container text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-title-md text-title-md text-on-surface text-sm">4.8 / 5</span>
+</div>
+<div class="bg-surface-container px-2 py-1 rounded-md border border-outline-variant/30 flex items-center gap-1.5">
+<span class="material-symbols-outlined text-role-admin text-[16px]" style="font-variation-settings: 'FILL' 1;">health_and_safety</span>
+<span class="font-title-md text-title-md text-on-surface text-sm">94% Safety</span>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-4 pt-4 border-t border-outline-variant/30 flex items-center gap-2 text-role-driver">
+<span class="material-symbols-outlined text-[18px]">verified</span>
+<span class="font-title-md text-title-md text-sm">CC — Certified Chauffeur</span>
+</div>
+</div>
+<!-- Action Buttons (Fixed to bottom on mobile, inline on desktop) -->
+<div class="mt-6 flex flex-col gap-3 pb-safe">
+<button class="w-full h-12 bg-role-driver text-on-primary font-title-md text-title-md rounded-lg shadow-sm hover:bg-role-driver/90 transition-colors flex items-center justify-center gap-2 active:scale-[0.98]">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                    Acknowledge Assignment
+                </button>
+<button class="w-full h-12 bg-surface text-error font-title-md text-title-md rounded-lg border border-error/30 hover:bg-error-container/30 transition-colors flex items-center justify-center gap-2 active:scale-[0.98]">
+                    Unable to Accept
+                </button>
+</div>
+</div>
+</main>
+<!-- BottomNavBar (Suppressed due to Task Focus context, added as requested by prompt but visually hidden or styled appropriately for a secondary screen) -->
+<!-- According to guidelines: "Task-Focused: Any sub-page featuring a 'Close' or 'Back' action that implies a temporary departure from the main navigation flow -> Automatic Suppression". However, prompt explicitly requests "Bottom Nav: Home... (Home selected)". Resolving conflict: Prompt requests it, Design System says suppress for secondary. I will render it for mobile as requested to satisfy prompt structure, but use the JSON style perfectly. -->
+<nav class="md:hidden flex justify-around items-center w-full h-16 px-2 bg-surface border-t border-outline-variant fixed bottom-0 z-50 pb-safe shadow-sm">
+<a class="flex flex-col items-center justify-center bg-role-driver-container text-on-secondary-container rounded-xl px-3 py-1.5 scale-95 active:scale-90 transition-transform duration-150" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">home</span>
+<span class="font-label-caps text-label-caps mt-1">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-3 py-1.5 hover:text-role-driver scale-95 active:scale-90 transition-transform duration-150" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">assignment</span>
+<span class="font-label-caps text-label-caps mt-1">Assignments</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-3 py-1.5 hover:text-role-driver scale-95 active:scale-90 transition-transform duration-150" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">route</span>
+<span class="font-label-caps text-label-caps mt-1">Trips</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-3 py-1.5 hover:text-role-driver scale-95 active:scale-90 transition-transform duration-150" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">query_stats</span>
+<span class="font-label-caps text-label-caps mt-1">Performance</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-3 py-1.5 hover:text-role-driver scale-95 active:scale-90 transition-transform duration-150" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">person</span>
+<span class="font-label-caps text-label-caps mt-1">Account</span>
+</a>
+</nav>
+<script>
+        // Simple ambient interaction for buttons
+        document.querySelectorAll('button').forEach(btn => {
+            btn.addEventListener('mousedown', function() {
+                this.style.transform = 'scale(0.98)';
+            });
+            btn.addEventListener('mouseup', function() {
+                this.style.transform = 'scale(1)';
+            });
+            btn.addEventListener('mouseleave', function() {
+                this.style.transform = 'scale(1)';
+            });
+        });
+    </script>
+</body></html>

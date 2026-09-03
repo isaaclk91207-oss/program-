@@ -1,0 +1,351 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>PCCP Vector - Driver Security</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "outline-variant": "#c0c7d1",
+                      "surface": "#faf8ff",
+                      "on-secondary": "#ffffff",
+                      "tertiary": "#733f00",
+                      "role-driver": "#7C3AED",
+                      "surface-tint": "#006399",
+                      "surface-container": "#eaedff",
+                      "surface-container-low": "#f2f3ff",
+                      "secondary-container": "#99efe5",
+                      "on-tertiary-container": "#ffdbbe",
+                      "surface-canvas": "#F8FAFC",
+                      "inverse-primary": "#94ccff",
+                      "inverse-on-surface": "#eef0ff",
+                      "outline": "#707881",
+                      "on-primary-fixed-variant": "#004b74",
+                      "tertiary-container": "#955301",
+                      "secondary-fixed-dim": "#80d5cb",
+                      "on-error": "#ffffff",
+                      "surface-dim": "#d2d9f4",
+                      "tertiary-fixed": "#ffdcc1",
+                      "on-tertiary-fixed": "#2e1500",
+                      "on-primary": "#ffffff",
+                      "on-surface-variant": "#40474f",
+                      "surface-container-high": "#e1e7ff",
+                      "border-hairline": "#E2E8F0",
+                      "primary-fixed-dim": "#94ccff",
+                      "on-primary-fixed": "#001d32",
+                      "inverse-surface": "#283044",
+                      "tertiary-fixed-dim": "#ffb878",
+                      "primary": "#00507d",
+                      "primary-fixed": "#cde5ff",
+                      "surface-container-highest": "#dae2fc",
+                      "surface-container-lowest": "#ffffff",
+                      "secondary-fixed": "#9cf2e8",
+                      "on-tertiary-fixed-variant": "#6c3a00",
+                      "on-primary-container": "#cbe4ff",
+                      "on-secondary-fixed": "#00201d",
+                      "role-passenger": "#2563EB",
+                      "on-background": "#131b2e",
+                      "primary-container": "#0369a1",
+                      "on-surface": "#131b2e",
+                      "surface-variant": "#dae2fc",
+                      "on-error-container": "#93000a",
+                      "on-secondary-fixed-variant": "#00504a",
+                      "background": "#faf8ff",
+                      "on-secondary-container": "#006f67",
+                      "role-admin": "#059669",
+                      "error": "#ba1a1a",
+                      "error-container": "#ffdad6",
+                      "surface-bright": "#faf8ff",
+                      "on-tertiary": "#ffffff",
+                      "secondary": "#006a63"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "2xl": "32px",
+                      "lg": "20px",
+                      "sm": "8px",
+                      "margin-desktop": "32px",
+                      "xs": "4px",
+                      "xl": "24px",
+                      "margin-mobile": "16px",
+                      "gutter": "16px",
+                      "md": "12px",
+                      "base": "16px"
+              },
+              "fontFamily": {
+                      "title-lg": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "title-md": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "label-caps": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "headline-lg": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "headline-md": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "body-base": [
+                              "Inter"
+                      ],
+                      "body-sm": [
+                              "Inter"
+                      ],
+                      "display-lg": [
+                              "Plus Jakarta Sans"
+                      ]
+              },
+              "fontSize": {
+                      "title-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "24px",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "title-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "22px",
+                                      "letterSpacing": "0",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "label-caps": [
+                              "11px",
+                              {
+                                      "lineHeight": "14px",
+                                      "letterSpacing": "0.06em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "headline-lg": [
+                              "28px",
+                              {
+                                      "lineHeight": "36px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "headline-md": [
+                              "22px",
+                              {
+                                      "lineHeight": "28px",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "body-base": [
+                              "15px",
+                              {
+                                      "lineHeight": "22px",
+                                      "letterSpacing": "0",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "body-sm": [
+                              "13px",
+                              {
+                                      "lineHeight": "18px",
+                                      "letterSpacing": "0",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "display-lg": [
+                              "36px",
+                              {
+                                      "lineHeight": "44px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "800"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+      </script>
+<style>
+        .pb-safe { padding-bottom: env(safe-area-inset-bottom, 20px); }
+        .pt-safe { padding-top: env(safe-area-inset-top, 20px); }
+    </style>
+</head>
+<body class="bg-surface-canvas text-on-surface font-body-base antialiased min-h-screen flex flex-col pt-safe pb-safe selection:bg-role-driver selection:text-white">
+<!-- TopAppBar -->
+<header class="bg-surface shadow-sm fixed top-0 w-full z-50 flex justify-between items-center h-16"><div class="flex items-center justify-between px-margin-mobile h-16 w-full max-w-screen-xl mx-auto md:px-margin-desktop"><div class="text-title-lg font-title-lg font-extrabold text-primary flex items-center gap-2"><span class="material-symbols-outlined text-role-driver" style="font-variation-settings: 'FILL' 1;">directions_car</span>PCCP Vector</div><div class="flex items-center gap-4"><button class="text-on-surface-variant hover:bg-surface-container-low transition-colors p-2 rounded-full flex items-center justify-center relative"><span class="material-symbols-outlined" data-icon="notifications">notifications</span><span class="absolute top-1 right-1 w-2 h-2 bg-error rounded-full"></span></button><div class="w-8 h-8 rounded-full overflow-hidden border border-border-hairline"><img alt="Ko Aung Naing Win" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuADUlft0NZlJZPY-SaJU2zcVm-XBshdYqnAkubLK94542oRN3GRSsCj9b9aElt79cPiuGv1M6wbRe4S858PwzalTk5Id2OSVT67fjpGLqX89CiC95xGNRCUNHNkLRRI2e7AbfE6jD9AvIDf-zf-h-58eeHLEj53V3DhXqJjcJEz3coCOHkvokihxeYeUIxyq5D2cBV8gNWQ3KskA-j0gqVl30WS_E3XayuFWmDIB8OcivOVDut0PP0"></div></div></div></header>
+<!-- Main Content -->
+<main class="flex-grow pt-24 pb-24 px-margin-mobile md:px-margin-desktop max-w-screen-md mx-auto w-full">
+<div class="mb-xl">
+<button class="flex items-center text-on-surface-variant font-body-sm hover:text-role-driver transition-colors mb-md group focus:outline-none focus:underline decoration-role-driver underline-offset-4">
+<span class="material-symbols-outlined text-[18px] mr-xs group-hover:-translate-x-1 transition-transform" data-icon="arrow_back">arrow_back</span>
+                Back to Account Settings
+            </button>
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Security &amp; Access</h2>
+<p class="font-body-base text-body-base text-on-surface-variant mt-xs">Manage your account security, passwords, and authentication methods.</p>
+</div>
+<div class="space-y-lg">
+<!-- Change Password Card -->
+<section class="bg-surface rounded-xl border border-border-hairline shadow-[0px_1px_3px_rgba(15,23,42,0.05)] overflow-hidden">
+<div class="p-lg border-b border-border-hairline bg-surface-container-lowest">
+<div class="flex items-center gap-sm">
+<div class="w-8 h-8 rounded-full bg-role-driver/10 flex items-center justify-center text-role-driver">
+<span class="material-symbols-outlined text-[20px]" data-icon="password">password</span>
+</div>
+<h3 class="font-title-lg text-title-lg text-on-surface">Change Password</h3>
+</div>
+</div>
+<div class="p-lg space-y-md">
+<div class="space-y-xs">
+<label class="block font-title-md text-title-md text-on-surface" for="current-password">Current Password</label>
+<div class="relative">
+<span class="absolute inset-y-0 left-0 flex items-center pl-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-[20px]" data-icon="lock">lock</span>
+</span>
+<input class="w-full bg-surface-canvas border border-outline-variant rounded-lg pl-10 pr-sm py-sm font-body-base text-body-base text-on-surface focus:bg-surface focus:border-role-driver focus:ring-1 focus:ring-role-driver outline-none transition-colors" id="current-password" placeholder="Enter current password" type="password">
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-md">
+<div class="space-y-xs">
+<label class="block font-title-md text-title-md text-on-surface" for="new-password">New Password</label>
+<div class="relative">
+<span class="absolute inset-y-0 left-0 flex items-center pl-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-[20px]" data-icon="key">key</span>
+</span>
+<input class="w-full bg-surface-canvas border border-outline-variant rounded-lg pl-10 pr-sm py-sm font-body-base text-body-base text-on-surface focus:bg-surface focus:border-role-driver focus:ring-1 focus:ring-role-driver outline-none transition-colors" id="new-password" placeholder="Enter new password" type="password">
+</div>
+</div>
+<div class="space-y-xs">
+<label class="block font-title-md text-title-md text-on-surface" for="confirm-password">Confirm New Password</label>
+<div class="relative">
+<span class="absolute inset-y-0 left-0 flex items-center pl-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-[20px]" data-icon="key">key</span>
+</span>
+<input class="w-full bg-surface-canvas border border-outline-variant rounded-lg pl-10 pr-sm py-sm font-body-base text-body-base text-on-surface focus:bg-surface focus:border-role-driver focus:ring-1 focus:ring-role-driver outline-none transition-colors" id="confirm-password" placeholder="Confirm new password" type="password">
+</div>
+</div>
+</div>
+<div class="pt-sm flex justify-end">
+<button class="bg-role-driver text-white font-title-md text-title-md py-sm px-xl rounded-lg hover:bg-role-driver/90 active:scale-95 transition-all shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-role-driver">
+                            Update Password
+                        </button>
+</div>
+</div>
+</section>
+<!-- Two-Factor Authentication Card -->
+<section class="bg-surface rounded-xl border border-border-hairline shadow-[0px_1px_3px_rgba(15,23,42,0.05)] overflow-hidden">
+<div class="p-lg border-b border-border-hairline bg-surface-container-lowest flex items-center justify-between">
+<div class="flex items-center gap-sm">
+<div class="w-8 h-8 rounded-full bg-role-driver/10 flex items-center justify-center text-role-driver">
+<span class="material-symbols-outlined text-[20px]" data-icon="security">security</span>
+</div>
+<h3 class="font-title-lg text-title-lg text-on-surface">Two-Factor Authentication</h3>
+</div>
+<span class="inline-flex items-center gap-xs px-sm py-xs rounded-full bg-surface-container-high text-on-surface-variant font-label-caps text-label-caps">
+<span class="w-2 h-2 rounded-full bg-error"></span>
+                        Disabled
+                    </span>
+</div>
+<div class="p-lg flex flex-col md:flex-row gap-lg items-start md:items-center justify-between">
+<div class="max-w-md">
+<p class="font-body-base text-body-base text-on-surface-variant">Add an extra layer of security to your account by requiring a verification code in addition to your password during sign-in.</p>
+</div>
+<button class="border border-outline-variant text-on-surface font-title-md text-title-md py-sm px-lg rounded-lg hover:bg-surface-container-low active:scale-95 transition-all w-full md:w-auto flex justify-center items-center gap-xs focus:outline-none focus:ring-2 focus:ring-role-driver">
+<span class="material-symbols-outlined text-[20px]" data-icon="add_moderator">add_moderator</span>
+                        Enable 2FA
+                    </button>
+</div>
+</section>
+<!-- Last Login History Card -->
+<section class="bg-surface rounded-xl border border-border-hairline shadow-[0px_1px_3px_rgba(15,23,42,0.05)] overflow-hidden">
+<div class="p-lg border-b border-border-hairline bg-surface-container-lowest flex items-center justify-between">
+<div class="flex items-center gap-sm">
+<div class="w-8 h-8 rounded-full bg-outline-variant/20 flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined text-[20px]" data-icon="history">history</span>
+</div>
+<h3 class="font-title-lg text-title-lg text-on-surface">Login History</h3>
+</div>
+</div>
+<div class="divide-y divide-border-hairline">
+<div class="p-lg flex flex-col sm:flex-row sm:items-center justify-between gap-sm">
+<div class="flex items-start gap-md">
+<div class="w-10 h-10 rounded-full bg-surface-container-low flex items-center justify-center text-on-surface-variant shrink-0 mt-1 sm:mt-0">
+<span class="material-symbols-outlined" data-icon="smartphone">smartphone</span>
+</div>
+<div>
+<h4 class="font-title-md text-title-md text-on-surface">Mobile App (iOS)</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Chicago, IL • IP: 192.168.1.105</p>
+</div>
+</div>
+<div class="text-right sm:text-right mt-xs sm:mt-0 ml-14 sm:ml-0">
+<p class="font-body-sm text-body-sm text-on-surface-variant">Oct 24, 2023 • 08:30 AM</p>
+<span class="inline-flex mt-xs px-2 py-0.5 rounded-full bg-role-admin/10 text-role-admin font-label-caps text-label-caps border border-role-admin/20">Current Session</span>
+</div>
+</div>
+<div class="p-lg flex flex-col sm:flex-row sm:items-center justify-between gap-sm">
+<div class="flex items-start gap-md">
+<div class="w-10 h-10 rounded-full bg-surface-container-low flex items-center justify-center text-on-surface-variant shrink-0 mt-1 sm:mt-0">
+<span class="material-symbols-outlined" data-icon="desktop_windows">desktop_windows</span>
+</div>
+<div>
+<h4 class="font-title-md text-title-md text-on-surface">Web Browser (Chrome)</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Detroit, MI • IP: 10.0.0.42</p>
+</div>
+</div>
+<div class="text-right sm:text-right mt-xs sm:mt-0 ml-14 sm:ml-0">
+<p class="font-body-sm text-body-sm text-on-surface-variant">Oct 22, 2023 • 14:15 PM</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Danger Zone -->
+<div class="pt-xl flex justify-center">
+<button class="flex items-center gap-sm text-error hover:bg-error-container/50 px-lg py-sm rounded-lg transition-colors active:scale-95 font-title-md text-title-md focus:outline-none focus:ring-2 focus:ring-error">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+                    Sign Out of All Devices
+                </button>
+</div>
+</div>
+</main>
+<!-- BottomNavBar (Visible on Mobile) -->
+<nav class="fixed bottom-0 w-full z-50 bg-surface dark:bg-surface-dim border-t border-border-hairline shadow-lg md:hidden">
+<div class="flex justify-around items-center w-full px-2 py-2 pb-safe">
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-container-high transition-all active:scale-90 duration-150 rounded-xl px-2 py-1 focus:outline-none focus:ring-2 focus:ring-role-driver" href="#">
+<span class="material-symbols-outlined mb-xs" data-icon="home">home</span>
+<span class="font-label-caps text-label-caps">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-container-high transition-all active:scale-90 duration-150 rounded-xl px-2 py-1 focus:outline-none focus:ring-2 focus:ring-role-driver" href="#">
+<span class="material-symbols-outlined mb-xs" data-icon="assignment">assignment</span>
+<span class="font-label-caps text-label-caps">Assignments</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-container-high transition-all active:scale-90 duration-150 rounded-xl px-2 py-1 focus:outline-none focus:ring-2 focus:ring-role-driver" href="#">
+<span class="material-symbols-outlined mb-xs" data-icon="directions_car">directions_car</span>
+<span class="font-label-caps text-label-caps">Trips</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-container-high transition-all active:scale-90 duration-150 rounded-xl px-2 py-1 focus:outline-none focus:ring-2 focus:ring-role-driver" href="#">
+<span class="material-symbols-outlined mb-xs" data-icon="leaderboard">leaderboard</span>
+<span class="font-label-caps text-label-caps">Performance</span>
+</a>
+<!-- Active Tab -->
+<a class="flex flex-col items-center justify-center text-role-driver bg-primary-container/10 rounded-xl px-2 py-1 active:scale-90 duration-150 focus:outline-none focus:ring-2 focus:ring-role-driver" href="#">
+<span class="material-symbols-outlined mb-xs" data-icon="person" style="font-variation-settings: 'FILL' 1;">person</span>
+<span class="font-label-caps text-label-caps">Account</span>
+</a>
+</div>
+</nav>
+
+
+</body></html>

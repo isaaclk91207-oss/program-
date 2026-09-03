@@ -1,0 +1,388 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Unable to Accept Assignment</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet">
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-primary-fixed": "#001d32",
+                      "on-background": "#131b2e",
+                      "outline": "#707881",
+                      "inverse-on-surface": "#eef0ff",
+                      "on-secondary-fixed-variant": "#00504a",
+                      "surface-variant": "#dae2fc",
+                      "inverse-surface": "#283044",
+                      "secondary": "#006a63",
+                      "error-container": "#ffdad6",
+                      "border-hairline": "#E2E8F0",
+                      "on-secondary": "#ffffff",
+                      "primary-fixed": "#cde5ff",
+                      "error": "#ba1a1a",
+                      "surface-tint": "#006399",
+                      "inverse-primary": "#94ccff",
+                      "secondary-fixed-dim": "#80d5cb",
+                      "role-passenger": "#2563EB",
+                      "secondary-fixed": "#9cf2e8",
+                      "surface-container-low": "#f2f3ff",
+                      "surface-container-highest": "#dae2fc",
+                      "surface-container-lowest": "#ffffff",
+                      "role-driver": "#7C3AED",
+                      "primary-container": "#0369a1",
+                      "primary-fixed-dim": "#94ccff",
+                      "on-primary-container": "#cbe4ff",
+                      "on-primary": "#ffffff",
+                      "on-tertiary-fixed": "#2e1500",
+                      "tertiary-container": "#955301",
+                      "outline-variant": "#c0c7d1",
+                      "on-surface-variant": "#40474f",
+                      "surface-container-high": "#e1e7ff",
+                      "on-secondary-fixed": "#00201d",
+                      "on-primary-fixed-variant": "#004b74",
+                      "on-error-container": "#93000a",
+                      "secondary-container": "#99efe5",
+                      "tertiary-fixed": "#ffdcc1",
+                      "surface-container": "#eaedff",
+                      "on-tertiary": "#ffffff",
+                      "on-error": "#ffffff",
+                      "tertiary": "#733f00",
+                      "surface-bright": "#faf8ff",
+                      "on-tertiary-container": "#ffdbbe",
+                      "primary": "#00507d",
+                      "surface-dim": "#d2d9f4",
+                      "role-admin": "#059669",
+                      "tertiary-fixed-dim": "#ffb878",
+                      "surface": "#faf8ff",
+                      "on-tertiary-fixed-variant": "#6c3a00",
+                      "on-surface": "#131b2e",
+                      "on-secondary-container": "#006f67",
+                      "background": "#faf8ff",
+                      "surface-canvas": "#F8FAFC"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "xl": "24px",
+                      "xs": "4px",
+                      "base": "16px",
+                      "margin-mobile": "16px",
+                      "2xl": "32px",
+                      "gutter": "16px",
+                      "sm": "8px",
+                      "lg": "20px",
+                      "margin-desktop": "32px",
+                      "md": "12px"
+              },
+              "fontFamily": {
+                      "body-sm": [
+                              "Inter"
+                      ],
+                      "title-lg": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "body-base": [
+                              "Inter"
+                      ],
+                      "display-lg": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "headline-lg": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "title-md": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "label-caps": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "headline-md": [
+                              "Plus Jakarta Sans"
+                      ]
+              },
+              "fontSize": {
+                      "body-sm": [
+                              "13px",
+                              {
+                                      "lineHeight": "18px",
+                                      "letterSpacing": "0",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "title-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "24px",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "body-base": [
+                              "15px",
+                              {
+                                      "lineHeight": "22px",
+                                      "letterSpacing": "0",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "display-lg": [
+                              "36px",
+                              {
+                                      "lineHeight": "44px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "800"
+                              }
+                      ],
+                      "headline-lg": [
+                              "28px",
+                              {
+                                      "lineHeight": "36px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "title-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "22px",
+                                      "letterSpacing": "0",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "label-caps": [
+                              "11px",
+                              {
+                                      "lineHeight": "14px",
+                                      "letterSpacing": "0.06em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "headline-md": [
+                              "22px",
+                              {
+                                      "lineHeight": "28px",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "700"
+                              }
+                      ]
+              }
+            }
+          }
+        }
+    </script>
+<style>
+        /* Custom styles for JS-toggled states to keep markup clean */
+        .reason-card.selected {
+            border-color: #7C3AED; /* role-driver */
+            background-color: #f5f3ff; /* very light purple tint to match driver role */
+            box-shadow: 0 0 0 1px #7C3AED;
+        }
+        .reason-card.selected .icon {
+            color: #7C3AED;
+        }
+        .reason-card.selected .check-icon {
+            opacity: 1;
+        }
+        
+        /* Smooth transitions */
+        .page-transition {
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        .fade-out {
+            opacity: 0;
+            transform: scale(0.98);
+            pointer-events: none;
+        }
+        .fade-in {
+            opacity: 1;
+            transform: scale(1);
+            pointer-events: auto;
+        }
+    </style>
+</head>
+<body class="bg-surface-canvas text-on-surface antialiased min-h-screen flex flex-col font-body-base overflow-x-hidden">
+<!-- Transactional Header (Suppressed global nav shell, custom back nav) -->
+<header class="flex items-center px-margin-mobile h-16 border-b border-border-hairline bg-surface sticky top-0 z-40">
+<button aria-label="Go back" class="p-2 -ml-2 rounded-full hover:bg-surface-container-low transition-colors active:scale-95" type="button">
+<span class="material-symbols-outlined text-on-surface">arrow_back</span>
+</button>
+<div class="flex-1 text-center pr-8">
+<!-- Optional subtle context, left blank for pure task focus -->
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-1 px-margin-mobile py-xl w-full max-w-[440px] mx-auto page-transition pb-[100px] md:pb-xl" id="form-view">
+<!-- Headers -->
+<h1 class="font-headline-lg text-headline-lg text-on-surface mb-sm">
+            Unable to Accept Assignment?
+        </h1>
+<p class="font-body-base text-body-base text-on-surface-variant mb-xl">
+            Please tell Transport Admin why you cannot accept this assignment.
+        </p>
+<!-- Form Area -->
+<form class="flex flex-col" id="rejection-form">
+<fieldset class="mb-xl">
+<legend class="sr-only">Reason for rejection</legend>
+<!-- Bento Grid for Selectable Cards -->
+<div class="grid grid-cols-2 gap-sm" id="reason-grid">
+<!-- Card 1 -->
+<div class="reason-card cursor-pointer relative flex flex-col p-md rounded-xl border border-outline-variant bg-surface-container-lowest transition-all hover:border-outline hover:shadow-sm" data-value="schedule">
+<div class="flex justify-between items-start mb-sm">
+<span class="material-symbols-outlined text-on-surface-variant icon transition-colors" data-weight="fill" style="font-variation-settings: 'FILL' 1;">event_busy</span>
+<span class="material-symbols-outlined text-[18px] text-role-driver opacity-0 check-icon transition-opacity" data-weight="fill" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<span class="font-title-md text-title-md text-on-surface">Schedule Conflict</span>
+</div>
+<!-- Card 2 -->
+<div class="reason-card cursor-pointer relative flex flex-col p-md rounded-xl border border-outline-variant bg-surface-container-lowest transition-all hover:border-outline hover:shadow-sm" data-value="assigned">
+<div class="flex justify-between items-start mb-sm">
+<span class="material-symbols-outlined text-on-surface-variant icon transition-colors" data-weight="fill" style="font-variation-settings: 'FILL' 1;">assignment_ind</span>
+<span class="material-symbols-outlined text-[18px] text-role-driver opacity-0 check-icon transition-opacity" data-weight="fill" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<span class="font-title-md text-title-md text-on-surface">Already Assigned</span>
+</div>
+<!-- Card 3 -->
+<div class="reason-card cursor-pointer relative flex flex-col p-md rounded-xl border border-outline-variant bg-surface-container-lowest transition-all hover:border-outline hover:shadow-sm" data-value="vehicle">
+<div class="flex justify-between items-start mb-sm">
+<span class="material-symbols-outlined text-on-surface-variant icon transition-colors" data-weight="fill" style="font-variation-settings: 'FILL' 1;">car_crash</span>
+<span class="material-symbols-outlined text-[18px] text-role-driver opacity-0 check-icon transition-opacity" data-weight="fill" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<span class="font-title-md text-title-md text-on-surface">Vehicle Issue</span>
+</div>
+<!-- Card 4 -->
+<div class="reason-card cursor-pointer relative flex flex-col p-md rounded-xl border border-outline-variant bg-surface-container-lowest transition-all hover:border-outline hover:shadow-sm" data-value="emergency">
+<div class="flex justify-between items-start mb-sm">
+<span class="material-symbols-outlined text-on-surface-variant icon transition-colors" data-weight="fill" style="font-variation-settings: 'FILL' 1;">warning</span>
+<span class="material-symbols-outlined text-[18px] text-role-driver opacity-0 check-icon transition-opacity" data-weight="fill" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<span class="font-title-md text-title-md text-on-surface">Emergency</span>
+</div>
+<!-- Card 5 (Full Width) -->
+<div class="reason-card col-span-2 cursor-pointer relative flex flex-col p-md rounded-xl border border-outline-variant bg-surface-container-lowest transition-all hover:border-outline hover:shadow-sm" data-value="other">
+<div class="flex justify-between items-start mb-sm">
+<span class="material-symbols-outlined text-on-surface-variant icon transition-colors" data-weight="fill" style="font-variation-settings: 'FILL' 1;">edit_note</span>
+<span class="material-symbols-outlined text-[18px] text-role-driver opacity-0 check-icon transition-opacity" data-weight="fill" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<span class="font-title-md text-title-md text-on-surface">Other</span>
+</div>
+</div>
+<!-- Hidden input to store selected value -->
+<input id="selected_reason" name="selected_reason" required="" type="hidden">
+</fieldset>
+<!-- Text Area -->
+<div class="mb-xl">
+<label class="block font-title-md text-title-md text-on-surface mb-sm" for="additional_note">
+                    Additional Note <span class="text-on-surface-variant font-body-sm text-body-sm font-normal">(Optional)</span>
+</label>
+<textarea class="w-full rounded-xl border border-outline-variant bg-surface-container-lowest p-md font-body-base text-body-base text-on-surface focus:border-role-driver focus:ring-1 focus:ring-role-driver transition-colors placeholder:text-outline outline-none resize-none" id="additional_note" name="additional_note" placeholder="Provide more details to help Admin understand..." rows="4"></textarea>
+</div>
+<!-- Fixed Bottom Action Area (Mobile) / Flow layout (Desktop) -->
+<div class="fixed bottom-0 left-0 w-full p-margin-mobile bg-surface border-t border-border-hairline z-40 md:static md:border-none md:p-0 md:bg-transparent md:mt-auto">
+<button class="w-full h-12 bg-role-driver text-white rounded-full font-title-md text-title-md flex items-center justify-center gap-2 transition-all disabled:opacity-50 disabled:cursor-not-allowed hover:opacity-90 active:scale-95" disabled="" id="submit-btn" type="submit">
+<span>Submit to Transport Admin</span>
+<span class="material-symbols-outlined text-[20px]">send</span>
+</button>
+</div>
+</form>
+</main>
+<!-- Post-submission Success State (Hidden initially) -->
+<div class="fixed inset-0 z-50 bg-surface flex-col items-center justify-center p-margin-mobile text-center page-transition fade-out hidden" id="success-view">
+<!-- Centered content -->
+<div class="flex flex-col items-center max-w-[440px] mx-auto w-full">
+<!-- Graphic element -->
+<div class="w-20 h-20 rounded-full bg-[#f5f3ff] border border-border-hairline shadow-sm flex items-center justify-center mb-xl relative">
+<span class="material-symbols-outlined text-[40px] text-role-driver" data-weight="fill" style="font-variation-settings: 'FILL' 1;">send_time_extension</span>
+<!-- Small decorative dot -->
+<div class="absolute top-0 right-0 w-4 h-4 bg-error rounded-full border-2 border-surface"></div>
+</div>
+<!-- Status Badge -->
+<div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-error-container mb-md border border-[#ffb4ab]">
+<span class="material-symbols-outlined text-[14px] text-on-error-container" data-weight="fill" style="font-variation-settings: 'FILL' 1;">error</span>
+<span class="font-label-caps text-label-caps text-on-error-container">ACTION REQUIRED</span>
+</div>
+<h2 class="font-display-lg text-display-lg text-on-surface mb-sm">
+                Request Sent
+            </h2>
+<p class="font-body-base text-body-base text-on-surface-variant mb-2xl">
+                Your request has been sent to Transport Admin for review. You may be contacted for further details.
+            </p>
+<!-- Action -->
+<button class="w-full h-12 bg-surface-container-high text-on-surface rounded-full font-title-md text-title-md flex items-center justify-center hover:bg-surface-container-highest transition-colors active:scale-95" onclick="window.location.reload()">
+                Return to Dashboard
+            </button>
+</div>
+</div>
+<!-- Interaction Script -->
+<script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const cards = document.querySelectorAll('.reason-card');
+            const hiddenInput = document.getElementById('selected_reason');
+            const submitBtn = document.getElementById('submit-btn');
+            const form = document.getElementById('rejection-form');
+            const formView = document.getElementById('form-view');
+            const successView = document.getElementById('success-view');
+
+            // Handle Card Selection
+            cards.forEach(card => {
+                card.addEventListener('click', () => {
+                    // Remove selected state from all
+                    cards.forEach(c => c.classList.remove('selected'));
+                    
+                    // Add selected state to clicked
+                    card.classList.add('selected');
+                    
+                    // Update hidden input
+                    hiddenInput.value = card.getAttribute('data-value');
+                    
+                    // Enable submit button
+                    submitBtn.removeAttribute('disabled');
+                });
+            });
+
+            // Handle Form Submission
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                
+                if(!hiddenInput.value) return;
+
+                // Animate button state
+                const originalText = submitBtn.innerHTML;
+                submitBtn.innerHTML = `<span class="material-symbols-outlined animate-spin">progress_activity</span>`;
+                submitBtn.setAttribute('disabled', 'true');
+
+                // Simulate network request delay
+                setTimeout(() => {
+                    // Transition to success state
+                    formView.classList.add('fade-out');
+                    
+                    setTimeout(() => {
+                        formView.classList.add('hidden');
+                        successView.classList.remove('hidden');
+                        
+                        // Force reflow
+                        void successView.offsetWidth;
+                        
+                        successView.classList.remove('fade-out');
+                        successView.classList.add('fade-in');
+                        successView.style.display = 'flex'; // override hidden for flex layout
+                    }, 300); // match transition duration
+                    
+                }, 800);
+            });
+        });
+    </script>
+</body></html>

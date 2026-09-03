@@ -1,0 +1,408 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>PCCP Transport - Request Form</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@500;600;700;800&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "error": "#ba1a1a",
+                        "role-driver": "#7C3AED",
+                        "surface-bright": "#faf8ff",
+                        "tertiary": "#733f00",
+                        "role-passenger-container": "#DBEAFE",
+                        "on-secondary-container": "#006f67",
+                        "on-surface": "#131b2e",
+                        "secondary": "#006a63",
+                        "secondary-fixed": "#9cf2e8",
+                        "surface-tint": "#006399",
+                        "tertiary-container": "#955301",
+                        "surface-variant": "#dae2fd",
+                        "on-secondary": "#ffffff",
+                        "role-passenger": "#2563EB",
+                        "outline": "#707881",
+                        "inverse-primary": "#94ccff",
+                        "tertiary-fixed-dim": "#ffb878",
+                        "on-error": "#ffffff",
+                        "role-admin": "#059669",
+                        "primary-container": "#0369a1",
+                        "surface-container-highest": "#dae2fd",
+                        "on-tertiary-container": "#ffdbbe",
+                        "on-primary": "#ffffff",
+                        "secondary-container": "#99efe5",
+                        "on-primary-fixed-variant": "#004b74",
+                        "surface-container-low": "#f2f3ff",
+                        "surface-container": "#eaedff",
+                        "surface-container-high": "#e2e7ff",
+                        "primary-fixed-dim": "#94ccff",
+                        "border-hairline": "#E2E8F0",
+                        "on-surface-variant": "#40474f",
+                        "primary-fixed": "#cde5ff",
+                        "on-tertiary-fixed-variant": "#6c3a00",
+                        "surface": "#faf8ff",
+                        "inverse-surface": "#283044",
+                        "surface-dim": "#d2d9f4",
+                        "secondary-fixed-dim": "#80d5cb",
+                        "on-secondary-fixed-variant": "#00504a",
+                        "on-error-container": "#93000a",
+                        "error-container": "#ffdad6",
+                        "on-secondary-fixed": "#00201d",
+                        "inverse-on-surface": "#eef0ff",
+                        "on-tertiary": "#ffffff",
+                        "primary": "#00507d",
+                        "role-driver-container": "#EDE9FE",
+                        "surface-container-lowest": "#ffffff",
+                        "tertiary-fixed": "#ffdcc1",
+                        "on-background": "#131b2e",
+                        "surface-canvas": "#F8FAFC",
+                        "on-primary-container": "#cbe4ff",
+                        "on-tertiary-fixed": "#2e1500",
+                        "outline-variant": "#c0c7d1",
+                        "role-admin-container": "#D1FAE5",
+                        "background": "#faf8ff",
+                        "on-primary-fixed": "#001d32"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "base": "16px",
+                        "unit": "4px",
+                        "2xl": "32px",
+                        "gutter": "16px",
+                        "md": "12px",
+                        "xl": "24px",
+                        "margin-desktop": "32px",
+                        "margin-mobile": "16px",
+                        "lg": "20px",
+                        "xs": "4px",
+                        "sm": "8px"
+                    },
+                    "fontFamily": {
+                        "body-base": ["Inter", "sans-serif"],
+                        "headline-md": ["Plus Jakarta Sans", "sans-serif"],
+                        "body-sm": ["Inter", "sans-serif"],
+                        "headline-lg": ["Plus Jakarta Sans", "sans-serif"],
+                        "display-lg": ["Plus Jakarta Sans", "sans-serif"],
+                        "title-md": ["Plus Jakarta Sans", "sans-serif"],
+                        "label-caps": ["Plus Jakarta Sans", "sans-serif"],
+                        "stat-lg": ["Plus Jakarta Sans", "sans-serif"],
+                        "title-lg": ["Plus Jakarta Sans", "sans-serif"]
+                    },
+                    "fontSize": {
+                        "body-base": ["15px", { "lineHeight": "22px", "letterSpacing": "0", "fontWeight": "400" }],
+                        "headline-md": ["22px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "body-sm": ["13px", { "lineHeight": "18px", "letterSpacing": "0", "fontWeight": "400" }],
+                        "headline-lg": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "display-lg": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+                        "title-md": ["16px", { "lineHeight": "22px", "letterSpacing": "0", "fontWeight": "600" }],
+                        "label-caps": ["11px", { "lineHeight": "14px", "letterSpacing": "0.06em", "fontWeight": "700" }],
+                        "stat-lg": ["30px", { "lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "title-lg": ["18px", { "lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600" }]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .icon-fill {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        /* Custom scrollbar for webkit */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #c0c7d1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #707881;
+        }
+        
+        /* Segmented Control Styles */
+        .segmented-control input[type="radio"]:checked + label {
+            background-color: #0369a1;
+            color: #ffffff;
+            border-color: #0369a1;
+        }
+        .segmented-control label {
+            transition: all 0.2s ease;
+        }
+        
+        /* Focus ring utility */
+        .focus-ring:focus-within {
+            outline: 2px solid rgba(3, 105, 161, 0.3);
+            outline-offset: 1px;
+            border-color: #0369a1;
+        }
+    </style>
+</head>
+<body class="bg-surface-canvas text-on-surface font-body-base min-h-screen flex flex-col relative pb-[120px] md:pb-0">
+<!-- TopAppBar -->
+<header class="bg-surface text-primary border-b border-hairline flat no shadows flex justify-between items-center w-full px-margin-mobile h-12 md:hidden sticky top-0 z-50">
+<div class="flex items-center gap-sm">
+<button class="p-1 hover:bg-surface-container-low transition-all duration-200 active:opacity-70 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-[24px]">arrow_back</span>
+</button>
+</div>
+<div class="font-display-lg text-[18px] font-extrabold text-primary">PCCP Transport</div>
+<div class="w-8 h-8 rounded-full bg-surface-container-high overflow-hidden border border-hairline">
+<img alt="User profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD73a8tmQ41MvrB2ZnDu6s4im7NhXEVDyiV5yQG3Uwl1xBCzuwnvCwQX51IBBpo-ywTZDTbmPsHSHWfMKjN9KWF-CC0F7vEmas9e9K8DvVR8lfcwHjA-832FBMM2mWzQj7sOi0I-MPDyJ7MlOmxAxwSmsPPEbiay59eGSDb7qkJz3av5G8p6Fqlv105qIxe19ehObK78aL9PXQYm8gsXVgSjo3xPxChFv0I88cnMk_x2D7ESF3IGEY">
+</div>
+</header>
+<!-- Desktop Layout Container -->
+<div class="flex flex-1 w-full max-w-[1440px] mx-auto">
+<!-- Main Navigation (Hidden on Mobile) -->
+<nav class="hidden md:flex flex-col h-screen w-[260px] sticky top-0 border-r border-hairline bg-surface py-xl z-40">
+<div class="px-xl mb-xl">
+<div class="font-display-lg text-[24px] font-extrabold text-primary mb-lg">PCCP Transport</div>
+<div class="flex items-center gap-md">
+<img alt="User profile" class="w-10 h-10 rounded-full object-cover border border-hairline" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCYs2LEo06ouyxsfGmvELXE5WvgFm3ygxeyNbRv0pdLR6qf5VSuxZgmB54w8skW2luLlRjSSvgmy9XGN0evSg_e33tT8IsUpaxAikrWh8i-P2QOrdkL4V5p5BtwVCtUmCJfzR86P7MdlDFuW29VL13C29at16x1JwkFa1kesCBHLVpNRtmr1NZucyt6kfs2xW7VYak0kFSLGcyeW9-_aHnOZ6Ie8dAf6quXg-xZhEWGJKj67yoPsUQ">
+<div>
+<div class="font-title-md text-title-md text-on-surface">Michael Roberts</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant">Admin ID: 4921</div>
+</div>
+</div>
+</div>
+<div class="flex flex-col gap-sm flex-1">
+<a class="flex items-center gap-md text-on-surface-variant px-4 py-3 mx-2 hover:bg-surface-container-low transition-colors duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-title-md text-title-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-md bg-role-passenger-container text-role-passenger rounded-lg px-4 py-3 mx-2" href="#">
+<span class="material-symbols-outlined icon-fill">add_location_alt</span>
+<span class="font-title-md text-title-md font-bold">Requests</span>
+</a>
+<a class="flex items-center gap-md text-on-surface-variant px-4 py-3 mx-2 hover:bg-surface-container-low transition-colors duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined">local_shipping</span>
+<span class="font-title-md text-title-md">Trips</span>
+</a>
+<a class="flex items-center gap-md text-on-surface-variant px-4 py-3 mx-2 hover:bg-surface-container-low transition-colors duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined">speed</span>
+<span class="font-title-md text-title-md">Performance</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="flex-1 w-full md:px-margin-desktop py-xl">
+<div class="max-w-[720px] mx-auto w-full px-margin-mobile md:px-0">
+<!-- Page Header -->
+<div class="mb-xl">
+<p class="font-label-caps text-label-caps text-role-passenger mb-unit uppercase tracking-widest">Step 2 of 3</p>
+<h1 class="font-headline-lg text-headline-lg text-on-surface mb-xs">Trip &amp; Purpose</h1>
+<p class="font-body-base text-body-base text-on-surface-variant">Define the logistics and rationale for this transport request.</p>
+</div>
+<!-- Form Container -->
+<form class="flex flex-col gap-2xl">
+<!-- Section D: Type of Service -->
+<section class="bg-surface-container-lowest rounded-xl border border-hairline shadow-sm overflow-hidden">
+<div class="px-base py-md border-b border-hairline bg-surface flex items-center gap-sm">
+<div class="w-8 h-8 rounded-full bg-role-passenger-container flex items-center justify-center">
+<span class="material-symbols-outlined text-role-passenger text-[18px]">route</span>
+</div>
+<h2 class="font-title-md text-title-md text-on-surface">Type of Service</h2>
+</div>
+<div class="p-base">
+<div class="segmented-control flex flex-col sm:flex-row gap-0 sm:rounded-lg overflow-hidden border border-hairline">
+<input class="hidden" id="type_oneway" name="service_type" type="radio" value="oneway">
+<label class="flex-1 text-center py-sm px-md cursor-pointer border-b sm:border-b-0 sm:border-r border-hairline bg-surface text-on-surface-variant font-title-md text-[14px] hover:bg-surface-container-low" for="type_oneway">One Way</label>
+<input checked="" class="hidden" id="type_roundtrip" name="service_type" type="radio" value="roundtrip">
+<label class="flex-1 text-center py-sm px-md cursor-pointer border-b sm:border-b-0 sm:border-r border-hairline bg-surface text-on-surface-variant font-title-md text-[14px] hover:bg-surface-container-low" for="type_roundtrip">Round Trip</label>
+<input class="hidden" id="type_overnight" name="service_type" type="radio" value="overnight">
+<label class="flex-1 text-center py-sm px-md cursor-pointer border-b sm:border-b-0 sm:border-r border-hairline bg-surface text-on-surface-variant font-title-md text-[14px] hover:bg-surface-container-low" for="type_overnight">Overnight</label>
+<input class="hidden" id="type_multistop" name="service_type" type="radio" value="multistop">
+<label class="flex-1 text-center py-sm px-md cursor-pointer bg-surface text-on-surface-variant font-title-md text-[14px] hover:bg-surface-container-low" for="type_multistop">Multi-Stop</label>
+</div>
+</div>
+</section>
+<!-- Location & Time (Dynamic based on Round Trip) -->
+<section class="bg-surface-container-lowest rounded-xl border border-hairline shadow-sm overflow-hidden" id="section-routing">
+<div class="px-base py-md border-b border-hairline bg-surface flex items-center gap-sm">
+<div class="w-8 h-8 rounded-full bg-role-passenger-container flex items-center justify-center">
+<span class="material-symbols-outlined text-role-passenger text-[18px]">location_on</span>
+</div>
+<h2 class="font-title-md text-title-md text-on-surface">Routing Details</h2>
+</div>
+<div class="p-base flex flex-col gap-lg">
+<!-- Origin / Destination Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-base relative">
+<!-- Visual Connector (Desktop) -->
+<div class="hidden md:block absolute top-[40px] left-[calc(50%-16px)] w-8 h-[2px] bg-outline-variant z-0"></div>
+<div class="hidden md:flex absolute top-[28px] left-[calc(50%-12px)] w-6 h-6 rounded-full bg-surface border border-hairline items-center justify-center z-10">
+<span class="material-symbols-outlined text-[14px] text-outline">arrow_forward</span>
+</div>
+<!-- Pickup Location -->
+<div class="flex flex-col gap-xs">
+<label class="font-title-md text-[13px] text-on-surface-variant">Pickup Location</label>
+<div class="relative focus-ring rounded-md border border-hairline bg-surface flex items-center h-12 overflow-hidden transition-all duration-200">
+<div class="pl-md pr-sm flex items-center justify-center text-outline">
+<span class="material-symbols-outlined text-[18px]">my_location</span>
+</div>
+<input class="w-full h-full bg-transparent border-none text-body-base text-on-surface placeholder:text-outline-variant focus:ring-0 p-0 pr-md outline-none" placeholder="Enter building or address" type="text" value="Main HQ - Lobby A">
+</div>
+</div>
+<!-- Destination -->
+<div class="flex flex-col gap-xs">
+<label class="font-title-md text-[13px] text-on-surface-variant">Destination</label>
+<div class="relative focus-ring rounded-md border border-hairline bg-surface flex items-center h-12 overflow-hidden transition-all duration-200">
+<div class="pl-md pr-sm flex items-center justify-center text-role-passenger">
+<span class="material-symbols-outlined text-[18px]">location_on</span>
+</div>
+<input class="w-full h-full bg-transparent border-none text-body-base text-on-surface placeholder:text-outline-variant focus:ring-0 p-0 pr-md outline-none" placeholder="Search destination..." type="text" value="Regional Airport Term 1">
+</div>
+</div>
+</div>
+<hr class="border-t border-hairline border-dashed">
+<!-- Time Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-base">
+<!-- Departure Time -->
+<div class="flex flex-col gap-xs">
+<label class="font-title-md text-[13px] text-on-surface-variant">Departure Time</label>
+<div class="relative focus-ring rounded-md border border-hairline bg-surface flex items-center h-12 overflow-hidden transition-all duration-200">
+<div class="pl-md pr-sm flex items-center justify-center text-outline">
+<span class="material-symbols-outlined text-[18px]">schedule</span>
+</div>
+<input class="w-full h-full bg-transparent border-none text-body-base text-on-surface placeholder:text-outline-variant focus:ring-0 p-0 pr-md outline-none" type="datetime-local">
+</div>
+</div>
+<!-- Return Time (Visible for Round Trip) -->
+<div class="flex flex-col gap-xs" id="field-return-time">
+<label class="font-title-md text-[13px] text-on-surface-variant flex justify-between">
+<span>Return Time</span>
+<span class="text-role-passenger text-[11px] font-normal">Required for Round Trip</span>
+</label>
+<div class="relative focus-ring rounded-md border border-primary bg-surface flex items-center h-12 overflow-hidden transition-all duration-200 shadow-[0_0_0_2px_rgba(3,105,161,0.1)]">
+<div class="pl-md pr-sm flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[18px]">update</span>
+</div>
+<input class="w-full h-full bg-transparent border-none text-body-base text-on-surface placeholder:text-outline-variant focus:ring-0 p-0 pr-md outline-none" type="datetime-local">
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Section E: Purpose of Travel -->
+<section class="bg-surface-container-lowest rounded-xl border border-hairline shadow-sm overflow-hidden">
+<div class="p-base">
+<div class="flex flex-col gap-xs">
+<label class="font-title-md text-[14px] text-on-surface">Purpose of Travel</label>
+<div class="relative focus-ring rounded-md border border-hairline bg-surface flex items-center min-h-[48px] overflow-hidden transition-all duration-200">
+<input class="w-full h-full bg-transparent border-none text-body-base text-on-surface placeholder:text-outline-variant focus:ring-0 p-md outline-none" placeholder="E.g., Client meeting, Site inspection, Executive transfer" type="text">
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant flex items-center gap-xs mt-1">
+<span class="material-symbols-outlined text-[14px]">info</span>
+                                    Provide a clear business rationale for approval tracking.
+                                </p>
+</div>
+</div>
+</section>
+<!-- Section G & H Grid (Desktop) -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-base">
+<!-- Section G: Passenger Count -->
+<section class="md:col-span-4 bg-surface-container-lowest rounded-xl border border-hairline shadow-sm overflow-hidden h-full">
+<div class="px-base py-md border-b border-hairline bg-surface flex items-center gap-sm">
+<span class="material-symbols-outlined text-outline-variant text-[18px]">group</span>
+<h2 class="font-title-md text-title-md text-on-surface">Passengers</h2>
+</div>
+<div class="p-base">
+<select class="w-full h-12 rounded-md border border-hairline bg-surface text-body-base text-on-surface focus:border-primary focus:ring-2 focus:ring-primary-container/30 outline-none px-md cursor-pointer appearance-none">
+<option value="1">1 Passenger</option>
+<option selected="" value="2">2 Passengers</option>
+<option value="3">3 Passengers</option>
+<option value="4">4 Passengers</option>
+<option value="5">5 Passengers</option>
+<option value="6+">6+ Passengers (Requires Van)</option>
+</select>
+</div>
+</section>
+<!-- Section H: Note to Transport -->
+<section class="md:col-span-8 bg-surface-container-lowest rounded-xl border border-hairline shadow-sm overflow-hidden h-full">
+<div class="px-base py-md border-b border-hairline bg-surface flex items-center justify-between">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-outline-variant text-[18px]">edit_note</span>
+<h2 class="font-title-md text-title-md text-on-surface">Note to Transport</h2>
+</div>
+<span class="font-label-caps text-label-caps text-outline">Optional</span>
+</div>
+<div class="p-base">
+<textarea class="w-full resize-none bg-surface border border-hairline rounded-md text-body-base text-on-surface placeholder:text-outline-variant focus:border-primary focus:ring-2 focus:ring-primary-container/30 outline-none p-md" placeholder="Add specific instructions for the driver, luggage requirements, or gate access codes..." rows="3"></textarea>
+</div>
+</section>
+</div>
+<!-- Spacer for sticky button -->
+<div class="h-24 md:h-8"></div>
+</form>
+</div>
+</main>
+</div>
+<!-- Sticky Action Bar (Desktop & Mobile) -->
+<div class="fixed bottom-[64px] md:bottom-0 left-0 md:left-[260px] right-0 bg-surface/90 backdrop-blur-md border-t border-hairline p-margin-mobile md:p-margin-desktop flex justify-between items-center z-30 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]">
+<button class="hidden sm:flex items-center gap-xs px-lg py-3 font-title-md text-title-md text-on-surface-variant hover:text-on-surface transition-colors">
+<span class="material-symbols-outlined">arrow_back</span>
+            Back to Step 1
+        </button>
+<div class="flex-1 sm:flex-none flex justify-end">
+<button class="w-full sm:w-auto h-12 px-xl bg-primary-container text-on-primary font-title-md text-[15px] rounded-lg shadow-sm hover:bg-primary transition-all duration-200 flex items-center justify-center gap-sm active:scale-[0.98]">
+<span>Review Request</span>
+<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden bg-surface text-role-passenger border-t border-hairline shadow-md flex justify-around items-center w-full h-[64px] pb-safe fixed bottom-0 z-50 rounded-t-xl">
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-3 py-1 scale-95 hover:bg-surface-container-high transition-transform duration-150" href="#">
+<span class="material-symbols-outlined">local_shipping</span>
+<span class="font-body-sm text-[11px] mt-1">Trips</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-role-passenger-container text-on-primary-container rounded-xl px-4 py-1 scale-100 shadow-sm" href="#">
+<span class="material-symbols-outlined icon-fill">add_location_alt</span>
+<span class="font-body-sm text-[11px] mt-1 font-semibold">Requests</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-3 py-1 scale-95 hover:bg-surface-container-high transition-transform duration-150" href="#">
+<span class="material-symbols-outlined">speed</span>
+<span class="font-body-sm text-[11px] mt-1">Performance</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-3 py-1 scale-95 hover:bg-surface-container-high transition-transform duration-150" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-body-sm text-[11px] mt-1">Account</span>
+</a>
+</nav>
+<script>
+        // Simple interaction script to demonstrate dynamic field toggling
+        document.addEventListener('DOMContentLoaded', () => {
+            const radioButtons = document.querySelectorAll('input[name="service_type"]');
+            const returnTimeField = document.getElementById('field-return-time');
+
+            radioButtons.forEach(radio => {
+                radio.addEventListener('change', (e) => {
+                    if(e.target.value === 'oneway') {
+                        returnTimeField.style.opacity = '0.5';
+                        returnTimeField.style.pointerEvents = 'none';
+                        returnTimeField.querySelector('input').disabled = true;
+                    } else {
+                        returnTimeField.style.opacity = '1';
+                        returnTimeField.style.pointerEvents = 'auto';
+                        returnTimeField.querySelector('input').disabled = false;
+                    }
+                });
+            });
+        });
+    </script>
+</body></html>

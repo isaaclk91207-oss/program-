@@ -1,0 +1,327 @@
+<!DOCTYPE html><html class="light" lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>My Trips - Driver Portal</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&amp;family=Inter:wght@400&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "inverse-on-surface": "#eef0ff",
+                        "on-secondary-fixed-variant": "#00504a",
+                        "inverse-primary": "#94ccff",
+                        "surface-container-high": "#e2e7ff",
+                        "on-error": "#ffffff",
+                        "surface-canvas": "#F8FAFC",
+                        "on-error-container": "#93000a",
+                        "background": "#faf8ff",
+                        "primary": "#00507d",
+                        "primary-container": "#0369a1",
+                        "on-primary-fixed": "#001d32",
+                        "surface-container": "#eaedff",
+                        "on-secondary-fixed": "#00201d",
+                        "tertiary-fixed": "#ffdcc1",
+                        "surface-container-highest": "#dae2fd",
+                        "on-tertiary-fixed-variant": "#6c3a00",
+                        "on-tertiary": "#ffffff",
+                        "secondary": "#006a63",
+                        "error-container": "#ffdad6",
+                        "secondary-container": "#99efe5",
+                        "on-tertiary-container": "#ffdbbe",
+                        "role-passenger": "#2563EB",
+                        "primary-fixed": "#cde5ff",
+                        "tertiary": "#733f00",
+                        "role-admin-container": "#D1FAE5",
+                        "inverse-surface": "#283044",
+                        "tertiary-container": "#955301",
+                        "on-primary-container": "#cbe4ff",
+                        "outline-variant": "#c0c7d1",
+                        "surface-container-lowest": "#ffffff",
+                        "border-hairline": "#E2E8F0",
+                        "tertiary-fixed-dim": "#ffb878",
+                        "outline": "#707881",
+                        "on-surface-variant": "#40474f",
+                        "on-tertiary-fixed": "#2e1500",
+                        "on-primary": "#ffffff",
+                        "primary-fixed-dim": "#94ccff",
+                        "surface": "#faf8ff",
+                        "on-surface": "#131b2e",
+                        "error": "#ba1a1a",
+                        "on-background": "#131b2e",
+                        "surface-container-low": "#f2f3ff",
+                        "secondary-fixed": "#9cf2e8",
+                        "on-secondary": "#ffffff",
+                        "surface-dim": "#d2d9f4",
+                        "role-admin": "#059669",
+                        "surface-variant": "#dae2fd",
+                        "role-driver": "#7C3AED",
+                        "on-primary-fixed-variant": "#004b74",
+                        "on-secondary-container": "#006f67",
+                        "role-passenger-container": "#DBEAFE",
+                        "role-driver-container": "#EDE9FE",
+                        "surface-bright": "#faf8ff",
+                        "surface-tint": "#006399",
+                        "secondary-fixed-dim": "#80d5cb"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "16px",
+                        "unit": "4px",
+                        "xs": "4px",
+                        "sm": "8px",
+                        "2xl": "32px",
+                        "base": "16px",
+                        "lg": "20px",
+                        "margin-mobile": "16px",
+                        "margin-desktop": "32px",
+                        "md": "12px",
+                        "xl": "24px"
+                    },
+                    "fontFamily": {
+                        "body-base": ["Inter"],
+                        "label-caps": ["Plus Jakarta Sans"],
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "body-sm": ["Inter"],
+                        "stat-lg": ["Plus Jakarta Sans"],
+                        "title-lg": ["Plus Jakarta Sans"],
+                        "title-md": ["Plus Jakarta Sans"],
+                        "display-lg": ["Plus Jakarta Sans"],
+                        "headline-lg": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "body-base": ["15px", { "lineHeight": "22px", "letterSpacing": "0", "fontWeight": "400" }],
+                        "label-caps": ["11px", { "lineHeight": "14px", "letterSpacing": "0.06em", "fontWeight": "700" }],
+                        "headline-md": ["22px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "body-sm": ["13px", { "lineHeight": "18px", "letterSpacing": "0", "fontWeight": "400" }],
+                        "stat-lg": ["30px", { "lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "title-lg": ["18px", { "lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "title-md": ["16px", { "lineHeight": "22px", "letterSpacing": "0", "fontWeight": "600" }],
+                        "display-lg": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+                        "headline-lg": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { background-color: #F8FAFC; }
+        .material-symbols-outlined { font-family: 'Material Symbols Outlined'; font-weight: normal; font-style: normal; font-size: 24px; line-height: 1; letter-spacing: normal; text-transform: none; display: inline-block; white-space: nowrap; word-wrap: normal; direction: ltr; font-feature-settings: 'liga'; -webkit-font-feature-settings: 'liga'; -webkit-font-smoothing: antialiased; }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="font-body-base text-on-surface bg-surface-canvas pb-24 min-h-screen flex flex-col md:flex-row antialiased">
+<!-- Top App Bar (Mobile) -->
+<header class="md:hidden flex justify-between items-center px-margin-mobile h-14 w-full bg-surface border-b border-outline-variant fixed top-0 w-full z-50">
+<div class="flex items-center gap-xs">
+<button class="text-role-driver hover:bg-surface-container-low transition-colors active:opacity-80 transition-opacity p-2 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="menu">menu</span>
+</button>
+<h1 class="font-title-lg text-title-lg font-bold text-role-driver">My Trips</h1>
+</div>
+<div class="flex items-center gap-xs">
+<button class="text-on-surface-variant hover:bg-surface-container-low transition-colors active:opacity-80 transition-opacity p-2 rounded-full flex items-center justify-center">
+
+</button>
+<div class="w-8 h-8 rounded-full overflow-hidden border border-hairline bg-surface-variant">
+<img class="w-full h-full object-cover" data-alt="A professional headshot of a corporate driver in a clean, modern vehicle setting. The lighting is bright and even, highlighting a trustworthy expression. The style is hyper-realistic corporate photography with a neutral, light background to match the application's clean aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAsw_96D9iDtAl5z44pzDqQMA5QTZg5OHDZCOf3c-bjETQxbSwi7xnzvZ2M0Ww2JyGdymbIgCkrkMTzmkgZ4cOpPVTn0fllsG_y-udUt2ZcuYlVUY8Q_wKmyN-JM_YPrmpQyqB24bnDo3sfWTqGRhRBo_lnlYMY8j_q9sIqfi_3OBD5osgXUhMdAVrvgtVNSgjl1eVR0C7iDwtvmRh72xrmdGqajCkQ45Y_wR1aNeFwLT5W-KfB3gg">
+</div>
+</div>
+</header>
+<!-- Side Navigation (Desktop) -->
+<aside class="hidden md:flex flex-col w-[260px] h-screen fixed left-0 top-0 bg-surface border-r border-hairline z-40">
+<div class="p-margin-desktop border-b border-hairline">
+<h1 class="font-headline-md text-headline-md font-bold text-role-driver">Driver Portal</h1>
+</div>
+<nav class="flex-1 overflow-y-auto py-base px-md space-y-sm">
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low transition-colors font-title-md text-title-md" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="">Home</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low transition-colors font-title-md text-title-md" href="#">
+<span class="material-symbols-outlined" data-icon="assignment">assignment</span>
+<span class="">Assignments</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-lg bg-role-driver-container text-role-driver font-title-md text-title-md font-bold" href="#">
+<span class="material-symbols-outlined" data-icon="route" data-weight="fill" style="font-variation-settings: &quot;FILL&quot; 1;">route</span>
+<span class="">My Trips</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low transition-colors font-title-md text-title-md" href="#">
+<span class="material-symbols-outlined" data-icon="query_stats">query_stats</span>
+<span class="">Performance</span>
+</a>
+</nav>
+<div class="p-base border-t border-hairline">
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low transition-colors font-title-md text-title-md" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="">Account</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="flex-1 mt-14 md:mt-0 md:ml-[260px] p-margin-mobile md:p-margin-desktop max-w-[1200px] mx-auto w-full">
+<!-- Desktop Header -->
+<div class="hidden md:flex justify-between items-end mb-2xl">
+<div>
+<h2 class="font-display-lg text-display-lg text-on-surface">My Trips</h2>
+<p class="font-body-base text-body-base text-on-surface-variant mt-sm">View and manage your trip history.</p>
+</div>
+</div>
+<!-- Filter Tabs -->
+<div class="flex overflow-x-auto hide-scrollbar gap-sm mb-xl border-b border-hairline pb-xs">
+<button class="px-base py-sm border-b-2 border-role-driver text-role-driver font-title-md text-title-md whitespace-nowrap">All Trips</button>
+<button class="px-base py-sm border-b-2 border-transparent text-on-surface-variant hover:text-on-surface font-title-md text-title-md whitespace-nowrap transition-colors">Completed</button>
+<button class="px-base py-sm border-b-2 border-transparent text-on-surface-variant hover:text-on-surface font-title-md text-title-md whitespace-nowrap transition-colors">Cancelled</button>
+</div>
+<!-- Active Trip Section -->
+<section class="mb-2xl">
+<h3 class="font-title-lg text-title-lg text-on-surface mb-base flex items-center gap-sm">
+<span class="w-2 h-2 rounded-full bg-role-driver animate-pulse"></span>
+                In Progress
+            </h3>
+<div class="bg-surface rounded-xl border border-role-driver shadow-[0px_1px_3px_0px_rgba(15,23,42,0.05)] overflow-hidden">
+<div class="p-base bg-role-driver-container/30 border-b border-hairline flex justify-between items-center">
+<div class="flex items-center gap-sm">
+<span class="px-2 py-1 rounded bg-role-driver text-white font-label-caps text-label-caps uppercase tracking-wider">Active</span>
+<span class="font-title-md text-title-md text-on-surface">#TRP-2026-0015</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Started 10 mins ago</span>
+</div>
+<div class="p-base md:p-xl grid grid-cols-1 md:grid-cols-2 gap-xl">
+<!-- Route Info -->
+<div class="relative">
+<div class="absolute left-[11px] top-6 bottom-6 w-0.5 bg-hairline"></div>
+<div class="flex items-start gap-md mb-xl relative z-10">
+<div class="w-6 h-6 rounded-full bg-surface border-2 border-role-driver flex items-center justify-center shrink-0 mt-0.5">
+<div class="w-2 h-2 rounded-full bg-role-driver"></div>
+</div>
+<div>
+<p class="font-label-caps text-label-caps text-on-surface-variant uppercase mb-xs">Pickup</p>
+<p class="font-title-md text-title-md text-on-surface">123 Corporate Tower, Downtown</p>
+</div>
+</div>
+<div class="flex items-start gap-md relative z-10">
+<div class="w-6 h-6 rounded flex items-center justify-center shrink-0 mt-0.5 bg-role-driver text-white">
+<span class="material-symbols-outlined text-[16px]" data-icon="flag" data-weight="fill" style="font-variation-settings: &quot;FILL&quot; 1;">flag</span>
+</div>
+<div>
+<p class="font-label-caps text-label-caps text-on-surface-variant uppercase mb-xs">Drop-off</p>
+<p class="font-title-md text-title-md text-on-surface">International Airport, Terminal 2</p>
+</div>
+</div>
+</div>
+<!-- Passenger & Actions -->
+<div class="flex flex-col justify-between">
+<div class="flex items-center gap-md p-md bg-surface-canvas rounded-lg border border-hairline mb-base">
+<div class="w-12 h-12 rounded-full overflow-hidden bg-surface-variant shrink-0">
+<img class="w-full h-full object-cover" data-alt="A professional headshot of a corporate passenger, well-dressed in business casual attire. Bright, even lighting against a clean white background. High resolution, conveying reliability and professionalism within an enterprise application context." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA24zhl02u1Myq3bq9BPAjlXznMhx6cogwFYM_DDuehm1IZ7mu2ZWIfG4M8jEo8hs2aKVedPX3LxyGf0qhMVW3-hRowwRBWyTUxQR4brpCieWGdxoXTAjIxYEiGXIWzgvJXvH2OsNfanm8gusfgGvtHTCHD-_-I-GW7fElfEOO_9afzxEs0_joBpFi2CCkOolDEeTL82W_IQtxpuHRFhsK5rsmkr4ctZ6LgF9tdwS-Y4diKJhKjtWw">
+</div>
+<div>
+<p class="font-label-caps text-label-caps text-on-surface-variant uppercase">Passenger</p>
+<p class="font-title-md text-title-md text-on-surface">Aung Aung</p>
+</div>
+<button class="ml-auto w-10 h-10 rounded-full border border-hairline flex items-center justify-center text-on-surface-variant hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined" data-icon="call">call</span>
+</button>
+</div>
+<div class="flex gap-sm">
+<button class="flex-1 bg-surface border-1.5 border-outline-variant text-on-surface font-title-md text-title-md py-3 rounded-lg hover:bg-surface-canvas transition-colors h-12 md:h-10 flex items-center justify-center">Navigate</button>
+<button class="flex-1 bg-role-driver text-white font-title-md text-title-md py-3 rounded-lg hover:bg-role-driver/90 transition-colors h-12 md:h-10 flex items-center justify-center">Complete Trip</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Past Trips List -->
+<section>
+<h3 class="font-title-lg text-title-lg text-on-surface mb-base">Past Trips</h3>
+<div class="space-y-md">
+<!-- Completed Trip Card -->
+<div class="bg-surface rounded-xl border border-hairline shadow-[0px_1px_3px_0px_rgba(15,23,42,0.05)] p-base flex flex-col md:flex-row md:items-center gap-md hover:border-outline-variant transition-colors cursor-pointer">
+<div class="flex justify-between md:w-[200px] shrink-0">
+<div>
+<span class="font-body-sm text-body-sm text-on-surface-variant block mb-xs">Today, 09:30 AM</span>
+<span class="font-title-md text-title-md text-on-surface block">#TRP-2026-0012</span>
+</div>
+<div class="md:hidden">
+<span class="px-2 py-1 rounded bg-role-admin-container text-role-admin font-label-caps text-label-caps uppercase">Completed</span>
+</div>
+</div>
+<div class="hidden md:block w-24 shrink-0">
+<span class="px-2 py-1 rounded bg-role-admin-container text-role-admin font-label-caps text-label-caps uppercase">Completed</span>
+</div>
+<div class="flex-1 border-l-2 border-hairline pl-md flex flex-col gap-sm">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-outline text-[18px]" data-icon="trip_origin">trip_origin</span>
+<span class="font-body-base text-body-base text-on-surface truncate">Tech Park, Building B</span>
+</div>
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-outline text-[18px]" data-icon="location_on">location_on</span>
+<span class="font-body-base text-body-base text-on-surface truncate">City Center Mall</span>
+</div>
+</div>
+<div class="hidden md:flex items-center gap-sm w-[150px] shrink-0 justify-end">
+<span class="material-symbols-outlined text-outline" data-icon="person">person</span>
+<span class="font-body-sm text-body-sm text-on-surface">U Kyaw</span>
+</div>
+</div>
+<!-- Cancelled Trip Card -->
+<div class="bg-surface rounded-xl border border-hairline shadow-[0px_1px_3px_0px_rgba(15,23,42,0.05)] p-base flex flex-col md:flex-row md:items-center gap-md hover:border-outline-variant transition-colors cursor-pointer opacity-75">
+<div class="flex justify-between md:w-[200px] shrink-0">
+<div>
+<span class="font-body-sm text-body-sm text-on-surface-variant block mb-xs">Yesterday, 14:15 PM</span>
+<span class="font-title-md text-title-md text-on-surface block">#TRP-2026-0011</span>
+</div>
+<div class="md:hidden">
+<span class="px-2 py-1 rounded bg-error-container text-error font-label-caps text-label-caps uppercase">Cancelled</span>
+</div>
+</div>
+<div class="hidden md:block w-24 shrink-0">
+<span class="px-2 py-1 rounded bg-error-container text-error font-label-caps text-label-caps uppercase">Cancelled</span>
+</div>
+<div class="flex-1 border-l-2 border-hairline pl-md flex flex-col gap-sm">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-outline text-[18px]" data-icon="trip_origin">trip_origin</span>
+<span class="font-body-base text-body-base text-on-surface truncate">Grand Hotel</span>
+</div>
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-outline text-[18px]" data-icon="location_on">location_on</span>
+<span class="font-body-base text-body-base text-on-surface truncate">Railway Station</span>
+</div>
+</div>
+<div class="hidden md:flex items-center gap-sm w-[150px] shrink-0 justify-end">
+<span class="material-symbols-outlined text-outline" data-icon="person">person</span>
+<span class="font-body-sm text-body-sm text-on-surface">Daw Mya</span>
+</div>
+</div>
+<!-- Empty State (Hidden by default, shown for structure) -->
+<!--
+                <div class="py-xl flex flex-col items-center justify-center text-center border border-dashed border-outline-variant rounded-xl bg-surface-canvas">
+                    <div class="w-16 h-16 rounded-full bg-surface-variant flex items-center justify-center text-outline mb-md">
+                        <span class="material-symbols-outlined text-[32px]" data-icon="route">route</span>
+                    </div>
+                    <h4 class="font-title-md text-title-md text-on-surface mb-xs">No trips found</h4>
+                    <p class="font-body-sm text-body-sm text-on-surface-variant">You don't have any trips in this category yet.</p>
+                </div>
+                -->
+</div>
+<button class="w-full mt-lg py-sm font-title-md text-title-md text-role-driver hover:bg-surface-container-low rounded-lg transition-colors border border-transparent">
+                Load More
+            </button>
+</section>
+</main>
+<!-- Bottom Navigation Bar (Mobile) -->
+<nav class="bg-surface dark:bg-inverse-surface border-t border-hairline dark:border-outline-variant fixed bottom-0 w-full z-50 rounded-t-xl shadow-md flex justify-around items-center h-[64px] pb-safe"><button class="scale-95 active:scale-90 transition-transform duration-150 flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant px-3 py-1 hover:bg-surface-container-high dark:hover:bg-surface-variant rounded-xl"><span class="material-symbols-outlined mb-1" data-icon="home">home</span><span class="font-body-sm text-body-sm">Home</span></button><button class="scale-95 active:scale-90 transition-transform duration-150 flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant px-3 py-1 hover:bg-surface-container-high dark:hover:bg-surface-variant rounded-xl"><span class="material-symbols-outlined mb-1" data-icon="assignment">assignment</span><span class="font-body-sm text-body-sm">Assignments</span></button><button class="scale-95 active:scale-90 transition-transform duration-150 flex flex-col items-center justify-center bg-role-driver text-white rounded-xl px-3 py-1"><span class="material-symbols-outlined mb-1" data-icon="local_shipping" style="font-variation-settings: &quot;FILL&quot; 1;">local_shipping</span><span class="font-body-sm text-body-sm">Trips</span></button><button class="scale-95 active:scale-90 transition-transform duration-150 flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant px-3 py-1 hover:bg-surface-container-high dark:hover:bg-surface-variant rounded-xl"><span class="material-symbols-outlined mb-1" data-icon="speed">speed</span><span class="font-body-sm text-body-sm">Performance</span></button><button class="scale-95 active:scale-90 transition-transform duration-150 flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant px-3 py-1 hover:bg-surface-container-high dark:hover:bg-surface-variant rounded-xl"><span class="material-symbols-outlined mb-1" data-icon="person">person</span><span class="font-body-sm text-body-sm">Account</span></button></nav>
+
+
+</body></html>

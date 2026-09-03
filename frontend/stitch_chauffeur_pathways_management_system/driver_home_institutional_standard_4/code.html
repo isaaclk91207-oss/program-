@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Driver Home — Institutional Standard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-surface-variant": "#40474f",
+                    "on-background": "#131b2e",
+                    "tertiary-fixed": "#ffdcc1",
+                    "primary-fixed": "#cde5ff",
+                    "inverse-surface": "#283044",
+                    "secondary": "#006a63",
+                    "background": "#faf8ff",
+                    "surface-container-lowest": "#ffffff",
+                    "inverse-primary": "#94ccff",
+                    "role-passenger": "#2563EB",
+                    "secondary-fixed": "#9cf2e8",
+                    "primary": "#00507d",
+                    "tertiary": "#733f00",
+                    "error-container": "#ffdad6",
+                    "on-tertiary-container": "#ffdbbe",
+                    "tertiary-fixed-dim": "#ffb878",
+                    "on-primary-fixed-variant": "#004b74",
+                    "on-secondary": "#ffffff",
+                    "surface-container-highest": "#dae2fc",
+                    "surface-tint": "#006399",
+                    "outline": "#707881",
+                    "secondary-container": "#99efe5",
+                    "role-driver": "#7C3AED",
+                    "primary-fixed-dim": "#94ccff",
+                    "surface-variant": "#dae2fc",
+                    "on-surface": "#131b2e",
+                    "on-secondary-container": "#006f67",
+                    "on-primary": "#ffffff",
+                    "primary-container": "#0369a1",
+                    "surface-container": "#eaedff",
+                    "surface-container-low": "#f2f3ff",
+                    "outline-variant": "#c0c7d1",
+                    "surface-bright": "#faf8ff",
+                    "on-tertiary-fixed": "#2e1500",
+                    "on-error-container": "#93000a",
+                    "error": "#ba1a1a",
+                    "surface": "#faf8ff",
+                    "secondary-fixed-dim": "#80d5cb",
+                    "tertiary-container": "#955301",
+                    "on-tertiary-fixed-variant": "#6c3a00",
+                    "on-error": "#ffffff",
+                    "on-primary-container": "#cbe4ff",
+                    "surface-container-high": "#e1e7ff",
+                    "surface-dim": "#d2d9f4",
+                    "inverse-on-surface": "#eef0ff",
+                    "surface-canvas": "#F8FAFC",
+                    "on-tertiary": "#ffffff",
+                    "on-secondary-fixed": "#00201d",
+                    "on-primary-fixed": "#001d32",
+                    "role-admin": "#059669",
+                    "on-secondary-fixed-variant": "#00504a",
+                    "border-hairline": "#E2E8F0"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "gutter": "16px",
+                    "base": "16px",
+                    "margin-mobile": "16px",
+                    "xl": "24px",
+                    "lg": "20px",
+                    "sm": "8px",
+                    "md": "12px",
+                    "2xl": "32px",
+                    "margin-desktop": "32px",
+                    "xs": "4px"
+            },
+            "fontFamily": {
+                    "display-lg": [
+                            "Plus Jakarta Sans"
+                    ],
+                    "title-md": [
+                            "Plus Jakarta Sans"
+                    ],
+                    "headline-md": [
+                            "Plus Jakarta Sans"
+                    ],
+                    "body-sm": [
+                            "Inter"
+                    ],
+                    "title-lg": [
+                            "Plus Jakarta Sans"
+                    ],
+                    "label-caps": [
+                            "Plus Jakarta Sans"
+                    ],
+                    "headline-lg": [
+                            "Plus Jakarta Sans"
+                    ],
+                    "body-base": [
+                            "Inter"
+                    ]
+            },
+            "fontSize": {
+                    "display-lg": [
+                            "36px",
+                            {
+                                    "lineHeight": "44px",
+                                    "letterSpacing": "-0.02em",
+                                    "fontWeight": "800"
+                            }
+                    ],
+                    "title-md": [
+                            "16px",
+                            {
+                                    "lineHeight": "22px",
+                                    "letterSpacing": "0",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "headline-md": [
+                            "22px",
+                            {
+                                    "lineHeight": "28px",
+                                    "letterSpacing": "-0.01em",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "body-sm": [
+                            "13px",
+                            {
+                                    "lineHeight": "18px",
+                                    "letterSpacing": "0",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "title-lg": [
+                            "18px",
+                            {
+                                    "lineHeight": "24px",
+                                    "letterSpacing": "-0.01em",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "label-caps": [
+                            "11px",
+                            {
+                                    "lineHeight": "14px",
+                                    "letterSpacing": "0.06em",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "headline-lg": [
+                            "28px",
+                            {
+                                    "lineHeight": "36px",
+                                    "letterSpacing": "-0.02em",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "body-base": [
+                            "15px",
+                            {
+                                    "lineHeight": "22px",
+                                    "letterSpacing": "0",
+                                    "fontWeight": "400"
+                            }
+                    ]
+            }
+    },
+        },
+      }
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        h1, h2, h3, h4, h5, h6, .font-title, .font-headline, .font-display {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface-canvas text-on-surface min-h-screen flex flex-col pt-14 pb-20">
+<!-- TopAppBar -->
+<header class="bg-surface dark:bg-surface-dim text-role-driver dark:text-role-driver-container fixed top-0 w-full z-50 border-b border-outline-variant dark:border-outline flat no shadows flex justify-between items-center px-margin-mobile h-14">
+<button class="hover:bg-surface-container-low transition-colors active:opacity-80 p-2 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="menu">menu</span>
+</button>
+<h1 class="font-headline-md text-headline-md font-bold text-role-driver dark:text-role-driver-container">Driver Portal</h1>
+<div class="w-8 h-8 rounded-full bg-surface-container-high flex items-center justify-center overflow-hidden hover:bg-surface-container-low transition-colors active:opacity-80">
+<img alt="Driver Profile" class="w-full h-full object-cover" data-alt="A small, professional portrait photo of a corporate chauffeur in a neat dark suit and tie, smiling subtly against a neutral light grey background. Clean, modern, high-quality corporate headshot style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuApXyUg3unN6QVw1g99J2UGkyvoyGf8ZdddLySVrIB0OC6eQqNb-Fyplzj3h-EgEMFaaTn5xCCpAPMUbMyRJESTvANqfKSgYkY8pqWgKiQ-ukGf1NgrFpnAdyD6W7G6kiLeQT3lsLqy2Gdy3ew8gCYj8bZe3oFFKoeBHeMuD7WuQuYCHYn0uRQaub0TpAIF1gUx2MgLpfahRqtcOl2hrBfdsljerg8-ysdkmrIp8KZkZ59hJWwFi9c"/>
+</div>
+</header>
+<main class="flex-grow flex flex-col items-center px-margin-mobile py-lg gap-xl max-w-[1280px] mx-auto w-full">
+<!-- Header Section -->
+<div class="w-full max-w-[800px]">
+<div class="flex items-center justify-between mb-sm">
+<h2 class="font-headline-lg text-headline-lg">Good Morning, Ko Aung Naing Win</h2>
+</div>
+<div class="inline-flex items-center gap-xs px-3 py-1 rounded-full bg-role-driver/10 border border-role-driver/20 text-role-driver font-label-caps text-label-caps">
+<span class="material-symbols-outlined text-[14px]" data-icon="check_circle" data-weight="fill" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                ASSIGNED
+            </div>
+</div>
+<!-- Today's Assignment Card -->
+<div class="w-full max-w-[800px] bg-surface-container-lowest rounded-xl shadow-sm border border-border-hairline p-xl flex flex-col gap-lg">
+<div class="flex justify-between items-start border-b border-border-hairline pb-md">
+<div>
+<h3 class="font-title-lg text-title-lg text-on-surface">Today's Assignment</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-xs">PCCP-TR-2026-0012</p>
+</div>
+<div class="text-right">
+<p class="font-title-md text-title-md text-on-surface">08:30 AM</p>
+<span class="inline-block mt-1 px-2 py-0.5 rounded bg-surface-container text-on-surface-variant font-label-caps text-label-caps">Round Trip</span>
+</div>
+</div>
+<div class="flex flex-col gap-md relative">
+<!-- Timeline Line -->
+<div class="absolute left-3 top-6 bottom-6 w-0.5 bg-outline-variant rounded-full"></div>
+<div class="flex items-start gap-4">
+<div class="w-6 h-6 rounded-full bg-surface-container-lowest border-2 border-role-driver flex items-center justify-center z-10 mt-0.5">
+<div class="w-2 h-2 rounded-full bg-role-driver"></div>
+</div>
+<div class="flex-grow">
+<p class="font-label-caps text-label-caps text-on-surface-variant mb-xs">PICKUP</p>
+<p class="font-body-base text-body-base text-on-surface font-medium">uab HO</p>
+</div>
+</div>
+<div class="flex items-start gap-4">
+<div class="w-6 h-6 rounded-full bg-surface-container-lowest border-2 border-outline flex items-center justify-center z-10 mt-0.5">
+<span class="material-symbols-outlined text-[14px] text-outline" data-icon="location_on">location_on</span>
+</div>
+<div class="flex-grow">
+<p class="font-label-caps text-label-caps text-on-surface-variant mb-xs">DESTINATION</p>
+<p class="font-body-base text-body-base text-on-surface font-medium">Yangon International Airport</p>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-md bg-surface-container-low rounded-lg p-md mt-sm">
+<div>
+<p class="font-label-caps text-label-caps text-on-surface-variant">PASSENGERS</p>
+<p class="font-body-base text-body-base text-on-surface font-medium flex items-center gap-sm mt-xs">
+<span class="material-symbols-outlined text-[18px]" data-icon="group">group</span> 2
+                    </p>
+</div>
+<div>
+<p class="font-label-caps text-label-caps text-on-surface-variant">VEHICLE</p>
+<p class="font-body-base text-body-base text-on-surface font-medium flex items-center gap-sm mt-xs">
+<span class="material-symbols-outlined text-[18px]" data-icon="directions_car">directions_car</span> Toyota Alphard (4D-1200)
+                    </p>
+</div>
+</div>
+<div class="flex flex-col sm:flex-row gap-md mt-sm">
+<button class="flex-1 bg-role-driver text-on-primary h-12 rounded-lg font-title-md text-title-md flex items-center justify-center gap-sm hover:bg-role-driver/90 transition-colors shadow-sm">
+                    View Assignment
+                    <span class="material-symbols-outlined text-[20px]" data-icon="arrow_forward">arrow_forward</span>
+</button>
+<button class="flex-1 bg-surface-container-lowest border border-outline-variant text-role-driver h-12 rounded-lg font-title-md text-title-md flex items-center justify-center hover:bg-surface-container-low transition-colors">
+                    Acknowledge Assignment
+                </button>
+</div>
+</div>
+<div class="w-full max-w-[800px] grid grid-cols-1 md:grid-cols-2 gap-xl">
+<!-- Performance Summary Card -->
+<div class="bg-surface-container-lowest rounded-xl shadow-sm border border-border-hairline p-lg flex flex-col gap-md">
+<div class="flex justify-between items-center border-b border-border-hairline pb-sm">
+<h3 class="font-title-lg text-title-lg text-on-surface flex items-center gap-sm">
+<span class="material-symbols-outlined text-role-driver" data-icon="query_stats">query_stats</span>
+                        Performance
+                    </h3>
+</div>
+<div class="flex justify-between items-center">
+<div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Safety Score</p>
+<p class="font-headline-md text-headline-md text-on-surface">94%</p>
+</div>
+<div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Rating</p>
+<p class="font-headline-md text-headline-md text-on-surface flex items-center gap-1">
+                            4.8 <span class="material-symbols-outlined text-[18px] text-[#F59E0B]" data-icon="star" data-weight="fill" style="font-variation-settings: 'FILL' 1;">star</span>
+</p>
+</div>
+</div>
+<div class="bg-surface-container-low rounded p-sm flex items-center gap-sm text-on-surface">
+<span class="material-symbols-outlined text-[18px] text-role-driver" data-icon="verified_user">verified_user</span>
+<span class="font-body-sm text-body-sm">Accident-Free 3 Years</span>
+</div>
+<button class="w-full mt-auto text-role-driver font-title-md text-title-md flex items-center justify-center gap-xs py-2 hover:bg-surface-container-low rounded transition-colors">
+                    View Performance <span class="material-symbols-outlined text-[18px]" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+<!-- Certification Section -->
+<div class="bg-surface-container-lowest rounded-xl shadow-sm border border-border-hairline p-lg flex flex-col gap-md">
+<div class="flex justify-between items-center border-b border-border-hairline pb-sm">
+<h3 class="font-title-lg text-title-lg text-on-surface flex items-center gap-sm">
+<span class="material-symbols-outlined text-role-driver" data-icon="workspace_premium">workspace_premium</span>
+                        Certification
+                    </h3>
+</div>
+<div class="flex items-center gap-md">
+<div class="w-12 h-12 rounded-full bg-role-driver/10 flex items-center justify-center text-role-driver">
+<span class="material-symbols-outlined text-[24px]" data-icon="military_tech" data-weight="fill" style="font-variation-settings: 'FILL' 1;">military_tech</span>
+</div>
+<div>
+<p class="font-label-caps text-label-caps text-on-surface-variant">CURRENT STATUS</p>
+<p class="font-title-md text-title-md text-on-surface">CC — Certified Chauffeur</p>
+</div>
+</div>
+<div class="mt-sm">
+<div class="flex justify-between font-body-sm text-body-sm mb-xs">
+<span class="text-on-surface-variant">Progress to CPC</span>
+<span class="text-on-surface font-medium">85%</span>
+</div>
+<div class="w-full h-2 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-role-driver rounded-full" style="width: 85%;"></div>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-xs">Complete 3 more high-rated trips.</p>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="md:hidden bg-surface dark:bg-surface-dim text-role-driver dark:text-role-driver-container fixed bottom-0 w-full z-50 pb-safe border-t border-outline-variant dark:border-outline shadow-sm flex justify-around items-center h-16 px-2">
+<button class="flex flex-col items-center justify-center bg-role-driver-container dark:bg-role-driver text-on-secondary-container dark:text-on-primary rounded-xl px-3 py-1.5 hover:text-role-driver dark:hover:text-role-driver-container scale-95 active:scale-90 transition-transform duration-150">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-label-caps text-label-caps mt-1">Home</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline px-3 py-1.5 hover:text-role-driver dark:hover:text-role-driver-container scale-95 active:scale-90 transition-transform duration-150">
+<span class="material-symbols-outlined" data-icon="assignment">assignment</span>
+<span class="font-label-caps text-label-caps mt-1">Assignments</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline px-3 py-1.5 hover:text-role-driver dark:hover:text-role-driver-container scale-95 active:scale-90 transition-transform duration-150">
+<span class="material-symbols-outlined" data-icon="route">route</span>
+<span class="font-label-caps text-label-caps mt-1">Trips</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline px-3 py-1.5 hover:text-role-driver dark:hover:text-role-driver-container scale-95 active:scale-90 transition-transform duration-150">
+<span class="material-symbols-outlined" data-icon="query_stats">query_stats</span>
+<span class="font-label-caps text-label-caps mt-1">Performance</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline px-3 py-1.5 hover:text-role-driver dark:hover:text-role-driver-container scale-95 active:scale-90 transition-transform duration-150">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-label-caps text-label-caps mt-1">Account</span>
+</button>
+</nav>
+<!-- Desktop Sidebar Placeholder (Hidden on mobile) -->
+<aside class="hidden md:flex fixed left-0 top-14 bottom-0 w-64 bg-surface border-r border-outline-variant flex-col py-lg px-md gap-sm">
+<a class="flex items-center gap-md px-4 py-3 rounded-lg bg-role-driver/10 text-role-driver font-title-md text-title-md" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+            Home
+        </a>
+<a class="flex items-center gap-md px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container-low font-title-md text-title-md transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="assignment">assignment</span>
+            Assignments
+        </a>
+<a class="flex items-center gap-md px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container-low font-title-md text-title-md transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="route">route</span>
+            Trips
+        </a>
+<a class="flex items-center gap-md px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container-low font-title-md text-title-md transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="query_stats">query_stats</span>
+            Performance
+        </a>
+<a class="flex items-center gap-md px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container-low font-title-md text-title-md transition-colors mt-auto" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+            Account
+        </a>
+</aside>
+<!-- Adjust main content padding for desktop sidebar -->
+<style>
+        @media (min-width: 768px) {
+            main {
+                padding-left: calc(16rem + 32px); /* 64 * 4px + margin */
+            }
+        }
+    </style>
+</body></html>

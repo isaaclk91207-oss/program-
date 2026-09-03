@@ -1,0 +1,273 @@
+<!DOCTYPE html><html class="light" lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>PCCP Vector - Trip Info</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-dim": "#d2d9f4",
+                        "primary-fixed": "#cde5ff",
+                        "tertiary": "#733f00",
+                        "on-secondary-fixed": "#00201d",
+                        "surface-container-lowest": "#ffffff",
+                        "error": "#ba1a1a",
+                        "inverse-surface": "#283044",
+                        "on-surface": "#131b2e",
+                        "primary-container": "#0369a1",
+                        "on-tertiary-fixed-variant": "#6c3a00",
+                        "tertiary-fixed-dim": "#ffb878",
+                        "secondary-fixed-dim": "#80d5cb",
+                        "on-surface-variant": "#40474f",
+                        "surface": "#faf8ff",
+                        "surface-tint": "#006399",
+                        "primary": "#00507d",
+                        "surface-container-low": "#f2f3ff",
+                        "on-primary-fixed": "#001d32",
+                        "on-error-container": "#93000a",
+                        "on-tertiary": "#ffffff",
+                        "secondary-fixed": "#9cf2e8",
+                        "background": "#faf8ff",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-fixed": "#2e1500",
+                        "outline-variant": "#c0c7d1",
+                        "surface-container-high": "#e1e7ff",
+                        "outline": "#707881",
+                        "tertiary-fixed": "#ffdcc1",
+                        "on-secondary-fixed-variant": "#00504a",
+                        "surface-variant": "#dae2fc",
+                        "primary-fixed-dim": "#94ccff",
+                        "secondary": "#006a63",
+                        "surface-bright": "#faf8ff",
+                        "role-passenger": "#2563EB",
+                        "error-container": "#ffdad6",
+                        "on-background": "#131b2e",
+                        "secondary-container": "#99efe5",
+                        "on-primary-fixed-variant": "#004b74",
+                        "on-error": "#ffffff",
+                        "inverse-on-surface": "#eef0ff",
+                        "on-tertiary-container": "#ffdbbe",
+                        "on-primary-container": "#cbe4ff",
+                        "role-driver": "#7C3AED",
+                        "on-primary": "#ffffff",
+                        "role-admin": "#059669",
+                        "border-hairline": "#E2E8F0",
+                        "surface-container-highest": "#dae2fc",
+                        "surface-container": "#eaedff",
+                        "inverse-primary": "#94ccff",
+                        "tertiary-container": "#955301",
+                        "surface-canvas": "#F8FAFC",
+                        "on-secondary-container": "#006f67"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-desktop": "32px",
+                        "md": "12px",
+                        "gutter": "16px",
+                        "2xl": "32px",
+                        "margin-mobile": "16px",
+                        "base": "16px",
+                        "sm": "8px",
+                        "xs": "4px",
+                        "lg": "20px",
+                        "xl": "24px"
+                    },
+                    "fontFamily": {
+                        "label-caps": ["Plus Jakarta Sans"],
+                        "title-md": ["Plus Jakarta Sans"],
+                        "display-lg": ["Plus Jakarta Sans"],
+                        "body-base": ["Inter"],
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "headline-lg": ["Plus Jakarta Sans"],
+                        "body-sm": ["Inter"],
+                        "title-lg": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "label-caps": ["11px", { "lineHeight": "14px", "letterSpacing": "0.06em", "fontWeight": "700" }],
+                        "title-md": ["16px", { "lineHeight": "22px", "letterSpacing": "0", "fontWeight": "600" }],
+                        "display-lg": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+                        "body-base": ["15px", { "lineHeight": "22px", "letterSpacing": "0", "fontWeight": "400" }],
+                        "headline-md": ["22px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "headline-lg": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-sm": ["13px", { "lineHeight": "18px", "letterSpacing": "0", "fontWeight": "400" }],
+                        "title-lg": ["18px", { "lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+    </style>
+</head>
+<body class="bg-surface-canvas text-on-surface font-body-base min-h-screen flex flex-col pt-16 pb-20 md:pb-0 antialiased selection:bg-primary-container selection:text-on-primary-container">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-surface-bright border-b border-border-hairline shadow-sm flex items-center justify-between px-margin-mobile md:px-margin-desktop h-16 transition-all">
+<div class="flex items-center gap-4 flex-1">
+<button aria-label="Go back" class="p-2 rounded-full hover:bg-surface-container transition-colors active:scale-95 flex items-center justify-center group flex-shrink-0 bg-primary-container text-on-primary">
+<span class="material-symbols-outlined text-2xl group-hover:text-primary transition-colors">arrow_back</span>
+</button>
+<h1 class="font-title-lg text-title-lg font-bold text-primary tracking-tight">New Request</h1>
+</div>
+</header>
+<main class="flex-grow w-full max-w-3xl mx-auto px-margin-mobile md:px-margin-desktop pt-xl pb-2xl flex flex-col gap-lg">
+<!-- Header & Progress -->
+<div class="flex flex-col gap-sm">
+<h2 class="font-headline-lg text-headline-lg text-primary-container">Trip Info</h2>
+<p class="font-body-base text-on-surface-variant">Please provide details for your journey.</p>
+<div class="mb-6">
+<div class="flex justify-between items-center mb-2">
+<span class="font-title-md text-title-md text-on-surface">Step 2 of 3</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Review</span>
+</div>
+<div class="flex gap-2 w-full h-2">
+<div class="h-full rounded-full flex-1 bg-[#0369a1]"></div>
+<div class="h-full rounded-full flex-1 bg-[#0369a1]"></div>
+<div class="h-full rounded-full flex-1 bg-surface-container"></div>
+</div>
+</div>
+</div>
+<!-- Form Canvas -->
+<div class="bg-surface-container-lowest rounded-xl border border-border-hairline shadow-[0_1px_3px_rgba(15,23,42,0.05)] p-lg flex flex-col gap-lg relative overflow-hidden">
+<!-- Decorative background blob -->
+<div class="absolute -top-24 -right-24 w-64 h-64 bg-primary/5 rounded-full blur-3xl pointer-events-none"></div>
+<form class="flex flex-col gap-md relative z-10">
+<!-- Location Inputs -->
+<div class="flex flex-col gap-md relative">
+<!-- Connecting line -->
+<div class="absolute left-[19px] top-[30px] bottom-[30px] w-0.5 bg-border-hairline z-0">
+<div class="h-full w-full bg-gradient-to-b from-border-hairline via-primary/30 to-border-hairline animate-pulse"></div>
+</div>
+<div class="relative z-10 group">
+<label class="sr-only" for="pickup">Pickup Location</label>
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-outline group-focus-within:text-[#0369a1] transition-colors text-[20px]" data-weight="fill">radio_button_checked</span>
+</div>
+<input class="w-full pl-10 pr-4 py-3 bg-surface-canvas border border-border-hairline rounded-lg font-body-base text-on-surface focus:ring-2 focus:ring-[#0369a1] focus:border-[#0369a1] transition-all focus:bg-surface-container-lowest" id="pickup" placeholder="Enter pickup location" required="" type="text" value="Corporate HQ, Building B">
+</div>
+<div class="relative z-10 group">
+<label class="sr-only" for="destination">Destination</label>
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-outline group-focus-within:text-[#0369a1] transition-colors text-[20px]" data-weight="fill">location_on</span>
+</div>
+<input class="w-full pl-10 pr-4 py-3 bg-surface-canvas border border-border-hairline rounded-lg font-body-base text-on-surface focus:ring-2 focus:ring-[#0369a1] focus:border-[#0369a1] transition-all focus:bg-surface-container-lowest" id="destination" placeholder="Enter destination" required="" type="text">
+</div>
+</div>
+<!-- Trip Type Segmented Control -->
+<div class="mt-sm">
+<label class="font-title-md text-title-md text-on-surface block mb-sm">Trip Type</label>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-1 bg-surface-canvas p-1 rounded-lg border border-border-hairline">
+<label class="text-center">
+<input checked="" class="peer sr-only" name="tripType" type="radio" value="oneWay">
+<div class="py-2 px-4 rounded-md font-title-md text-title-md text-on-surface-variant peer-checked:bg-[#0369a1] peer-checked:text-white peer-checked:shadow-sm cursor-pointer transition-all hover:bg-surface-container/50">
+                                One Way
+                            </div>
+</label>
+<label class="text-center">
+<input class="peer sr-only" name="tripType" type="radio" value="roundTrip">
+<div class="py-2 px-4 rounded-md font-title-md text-title-md text-on-surface-variant peer-checked:bg-[#0369a1] peer-checked:text-white peer-checked:shadow-sm cursor-pointer transition-all hover:bg-surface-container/50">
+                                Round Trip
+                            </div>
+</label>
+<label class="text-center">
+<input class="peer sr-only" name="tripType" type="radio" value="multiStop">
+<div class="py-2 px-4 rounded-md font-title-md text-title-md text-on-surface-variant peer-checked:bg-[#0369a1] peer-checked:text-white peer-checked:shadow-sm cursor-pointer transition-all hover:bg-surface-container/50">
+                                Multi-Stop
+                            </div>
+</label>
+<label class="text-center">
+<input class="peer sr-only" name="tripType" type="radio" value="dayReturn">
+<div class="py-2 px-4 rounded-md font-title-md text-title-md text-on-surface-variant peer-checked:bg-[#0369a1] peer-checked:text-white peer-checked:shadow-sm cursor-pointer transition-all hover:bg-surface-container/50">
+                                Day Return
+                            </div>
+</label>
+</div>
+</div>
+<!-- Time Inputs -->
+<div class="mt-sm flex flex-col md:flex-row gap-sm">
+<div class="flex-1">
+<label class="font-title-md text-title-md text-on-surface block mb-sm">Pickup Time</label>
+<div class="relative group w-full">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-outline group-focus-within:text-[#0369a1] transition-colors text-[20px]">schedule</span>
+</div>
+<input class="w-full pl-10 pr-4 py-3 bg-surface-canvas border border-border-hairline rounded-lg font-body-base text-on-surface focus:ring-2 focus:ring-[#0369a1] focus:border-[#0369a1] transition-all focus:bg-surface-container-lowest cursor-pointer text-on-surface-variant" type="datetime-local">
+</div>
+</div>
+<div class="flex-1">
+<label class="font-title-md text-title-md text-on-surface block mb-sm">Return Time</label>
+<div class="relative group w-full">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-outline group-focus-within:text-[#0369a1] transition-colors text-[20px]">schedule</span>
+</div>
+<input class="w-full pl-10 pr-4 py-3 bg-surface-canvas border border-border-hairline rounded-lg font-body-base text-on-surface focus:ring-2 focus:ring-[#0369a1] focus:border-[#0369a1] transition-all focus:bg-surface-container-lowest cursor-pointer text-on-surface-variant" type="datetime-local">
+</div>
+</div>
+</div>
+<!-- Passengers Input -->
+<div class="mt-sm">
+<label class="font-title-md text-title-md text-on-surface block mb-sm">Number of Passengers</label>
+<div class="relative group w-full md:w-1/2">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-outline group-focus-within:text-[#0369a1] transition-colors text-[20px]">group</span>
+</div>
+<input class="w-full pl-10 pr-4 py-3 bg-surface-canvas border border-border-hairline rounded-lg font-body-base text-on-surface focus:ring-2 focus:ring-[#0369a1] focus:border-[#0369a1] transition-all focus:bg-surface-container-lowest" min="1" type="number" value="1">
+</div>
+</div>
+<!-- Note to Transport -->
+<div class="mt-sm">
+<label class="font-title-md text-title-md text-on-surface block mb-sm">Note to Transport</label>
+<textarea class="w-full p-4 bg-surface-canvas border border-border-hairline rounded-lg font-body-base text-on-surface focus:ring-2 focus:ring-[#0369a1] focus:border-[#0369a1] transition-all focus:bg-surface-container-lowest min-h-[100px] resize-y" placeholder="Add specific logistics notes..."></textarea>
+</div>
+</form>
+</div>
+<!-- Requester Context Card -->
+<div class="bg-surface-container-low rounded-xl border border-surface-variant p-md flex items-center gap-md">
+<div class="w-10 h-10 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center flex-shrink-0 overflow-hidden shadow-sm">
+<img alt="Shoon avatar" class="w-full h-full object-cover" data-alt="A professional headshot of a young Asian woman with a friendly smile, wearing corporate attire against a clean, light mode background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDWpRR-wz9Q9UvMg_5Ax4NBb6hlWjh1E3Wa3zPKH6to4mli4QyXHCRJEbRhylo3Q5AZnA6J4y6khJJ8w2dr9SzFlo_JQp3x53pxNf-YE8bEFo6-l_LLZzYI0yLatZ45nMUyLWSuF2L5QJcSLm2PZrP-NTslQLGDkiKotPRjFkJtyYqg82yeeiA4fCS9wnRynw4LgiXslxeZWCQEmn0d6ExgNcNWb4U1AUI2f9AFaSUo_ERi5_4uOYc">
+</div>
+<div>
+<p class="font-title-md text-title-md text-on-surface">Shoon <span class="font-body-sm text-body-sm text-on-surface-variant font-normal px-2 py-0.5 bg-surface-variant rounded-md ml-2 inline-flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">work</span> Executive</span></p>
+<p class="font-body-base text-body-base text-on-surface-variant mt-0.5">Booking for recurring executive commute.</p>
+</div>
+</div>
+<!-- Preview Route Map -->
+<div class="rounded-xl overflow-hidden border border-border-hairline h-48 relative shadow-sm group cursor-pointer">
+<img alt="Map Preview" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="A clean, minimalist digital map interface showing a route line between two points in San Francisco. The map style is light mode, utilizing soft blues and whites, with a clear blue path line indicating the journey. High-tech, clean corporate aesthetic." data-location="San Francisco" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDP0PnmflsM_5ZZv7pjQWc2-4_ICflveFCp8skrBLee9Jjm6wnpdXV8UbkKDHTgieM5xVtplKk1OXLO90GejDfo_sgh9qYCbry6ByqOR6nimYsb5Ef46_gtkBt4H5DMoweskD2vwlEsGbDyf1MK9ddHZaQi_vNWCLIi3KzL62i_Xr-bbmkC9ednHisNh1xoDdxvyOAe6s7knBJ12UgDbe4YpMZP4iRvbA8PIFo5SB1PG36svdNu2jQ">
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest/80 via-transparent to-transparent"></div>
+<div class="absolute bottom-md left-md right-md flex justify-between items-end">
+<div class="glass-panel px-3 py-1.5 rounded-lg flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[18px]">route</span>
+<span class="font-title-md text-title-md text-on-surface">Preview Route</span>
+</div>
+<div class="glass-panel w-8 h-8 rounded-full flex items-center justify-center hover:bg-surface-container-lowest transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant text-[20px]">open_in_full</span>
+</div>
+</div>
+</div>
+<!-- Action Button -->
+<div class="mt-sm flex justify-end pb-lg">
+<button class="hover:bg-[#025685] h-12 px-6 rounded-lg font-title-md text-title-md flex items-center gap-2 shadow-sm transition-all active:scale-95 group focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#0369a1] w-full md:w-auto justify-center bg-[#0369a1] text-white">
+                Next Step
+                <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+</div>
+</main>
+<!-- Suppressed BottomNavBar due to transactional flow intent -->
+</body></html>

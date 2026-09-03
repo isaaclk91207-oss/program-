@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<title>PCCP Vector - Passenger Feedback</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&amp;family=Inter:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "inverse-on-surface": "#eef0ff",
+                        "on-tertiary-fixed-variant": "#6c3a00",
+                        "outline": "#707881",
+                        "on-primary-fixed": "#001d32",
+                        "role-admin": "#059669",
+                        "inverse-primary": "#94ccff",
+                        "on-secondary-fixed-variant": "#00504a",
+                        "role-driver": "#7C3AED",
+                        "on-error": "#ffffff",
+                        "on-surface-variant": "#40474f",
+                        "inverse-surface": "#283044",
+                        "outline-variant": "#c0c7d1",
+                        "surface-container": "#eaedff",
+                        "surface-canvas": "#F8FAFC",
+                        "tertiary-container": "#955301",
+                        "surface": "#faf8ff",
+                        "surface-container-low": "#f2f3ff",
+                        "secondary-container": "#99efe5",
+                        "on-background": "#131b2e",
+                        "on-tertiary": "#ffffff",
+                        "background": "#faf8ff",
+                        "tertiary-fixed": "#ffdcc1",
+                        "on-secondary-fixed": "#00201d",
+                        "on-surface": "#131b2e",
+                        "on-primary-container": "#cbe4ff",
+                        "secondary-fixed-dim": "#80d5cb",
+                        "primary": "#00507d",
+                        "surface-container-highest": "#dae2fc",
+                        "border-hairline": "#E2E8F0",
+                        "error": "#ba1a1a",
+                        "role-passenger": "#2563EB",
+                        "on-primary": "#ffffff",
+                        "tertiary": "#733f00",
+                        "surface-container-high": "#e1e7ff",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-container": "#ffdbbe",
+                        "error-container": "#ffdad6",
+                        "primary-container": "#0369a1",
+                        "surface-bright": "#faf8ff",
+                        "on-error-container": "#93000a",
+                        "tertiary-fixed-dim": "#ffb878",
+                        "on-primary-fixed-variant": "#004b74",
+                        "secondary-fixed": "#9cf2e8",
+                        "secondary": "#006a63",
+                        "surface-variant": "#dae2fc",
+                        "primary-fixed-dim": "#94ccff",
+                        "surface-tint": "#006399",
+                        "surface-dim": "#d2d9f4",
+                        "primary-fixed": "#cde5ff",
+                        "on-tertiary-fixed": "#2e1500",
+                        "surface-container-lowest": "#ffffff",
+                        "on-secondary-container": "#006f67"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    spacing: {
+                        "lg": "20px",
+                        "xl": "24px",
+                        "sm": "8px",
+                        "margin-mobile": "16px",
+                        "xs": "4px",
+                        "2xl": "32px",
+                        "base": "16px",
+                        "margin-desktop": "32px",
+                        "md": "12px",
+                        "gutter": "16px"
+                    },
+                    fontFamily: {
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "title-md": ["Plus Jakarta Sans"],
+                        "body-base": ["Inter"],
+                        "headline-lg": ["Plus Jakarta Sans"],
+                        "title-lg": ["Plus Jakarta Sans"],
+                        "display-lg": ["Plus Jakarta Sans"],
+                        "label-caps": ["Plus Jakarta Sans"],
+                        "body-sm": ["Inter"]
+                    },
+                    fontSize: {
+                        "headline-md": ["22px", { lineHeight: "28px", letterSpacing: "-0.01em", fontWeight: "700" }],
+                        "title-md": ["16px", { lineHeight: "22px", letterSpacing: "0", fontWeight: "600" }],
+                        "body-base": ["15px", { lineHeight: "22px", letterSpacing: "0", fontWeight: "400" }],
+                        "headline-lg": ["28px", { lineHeight: "36px", letterSpacing: "-0.02em", fontWeight: "700" }],
+                        "title-lg": ["18px", { lineHeight: "24px", letterSpacing: "-0.01em", fontWeight: "600" }],
+                        "display-lg": ["36px", { lineHeight: "44px", letterSpacing: "-0.02em", fontWeight: "800" }],
+                        "label-caps": ["11px", { lineHeight: "14px", letterSpacing: "0.06em", fontWeight: "700" }],
+                        "body-sm": ["13px", { lineHeight: "18px", letterSpacing: "0", fontWeight: "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style type="text/tailwindcss">
+        @layer utilities {
+            .scrollbar-hide::-webkit-scrollbar {
+                display: none;
+            }
+            .scrollbar-hide {
+                -ms-overflow-style: none;
+                scrollbar-width: none;
+            }
+            .star-active {
+                font-variation-settings: 'FILL' 1;
+                color: #eab308; /* Tailwind yellow-500 */
+            }
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface-canvas text-on-surface font-body-base min-h-screen flex flex-col pb-24 selection:bg-role-passenger selection:text-white">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-surface dark:bg-inverse-surface shadow-sm flex items-center justify-between px-margin-mobile md:px-margin-desktop h-16 transition-colors duration-200">
+<button aria-label="Go back" class="flex items-center justify-center p-2 rounded-full text-role-passenger dark:text-inverse-primary hover:bg-surface-container-high transition-colors active:scale-95 duration-200">
+<span class="material-symbols-outlined text-[24px]">arrow_back</span>
+</button>
+<h1 class="font-headline-md text-headline-md-mobile md:text-headline-md text-role-passenger font-extrabold tracking-tight truncate flex-1 text-center pr-10">PCCP Vector</h1>
+</header>
+<!-- Main Content -->
+<main class="flex-1 mt-16 px-margin-mobile md:px-margin-desktop py-lg max-w-[440px] mx-auto w-full">
+<!-- Success Indicator -->
+<div class="flex flex-col items-center justify-center mb-xl text-center">
+<div class="w-16 h-16 bg-role-admin/10 rounded-full flex items-center justify-center mb-sm">
+<span class="material-symbols-outlined text-[32px] text-role-admin" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<h2 class="font-headline-lg text-headline-lg-mobile text-on-surface">Journey Completed</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-xs">Your trip has been successfully verified.</p>
+</div>
+<!-- Driver & Vehicle Card (Glassmorphism inspired, structural) -->
+<div class="bg-surface rounded-xl shadow-[0px_1px_3px_rgba(15,23,42,0.05)] border border-border-hairline p-base mb-xl relative overflow-hidden">
+<div class="absolute top-0 left-0 w-1 h-full bg-role-driver"></div>
+<div class="flex items-start gap-base">
+<div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center shrink-0 border border-border-hairline overflow-hidden">
+<img alt="Driver" class="w-full h-full object-cover" data-alt="Professional headshot portrait of an Asian male driver wearing a standard uniform shirt, smiling slightly against a neutral grey background, corporate modern lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAJladLheV-HtQvqu4jnKZY1fFoBOu1i-XoR94XbxakB_87U2ONRj2sOsz3FOQm8cMuPKRRcGzC5qoQjsUSgOv5YlYFHSj9XZLdm4xVQlYeaP2a4biHtkUooiPnCMQzpFTREKh4JdPycWWmRU7guG-rnJ8sdgDkxsVXBrHQPSGSFDgGDlOlWBrbqh5bIMlHGHtoB3iP2BaZZmgGYAa4hUUOzOkmF2HZgEqz4tdoE-LZqOEXECxJs_4"/>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="font-title-md text-title-md text-on-surface truncate">Ko Aung Naing Win</h3>
+<div class="flex items-center gap-xs mt-1">
+<span class="material-symbols-outlined text-[14px] text-outline">directions_car</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant">YGN 3F-1234</p>
+</div>
+</div>
+<span class="inline-flex items-center px-2 py-1 rounded-full bg-surface-container-low border border-border-hairline font-label-caps text-label-caps text-on-surface-variant">
+                            DRIVER
+                        </span>
+</div>
+<div class="mt-md pt-md border-t border-border-hairline/50">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-[16px] text-outline">confirmation_number</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant font-mono">PCCP-TR-2026-0001</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Rating Section -->
+<div class="bg-surface rounded-xl shadow-[0px_1px_3px_rgba(15,23,42,0.05)] border border-border-hairline p-lg mb-xl text-center">
+<h3 class="font-title-lg text-title-lg text-on-surface mb-sm">How was your ride?</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-lg">Tap a star to rate your experience.</p>
+<div class="flex justify-center gap-md" id="starRating">
+<button aria-label="Rate 1 star" class="text-outline-variant hover:scale-110 transition-transform active:scale-90" type="button">
+<span class="material-symbols-outlined text-[40px] star-icon">star</span>
+</button>
+<button aria-label="Rate 2 stars" class="text-outline-variant hover:scale-110 transition-transform active:scale-90" type="button">
+<span class="material-symbols-outlined text-[40px] star-icon">star</span>
+</button>
+<button aria-label="Rate 3 stars" class="text-outline-variant hover:scale-110 transition-transform active:scale-90" type="button">
+<span class="material-symbols-outlined text-[40px] star-icon">star</span>
+</button>
+<button aria-label="Rate 4 stars" class="text-outline-variant hover:scale-110 transition-transform active:scale-90" type="button">
+<span class="material-symbols-outlined text-[40px] star-icon">star</span>
+</button>
+<button aria-label="Rate 5 stars" class="text-outline-variant hover:scale-110 transition-transform active:scale-90" type="button">
+<span class="material-symbols-outlined text-[40px] star-icon">star</span>
+</button>
+</div>
+<!-- Quick Feedback Chips (Hidden until rated, simulating interaction state here) -->
+<div class="mt-xl pt-lg border-t border-border-hairline text-left">
+<p class="font-title-md text-title-md text-on-surface mb-md">What went well?</p>
+<div class="flex flex-wrap gap-sm">
+<button class="px-4 py-2 rounded-full border border-border-hairline bg-surface text-on-surface font-body-sm text-body-sm hover:bg-surface-container transition-colors focus:outline-none focus:ring-2 focus:ring-role-passenger focus:border-transparent active-chip" type="button">
+                        Punctual
+                    </button>
+<button class="px-4 py-2 rounded-full border border-border-hairline bg-surface text-on-surface font-body-sm text-body-sm hover:bg-surface-container transition-colors focus:outline-none focus:ring-2 focus:ring-role-passenger focus:border-transparent" type="button">
+                        Professional
+                    </button>
+<button class="px-4 py-2 rounded-full border border-border-hairline bg-surface text-on-surface font-body-sm text-body-sm hover:bg-surface-container transition-colors focus:outline-none focus:ring-2 focus:ring-role-passenger focus:border-transparent" type="button">
+                        Clean Vehicle
+                    </button>
+<button class="px-4 py-2 rounded-full border border-border-hairline bg-surface text-on-surface font-body-sm text-body-sm hover:bg-surface-container transition-colors focus:outline-none focus:ring-2 focus:ring-role-passenger focus:border-transparent" type="button">
+                        Safe Driving
+                    </button>
+<button class="px-4 py-2 rounded-full border border-border-hairline bg-surface text-on-surface font-body-sm text-body-sm hover:bg-surface-container transition-colors focus:outline-none focus:ring-2 focus:ring-role-passenger focus:border-transparent" type="button">
+                        Good Route Knowledge
+                    </button>
+</div>
+</div>
+</div>
+<!-- Comment Field -->
+<div class="mb-2xl">
+<label class="block font-title-md text-title-md text-on-surface mb-sm" for="feedback-comment">Additional Comments (Optional)</label>
+<div class="relative">
+<textarea class="w-full bg-surface-canvas border border-border-hairline rounded-xl px-4 py-3 font-body-base text-body-base text-on-surface placeholder:text-outline focus:bg-surface focus:outline-none focus:ring-2 focus:ring-role-passenger focus:border-transparent transition-all resize-none shadow-sm" id="feedback-comment" placeholder="Tell us more about your experience..." rows="4"></textarea>
+</div>
+</div>
+<!-- Submit Button -->
+<button class="w-full h-12 bg-role-passenger text-white font-title-md text-title-md rounded-xl flex items-center justify-center gap-sm shadow-md hover:bg-role-passenger/90 active:scale-[0.98] transition-all duration-200" type="button">
+<span>Submit Feedback</span>
+<span class="material-symbols-outlined text-[20px]">send</span>
+</button>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full flex justify-around items-center px-4 py-2 z-50 rounded-t-xl bg-surface-container-lowest dark:bg-inverse-surface border-t border-border-hairline shadow-lg">
+<!-- Home (Inactive) -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant px-3 py-1.5 hover:bg-surface-container-high active:scale-90 transition-transform rounded-xl" href="#">
+<span class="material-symbols-outlined text-[24px]">home</span>
+<span class="font-label-caps text-label-caps mt-1">Home</span>
+</a>
+<!-- Requests (Inactive) -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant px-3 py-1.5 hover:bg-surface-container-high active:scale-90 transition-transform rounded-xl" href="#">
+<span class="material-symbols-outlined text-[24px]">pending_actions</span>
+<span class="font-label-caps text-label-caps mt-1">Requests</span>
+</a>
+<!-- Trips (Inactive) -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant px-3 py-1.5 hover:bg-surface-container-high active:scale-90 transition-transform rounded-xl" href="#">
+<span class="material-symbols-outlined text-[24px]">route</span>
+<span class="font-label-caps text-label-caps mt-1">Trips</span>
+</a>
+<!-- Scan QR (Active) -->
+<a class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-xl px-3 py-1.5 hover:bg-surface-container-high active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined text-[24px]" style="font-variation-settings: 'FILL' 1;">qr_code_scanner</span>
+<span class="font-label-caps text-label-caps mt-1">Scan QR</span>
+</a>
+<!-- Account (Inactive) -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant px-3 py-1.5 hover:bg-surface-container-high active:scale-90 transition-transform rounded-xl" href="#">
+<span class="material-symbols-outlined text-[24px]">person</span>
+<span class="font-label-caps text-label-caps mt-1">Account</span>
+</a>
+</nav>
+<script>
+        // Simple star rating interaction
+        document.addEventListener('DOMContentLoaded', () => {
+            const stars = document.querySelectorAll('#starRating button');
+            
+            stars.forEach((star, index) => {
+                star.addEventListener('click', () => {
+                    // Reset all
+                    stars.forEach(s => {
+                        const icon = s.querySelector('.star-icon');
+                        icon.classList.remove('star-active');
+                        icon.classList.remove('text-yellow-500');
+                    });
+                    
+                    // Activate clicked and preceding
+                    for (let i = 0; i <= index; i++) {
+                        const icon = stars[i].querySelector('.star-icon');
+                        icon.classList.add('star-active');
+                        // Inject inline style for yellow color if tailwind class isn't enough in this restricted env
+                        icon.style.color = '#eab308';
+                    }
+                });
+            });
+
+            // Chip toggle interaction
+            const chips = document.querySelectorAll('.flex-wrap button');
+            chips.forEach(chip => {
+                chip.addEventListener('click', function() {
+                    this.classList.toggle('bg-role-passenger');
+                    this.classList.toggle('text-white');
+                    this.classList.toggle('border-role-passenger');
+                    this.classList.toggle('bg-surface');
+                    this.classList.toggle('text-on-surface');
+                });
+            });
+        });
+    </script>
+</body></html>

@@ -1,0 +1,387 @@
+<!DOCTYPE html><html class="light" lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Driver Account - PCCP Vector</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "on-primary-fixed": "#001d32",
+                        "on-background": "#131b2e",
+                        "outline": "#707881",
+                        "inverse-on-surface": "#eef0ff",
+                        "on-secondary-fixed-variant": "#00504a",
+                        "surface-variant": "#dae2fc",
+                        "inverse-surface": "#283044",
+                        "secondary": "#006a63",
+                        "error-container": "#ffdad6",
+                        "border-hairline": "#E2E8F0",
+                        "on-secondary": "#ffffff",
+                        "primary-fixed": "#cde5ff",
+                        "error": "#ba1a1a",
+                        "surface-tint": "#006399",
+                        "inverse-primary": "#94ccff",
+                        "secondary-fixed-dim": "#80d5cb",
+                        "role-passenger": "#2563EB",
+                        "secondary-fixed": "#9cf2e8",
+                        "surface-container-low": "#f2f3ff",
+                        "surface-container-highest": "#dae2fc",
+                        "surface-container-lowest": "#ffffff",
+                        "role-driver": "#7C3AED",
+                        "primary-container": "#0369a1",
+                        "primary-fixed-dim": "#94ccff",
+                        "on-primary-container": "#cbe4ff",
+                        "on-primary": "#ffffff",
+                        "on-tertiary-fixed": "#2e1500",
+                        "tertiary-container": "#955301",
+                        "outline-variant": "#c0c7d1",
+                        "on-surface-variant": "#40474f",
+                        "surface-container-high": "#e1e7ff",
+                        "on-secondary-fixed": "#00201d",
+                        "on-primary-fixed-variant": "#004b74",
+                        "on-error-container": "#93000a",
+                        "secondary-container": "#99efe5",
+                        "tertiary-fixed": "#ffdcc1",
+                        "surface-container": "#eaedff",
+                        "on-tertiary": "#ffffff",
+                        "on-error": "#ffffff",
+                        "tertiary": "#733f00",
+                        "surface-bright": "#faf8ff",
+                        "on-tertiary-container": "#ffdbbe",
+                        "primary": "#00507d",
+                        "surface-dim": "#d2d9f4",
+                        "role-admin": "#059669",
+                        "tertiary-fixed-dim": "#ffb878",
+                        "surface": "#faf8ff",
+                        "on-tertiary-fixed-variant": "#6c3a00",
+                        "on-surface": "#131b2e",
+                        "on-secondary-container": "#006f67",
+                        "background": "#faf8ff",
+                        "surface-canvas": "#F8FAFC"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    spacing: {
+                        "xl": "24px",
+                        "xs": "4px",
+                        "base": "16px",
+                        "margin-mobile": "16px",
+                        "2xl": "32px",
+                        "gutter": "16px",
+                        "sm": "8px",
+                        "lg": "20px",
+                        "margin-desktop": "32px",
+                        "md": "12px"
+                    },
+                    fontFamily: {
+                        "body-sm": ["Inter"],
+                        "title-lg": ["Plus Jakarta Sans"],
+                        "body-base": ["Inter"],
+                        "display-lg": ["Plus Jakarta Sans"],
+                        "headline-lg": ["Plus Jakarta Sans"],
+                        "title-md": ["Plus Jakarta Sans"],
+                        "label-caps": ["Plus Jakarta Sans"],
+                        "headline-md": ["Plus Jakarta Sans"]
+                    },
+                    fontSize: {
+                        "body-sm": ["13px", { lineHeight: "18px", letterSpacing: "0", fontWeight: "400" }],
+                        "title-lg": ["18px", { lineHeight: "24px", letterSpacing: "-0.01em", fontWeight: "600" }],
+                        "body-base": ["15px", { lineHeight: "22px", letterSpacing: "0", fontWeight: "400" }],
+                        "display-lg": ["36px", { lineHeight: "44px", letterSpacing: "-0.02em", fontWeight: "800" }],
+                        "headline-lg": ["28px", { lineHeight: "36px", letterSpacing: "-0.02em", fontWeight: "700" }],
+                        "title-md": ["16px", { lineHeight: "22px", letterSpacing: "0", fontWeight: "600" }],
+                        "label-caps": ["11px", { lineHeight: "14px", letterSpacing: "0.06em", fontWeight: "700" }],
+                        "headline-md": ["22px", { lineHeight: "28px", letterSpacing: "-0.01em", fontWeight: "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .icon-filled {
+            font-variation-settings: 'FILL' 1;
+        }
+        /* Custom scrollbar for web view */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #E2E8F0;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="bg-surface-canvas text-on-surface font-body-base pb-24 md:pb-0 h-screen overflow-x-hidden flex flex-col md:flex-row">
+<!-- TopAppBar (Web & Mobile Contexts combined via responsive classes) -->
+<!-- JSON Specs injected into styles below -->
+<header class="bg-surface shadow-sm fixed top-0 w-full z-50 flex justify-between items-center px-margin-mobile h-16 md:px-margin-desktop border-b border-border-hairline">
+<div class="text-headline-md font-headline-md font-extrabold text-primary flex items-center gap-2">
+<span class="material-symbols-outlined icon-filled text-primary-container">directions_car</span>
+            PCCP Vector
+        </div>
+<div class="flex items-center gap-4">
+<button class="text-on-surface-variant hover:bg-surface-container-low transition-colors p-2 rounded-full flex items-center justify-center relative">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="absolute top-1 right-1 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<div class="w-8 h-8 rounded-full overflow-hidden border border-border-hairline">
+<img alt="Ko Aung Naing Win" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB4r8wZv6N49ud2JunyRMKNj3elGw7gbUF1gYcIoE6KRfHLe_6wOniesURT_SukTqroG6km8iWsfFTCqjN0StSHRS2Jbnl9Jhw_8X4XXs9GqX4f0mJxlPy8LAeSJx1LqEuFCXYcNEA9o6z0oCicGajdVnkkXlhCP3mWMdfXiw5g86UhkMpUvrLc9R7wA-Vqxuhyx-xZZxEuP9GxVW8U6TMUfZ3R7i4PGDJamxSigWR1aVqy_HOtcKQ">
+</div>
+</div>
+</header>
+<!-- SideNav (Desktop Context) -->
+<nav class="hidden md:flex flex-col w-64 bg-surface border-r border-border-hairline h-full sticky top-0 py-lg">
+<div class="px-xl mb-2xl">
+<h1 class="text-headline-md font-headline-md font-extrabold text-primary">PCCP Vector</h1>
+<p class="text-label-caps font-label-caps text-outline mt-xs tracking-wider">DRIVER PORTAL</p>
+</div>
+<div class="flex-1 flex flex-col gap-sm px-base">
+<a class="flex items-center gap-md px-lg py-md rounded-lg text-on-surface-variant hover:bg-surface-container-low transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="text-title-md font-title-md">Home</span>
+</a>
+<a class="flex items-center gap-md px-lg py-md rounded-lg text-on-surface-variant hover:bg-surface-container-low transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="assignment">assignment</span>
+<span class="text-title-md font-title-md">Assignments</span>
+</a>
+<a class="flex items-center gap-md px-lg py-md rounded-lg text-on-surface-variant hover:bg-surface-container-low transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="route">route</span>
+<span class="text-title-md font-title-md">Trips</span>
+</a>
+<a class="flex items-center gap-md px-lg py-md rounded-lg text-on-surface-variant hover:bg-surface-container-low transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="monitoring">monitoring</span>
+<span class="text-title-md font-title-md">Performance</span>
+</a>
+<!-- Active State Nav Item -->
+<a class="flex items-center gap-md px-lg py-md rounded-lg bg-secondary-container text-on-secondary-container font-bold transition-colors" href="#">
+<span class="material-symbols-outlined icon-filled" data-icon="person">person</span>
+<span class="text-title-md font-title-md">Account</span>
+</a>
+</div>
+<div class="px-base mt-auto">
+<div class="flex items-center gap-md p-md rounded-lg bg-surface-container-low">
+<img class="w-10 h-10 rounded-full object-cover" data-alt="A small circular avatar showing a professional driver in a clean grey uniform, softly lit, smiling against a plain white background. High contrast, sharp focus, suitable for a UI component." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBq-8OisOfhttUfKjoSBLdfcVzpYgU-rnPWqbnjxdCippW3r011s-mU3wALJv7gohFz-Ar5svEyWI61TGGhRPRKcSE9tBQwXHWxaxG3vul4WHXDMPbJImjhu9WEvRAkas5hnk4hgLDOLNC0wYQ4DUFQ-_3-ryPuVVe27mfgVdGbgkA8QDuoRDAUrNIGn-XIrv9BcTnKNOLmETagQfFzx4QDa43jv5zYqWTiZr8kWtbeVJLQyFu8oeY">
+<div class="flex-1 min-w-0">
+<p class="text-body-base font-body-base font-semibold truncate text-on-surface">Ko Aung Naing</p>
+<p class="text-body-sm font-body-sm text-role-driver truncate">D-8829</p>
+</div>
+</div>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="flex-1 overflow-y-auto px-margin-mobile md:px-margin-desktop py-lg md:py-2xl max-w-[1280px] mx-auto w-full">
+<!-- Header Section -->
+<div class="mb-xl md:mb-2xl flex flex-col gap-md">
+  <div class="flex items-center gap-sm text-primary hover:text-primary-container transition-colors cursor-pointer">
+    <span class="material-symbols-outlined text-[18px]">arrow_back</span>
+    <span class="text-body-base font-medium">Back to Dashboard</span>
+  </div>
+  <div class="flex flex-col md:flex-row md:items-end justify-between gap-base">
+    <div>
+      <h2 class="text-display-lg font-display-lg text-on-surface tracking-tight">Account Profile</h2>
+      <p class="text-body-base font-body-base text-outline mt-xs">Manage your personal information, vehicle details, and security preferences.</p>
+    </div>
+    <div class="inline-flex items-center gap-xs px-md py-xs rounded-full bg-surface border border-role-driver/20 text-role-driver text-label-caps font-label-caps self-start md:self-auto">
+      <span class="material-symbols-outlined text-[16px] icon-filled">verified_user</span>
+      ACTIVE DRIVER
+    </div>
+  </div>
+</div>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-base md:gap-xl">
+<!-- Profile Card (Span 4 columns on desktop) -->
+<div class="md:col-span-4 flex flex-col gap-base">
+<!-- Main Identity Card -->
+<div class="bg-surface-container-lowest rounded-xl border border-border-hairline p-lg shadow-[0_1px_3px_rgba(15,23,42,0.05)] text-center relative overflow-hidden">
+<div class="absolute top-0 left-0 w-full h-24 bg-gradient-to-b from-role-driver/10 to-transparent"></div>
+<div class="relative z-10 flex flex-col items-center">
+<div class="relative">
+<img class="w-24 h-24 rounded-full object-cover border-4 border-surface shadow-sm mb-md" data-alt="A well-lit, close-up portrait of a male corporate driver in uniform. The background should be slightly blurred showing a hint of a modern vehicle interior. Bright, clean, and professional aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCjtNtwpzd6T4jX2xBFWeP1UXl7012OMp0zaZ8kmd9yiDGzQZ0xRGJToDUimn3mwYD-8YJ3OR_sAMIVsieNyDEFi6_k3ls_4EcYnsjj9ApfYGM4z54JFEoR-__-82hnyb2_LFbE2P1KJWsJmHYwgz6rKZg_-rNSaNIdgLJf_8QVuXEM14zCrTkZ8ouYh3KQF_GPFqvJ_yNHOIEdXq-FiLPp2t6ETSFmFHVYjAOGdX3KhdtTaww0bTM">
+<div class="absolute bottom-md right-0 w-6 h-6 bg-role-driver rounded-full border-2 border-surface flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-[12px] icon-filled" data-icon="check">check</span>
+</div>
+</div>
+<h3 class="text-headline-md font-headline-md text-on-surface">Ko Aung Naing Win</h3>
+<p class="text-body-base font-body-base text-outline">D-8829 • CC Tier</p>
+</div>
+<div class="mt-xl grid grid-cols-2 gap-sm border-t border-border-hairline pt-md">
+<div class="text-left">
+<p class="text-label-caps font-label-caps text-outline">PHONE</p>
+<p class="text-body-sm font-body-sm text-on-surface mt-xs">+95 9 123 456 789</p>
+</div>
+<div class="text-left">
+<p class="text-label-caps font-label-caps text-outline">SINCE</p>
+<p class="text-body-sm font-body-sm text-on-surface mt-xs">Mar 2021</p>
+</div>
+</div>
+</div>
+<!-- Certification Card -->
+<div class="bg-surface-container-lowest rounded-xl border border-border-hairline p-lg shadow-[0_1px_3px_rgba(15,23,42,0.05)]">
+<div class="flex items-center justify-between mb-md">
+<h4 class="text-title-md font-title-md text-on-surface flex items-center gap-sm">
+<span class="material-symbols-outlined text-role-driver" data-icon="workspace_premium">workspace_premium</span>
+                            Certification
+                        </h4>
+</div>
+<div class="bg-surface-container p-md rounded-lg flex items-center justify-between">
+<div>
+<p class="text-body-base font-body-base font-medium text-on-surface">Defensive Driving V2</p>
+<p class="text-body-sm font-body-sm text-outline mt-xs">Valid until Oct 2025</p>
+</div>
+<span class="material-symbols-outlined text-role-admin" data-icon="check_circle">check_circle</span>
+</div>
+</div>
+</div>
+<!-- Main Actions & Info (Span 8 columns on desktop) -->
+<div class="md:col-span-8 flex flex-col gap-base md:gap-xl">
+<!-- Vehicle Card -->
+<div class="bg-surface-container-lowest rounded-xl border border-border-hairline p-lg shadow-[0_1px_3px_rgba(15,23,42,0.05)] flex flex-col sm:flex-row items-center gap-lg">
+<div class="w-full sm:w-48 h-32 rounded-lg bg-surface-container-low overflow-hidden shrink-0">
+<img class="w-full h-full object-cover" data-alt="A side-profile shot of a clean, black Toyota Alphard parked in a well-lit modern corporate parking lot. The lighting should highlight the sleek lines of the vehicle. High-end, pristine aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDIeK7DGs5OYY9Gqp8s7fRmWCFru2SDU24lswaqjkoZEmBexGBK0xNAJB-UTKOegDmS1yENNpZHlA5LMBPsDNyXtVSlYLlHwBmw7Pymbts2tUKG3qxPTAfvXjyN483OukopjKeAxaNpd2TAmgwhqMoRYCsyBDIQejV28lFZye3wGS8Ihi9qFMJTAdDV6h2dbSqFiolJ0UlawrvHsrVq4lvHik79y9Ew4iWk0iv_g-WDMDwzWch6L0I">
+</div>
+<div class="flex-1 w-full">
+<div class="flex items-center gap-sm mb-xs">
+<span class="bg-role-driver/10 text-role-driver text-label-caps font-label-caps px-sm py-xs rounded">ASSIGNED VEHICLE</span>
+</div>
+<h3 class="text-headline-md font-headline-md text-on-surface">Toyota Alphard</h3>
+<p class="text-title-lg font-title-lg text-outline font-medium mt-xs">4D-1200</p>
+<div class="flex gap-md mt-md">
+<button class="flex-1 h-10 border border-outline-variant text-on-surface text-body-base font-body-base font-medium rounded-lg hover:bg-surface transition-colors flex items-center justify-center gap-sm">
+<span class="material-symbols-outlined text-[18px]" data-icon="directions_car">directions_car</span>
+                                View Details
+                            </button>
+<button class="flex-1 h-10 bg-surface-container text-on-surface text-body-base font-body-base font-medium rounded-lg hover:bg-surface-variant transition-colors flex items-center justify-center gap-sm">
+<span class="material-symbols-outlined text-[18px]" data-icon="build">build</span>
+                                Report Issue
+                            </button>
+</div>
+</div>
+</div>
+<!-- Menu List -->
+<div class="bg-surface-container-lowest rounded-xl border border-border-hairline shadow-[0_1px_3px_rgba(15,23,42,0.05)] overflow-hidden">
+<div class="flex flex-col">
+<!-- Menu Item -->
+<button class="w-full flex items-center justify-between p-lg hover:bg-surface-container-low transition-colors border-b border-border-hairline group">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-role-driver group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+</div>
+<div class="text-left">
+<p class="text-title-md font-title-md text-on-surface">Personal Information</p>
+<p class="text-body-sm font-body-sm text-outline">Update address, emergency contacts</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline" data-icon="chevron_right">chevron_right</span>
+</button>
+<!-- Menu Item -->
+<button class="w-full flex items-center justify-between p-lg hover:bg-surface-container-low transition-colors border-b border-border-hairline group">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-role-driver group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined" data-icon="directions_car">directions_car</span>
+</div>
+<div class="text-left">
+<p class="text-title-md font-title-md text-on-surface">Vehicle Information</p>
+<p class="text-body-sm font-body-sm text-outline">Registration, maintenance records</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline" data-icon="chevron_right">chevron_right</span>
+</button>
+<!-- Menu Item -->
+<button class="w-full flex items-center justify-between p-lg hover:bg-surface-container-low transition-colors border-b border-border-hairline group">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-role-driver group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</div>
+<div class="text-left">
+<p class="text-title-md font-title-md text-on-surface">Notifications</p>
+<p class="text-body-sm font-body-sm text-outline">Alert preferences, trip updates</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline" data-icon="chevron_right">chevron_right</span>
+</button>
+<!-- Menu Item -->
+<button class="w-full flex items-center justify-between p-lg hover:bg-surface-container-low transition-colors border-b border-border-hairline group">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-role-driver group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined" data-icon="security">security</span>
+</div>
+<div class="text-left">
+<p class="text-title-md font-title-md text-on-surface">Security</p>
+<p class="text-body-sm font-body-sm text-outline">Password, 2FA settings</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline" data-icon="chevron_right">chevron_right</span>
+</button>
+<!-- Menu Item -->
+<button class="w-full flex items-center justify-between p-lg hover:bg-surface-container-low transition-colors group">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-role-driver group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined" data-icon="support_agent">support_agent</span>
+</div>
+<div class="text-left">
+<p class="text-title-md font-title-md text-on-surface">Contact Transport Admin</p>
+<p class="text-body-sm font-body-sm text-outline">Get help with trips or account</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+</div>
+<!-- Logout Button -->
+<button class="mt-md w-full md:w-auto self-start flex items-center justify-center gap-sm h-12 px-xl rounded-lg text-error bg-error-container/50 hover:bg-error-container transition-colors font-title-md text-title-md border border-error/20">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+                    Logout
+                </button>
+</div>
+</div>
+</main>
+<!-- BottomNavBar (Mobile Context) -->
+<!-- JSON Specs injected into styles below -->
+<nav class="md:hidden bg-surface fixed bottom-0 w-full z-50 rounded-t-xl border-t border-border-hairline shadow-lg flex justify-around items-center px-4 py-2"><a class="flex flex-col items-center justify-center text-on-surface-variant py-1 hover:bg-surface-container-highest transition-all scale-90 duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="text-body-sm font-body-sm mt-xs">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant py-1 hover:bg-surface-container-highest transition-all scale-90 duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="assignment">assignment</span>
+<span class="text-body-sm font-body-sm mt-xs">Assignments</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant py-1 hover:bg-surface-container-highest transition-all scale-90 duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="directions_car">directions_car</span>
+<span class="text-body-sm font-body-sm mt-xs">Trips</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant py-1 hover:bg-surface-container-highest transition-all scale-90 duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="assessment">assessment</span>
+<span class="text-body-sm font-body-sm mt-xs">Performance</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-role-driver text-white rounded-lg px-4 py-1 hover:bg-role-driver transition-all scale-90 duration-150" href="#"><span class="material-symbols-outlined icon-filled" data-icon="person">person</span><span class="text-body-sm font-body-sm mt-xs font-bold">Account</span></a></nav>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body></html>

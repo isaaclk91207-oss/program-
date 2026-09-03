@@ -99,7 +99,7 @@ export default function DriverDetail({
           <div className="flex items-center gap-3">
             <div className="w-12 h-12 bg-amber-500/20 rounded-full flex items-center justify-center">
               <span className="text-lg font-bold text-amber-400">
-                {driver.name.split(" ").map((n) => n[0]).join("").slice(0, 2)}
+                {(driver.name || "").split(" ").map((n) => n[0]).join("").slice(0, 2)}
               </span>
             </div>
             <div>
@@ -246,7 +246,7 @@ export default function DriverDetail({
           <div className="flex items-center gap-4 mb-6">
             <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center">
               <span className="text-2xl font-bold">
-                {driver.name.split(" ").map((n) => n[0]).join("").slice(0, 2)}
+                {(driver.name || "").split(" ").map((n) => n[0]).join("").slice(0, 2)}
               </span>
             </div>
             <div>

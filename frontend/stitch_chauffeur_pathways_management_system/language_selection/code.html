@@ -1,0 +1,280 @@
+<!DOCTYPE html><html class="light" lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Language Selection - PCCP Vector</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&amp;family=Inter:wght@400&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-tertiary-container": "#ffdbbe",
+                      "surface-bright": "#faf8ff",
+                      "inverse-primary": "#94ccff",
+                      "on-tertiary": "#ffffff",
+                      "primary-fixed-dim": "#94ccff",
+                      "role-driver": "#7C3AED",
+                      "on-surface-variant": "#40474f",
+                      "on-background": "#131b2e",
+                      "outline-variant": "#c0c7d1",
+                      "on-primary": "#ffffff",
+                      "surface-container-lowest": "#ffffff",
+                      "tertiary": "#733f00",
+                      "surface": "#faf8ff",
+                      "primary-container": "#0369a1",
+                      "surface-container-highest": "#dae2fc",
+                      "tertiary-container": "#955301",
+                      "on-secondary-fixed": "#00201d",
+                      "on-error-container": "#93000a",
+                      "on-secondary": "#ffffff",
+                      "role-passenger": "#2563EB",
+                      "primary": "#00507d",
+                      "secondary-fixed": "#9cf2e8",
+                      "background": "#faf8ff",
+                      "on-secondary-fixed-variant": "#00504a",
+                      "on-primary-container": "#cbe4ff",
+                      "surface-dim": "#d2d9f4",
+                      "secondary": "#006a63",
+                      "on-primary-fixed-variant": "#004b74",
+                      "tertiary-fixed-dim": "#ffb878",
+                      "border-hairline": "#E2E8F0",
+                      "inverse-on-surface": "#eef0ff",
+                      "error-container": "#ffdad6",
+                      "on-secondary-container": "#006f67",
+                      "on-surface": "#131b2e",
+                      "surface-container": "#eaedff",
+                      "on-tertiary-fixed-variant": "#6c3a00",
+                      "on-tertiary-fixed": "#2e1500",
+                      "surface-container-high": "#e1e7ff",
+                      "surface-tint": "#006399",
+                      "secondary-container": "#99efe5",
+                      "surface-container-low": "#f2f3ff",
+                      "surface-variant": "#dae2fc",
+                      "secondary-fixed-dim": "#80d5cb",
+                      "tertiary-fixed": "#ffdcc1",
+                      "error": "#ba1a1a",
+                      "role-admin": "#059669",
+                      "outline": "#707881",
+                      "surface-canvas": "#F8FAFC",
+                      "on-primary-fixed": "#001d32",
+                      "on-error": "#ffffff",
+                      "primary-fixed": "#cde5ff",
+                      "inverse-surface": "#283044"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "margin-mobile": "16px",
+                      "base": "16px",
+                      "xs": "4px",
+                      "md": "12px",
+                      "lg": "20px",
+                      "xl": "24px",
+                      "sm": "8px",
+                      "margin-desktop": "32px",
+                      "gutter": "16px",
+                      "2xl": "32px"
+              },
+              "fontFamily": {
+                      "headline-md": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "body-sm": [
+                              "Inter"
+                      ],
+                      "title-lg": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "display-lg": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "headline-lg": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "body-base": [
+                              "Inter"
+                      ],
+                      "label-caps": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "title-md": [
+                              "Plus Jakarta Sans"
+                      ]
+              },
+              "fontSize": {
+                      "headline-md": [
+                              "22px",
+                              {
+                                      "lineHeight": "28px",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "body-sm": [
+                              "13px",
+                              {
+                                      "lineHeight": "18px",
+                                      "letterSpacing": "0",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "title-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "24px",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "display-lg": [
+                              "36px",
+                              {
+                                      "lineHeight": "44px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "800"
+                              }
+                      ],
+                      "headline-lg": [
+                              "28px",
+                              {
+                                      "lineHeight": "36px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "body-base": [
+                              "15px",
+                              {
+                                      "lineHeight": "22px",
+                                      "letterSpacing": "0",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "label-caps": [
+                              "11px",
+                              {
+                                      "lineHeight": "14px",
+                                      "letterSpacing": "0.06em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "title-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "22px",
+                                      "letterSpacing": "0",
+                                      "fontWeight": "600"
+                              }
+                      ]
+              }
+            }
+          }
+        }
+    </script>
+<style>
+        .custom-radio {
+            appearance: none;
+            background-color: transparent;
+            margin: 0;
+            font: inherit;
+            color: currentColor;
+            width: 1.25em;
+            height: 1.25em;
+            border: 2px solid theme('colors.outline');
+            border-radius: 50%;
+            display: grid;
+            place-content: center;
+            transition: all 0.2s ease-in-out;
+        }
+
+        .custom-radio::before {
+            content: "";
+            width: 0.65em;
+            height: 0.65em;
+            border-radius: 50%;
+            transform: scale(0);
+            transition: 120ms transform ease-in-out;
+            box-shadow: inset 1em 1em theme('colors.primary');
+            background-color: theme('colors.primary');
+        }
+
+        .custom-radio:checked {
+            border-color: theme('colors.primary');
+        }
+
+        .custom-radio:checked::before {
+            transform: scale(1);
+        }
+        
+        .radio-container:focus-within .custom-radio {
+            outline: max(2px, 0.15em) solid theme('colors.primary-fixed');
+            outline-offset: max(2px, 0.15em);
+        }
+    </style>
+</head>
+<body class="bg-surface-canvas min-h-screen flex flex-col font-body-base text-on-surface">
+<!-- Top App Bar -->
+<header class="fixed top-0 w-full z-50 bg-primary border-b border-primary-container shadow-sm flex justify-between items-center h-16 px-margin-mobile md:px-margin-desktop w-full transition-colors">
+<div class="flex items-center gap-4">
+<button aria-label="Go back" class="text-on-primary hover:bg-white/10 p-2 rounded-full transition-colors active:scale-95">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">arrow_back</span>
+</button>
+<h1 class="font-headline-md text-headline-md font-bold text-on-primary">Language</h1>
+</div>
+
+</header>
+<!-- Main Content -->
+<main class="flex-1 mt-16 p-margin-mobile md:p-margin-desktop flex flex-col items-center">
+<div class="w-full max-w-[440px] flex flex-col gap-6 w-full">
+<!-- Language List Container -->
+<div class="bg-surface-container-lowest rounded-xl shadow-sm border border-border-hairline overflow-hidden">
+<!-- English Option -->
+<label class="radio-container flex items-center justify-between p-base border-b border-border-hairline cursor-pointer hover:bg-surface-container-low transition-colors group">
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors" style="font-variation-settings: 'FILL' 0;">language</span>
+<div>
+<div class="font-title-md text-title-md text-on-surface">English</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant">Default</div>
+</div>
+</div>
+<input checked="" class="custom-radio" name="language_selection" type="radio" value="en">
+</label>
+<!-- Myanmar Option -->
+<label class="radio-container flex items-center justify-between p-base cursor-pointer hover:bg-surface-container-low transition-colors group">
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors" style="font-variation-settings: 'FILL' 0;">translate</span>
+<div>
+<div class="font-title-md text-title-md text-on-surface">Myanmar (မြန်မာဘာသာ)</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant">Burmese</div>
+</div>
+</div>
+<input class="custom-radio" name="language_selection" type="radio" value="my">
+</label>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant text-center px-4">
+                Selecting a new language will apply changes across the entire PCCP application instantly.
+            </p>
+</div>
+</main>
+<!-- Bottom Action Area -->
+<footer class="fixed bottom-0 w-full bg-surface-container-lowest border-t border-border-hairline p-margin-mobile md:p-margin-desktop flex justify-center pb-safe shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]">
+<div class="w-full max-w-[440px]">
+<button class="w-full h-12 bg-primary-container hover:bg-primary text-on-primary font-title-md text-title-md rounded-lg flex items-center justify-center gap-sm transition-colors active:scale-[0.98] shadow-sm">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">check</span>
+                Save Changes
+            </button>
+</div>
+</footer>
+<!-- Safe area padding for bottom fixed element -->
+<div class="h-24 md:h-32"></div>
+
+
+</body></html>

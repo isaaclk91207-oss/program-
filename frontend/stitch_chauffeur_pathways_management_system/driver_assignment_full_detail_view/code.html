@@ -1,0 +1,271 @@
+<!DOCTYPE html><html class="light" lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Assignment Detail - PCCP Driver</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .icon-fill {
+            font-variation-settings: 'FILL' 1;
+        }
+        /* Custom scrollbar for clean look */
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #c0c7d1;
+            border-radius: 4px;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "secondary": "#006a63",
+                        "on-secondary-fixed-variant": "#00504a",
+                        "secondary-fixed": "#9cf2e8",
+                        "error": "#ba1a1a",
+                        "inverse-surface": "#283044",
+                        "on-secondary-container": "#006f67",
+                        "error-container": "#ffdad6",
+                        "on-error-container": "#93000a",
+                        "surface-bright": "#faf8ff",
+                        "on-tertiary-fixed-variant": "#6c3a00",
+                        "role-driver": "#7C3AED",
+                        "secondary-container": "#99efe5",
+                        "surface-dim": "#d2d9f4",
+                        "inverse-on-surface": "#eef0ff",
+                        "on-primary": "#ffffff",
+                        "on-surface": "#131b2e",
+                        "on-background": "#131b2e",
+                        "tertiary": "#733f00",
+                        "surface-container-low": "#f2f3ff",
+                        "on-surface-variant": "#40474f",
+                        "role-admin": "#059669",
+                        "on-primary-fixed": "#001d32",
+                        "on-error": "#ffffff",
+                        "primary": "#00507d",
+                        "secondary-fixed-dim": "#80d5cb",
+                        "on-tertiary-container": "#ffdbbe",
+                        "on-tertiary-fixed": "#2e1500",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container": "#eaedff",
+                        "background": "#faf8ff",
+                        "surface-canvas": "#F8FAFC",
+                        "primary-container": "#0369a1",
+                        "on-secondary": "#ffffff",
+                        "surface-variant": "#dae2fc",
+                        "surface-container-high": "#e1e7ff",
+                        "tertiary-container": "#955301",
+                        "tertiary-fixed-dim": "#ffb878",
+                        "primary-fixed-dim": "#94ccff",
+                        "surface": "#faf8ff",
+                        "inverse-primary": "#94ccff",
+                        "surface-tint": "#006399",
+                        "primary-fixed": "#cde5ff",
+                        "on-tertiary": "#ffffff",
+                        "border-hairline": "#E2E8F0",
+                        "on-primary-container": "#cbe4ff",
+                        "tertiary-fixed": "#ffdcc1",
+                        "role-passenger": "#2563EB",
+                        "on-secondary-fixed": "#00201d",
+                        "on-primary-fixed-variant": "#004b74",
+                        "outline": "#707881",
+                        "surface-container-highest": "#dae2fc",
+                        "outline-variant": "#c0c7d1"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    spacing: {
+                        "margin-mobile": "16px",
+                        "lg": "20px",
+                        "xs": "4px",
+                        "gutter": "16px",
+                        "xl": "24px",
+                        "base": "16px",
+                        "2xl": "32px",
+                        "sm": "8px",
+                        "margin-desktop": "32px",
+                        "md": "12px"
+                    },
+                    fontFamily: {
+                        "display-lg": ["Plus Jakarta Sans"],
+                        "headline-lg": ["Plus Jakarta Sans"],
+                        "body-base": ["Inter"],
+                        "title-lg": ["Plus Jakarta Sans"],
+                        "body-sm": ["Inter"],
+                        "label-caps": ["Plus Jakarta Sans"],
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "title-md": ["Plus Jakarta Sans"]
+                    },
+                    fontSize: {
+                        "display-lg": ["36px", { lineHeight: "44px", letterSpacing: "-0.02em", fontWeight: "800" }],
+                        "headline-lg": ["28px", { lineHeight: "36px", letterSpacing: "-0.02em", fontWeight: "700" }],
+                        "body-base": ["15px", { lineHeight: "22px", letterSpacing: "0", fontWeight: "400" }],
+                        "title-lg": ["18px", { lineHeight: "24px", letterSpacing: "-0.01em", fontWeight: "600" }],
+                        "body-sm": ["13px", { lineHeight: "18px", letterSpacing: "0", fontWeight: "400" }],
+                        "label-caps": ["11px", { lineHeight: "14px", letterSpacing: "0.06em", fontWeight: "700" }],
+                        "headline-md": ["22px", { lineHeight: "28px", letterSpacing: "-0.01em", fontWeight: "700" }],
+                        "title-md": ["16px", { lineHeight: "22px", letterSpacing: "0", fontWeight: "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-surface-canvas text-on-surface antialiased min-h-screen flex flex-col relative">
+<!-- Top App Bar (Detail View Variant) -->
+<header class="fixed top-0 w-full z-50 bg-surface dark:bg-surface-dim border-b border-border-hairline shadow-sm">
+<div class="flex items-center justify-between px-margin-mobile h-16 w-full max-w-screen-xl mx-auto">
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-low transition-colors active:scale-95 duration-200 text-on-surface-variant">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<h1 class="font-title-lg text-title-lg text-on-surface absolute left-1/2 -translate-x-1/2">Assignment Detail</h1>
+ <!-- Spacer for centering -->
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-grow pt-20 px-margin-mobile md:px-margin-desktop max-w-screen-md mx-auto w-full flex flex-col gap-base">
+<!-- Status & Overview Card -->
+<section class="bg-surface rounded-xl shadow-sm border border-border-hairline p-base flex flex-col gap-sm">
+<div class="flex justify-between items-start">
+<div>
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider block mb-1">Assignment ID</span>
+<h2 class="font-headline-md text-headline-md text-on-surface">PCCP-TR-2026-0012</h2>
+</div>
+<div class="bg-primary-container text-on-primary-container font-label-caps text-label-caps px-3 py-1.5 rounded-full uppercase tracking-wider flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">assignment_turned_in</span>
+                    ASSIGNED
+                </div>
+</div>
+<div class="h-px w-full bg-border-hairline my-2"></div>
+<div class="grid grid-cols-2 gap-base">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-surface-container-low flex items-center justify-center text-role-driver">
+<span class="material-symbols-outlined">schedule</span>
+</div>
+<div>
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase block">Time</span>
+<span class="font-title-md text-title-md text-on-surface">08:30 AM</span>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-surface-container-low flex items-center justify-center text-role-driver">
+<span class="material-symbols-outlined">sync_alt</span>
+</div>
+<div>
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase block">Service Type</span>
+<span class="font-title-md text-title-md text-on-surface">Round Trip</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Route Summary (Map & Timeline) -->
+<section class="bg-surface rounded-xl shadow-sm border border-border-hairline overflow-hidden flex flex-col relative">
+<!-- Map Background Placeholder -->
+<div class="h-40 w-full relative bg-surface-container-low">
+<div class="absolute inset-0 bg-cover bg-center opacity-80" data-alt="A sleek, modern digital map interface displaying a route in Yangon, Myanmar. The map uses a light-mode color palette with soft gray roads, subtle blue water features, and clean white landmasses. A vivid purple route line, matching the driver role accent color, connects a pickup point to an airport destination. The aesthetic is clean, professional, and high-tech, suitable for a premium logistics application, with no labels or clutter, focusing on the geometric flow of the route." data-location="Yangon" style="background-image: url(&quot;https://lh3.googleusercontent.com/aida-public/AB6AXuCWDtMAHEexbOCgSwcmbG8B2JSWVKCEIKrsPX0v-BGHkBcG19tjccRMVuGIHvVLjWqODk66PMuaF4ygJOGpkeJzK_kqsxNEOMgx0-zpZR6f1mf9QhI_K5qa6unevBMhC6gOCI3yaXBbW3Cdzs3oWpj0ERrSj5G-CFPVFJDBI-PLOtkXI2Nl9ZbyG0Pyxj3YzeTcBPjJnhKj0wggCWleBTkp0plEDhUR9Fx4BTCRsPFw8w7GsPy0Ezo&quot;);"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-surface to-transparent"></div>
+</div>
+<div class="p-base relative z-10 -mt-8">
+<h3 class="font-title-lg text-title-lg text-on-surface mb-4">Route Details</h3>
+<div class="flex flex-col gap-0 relative">
+<!-- Vertical Line -->
+<div class="absolute left-3 top-6 bottom-6 w-0.5 bg-border-hairline"></div>
+<!-- Pickup -->
+<div class="flex items-start gap-4 relative z-10 pb-6">
+<div class="w-6 h-6 rounded-full bg-surface border-2 border-role-driver flex items-center justify-center mt-0.5">
+<div class="w-2 h-2 rounded-full bg-role-driver"></div>
+</div>
+<div class="flex flex-col">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Pickup Location</span>
+<span class="font-title-md text-title-md text-on-surface mt-0.5">uab HO</span>
+</div>
+</div>
+<!-- Destination -->
+<div class="flex items-start gap-4 relative z-10">
+<div class="w-6 h-6 rounded-full bg-role-driver flex items-center justify-center mt-0.5 shadow-[0_0_0_4px_rgba(124,58,237,0.1)]">
+<span class="material-symbols-outlined text-white text-[14px]">location_on</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Destination</span>
+<span class="font-title-md text-title-md text-on-surface mt-0.5">Yangon International Airport</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Personnel & Vehicle Details Grid (Bento style) -->
+<section class="grid grid-cols-1 md:grid-cols-2 gap-base">
+<!-- Passenger -->
+<div class="bg-surface rounded-xl shadow-sm border border-border-hairline p-base flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-surface-container-high flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined icon-fill">person</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Passenger</span>
+<span class="font-title-md text-title-md text-on-surface">Aung Aung <span class="text-on-surface-variant font-body-base">(2 People)</span></span>
+</div>
+</div>
+<!-- Vehicle -->
+<div class="bg-surface rounded-xl shadow-sm border border-border-hairline p-base flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-surface-container-high flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined icon-fill">directions_car</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Vehicle Assigned</span>
+<span class="font-title-md text-title-md text-on-surface">Toyota Alphard</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant bg-surface-container-low px-2 py-0.5 rounded inline-block mt-1 w-fit">4D-1200</span>
+</div>
+</div>
+<!-- Chauffeur -->
+<div class="bg-surface rounded-xl shadow-sm border border-border-hairline p-base flex items-center gap-4 md:col-span-2">
+<div class="w-12 h-12 rounded-full bg-surface-container-high flex items-center justify-center text-on-surface-variant overflow-hidden">
+<span class="material-symbols-outlined">badge</span>
+</div>
+<div class="flex flex-col flex-grow">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Chauffeur</span>
+<span class="font-title-md text-title-md text-on-surface">Ko Aung Naing Win</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant bg-surface-container-low px-2 py-0.5 rounded inline-block mt-1 w-fit">ID: D-8829</span>
+</div>
+<button class="w-10 h-10 rounded-full bg-surface-container-low flex items-center justify-center text-role-driver hover:bg-surface-variant transition-colors">
+<span class="material-symbols-outlined">call</span>
+</button>
+</div>
+</section>
+</main>
+<!-- Fixed Action Footer -->
+<div class="fixed md:bottom-0 w-full z-40 bg-surface/90 backdrop-blur-md border-t border-border-hairline p-margin-mobile bottom-0">
+<div class="max-w-screen-md mx-auto flex flex-col sm:flex-row gap-3">
+<button class="flex-1 h-12 bg-role-driver text-on-primary font-title-md text-title-md rounded-lg flex items-center justify-center gap-2 hover:bg-opacity-90 active:scale-95 transition-all shadow-sm">
+                Acknowledge Assignment
+                <span class="material-symbols-outlined text-[20px]">check_circle</span>
+</button>
+<button class="flex-1 sm:flex-none sm:w-auto h-12 px-6 border-2 border-outline-variant text-on-surface-variant font-title-md text-title-md rounded-lg flex items-center justify-center gap-2 hover:bg-surface-container-low active:scale-95 transition-all">
+                Unable to Accept
+            </button>
+</div>
+</div>
+<!-- BottomNavBar -->
+
+
+
+
+
+
+
+</body></html>

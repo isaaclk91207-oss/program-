@@ -4,27 +4,28 @@ import { LoadingSpinner, ThemeToggle, ToastProvider, th } from "../components/ui
 import {
   AdminDashboard, DashboardCharts, RequestsList, DriversList, VehiclesList,
   FeedbackList, NotificationsList, SettingsPanel, OperationalRecords,
-  AssessmentsOverview, PassengersList,
+  AssessmentsOverview, PassengersList, ReportsPage,
 } from "../components/admin";
 import { convertToCSV, downloadCSV } from "../utils/csv";
 import {
-  getDashboard, getDrivers, getVehicles, getRequests, getAllFeedback, getNotifications,
+  getDashboard, getDrivers, getVehicles, getRequests, getAllFeedback, getNotifications, getUnreadCount,
   assignDriver, exportData, updateAssessment, updateSettings, getSettings,
   createDriver, createVehicle, deleteDriver, deleteVehicle, updateDriver,
 } from "../services/api";
 import type { DashboardStats, Driver, Vehicle, TransportRequest, Feedback, Notification } from "../types";
 import {
   LayoutDashboard, ClipboardList, Car, Truck, Star, Bell, Settings, LogOut,
-  Menu, X, History, BarChart3, Users,
+  Menu, X, History, BarChart3, Users, FileText,
 } from "lucide-react";
 
-type Page = "dashboard" | "requests" | "drivers" | "vehicles" | "feedback" | "notifications" | "settings" | "records" | "assessments" | "passengers";
+type Page = "dashboard" | "requests" | "drivers" | "vehicles" | "feedback" | "notifications" | "settings" | "records" | "assessments" | "passengers" | "reports";
 
 const NAV_ITEMS = [
   { key: "dashboard" as const, label: "Dashboard", icon: LayoutDashboard },
   { key: "requests" as const, label: "Transport Requests", icon: ClipboardList },
   { key: "drivers" as const, label: "Drivers", icon: Car },
   { key: "vehicles" as const, label: "Vehicles", icon: Truck },
+  { key: "reports" as const, label: "Reports", icon: FileText },
   { key: "feedback" as const, label: "Feedback", icon: Star },
   { key: "records" as const, label: "Records", icon: History },
   { key: "assessments" as const, label: "Assessments", icon: BarChart3 },
@@ -48,8 +49,21 @@ export default function AdminPage() {
   const [selectedRequest, setSelectedRequest] = useState<TransportRequest | null>(null);
   const [showAssignModal, setShowAssignModal] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [unreadCount, setUnreadCount] = useState(0);
 
   useEffect(() => { loadData(); }, [page]);
+
+  useEffect(() => {
+    const poll = async () => {
+      try {
+        setNotifications(await getNotifications());
+        setUnreadCount((await getUnreadCount()).count);
+      } catch {}
+    };
+    poll();
+    const interval = setInterval(poll, 15000);
+    return () => clearInterval(interval);
+  }, []);
 
   async function loadData() {
     setLoading(true);
@@ -112,6 +126,9 @@ export default function AdminPage() {
                 <button key={item.key} onClick={() => { setPage(item.key); setSelectedDriver(null); setSelectedRequest(null); setSidebarOpen(false); }}
                   className={`w-full text-left px-3 py-2 rounded-lg text-sm flex items-center gap-3 transition-colors ${page === item.key ? "bg-amber-500/10 text-amber-600 dark:text-amber-400" : `${th.textSecondary} hover:${th.text}`}`}>
                   <Icon className="w-5 h-5" />{item.label}
+                  {item.key === "notifications" && unreadCount > 0 && (
+                    <span className="ml-auto bg-amber-500 text-navy-950 text-xs font-bold rounded-full px-1.5 py-0.5 min-w-[1.25rem] text-center">{unreadCount}</span>
+                  )}
                 </button>
               );
             })}
@@ -164,6 +181,7 @@ export default function AdminPage() {
                 {page === "records" && <OperationalRecords />}
                 {page === "assessments" && <AssessmentsOverview />}
                 {page === "passengers" && <PassengersList />}
+                {page === "reports" && <ReportsPage />}
                 {page === "settings" && settings && (
                   <SettingsPanel settings={settings} onSave={async (data) => { await updateSettings(data); loadData(); }} />
                 )}

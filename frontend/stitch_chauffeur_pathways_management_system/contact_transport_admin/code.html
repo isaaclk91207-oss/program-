@@ -1,0 +1,250 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Contact Transport Admin - PCCP Vector</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet">
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Tailwind CSS & Config -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "outline-variant": "#c0c7d1",
+                        "surface": "#faf8ff",
+                        "on-secondary": "#ffffff",
+                        "tertiary": "#733f00",
+                        "role-driver": "#7C3AED",
+                        "surface-tint": "#006399",
+                        "surface-container": "#eaedff",
+                        "surface-container-low": "#f2f3ff",
+                        "secondary-container": "#99efe5",
+                        "on-tertiary-container": "#ffdbbe",
+                        "surface-canvas": "#F8FAFC",
+                        "inverse-primary": "#94ccff",
+                        "inverse-on-surface": "#eef0ff",
+                        "outline": "#707881",
+                        "on-primary-fixed-variant": "#004b74",
+                        "tertiary-container": "#955301",
+                        "secondary-fixed-dim": "#80d5cb",
+                        "on-error": "#ffffff",
+                        "surface-dim": "#d2d9f4",
+                        "tertiary-fixed": "#ffdcc1",
+                        "on-tertiary-fixed": "#2e1500",
+                        "on-primary": "#ffffff",
+                        "on-surface-variant": "#40474f",
+                        "surface-container-high": "#e1e7ff",
+                        "border-hairline": "#E2E8F0",
+                        "primary-fixed-dim": "#94ccff",
+                        "on-primary-fixed": "#001d32",
+                        "inverse-surface": "#283044",
+                        "tertiary-fixed-dim": "#ffb878",
+                        "primary": "#00507d",
+                        "primary-fixed": "#cde5ff",
+                        "surface-container-highest": "#dae2fc",
+                        "surface-container-lowest": "#ffffff",
+                        "secondary-fixed": "#9cf2e8",
+                        "on-tertiary-fixed-variant": "#6c3a00",
+                        "on-primary-container": "#cbe4ff",
+                        "on-secondary-fixed": "#00201d",
+                        "role-passenger": "#2563EB",
+                        "on-background": "#131b2e",
+                        "primary-container": "#0369a1",
+                        "on-surface": "#131b2e",
+                        "surface-variant": "#dae2fc",
+                        "on-error-container": "#93000a",
+                        "on-secondary-fixed-variant": "#00504a",
+                        "background": "#faf8ff",
+                        "on-secondary-container": "#006f67",
+                        "role-admin": "#059669",
+                        "error": "#ba1a1a",
+                        "error-container": "#ffdad6",
+                        "surface-bright": "#faf8ff",
+                        "on-tertiary": "#ffffff",
+                        "secondary": "#006a63"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "2xl": "32px",
+                        "lg": "20px",
+                        "sm": "8px",
+                        "margin-desktop": "32px",
+                        "xs": "4px",
+                        "xl": "24px",
+                        "margin-mobile": "16px",
+                        "gutter": "16px",
+                        "md": "12px",
+                        "base": "16px"
+                    },
+                    "fontFamily": {
+                        "title-lg": ["Plus Jakarta Sans"],
+                        "title-md": ["Plus Jakarta Sans"],
+                        "label-caps": ["Plus Jakarta Sans"],
+                        "headline-lg": ["Plus Jakarta Sans"],
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "body-base": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "display-lg": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "title-lg": ["18px", { "lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "title-md": ["16px", { "lineHeight": "22px", "letterSpacing": "0", "fontWeight": "600" }],
+                        "label-caps": ["11px", { "lineHeight": "14px", "letterSpacing": "0.06em", "fontWeight": "700" }],
+                        "headline-lg": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-md": ["22px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "body-base": ["15px", { "lineHeight": "22px", "letterSpacing": "0", "fontWeight": "400" }],
+                        "body-sm": ["13px", { "lineHeight": "18px", "letterSpacing": "0", "fontWeight": "400" }],
+                        "display-lg": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "800" }]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined[data-weight="fill"] {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-surface-canvas text-on-surface font-body-base min-h-screen flex flex-col relative selection:bg-role-driver selection:text-on-primary">
+<!-- TopAppBar -->
+<header class="bg-surface shadow-sm fixed top-0 w-full z-50 flex justify-between items-center px-margin-mobile h-16 md:px-margin-desktop border-b border-border-hairline"><div class="text-title-lg font-title-lg font-extrabold text-primary flex items-center gap-2"><span class="material-symbols-outlined icon-filled text-role-driver">directions_car</span>PCCP Vector</div><div class="flex items-center gap-4"><button class="text-on-surface-variant hover:bg-surface-container-low transition-colors p-2 rounded-full flex items-center justify-center relative"><span class="material-symbols-outlined" data-icon="notifications">notifications</span><span class="absolute top-1 right-1 w-2 h-2 bg-error rounded-full"></span></button><div class="w-8 h-8 rounded-full overflow-hidden border border-border-hairline"><img alt="Ko Aung Naing Win" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB4r8wZv6N49ud2JunyRMKNj3elGw7gbUF1gYcIoE6KRfHLe_6wOniesURT_SukTqroG6km8iWsfFTCqjN0StSHRS2Jbnl9Jhw_8X4XXs9GqX4f0mJxlPy8LAeSJx1LqEuFCXYcNEA9o6z0oCicGajdVnkkXlhCP3mWMdfXiw5g86UhkMpUvrLc9R7wA-Vqxuhyx-xZZxEuP9GxVW8U6TMUfZ3R7i4PGDJamxSigWR1aVqy_HOtcKQ"></div></div></header>
+<!-- Main Content Area (Restricted Width for Focused Task) -->
+<main class="flex-1 pt-24 pb-32 px-margin-mobile w-full max-w-[440px] mx-auto flex flex-col gap-xl">
+<!-- Header Section -->
+<div>
+<h1 class="font-headline-md text-headline-md text-on-surface mb-xs">Support &amp; Contact</h1>
+<p class="font-body-base text-body-base text-on-surface-variant">Connect with transport administration for assistance.</p>
+</div>
+<!-- Emergency Action Card -->
+<section class="bg-surface-container-lowest border border-border-hairline rounded-xl p-lg shadow-sm flex flex-col items-center text-center relative overflow-hidden">
+<!-- Decorative subtle pulse background for urgency without alarm -->
+<div class="absolute inset-0 bg-error/5 opacity-50 pointer-events-none"></div>
+<div class="w-16 h-16 bg-error-container text-on-error-container rounded-full flex items-center justify-center mb-md z-10">
+<span class="material-symbols-outlined text-[32px]" data-icon="emergency" data-weight="fill">emergency</span>
+</div>
+<h2 class="font-title-lg text-title-lg text-on-surface mb-xs z-10">Immediate Assistance</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-lg max-w-[280px] z-10">
+                For accidents, critical route blockages, or urgent safety concerns during a trip.
+            </p>
+<button class="w-full h-12 bg-error text-on-error rounded-full flex items-center justify-center gap-sm font-label-caps text-label-caps uppercase tracking-wider hover:bg-error/90 active:scale-95 duration-200 transition-all z-10 shadow-sm">
+<span class="material-symbols-outlined text-[18px]" data-icon="call" data-weight="fill">call</span>
+                Emergency Call
+            </button>
+</section>
+<!-- Message Admin Form -->
+<section class="bg-surface-container-lowest border border-border-hairline rounded-xl p-lg shadow-sm">
+<h2 class="font-title-lg text-title-lg text-on-surface mb-lg flex items-center gap-sm">
+<span class="material-symbols-outlined text-role-driver" data-icon="chat" data-weight="fill">chat</span>
+                Message Admin
+            </h2>
+<form class="flex flex-col gap-md" onsubmit="event.preventDefault();">
+<!-- Topic Selection -->
+<div class="flex flex-col gap-xs">
+<label class="font-label-caps text-label-caps text-on-surface-variant" for="topic">Topic</label>
+<div class="relative">
+<select class="w-full h-12 appearance-none bg-surface-canvas border-outline-variant rounded-lg px-md font-body-base text-on-surface focus:border-role-driver focus:ring-1 focus:ring-role-driver transition-shadow" id="topic">
+<option disabled="" selected="" value="">Select a support topic...</option>
+<option value="vehicle">Vehicle Maintenance</option>
+<option value="schedule">Schedule &amp; Shift</option>
+<option value="payroll">Payroll Query</option>
+<option value="other">Other Inquiry</option>
+</select>
+<span class="material-symbols-outlined absolute right-md top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none" data-icon="expand_more">expand_more</span>
+</div>
+</div>
+<!-- Message Area -->
+<div class="flex flex-col gap-xs">
+<label class="font-label-caps text-label-caps text-on-surface-variant" for="message">Details</label>
+<textarea class="w-full resize-none bg-surface-canvas border-outline-variant rounded-lg p-md font-body-base text-on-surface focus:border-role-driver focus:ring-1 focus:ring-role-driver transition-shadow placeholder:text-outline" id="message" placeholder="Describe your issue or request in detail..." rows="4"></textarea>
+</div>
+<!-- Submit Action -->
+<button class="w-full h-12 mt-sm bg-role-driver text-on-primary rounded-full flex items-center justify-center gap-sm font-label-caps text-label-caps uppercase tracking-wider hover:opacity-90 active:scale-95 duration-200 transition-all shadow-sm" type="submit">
+<span class="material-symbols-outlined text-[18px]" data-icon="send" data-weight="fill">send</span>
+                    Send Message
+                </button>
+</form>
+</section>
+<!-- FAQs / Quick Links -->
+<section class="flex flex-col gap-md">
+<h2 class="font-title-md text-title-md text-on-surface px-xs">Common Resources</h2>
+<div class="flex flex-col gap-sm">
+<!-- FAQ Item 1 -->
+<button class="w-full bg-surface-container-lowest border border-border-hairline rounded-lg p-md flex items-center justify-between hover:bg-surface-container-low transition-colors active:scale-[0.98] duration-200 text-left">
+<div class="flex items-center gap-md">
+<div class="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center text-role-driver">
+<span class="material-symbols-outlined text-[18px]" data-icon="description">description</span>
+</div>
+<span class="font-body-base text-body-base font-medium text-on-surface">Incident Reporting Guide</span>
+</div>
+<span class="material-symbols-outlined text-outline" data-icon="chevron_right">chevron_right</span>
+</button>
+<!-- FAQ Item 2 -->
+<button class="w-full bg-surface-container-lowest border border-border-hairline rounded-lg p-md flex items-center justify-between hover:bg-surface-container-low transition-colors active:scale-[0.98] duration-200 text-left">
+<div class="flex items-center gap-md">
+<div class="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center text-role-driver">
+<span class="material-symbols-outlined text-[18px]" data-icon="build">build</span>
+</div>
+<span class="font-body-base text-body-base font-medium text-on-surface">Vehicle Troubleshooting</span>
+</div>
+<span class="material-symbols-outlined text-outline" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+</section>
+</main>
+<!-- BottomNavBar (Visible on Mobile, Hidden on Web typically, but retained per standard app shell logic if this is a primary destination. Since prompt says "Standard top/bottom bars with Account active", rendering it full width responsive below md, and centering cluster above it if needed, but standard mobile nav spans bottom) -->
+<nav class="fixed bottom-0 w-full z-50 md:hidden bg-surface dark:bg-surface-dim border-t border-border-hairline shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)] pb-safe">
+<div class="flex justify-around items-center w-full px-2 py-2">
+<!-- Item 1: Home (Inactive) -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant w-16 group hover:bg-surface-container-high transition-all rounded-xl p-1" href="#">
+<span class="material-symbols-outlined group-active:scale-90 duration-150" data-icon="home">home</span>
+<span class="font-label-caps text-label-caps mt-1 tracking-normal truncate w-full text-center">Home</span>
+</a>
+<!-- Item 2: Assignments (Inactive) -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant w-16 group hover:bg-surface-container-high transition-all rounded-xl p-1" href="#">
+<span class="material-symbols-outlined group-active:scale-90 duration-150" data-icon="assignment">assignment</span>
+<span class="font-label-caps text-label-caps mt-1 tracking-normal truncate w-full text-center">Assignments</span>
+</a>
+<!-- Item 3: Trips (Inactive) -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant w-16 group hover:bg-surface-container-high transition-all rounded-xl p-1" href="#">
+<span class="material-symbols-outlined group-active:scale-90 duration-150" data-icon="directions_car">directions_car</span>
+<span class="font-label-caps text-label-caps mt-1 tracking-normal truncate w-full text-center">Trips</span>
+</a>
+<!-- Item 4: Performance (Inactive) -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant w-16 group hover:bg-surface-container-high transition-all rounded-xl p-1" href="#">
+<span class="material-symbols-outlined group-active:scale-90 duration-150" data-icon="leaderboard">leaderboard</span>
+<span class="font-label-caps text-label-caps mt-1 tracking-normal truncate w-full text-center">Performance</span>
+</a>
+<!-- Item 5: Account (Active) -->
+<a class="flex flex-col items-center justify-center text-role-driver bg-primary-container/10 rounded-xl px-2 py-1 w-16 group hover:bg-surface-container-high transition-all" href="#">
+<span class="material-symbols-outlined group-active:scale-90 duration-150" data-icon="person" data-weight="fill">person</span>
+<span class="font-label-caps text-label-caps mt-1 tracking-normal truncate w-full text-center">Account</span>
+</a>
+</div>
+</nav>
+<!-- Spacer for iOS Safe Area on bottom nav -->
+<style>
+        @supports (padding-bottom: env(safe-area-inset-bottom)) {
+            .pb-safe {
+                padding-bottom: calc(0.5rem + env(safe-area-inset-bottom));
+            }
+        }
+    </style>
+
+
+</body></html>

@@ -242,7 +242,7 @@ export class TripService {
       orderBy: { date: "desc" },
     });
 
-    return trips;
+    return trips.map(this.formatTripResponse);
   }
 
   async getPassengerTrips(passengerId: string, status?: string) {
@@ -256,13 +256,14 @@ export class TripService {
       where,
       include: {
         driver: { include: { user: { select: { name: true, phone: true } } } },
+        passenger: { include: { user: { select: { name: true } } } },
         vehicle: true,
         feedback: { select: { id: true, rating: true } },
       },
       orderBy: { date: "desc" },
     });
 
-    return trips;
+    return trips.map(this.formatTripResponse);
   }
 
   async getTripDetail(requestId: string) {
@@ -294,6 +295,44 @@ export class TripService {
     }
 
     return request;
+  }
+
+  private formatTripResponse(t: {
+    id: string;
+    passengerId: string;
+    passenger: { user: { name: string } };
+    driverId: string | null;
+    driver: { user: { name: string } } | null;
+    vehicleId: string | null;
+    vehicle: { id: string; plate: string } | null;
+    status: string;
+    pickup: string;
+    destination: string;
+    date: Date;
+    time: string;
+    feedback: { id: string; rating: number } | null;
+    createdAt: Date;
+  }) {
+    return {
+      id: t.id,
+      passengerId: t.passengerId,
+      passengerName: t.passenger?.user?.name || "",
+      department: "",
+      driverId: t.driverId,
+      driverName: t.driver?.user?.name || null,
+      vehicleId: t.vehicleId,
+      vehiclePlate: t.vehicle?.plate || null,
+      status: t.status,
+      pickup: t.pickup,
+      destination: t.destination,
+      date: t.date.toISOString().split("T")[0],
+      time: t.time,
+      qrScanStatus: ["QR_PENDING", "PICK_UP_SCANNED", "IN_PROGRESS", "DROP_OFF_SCANNED"].includes(t.status)
+        ? t.status
+        : null,
+      feedbackStatus: t.feedback ? "SUBMITTED" : null,
+      createdAt: t.createdAt.toISOString(),
+    };
   }
 }
 

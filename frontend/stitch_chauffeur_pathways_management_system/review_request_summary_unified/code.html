@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en" style=""><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Review Summary - PCCP Vector</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-high": "#e1e7ff",
+                        "error-container": "#ffdad6",
+                        "outline": "#707881",
+                        "surface-bright": "#faf8ff",
+                        "on-tertiary-fixed": "#2e1500",
+                        "role-admin": "#059669",
+                        "surface-tint": "#006399",
+                        "role-driver": "#7C3AED",
+                        "primary": "#00507d",
+                        "surface-container-highest": "#dae2fc",
+                        "surface-container": "#eaedff",
+                        "on-primary-fixed-variant": "#004b74",
+                        "primary-fixed": "#cde5ff",
+                        "on-secondary-fixed": "#00201d",
+                        "surface": "#faf8ff",
+                        "primary-container": "#0369a1",
+                        "surface-canvas": "#F8FAFC",
+                        "error": "#ba1a1a",
+                        "surface-variant": "#dae2fc",
+                        "secondary-container": "#99efe5",
+                        "on-error-container": "#93000a",
+                        "border-hairline": "#E2E8F0",
+                        "on-secondary-fixed-variant": "#00504a",
+                        "tertiary-fixed-dim": "#ffb878",
+                        "primary-fixed-dim": "#94ccff",
+                        "surface-dim": "#d2d9f4",
+                        "on-tertiary": "#ffffff",
+                        "role-passenger": "#2563EB",
+                        "on-tertiary-fixed-variant": "#6c3a00",
+                        "surface-container-lowest": "#ffffff",
+                        "tertiary-fixed": "#ffdcc1",
+                        "secondary-fixed": "#9cf2e8",
+                        "tertiary-container": "#955301",
+                        "surface-container-low": "#f2f3ff",
+                        "inverse-on-surface": "#eef0ff",
+                        "on-primary-container": "#cbe4ff",
+                        "on-primary": "#ffffff",
+                        "on-primary-fixed": "#001d32",
+                        "on-surface-variant": "#40474f",
+                        "secondary": "#006a63",
+                        "tertiary": "#733f00",
+                        "on-tertiary-container": "#ffdbbe",
+                        "background": "#faf8ff",
+                        "on-error": "#ffffff",
+                        "on-background": "#131b2e",
+                        "on-secondary": "#ffffff",
+                        "inverse-surface": "#283044",
+                        "outline-variant": "#c0c7d1",
+                        "secondary-fixed-dim": "#80d5cb",
+                        "on-secondary-container": "#006f67",
+                        "on-surface": "#131b2e",
+                        "inverse-primary": "#94ccff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-desktop": "32px",
+                        "xs": "4px",
+                        "base": "16px",
+                        "2xl": "32px",
+                        "margin-mobile": "16px",
+                        "gutter": "16px",
+                        "lg": "20px",
+                        "xl": "24px",
+                        "md": "12px",
+                        "sm": "8px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "body-sm": ["Inter"],
+                        "label-caps": ["Plus Jakarta Sans"],
+                        "title-md": ["Plus Jakarta Sans"],
+                        "display-lg": ["Plus Jakarta Sans"],
+                        "title-lg": ["Plus Jakarta Sans"],
+                        "body-base": ["Inter"],
+                        "headline-lg": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["22px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "body-sm": ["13px", { "lineHeight": "18px", "letterSpacing": "0", "fontWeight": "400" }],
+                        "label-caps": ["11px", { "lineHeight": "14px", "letterSpacing": "0.06em", "fontWeight": "700" }],
+                        "title-md": ["16px", { "lineHeight": "22px", "letterSpacing": "0", "fontWeight": "600" }],
+                        "display-lg": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+                        "title-lg": ["18px", { "lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "body-base": ["15px", { "lineHeight": "22px", "letterSpacing": "0", "fontWeight": "400" }],
+                        "headline-lg": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined.fill {
+            font-variation-settings: 'FILL' 1;
+        }
+    </style>
+</head>
+<body class="bg-surface-canvas min-h-screen text-on-surface font-body-base pb-24">
+<!-- Top App Bar -->
+<header class="fixed top-0 w-full z-50 bg-surface-bright border-b border-border-hairline shadow-sm flex items-center justify-between px-margin-mobile md:px-margin-desktop h-16 transition-all"><div class="flex items-center gap-4 flex-1">
+<button aria-label="Go back" class="p-2 rounded-full hover:bg-surface-container transition-colors active:scale-95 flex items-center justify-center group flex-shrink-0 bg-primary-container text-on-primary">
+<span class="material-symbols-outlined text-2xl group-hover:text-primary transition-colors">arrow_back</span>
+</button>
+<h1 class="font-title-lg text-title-lg font-bold text-primary tracking-tight">New Request</h1>
+</div></header>
+<main class="pt-20 px-margin-mobile md:px-margin-desktop max-w-[440px] mx-auto md:max-w-2xl">
+<!-- Progress Indicator -->
+<div class="mb-6">
+<div class="flex justify-between items-center mb-2">
+<span class="font-title-md text-title-md text-on-surface">Step 3 of 3</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Review</span>
+</div>
+<div class="flex gap-2 w-full h-2">
+<div class="h-full rounded-full flex-1 bg-primary-container"></div>
+<div class="h-full rounded-full flex-1 bg-primary-container"></div>
+<div class="h-full rounded-full flex-1 bg-primary-container"></div>
+</div>
+</div>
+<!-- Request Summary Content -->
+<div class="space-y-4">
+<!-- Requester Info Card -->
+<div class="bg-surface-container-lowest rounded-xl p-4 border border-border-hairline shadow-[0px_1px_3px_rgba(15,23,42,0.05)]">
+<div class="flex items-start gap-4">
+<div class="bg-surface-container p-2 rounded-lg text-primary">
+<span class="material-symbols-outlined fill" data-icon="person" data-weight="fill">person</span>
+</div>
+<div>
+<h2 class="font-label-caps text-label-caps text-on-surface-variant mb-1 uppercase tracking-wider">Requester</h2>
+<p class="font-title-md text-title-md text-on-surface">Myint Myat Soe</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Government &amp; Key Client Relations</p>
+</div>
+</div>
+</div>
+<!-- Trip Details Card -->
+<div class="bg-surface-container-lowest rounded-xl border border-border-hairline shadow-[0px_1px_3px_rgba(15,23,42,0.05)] overflow-hidden">
+<div class="p-4 border-b border-border-hairline bg-surface-canvas/50">
+<div class="flex items-center gap-2 mb-1 text-primary">
+<span class="material-symbols-outlined fill text-[20px]" data-icon="calendar_month" data-weight="fill">calendar_month</span>
+<span class="font-title-md text-title-md">Aug 20, 2026</span>
+</div>
+<div class="flex items-center gap-2 text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px]" data-icon="schedule">schedule</span>
+<span class="font-body-sm text-body-sm">12:00 PM to 5:00 PM (Round Trip)</span>
+</div>
+</div>
+<div class="p-4">
+<div class="relative pl-6 before:absolute before:left-2 before:top-2 before:bottom-2 before:w-[2px] before:bg-border-hairline before:rounded-full">
+<!-- Origin -->
+<div class="relative mb-6">
+<div class="absolute -left-6 top-1 w-3 h-3 rounded-full border-2 border-primary bg-surface-container-lowest z-10"></div>
+<p class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider">Pick-up</p>
+<p class="font-title-md text-title-md text-on-surface">uab HO</p>
+</div>
+<!-- Destination -->
+<div class="relative">
+<div class="absolute -left-6 top-1 w-3 h-3 rounded-full bg-primary z-10"></div>
+<p class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider">Destination</p>
+<p class="font-title-md text-title-md text-on-surface">Thingangyun</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Passengers & Purpose Card -->
+<div class="bg-surface-container-lowest rounded-xl border border-border-hairline shadow-[0px_1px_3px_rgba(15,23,42,0.05)] overflow-hidden">
+<div class="p-4">
+<div class="flex items-start gap-4 mb-3">
+<div class="bg-surface-container p-2 rounded-lg text-primary">
+<span class="material-symbols-outlined fill" data-icon="group" data-weight="fill">group</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-center mb-1">
+<h2 class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider">Passengers</h2>
+<span class="bg-primary-container text-on-primary text-xs font-bold px-2 py-0.5 rounded-full">4 Total</span>
+</div>
+<ul class="space-y-1 font-body-base text-body-base text-on-surface">
+<li class="">Yan Myo Aung (HOD)</li>
+<li class="">Pyae Phyo Aung</li>
+<li class="">Myint Myat Soe</li>
+<li class="">Shoon La Pyae Thu</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="p-4 border-t border-border-hairline bg-surface-canvas/50">
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="assignment">assignment</span>
+<div>
+<p class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider mb-1">Purpose</p>
+<p class="font-body-base text-body-base text-on-surface">Loan Doc Signing</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Government &amp; Key Client Relations</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Additional Notes Card -->
+<div class="bg-surface-container-lowest rounded-xl p-4 border border-border-hairline shadow-[0px_1px_3px_rgba(15,23,42,0.05)]">
+<div class="flex items-start gap-4">
+<div class="bg-surface-container p-2 rounded-lg text-primary">
+<span class="material-symbols-outlined" data-icon="notes">notes</span>
+</div>
+<div>
+<h2 class="font-label-caps text-label-caps text-on-surface-variant mb-1 uppercase tracking-wider">Additional Notes</h2>
+<p class="font-body-base text-body-base text-on-surface">Need a larger vehicle for document boxes. Please arrange driver with gate pass.</p>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Bottom Action Bar -->
+<div class="fixed bottom-0 w-full p-4 bg-surface-container-lowest border-t border-border-hairline z-40 pb-safe md:px-margin-desktop md:max-w-2xl md:left-1/2 md:-translate-x-1/2 md:border md:rounded-t-xl shadow-lg">
+<button class="w-full h-12 bg-primary-container hover:bg-primary text-on-primary font-title-md text-title-md rounded-xl flex items-center justify-center gap-2 transition-colors shadow-sm active:scale-95">
+            Submit Request
+            <span class="material-symbols-outlined" data-icon="check_circle">check_circle</span>
+</button>
+</div>
+</body></html>

@@ -1,0 +1,262 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Certification Progress</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "on-primary-fixed": "#001d32",
+                        "on-background": "#131b2e",
+                        "outline": "#707881",
+                        "inverse-on-surface": "#eef0ff",
+                        "on-secondary-fixed-variant": "#00504a",
+                        "surface-variant": "#dae2fc",
+                        "inverse-surface": "#283044",
+                        "secondary": "#006a63",
+                        "error-container": "#ffdad6",
+                        "border-hairline": "#E2E8F0",
+                        "on-secondary": "#ffffff",
+                        "primary-fixed": "#cde5ff",
+                        "error": "#ba1a1a",
+                        "surface-tint": "#006399",
+                        "inverse-primary": "#94ccff",
+                        "secondary-fixed-dim": "#80d5cb",
+                        "role-passenger": "#2563EB",
+                        "secondary-fixed": "#9cf2e8",
+                        "surface-container-low": "#f2f3ff",
+                        "surface-container-highest": "#dae2fc",
+                        "surface-container-lowest": "#ffffff",
+                        "role-driver": "#7C3AED",
+                        "primary-container": "#0369a1",
+                        "primary-fixed-dim": "#94ccff",
+                        "on-primary-container": "#cbe4ff",
+                        "on-primary": "#ffffff",
+                        "on-tertiary-fixed": "#2e1500",
+                        "tertiary-container": "#955301",
+                        "outline-variant": "#c0c7d1",
+                        "on-surface-variant": "#40474f",
+                        "surface-container-high": "#e1e7ff",
+                        "on-secondary-fixed": "#00201d",
+                        "on-primary-fixed-variant": "#004b74",
+                        "on-error-container": "#93000a",
+                        "secondary-container": "#99efe5",
+                        "tertiary-fixed": "#ffdcc1",
+                        "surface-container": "#eaedff",
+                        "on-tertiary": "#ffffff",
+                        "on-error": "#ffffff",
+                        "tertiary": "#733f00",
+                        "surface-bright": "#faf8ff",
+                        "on-tertiary-container": "#ffdbbe",
+                        "primary": "#00507d",
+                        "surface-dim": "#d2d9f4",
+                        "role-admin": "#059669",
+                        "tertiary-fixed-dim": "#ffb878",
+                        "surface": "#faf8ff",
+                        "on-tertiary-fixed-variant": "#6c3a00",
+                        "on-surface": "#131b2e",
+                        "on-secondary-container": "#006f67",
+                        "background": "#faf8ff",
+                        "surface-canvas": "#F8FAFC"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    spacing: {
+                        "xl": "24px",
+                        "xs": "4px",
+                        "base": "16px",
+                        "margin-mobile": "16px",
+                        "2xl": "32px",
+                        "gutter": "16px",
+                        "sm": "8px",
+                        "lg": "20px",
+                        "margin-desktop": "32px",
+                        "md": "12px"
+                    },
+                    fontFamily: {
+                        "body-sm": ["Inter"],
+                        "title-lg": ["Plus Jakarta Sans"],
+                        "body-base": ["Inter"],
+                        "display-lg": ["Plus Jakarta Sans"],
+                        "headline-lg": ["Plus Jakarta Sans"],
+                        "title-md": ["Plus Jakarta Sans"],
+                        "label-caps": ["Plus Jakarta Sans"],
+                        "headline-md": ["Plus Jakarta Sans"]
+                    },
+                    fontSize: {
+                        "body-sm": ["13px", { lineHeight: "18px", letterSpacing: "0", fontWeight: "400" }],
+                        "title-lg": ["18px", { lineHeight: "24px", letterSpacing: "-0.01em", fontWeight: "600" }],
+                        "body-base": ["15px", { lineHeight: "22px", letterSpacing: "0", fontWeight: "400" }],
+                        "display-lg": ["36px", { lineHeight: "44px", letterSpacing: "-0.02em", fontWeight: "800" }],
+                        "headline-lg": ["28px", { lineHeight: "36px", letterSpacing: "-0.02em", fontWeight: "700" }],
+                        "title-md": ["16px", { lineHeight: "22px", letterSpacing: "0", fontWeight: "600" }],
+                        "label-caps": ["11px", { lineHeight: "14px", letterSpacing: "0.06em", fontWeight: "700" }],
+                        "headline-md": ["22px", { lineHeight: "28px", letterSpacing: "-0.01em", fontWeight: "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-surface-canvas text-on-surface font-body-base min-h-screen pb-xl">
+<!-- Top App Bar (Secondary Screen Style) -->
+<header class="bg-surface sticky top-0 z-50 flex justify-between items-center px-margin-mobile md:px-margin-desktop w-full h-16 border-b border-border-hairline shadow-[0px_1px_3px_rgba(15,23,42,0.05)]">
+<div class="flex items-center gap-sm">
+<button class="p-2 -ml-2 rounded-full hover:bg-surface-container-low transition-colors text-on-surface-variant flex items-center justify-center">
+<span class="material-symbols-outlined text-[24px]">arrow_back</span>
+</button>
+<h1 class="text-title-lg font-title-lg font-extrabold text-on-surface">Certification Progress</h1>
+</div>
+<div class="flex items-center gap-md">
+<button class="p-2 rounded-full hover:bg-surface-container-low transition-colors text-on-surface-variant flex items-center justify-center">
+<span class="material-symbols-outlined text-[24px]">help_outline</span>
+</button>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="max-w-[800px] mx-auto pt-xl px-margin-mobile md:px-margin-desktop">
+<!-- Status Overview Card -->
+<section class="bg-surface-container-lowest rounded-xl border border-border-hairline shadow-[0px_1px_3px_rgba(15,23,42,0.05)] p-xl mb-xl">
+<div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-lg mb-lg">
+<div>
+<p class="text-label-caps font-label-caps text-role-driver uppercase tracking-wider mb-xs">Current Level</p>
+<h2 class="text-headline-md font-headline-md text-on-surface">CC Certification</h2>
+</div>
+<div class="flex items-center gap-sm bg-surface-container-low rounded-full px-4 py-2">
+<span class="material-symbols-outlined text-[20px] text-role-driver" style="font-variation-settings: 'FILL' 1;">workspace_premium</span>
+<span class="text-body-sm font-body-sm text-on-surface-variant">Active since Mar 2023</span>
+</div>
+</div>
+<!-- Progress Bar -->
+<div class="relative pt-lg">
+<div class="flex justify-between mb-sm">
+<span class="text-body-sm font-body-sm text-on-surface-variant">Next: <strong class="text-on-surface font-title-md">CPC</strong></span>
+<span class="text-title-md font-title-md text-role-driver">85%</span>
+</div>
+<div class="w-full bg-surface-container-highest rounded-full h-2.5">
+<div class="bg-role-driver h-2.5 rounded-full" style="width: 85%"></div>
+</div>
+<p class="text-body-sm font-body-sm text-on-surface-variant mt-sm">2 requirements remaining to advance to Certified Professional Courier.</p>
+</div>
+</section>
+<!-- Requirements List -->
+<section>
+<h3 class="text-title-lg font-title-lg text-on-surface mb-md">Advancement Requirements</h3>
+<div class="grid grid-cols-1 gap-md">
+<!-- Safety Score (Passed) -->
+<div class="bg-surface-container-lowest border border-border-hairline rounded-xl p-base flex items-center justify-between shadow-[0px_1px_3px_rgba(15,23,42,0.05)]">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded-full bg-role-admin/10 flex items-center justify-center text-role-admin">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<div>
+<h4 class="text-title-md font-title-md text-on-surface">Safety Rating</h4>
+<p class="text-body-sm font-body-sm text-on-surface-variant">Maintain &gt; 90% safety score for 6 months</p>
+</div>
+</div>
+<div class="text-right">
+<span class="block text-title-md font-title-md text-role-admin">94%</span>
+<span class="text-label-caps font-label-caps text-on-surface-variant uppercase">Current</span>
+</div>
+</div>
+<!-- Feedback (Passed) -->
+<div class="bg-surface-container-lowest border border-border-hairline rounded-xl p-base flex items-center justify-between shadow-[0px_1px_3px_rgba(15,23,42,0.05)]">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded-full bg-role-admin/10 flex items-center justify-center text-role-admin">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<div>
+<h4 class="text-title-md font-title-md text-on-surface">Customer Feedback</h4>
+<p class="text-body-sm font-body-sm text-on-surface-variant">Minimum 4.5/5 average rating</p>
+</div>
+</div>
+<div class="text-right">
+<span class="block text-title-md font-title-md text-role-admin">4.8</span>
+<span class="text-label-caps font-label-caps text-on-surface-variant uppercase">Avg</span>
+</div>
+</div>
+<!-- Manual Assessment (Passed) -->
+<div class="bg-surface-container-lowest border border-border-hairline rounded-xl p-base flex items-center justify-between shadow-[0px_1px_3px_rgba(15,23,42,0.05)]">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded-full bg-role-admin/10 flex items-center justify-center text-role-admin">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<div>
+<h4 class="text-title-md font-title-md text-on-surface">Manual Assessment</h4>
+<p class="text-body-sm font-body-sm text-on-surface-variant">Practical driving and handling evaluation</p>
+</div>
+</div>
+<div class="text-right">
+<span class="block text-title-md font-title-md text-role-admin">Passed</span>
+<span class="text-label-caps font-label-caps text-on-surface-variant uppercase">Nov 12</span>
+</div>
+</div>
+<!-- Professional Conduct (Passed) -->
+<div class="bg-surface-container-lowest border border-border-hairline rounded-xl p-base flex items-center justify-between shadow-[0px_1px_3px_rgba(15,23,42,0.05)]">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded-full bg-role-admin/10 flex items-center justify-center text-role-admin">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<div>
+<h4 class="text-title-md font-title-md text-on-surface">Professional Conduct</h4>
+<p class="text-body-sm font-body-sm text-on-surface-variant">No serious infractions on record</p>
+</div>
+</div>
+<div class="text-right">
+<span class="block text-title-md font-title-md text-role-admin">Excellent</span>
+<span class="text-label-caps font-label-caps text-on-surface-variant uppercase">Status</span>
+</div>
+</div>
+<!-- Training (Pending) -->
+<div class="bg-surface-container-lowest border border-primary-fixed-dim rounded-xl p-base flex items-center justify-between shadow-[0px_1px_3px_rgba(15,23,42,0.05)] bg-surface-container-low">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded-full bg-primary-container/20 flex items-center justify-center text-primary-container">
+<span class="material-symbols-outlined text-[20px]">pending_actions</span>
+</div>
+<div>
+<h4 class="text-title-md font-title-md text-on-surface">Advanced Training Modules</h4>
+<p class="text-body-sm font-body-sm text-on-surface-variant">Complete required CPC course load</p>
+</div>
+</div>
+<div class="text-right flex flex-col items-end">
+<span class="block text-title-md font-title-md text-primary-container">In Progress</span>
+<button class="text-label-caps font-label-caps text-role-driver uppercase mt-1 hover:underline">Continue</button>
+</div>
+</div>
+<!-- Credits (Pending) -->
+<div class="bg-surface-container-lowest border border-primary-fixed-dim rounded-xl p-base flex items-center justify-between shadow-[0px_1px_3px_rgba(15,23,42,0.05)] bg-surface-container-low">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded-full bg-primary-container/20 flex items-center justify-center text-primary-container">
+<span class="material-symbols-outlined text-[20px]">toll</span>
+</div>
+<div>
+<h4 class="text-title-md font-title-md text-on-surface">Experience Credits</h4>
+<p class="text-body-sm font-body-sm text-on-surface-variant">Accrue 150 hours of active service</p>
+</div>
+</div>
+<div class="text-right">
+<span class="block text-title-md font-title-md text-on-surface">120 <span class="text-body-sm font-body-sm text-on-surface-variant font-normal">/ 150</span></span>
+<div class="w-16 bg-surface-container-highest rounded-full h-1 mt-1 ml-auto">
+<div class="bg-primary-container h-1 rounded-full" style="width: 80%"></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+</body></html>

@@ -1,0 +1,251 @@
+<!DOCTYPE html><html class="dark" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>PCCP Vector - Verify Assignment</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@500;600;700;800&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "on-primary-fixed": "#001d32",
+                        "on-background": "#131b2e",
+                        "outline": "#707881",
+                        "inverse-on-surface": "#eef0ff",
+                        "on-secondary-fixed-variant": "#00504a",
+                        "surface-variant": "#dae2fc",
+                        "inverse-surface": "#283044",
+                        "secondary": "#006a63",
+                        "error-container": "#ffdad6",
+                        "border-hairline": "#E2E8F0",
+                        "on-secondary": "#ffffff",
+                        "primary-fixed": "#cde5ff",
+                        "error": "#ba1a1a",
+                        "surface-tint": "#006399",
+                        "inverse-primary": "#94ccff",
+                        "secondary-fixed-dim": "#80d5cb",
+                        "role-passenger": "#2563EB",
+                        "secondary-fixed": "#9cf2e8",
+                        "surface-container-low": "#f2f3ff",
+                        "surface-container-highest": "#dae2fc",
+                        "surface-container-lowest": "#ffffff",
+                        "role-driver": "#7C3AED",
+                        "primary-container": "#0369a1",
+                        "primary-fixed-dim": "#94ccff",
+                        "on-primary-container": "#cbe4ff",
+                        "on-primary": "#ffffff",
+                        "on-tertiary-fixed": "#2e1500",
+                        "tertiary-container": "#955301",
+                        "outline-variant": "#c0c7d1",
+                        "on-surface-variant": "#40474f",
+                        "surface-container-high": "#e1e7ff",
+                        "on-secondary-fixed": "#00201d",
+                        "on-primary-fixed-variant": "#004b74",
+                        "on-error-container": "#93000a",
+                        "secondary-container": "#99efe5",
+                        "tertiary-fixed": "#ffdcc1",
+                        "surface-container": "#eaedff",
+                        "on-tertiary": "#ffffff",
+                        "on-error": "#ffffff",
+                        "tertiary": "#733f00",
+                        "surface-bright": "#faf8ff",
+                        "on-tertiary-container": "#ffdbbe",
+                        "primary": "#00507d",
+                        "surface-dim": "#d2d9f4",
+                        "role-admin": "#059669",
+                        "tertiary-fixed-dim": "#ffb878",
+                        "surface": "#faf8ff",
+                        "on-tertiary-fixed-variant": "#6c3a00",
+                        "on-surface": "#131b2e",
+                        "on-secondary-container": "#006f67",
+                        "background": "#faf8ff",
+                        "surface-canvas": "#F8FAFC"
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.25rem",
+                        lg: "0.5rem",
+                        xl: "0.75rem",
+                        full: "9999px"
+                    },
+                    spacing: {
+                        xl: "24px",
+                        xs: "4px",
+                        base: "16px",
+                        "margin-mobile": "16px",
+                        "2xl": "32px",
+                        gutter: "16px",
+                        sm: "8px",
+                        lg: "20px",
+                        "margin-desktop": "32px",
+                        md: "12px"
+                    },
+                    fontFamily: {
+                        "body-sm": ["Inter"],
+                        "title-lg": ["Plus Jakarta Sans"],
+                        "body-base": ["Inter"],
+                        "display-lg": ["Plus Jakarta Sans"],
+                        "headline-lg": ["Plus Jakarta Sans"],
+                        "title-md": ["Plus Jakarta Sans"],
+                        "label-caps": ["Plus Jakarta Sans"],
+                        "headline-md": ["Plus Jakarta Sans"]
+                    },
+                    fontSize: {
+                        "body-sm": ["13px", { lineHeight: "18px", letterSpacing: "0", fontWeight: "400" }],
+                        "title-lg": ["18px", { lineHeight: "24px", letterSpacing: "-0.01em", fontWeight: "600" }],
+                        "body-base": ["15px", { lineHeight: "22px", letterSpacing: "0", fontWeight: "400" }],
+                        "display-lg": ["36px", { lineHeight: "44px", letterSpacing: "-0.02em", fontWeight: "800" }],
+                        "headline-lg": ["28px", { lineHeight: "36px", letterSpacing: "-0.02em", fontWeight: "700" }],
+                        "title-md": ["16px", { lineHeight: "22px", letterSpacing: "0", fontWeight: "600" }],
+                        "label-caps": ["11px", { lineHeight: "14px", letterSpacing: "0.06em", fontWeight: "700" }],
+                        "headline-md": ["22px", { lineHeight: "28px", letterSpacing: "-0.01em", fontWeight: "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .scanner-frame {
+            box-shadow: 0 0 0 4000px rgba(0, 0, 0, 0.6);
+        }
+        .scan-line {
+            animation: scan 2s infinite linear;
+        }
+        @keyframes scan {
+            0% { top: 0; }
+            50% { top: 100%; }
+            100% { top: 0; }
+        }
+    </style>
+</head>
+<body class="bg-surface-canvas text-on-surface h-screen w-screen overflow-hidden flex flex-col antialiased">
+<!-- Top Navigation (Task-focused, linear) -->
+<header class="bg-surface dark:bg-on-background w-full h-16 flex items-center justify-between px-margin-mobile border-b border-border-hairline dark:border-outline-variant z-10 shrink-0">
+<button class="flex items-center justify-center w-10 h-10 rounded-full hover:bg-surface-container-low dark:hover:bg-inverse-surface transition-colors">
+<span class="material-symbols-outlined text-on-surface dark:text-outline">arrow_back</span>
+</button>
+<h1 class="text-title-lg font-title-lg text-on-surface dark:text-on-secondary">Verify Assignment</h1>
+<div class="w-10"></div> <!-- Placeholder for balance -->
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-1 relative w-full h-full flex flex-col bg-black">
+<!-- View 1: Scanner (Default Active) -->
+<div class="absolute inset-0 w-full h-full flex flex-col z-0 transition-opacity duration-300" id="scanner-view">
+<!-- Simulated Camera Feed Background -->
+<img class="absolute inset-0 w-full h-full object-cover opacity-60" data-alt="A slightly blurred point-of-view shot looking at a printed QR code held in someone's hand inside a modern, well-lit office lobby. The lighting is bright and neutral, characteristic of daytime corporate environments. The focus is soft, simulating a smartphone camera searching for an anchor point. The overall tone is functional and realistic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBu2cNUTT1DG1ngValwWFC0RDLcgvyIe29aD5cuHriO0WDukxuUC3pWRxG5WBvaU4JXhF3LdNa8xfwwinhGGr366z_fWue08t1ehTxka63XU8bMkSy6NS5OLWWLk0sarxYEy92jkhMu2eG3bXtiFBMrUCo8p7PMjmt3OR594q9fUscAJzGoEQLaGBHqNVgJ1fb6ueUzasV_zat_pn3myeHMIFGsVtUE8NcbQIxR67Y45rYfLjZnqnE">
+<!-- Instructions Overlay -->
+<div class="relative z-10 px-margin-mobile pt-xl text-center text-on-primary">
+<p class="text-body-base font-body-base max-w-sm mx-auto shadow-sm">Scan the passenger or trip QR code to verify this assignment.</p>
+</div>
+<!-- Scanner Frame -->
+<div class="flex-1 flex items-center justify-center relative z-10 pointer-events-none">
+<div class="relative w-64 h-64 border-2 border-role-admin rounded-xl overflow-hidden scanner-frame">
+<!-- Corner Accents -->
+<div class="absolute top-0 left-0 w-8 h-8 border-t-4 border-l-4 border-role-admin rounded-tl-xl"></div>
+<div class="absolute top-0 right-0 w-8 h-8 border-t-4 border-r-4 border-role-admin rounded-tr-xl"></div>
+<div class="absolute bottom-0 left-0 w-8 h-8 border-b-4 border-l-4 border-role-admin rounded-bl-xl"></div>
+<div class="absolute bottom-0 right-0 w-8 h-8 border-b-4 border-r-4 border-role-admin rounded-br-xl"></div>
+<!-- Scan Line -->
+<div class="absolute left-0 right-0 h-0.5 bg-role-admin scan-line shadow-[0_0_8px_rgba(5,150,105,0.8)]"></div>
+</div>
+</div>
+<!-- Footer Action -->
+<div class="relative z-10 pb-2xl px-margin-mobile flex justify-center">
+<button class="flex items-center gap-sm bg-surface/20 backdrop-blur-md border border-outline-variant/30 text-on-primary px-lg py-md rounded-full hover:bg-surface/30 transition-colors" onclick="toggleVerification()">
+<span class="material-symbols-outlined">qr_code_scanner</span>
+<span class="text-title-md font-title-md">Scan QR Code</span>
+</button>
+</div>
+</div>
+<!-- View 2: Verification Success (Hidden by default) -->
+<div class="absolute inset-0 w-full h-full bg-surface-canvas flex flex-col z-20 opacity-0 pointer-events-none transition-opacity duration-300 transform translate-y-4" id="success-view">
+<div class="flex-1 overflow-y-auto px-margin-mobile py-xl flex flex-col gap-xl">
+<!-- Status Header -->
+<div class="flex flex-col items-center text-center mt-xl">
+<div class="w-16 h-16 bg-role-admin/10 rounded-full flex items-center justify-center mb-md">
+<span class="material-symbols-outlined text-[32px] text-role-admin" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<h2 class="text-headline-md font-headline-md text-role-admin tracking-tight">PCCP VERIFIED</h2>
+<p class="text-body-sm font-body-sm text-outline mt-xs">Assignment ID: PCCP-TR-2026-0012</p>
+</div>
+<!-- Details Card -->
+<div class="bg-surface-container-lowest rounded-xl border border-border-hairline shadow-sm p-base flex flex-col gap-md">
+<div class="flex items-start gap-md">
+<div class="w-10 h-10 rounded-full bg-surface-variant flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-primary">person</span>
+</div>
+<div>
+<p class="text-label-caps font-label-caps text-outline uppercase">Driver</p>
+<p class="text-title-md font-title-md text-on-surface">Ko Aung Naing Win</p>
+<p class="text-body-sm font-body-sm text-on-surface-variant">ID: D-8829</p>
+</div>
+</div>
+<hr class="border-border-hairline">
+<div class="flex items-start gap-md">
+<div class="w-10 h-10 rounded-full bg-surface-variant flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-primary">directions_car</span>
+</div>
+<div>
+<p class="text-label-caps font-label-caps text-outline uppercase">Vehicle</p>
+<p class="text-title-md font-title-md text-on-surface">Toyota Alphard</p>
+<p class="text-body-sm font-body-sm text-on-surface-variant">Plate: 4D-1200</p>
+</div>
+</div>
+<hr class="border-border-hairline">
+<div class="flex items-start gap-md">
+<div class="w-10 h-10 rounded-full bg-surface-variant flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-primary">hail</span>
+</div>
+<div>
+<p class="text-label-caps font-label-caps text-outline uppercase">Passenger</p>
+<p class="text-title-md font-title-md text-on-surface">Aung Aung</p>
+</div>
+</div>
+</div>
+<!-- Checklist Card -->
+<div class="bg-surface-container-lowest rounded-xl border border-border-hairline shadow-sm p-base flex flex-col gap-sm">
+<div class="flex items-center justify-between">
+<span class="text-body-base font-body-base text-on-surface">Driver Verified</span>
+<span class="material-symbols-outlined text-role-admin" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<div class="flex items-center justify-between">
+<span class="text-body-base font-body-base text-on-surface">Vehicle Verified</span>
+<span class="material-symbols-outlined text-role-admin" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<div class="flex items-center justify-between">
+<span class="text-body-base font-body-base text-on-surface">Assignment Verified</span>
+<span class="material-symbols-outlined text-role-admin" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+</div>
+</div>
+<!-- Sticky Bottom Action -->
+<div class="p-margin-mobile bg-surface border-t border-border-hairline mt-auto">
+<button class="w-full h-12 bg-role-driver text-on-primary rounded-lg text-title-md font-title-md flex items-center justify-center gap-sm hover:opacity-90 transition-opacity">
+                    Confirm &amp; Continue
+                    <span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+</button>
+</div>
+</div>
+</main>
+<script>
+        function toggleVerification() {
+            const scannerView = document.getElementById('scanner-view');
+            const successView = document.getElementById('success-view');
+            
+            // Hide Scanner
+            scannerView.classList.add('opacity-0');
+            scannerView.classList.remove('pointer-events-auto');
+            scannerView.classList.add('pointer-events-none');
+            
+            // Show Success
+            setTimeout(() => {
+                successView.classList.remove('opacity-0', 'translate-y-4');
+                successView.classList.remove('pointer-events-none');
+                successView.classList.add('pointer-events-auto');
+            }, 150);
+        }
+    </script>
+</body></html>

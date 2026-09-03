@@ -1,0 +1,318 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>PCCP Transport - Trip Details</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-surface": "#131b2e",
+                    "surface": "#faf8ff",
+                    "error-container": "#ffdad6",
+                    "on-tertiary-container": "#ffdbbe",
+                    "surface-container-high": "#e2e7ff",
+                    "primary-fixed-dim": "#94ccff",
+                    "surface-tint": "#006399",
+                    "primary": "#00507d",
+                    "on-tertiary-fixed": "#2e1500",
+                    "on-secondary": "#ffffff",
+                    "outline-variant": "#c0c7d1",
+                    "surface-canvas": "#F8FAFC",
+                    "primary-container": "#0369a1",
+                    "background": "#faf8ff",
+                    "secondary-fixed": "#9cf2e8",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-dim": "#d2d9f4",
+                    "on-background": "#131b2e",
+                    "on-primary-container": "#cbe4ff",
+                    "primary-fixed": "#cde5ff",
+                    "error": "#ba1a1a",
+                    "surface-container-low": "#f2f3ff",
+                    "inverse-on-surface": "#eef0ff",
+                    "on-secondary-fixed": "#00201d",
+                    "border-hairline": "#E2E8F0",
+                    "tertiary-fixed-dim": "#ffb878",
+                    "inverse-primary": "#94ccff",
+                    "surface-container": "#eaedff",
+                    "on-surface-variant": "#40474f",
+                    "role-admin-container": "#D1FAE5",
+                    "secondary": "#006a63",
+                    "surface-container-highest": "#dae2fd",
+                    "tertiary": "#733f00",
+                    "role-passenger-container": "#DBEAFE",
+                    "inverse-surface": "#283044",
+                    "on-primary-fixed-variant": "#004b74",
+                    "role-driver": "#7C3AED",
+                    "secondary-container": "#99efe5",
+                    "role-passenger": "#2563EB",
+                    "surface-bright": "#faf8ff",
+                    "on-primary-fixed": "#001d32",
+                    "role-admin": "#059669",
+                    "on-secondary-fixed-variant": "#00504a",
+                    "on-tertiary": "#ffffff",
+                    "on-tertiary-fixed-variant": "#6c3a00",
+                    "on-error-container": "#93000a",
+                    "on-secondary-container": "#006f67",
+                    "surface-variant": "#dae2fd",
+                    "on-error": "#ffffff",
+                    "role-driver-container": "#EDE9FE",
+                    "outline": "#707881",
+                    "on-primary": "#ffffff",
+                    "tertiary-container": "#955301",
+                    "secondary-fixed-dim": "#80d5cb",
+                    "tertiary-fixed": "#ffdcc1"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "xs": "4px",
+                    "gutter": "16px",
+                    "unit": "4px",
+                    "margin-desktop": "32px",
+                    "lg": "20px",
+                    "2xl": "32px",
+                    "base": "16px",
+                    "xl": "24px",
+                    "margin-mobile": "16px",
+                    "md": "12px",
+                    "sm": "8px"
+            },
+            "fontFamily": {
+                    "title-lg": ["Plus Jakarta Sans"],
+                    "headline-lg": ["Plus Jakarta Sans"],
+                    "label-caps": ["Plus Jakarta Sans"],
+                    "body-base": ["Inter"],
+                    "title-md": ["Plus Jakarta Sans"],
+                    "stat-lg": ["Plus Jakarta Sans"],
+                    "body-sm": ["Inter"],
+                    "display-lg": ["Plus Jakarta Sans"],
+                    "headline-md": ["Plus Jakarta Sans"]
+            },
+            "fontSize": {
+                    "title-lg": ["18px", {"lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "headline-lg": ["28px", {"lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "label-caps": ["11px", {"lineHeight": "14px", "letterSpacing": "0.06em", "fontWeight": "700"}],
+                    "body-base": ["15px", {"lineHeight": "22px", "letterSpacing": "0", "fontWeight": "400"}],
+                    "title-md": ["16px", {"lineHeight": "22px", "letterSpacing": "0", "fontWeight": "600"}],
+                    "stat-lg": ["30px", {"lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-sm": ["13px", {"lineHeight": "18px", "letterSpacing": "0", "fontWeight": "400"}],
+                    "display-lg": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                    "headline-md": ["22px", {"lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "700"}]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        body { background-color: #F8FAFC; }
+        .service-card input:checked + div {
+            border-color: #0369a1;
+            background-color: #f0f9ff;
+            box-shadow: 0 0 0 1px #0369a1;
+        }
+        .service-card input:checked + div .icon-container {
+            color: #0369a1;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="text-on-surface font-body-base antialiased bg-surface-canvas min-h-screen flex flex-col">
+<!-- TopAppBar -->
+<header class="bg-surface-container-highest flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop h-16 border-b border-outline-variant flat no shadows fixed top-0 w-full z-40">
+<div class="flex items-center gap-4">
+<button aria-label="Go back" class="p-2 -ml-2 rounded-full hover:bg-surface-variant transition-colors" onclick="window.location.href='{{DATA:SCREEN:SCREEN_60}}'">
+<span class="material-symbols-outlined text-primary">arrow_back</span>
+</button>
+<div class="text-title-lg font-title-lg font-extrabold text-primary">PCCP Transport</div>
+</div>
+<div>
+<button class="p-2 rounded-full hover:bg-surface-variant transition-colors">
+<span class="material-symbols-outlined text-primary">close</span>
+</button>
+</div>
+</header>
+<!-- Main Content Canvas (Transactional intent, suppressed nav shell) -->
+<main class="flex-grow pt-24 pb-32 px-margin-mobile md:px-margin-desktop max-w-4xl mx-auto w-full">
+<!-- Progress Indicator -->
+<div class="mb-2xl">
+<div class="flex justify-between items-center mb-sm">
+<span class="text-label-caps font-label-caps text-on-surface-variant uppercase tracking-wider">Step 2 of 3</span>
+<span class="text-label-caps font-label-caps text-primary uppercase tracking-wider">Trip Details</span>
+</div>
+<div class="flex gap-xs w-full h-2">
+<div class="flex-1 rounded-full bg-primary-container"></div>
+<div class="flex-1 rounded-full bg-primary-container"></div>
+<div class="flex-1 bg-surface-variant rounded-full"></div>
+</div>
+</div>
+<h1 class="text-headline-lg font-headline-lg text-on-surface mb-xl">Trip Details</h1>
+<form class="space-y-2xl">
+<!-- Type of Service -->
+<section class="bg-white border border-border-hairline rounded-xl p-base md:p-xl shadow-sm">
+<h2 class="text-title-md font-title-md text-on-surface mb-base pb-sm border-b border-border-hairline">Type of Service</h2>
+<div class="grid grid-cols-2 md:grid-cols-5 gap-md">
+<!-- One Way -->
+<label class="service-card cursor-pointer relative">
+<input checked="" class="sr-only" name="service_type" type="radio" value="one_way">
+<div class="h-full border border-border-hairline rounded-lg p-md flex flex-col items-center justify-center text-center hover:border-outline-variant transition-colors bg-white">
+<span class="material-symbols-outlined text-outline mb-sm icon-container text-2xl">arrow_right_alt</span>
+<span class="text-body-sm font-body-sm font-medium">One Way</span>
+</div>
+</label>
+<!-- Round Trip -->
+<label class="service-card cursor-pointer relative">
+<input class="sr-only" name="service_type" type="radio" value="round_trip">
+<div class="h-full border border-border-hairline rounded-lg p-md flex flex-col items-center justify-center text-center hover:border-outline-variant transition-colors bg-white">
+<span class="material-symbols-outlined text-outline mb-sm icon-container text-2xl">sync_alt</span>
+<span class="text-body-sm font-body-sm font-medium">Round Trip</span>
+</div>
+</label>
+<!-- Overnight -->
+<label class="service-card cursor-pointer relative">
+<input class="sr-only" name="service_type" type="radio" value="overnight">
+<div class="h-full border border-border-hairline rounded-lg p-md flex flex-col items-center justify-center text-center hover:border-outline-variant transition-colors bg-white">
+<span class="material-symbols-outlined text-outline mb-sm icon-container text-2xl">bedtime</span>
+<span class="text-body-sm font-body-sm font-medium">Overnight</span>
+</div>
+</label>
+<!-- Multi-Stop -->
+<label class="service-card cursor-pointer relative">
+<input class="sr-only" name="service_type" type="radio" value="multi_stop">
+<div class="h-full border border-border-hairline rounded-lg p-md flex flex-col items-center justify-center text-center hover:border-outline-variant transition-colors bg-white">
+<span class="material-symbols-outlined text-outline mb-sm icon-container text-2xl">route</span>
+<span class="text-body-sm font-body-sm font-medium">Multi-Stop</span>
+</div>
+</label>
+<!-- Multi-Stop + Return -->
+<label class="service-card cursor-pointer relative col-span-2 md:col-span-1">
+<input class="sr-only" name="service_type" type="radio" value="multi_stop_return">
+<div class="h-full border border-border-hairline rounded-lg p-md flex flex-col items-center justify-center text-center hover:border-outline-variant transition-colors bg-white">
+<span class="material-symbols-outlined text-outline mb-sm icon-container text-2xl">alt_route</span>
+<span class="text-body-sm font-body-sm font-medium">Multi-Stop + Return</span>
+</div>
+</label>
+</div>
+</section>
+<!-- Route & Timing -->
+<section class="bg-white border border-border-hairline rounded-xl p-base md:p-xl shadow-sm">
+<h2 class="text-title-md font-title-md text-on-surface mb-base pb-sm border-b border-border-hairline">Route &amp; Timing</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-x-xl gap-y-base">
+<!-- Pickup Location -->
+<div class="relative">
+<label class="block text-label-caps font-label-caps text-on-surface-variant mb-xs" for="pickup">Pickup Location *</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[20px]">location_on</span>
+<input class="w-full pl-10 pr-3 py-2 border border-outline-variant rounded-md text-body-base font-body-base text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary focus:ring-opacity-50 transition-shadow focus:ring-primary-container focus:border-primary-container" id="pickup" placeholder="Enter building or address" type="text">
+</div>
+</div>
+<!-- Destination -->
+<div class="relative">
+<label class="block text-label-caps font-label-caps text-on-surface-variant mb-xs" for="destination">Destination *</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[20px]">flag</span>
+<input class="w-full pl-10 pr-3 py-2 border border-outline-variant rounded-md text-body-base font-body-base text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary focus:ring-opacity-50 transition-shadow focus:ring-primary-container focus:border-primary-container" id="destination" placeholder="Enter building or address" type="text">
+</div>
+</div>
+<!-- Departure Time -->
+<div class="relative">
+<label class="block text-label-caps font-label-caps text-on-surface-variant mb-xs" for="departure_time">Departure Date &amp; Time *</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[20px]">calendar_today</span>
+<input class="w-full pl-10 pr-3 py-2 border border-outline-variant rounded-md text-body-base font-body-base text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary focus:ring-opacity-50 transition-shadow focus:ring-primary-container focus:border-primary-container" id="departure_time" type="datetime-local">
+</div>
+</div>
+<!-- Return Time -->
+<div class="relative">
+<label class="block text-label-caps font-label-caps text-on-surface-variant mb-xs" for="return_time">Return Date &amp; Time (Optional)</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[20px]">update</span>
+<input class="w-full pl-10 pr-3 py-2 border border-outline-variant rounded-md text-body-base font-body-base text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary focus:ring-opacity-50 transition-shadow disabled:bg-surface-container-low disabled:text-outline focus:ring-primary-container focus:border-primary-container" disabled="" id="return_time" type="datetime-local">
+</div>
+<p class="text-xs text-on-surface-variant mt-1">Enable by selecting Round Trip or Multi-Stop + Return.</p>
+</div>
+</div>
+</section>
+<!-- Purpose & Details -->
+<section class="bg-white border border-border-hairline rounded-xl p-base md:p-xl shadow-sm">
+<h2 class="text-title-md font-title-md text-on-surface mb-base pb-sm border-b border-border-hairline">Additional Details</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-x-xl gap-y-base">
+<!-- Purpose -->
+<div class="col-span-1 md:col-span-2">
+<label class="block text-label-caps font-label-caps text-on-surface-variant mb-xs" for="purpose">Purpose of Travel *</label>
+<select class="w-full px-3 py-2 border border-outline-variant rounded-md text-body-base font-body-base text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary focus:ring-opacity-50 transition-shadow bg-white appearance-none" id="purpose">
+<option disabled="" selected="" value="">Select travel purpose</option>
+<option value="customer">Customer Appointment</option>
+<option value="site_visit">Site Visit / Inspection</option>
+<option value="training">Training / Seminar</option>
+<option value="airport">Airport Transfer</option>
+<option value="other">Other</option>
+</select>
+</div>
+<!-- Customer/Company -->
+<div class="col-span-1 md:col-span-2">
+<label class="block text-label-caps font-label-caps text-on-surface-variant mb-xs" for="company_name">Customer / Company Name</label>
+<input class="w-full px-3 py-2 border border-outline-variant rounded-md text-body-base font-body-base text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary focus:ring-opacity-50 transition-shadow focus:ring-primary-container focus:border-primary-container" id="company_name" placeholder="Enter company name if applicable" type="text">
+</div>
+<!-- Notes -->
+<div class="col-span-1 md:col-span-2">
+<label class="block text-label-caps font-label-caps text-on-surface-variant mb-xs" for="notes">Note to Transport (Optional)</label>
+<textarea class="w-full px-3 py-2 border border-outline-variant rounded-md text-body-base font-body-base text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary focus:ring-opacity-50 transition-shadow resize-y" id="notes" placeholder="Provide any special instructions, specific pickup points, or additional stops..." rows="3"></textarea>
+</div>
+</div>
+</section>
+</form>
+</main>
+<!-- Bottom Action Bar (Fixed) -->
+<div class="fixed bottom-0 left-0 w-full bg-white border-t border-border-hairline p-base shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)] z-40">
+<div class="max-w-4xl mx-auto flex justify-between items-center gap-base">
+<a href="{{DATA:SCREEN:SCREEN_60}}" class="px-xl py-3 border-[1.5px] border-outline-variant text-on-surface rounded-md font-title-md text-title-md hover:bg-surface-container-low transition-colors w-full md:w-auto text-center h-[48px] flex items-center justify-center">
+                Back
+            </a>
+<a href="{{DATA:SCREEN:SCREEN_55}}" class="px-xl py-3 bg-primary-container text-white rounded-md font-title-md text-title-md hover:bg-primary transition-colors w-full md:w-auto text-center h-[48px] flex items-center justify-center shadow-sm hover:bg-primary-container">
+                Continue
+            </a>
+</div>
+</div>
+<script>
+        // Simple logic to toggle return time field based on service type
+        document.querySelectorAll('input[name="service_type"]').forEach(radio => {
+            radio.addEventListener('change', (e) => {
+                const returnTimeInput = document.getElementById('return_time');
+                if(e.target.value === 'round_trip' || e.target.value === 'multi_stop_return') {
+                    returnTimeInput.disabled = false;
+                } else {
+                    returnTimeInput.disabled = true;
+                    returnTimeInput.value = '';
+                }
+            });
+        });
+    </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body></html>

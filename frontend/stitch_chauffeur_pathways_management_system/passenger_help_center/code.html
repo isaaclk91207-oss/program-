@@ -1,0 +1,212 @@
+<!DOCTYPE html><html class="light" lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Help Center</title>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Google Fonts: Inter and Plus Jakarta Sans -->
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Config Injection -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-primary": "#ffffff",
+                        "primary": "#00507d",
+                        "surface-tint": "#006399",
+                        "primary-fixed-dim": "#94ccff",
+                        "secondary-fixed": "#9cf2e8",
+                        "inverse-on-surface": "#eef0ff",
+                        "outline": "#707881",
+                        "on-primary-fixed": "#001d32",
+                        "role-admin": "#059669",
+                        "tertiary-container": "#955301",
+                        "on-tertiary-fixed-variant": "#6c3a00",
+                        "on-secondary": "#ffffff",
+                        "inverse-primary": "#94ccff",
+                        "on-secondary-fixed": "#00201d",
+                        "tertiary-fixed-dim": "#ffb878",
+                        "on-secondary-container": "#006f67",
+                        "primary-fixed": "#cde5ff",
+                        "on-tertiary-fixed": "#2e1500",
+                        "on-tertiary-container": "#ffdbbe",
+                        "background": "#faf8ff",
+                        "surface-container-high": "#e1e7ff",
+                        "on-surface": "#131b2e",
+                        "surface-variant": "#dae2fc",
+                        "role-driver": "#7C3AED",
+                        "secondary": "#006a63",
+                        "secondary-container": "#99efe5",
+                        "on-error": "#ffffff",
+                        "surface-dim": "#d2d9f4",
+                        "role-passenger": "#2563EB",
+                        "outline-variant": "#c0c7d1",
+                        "primary-container": "#0369a1",
+                        "on-primary-fixed-variant": "#004b74",
+                        "on-secondary-fixed-variant": "#00504a",
+                        "border-hairline": "#E2E8F0",
+                        "surface": "#faf8ff",
+                        "error-container": "#ffdad6",
+                        "surface-container-low": "#f2f3ff",
+                        "on-background": "#131b2e",
+                        "inverse-surface": "#283044",
+                        "on-surface-variant": "#40474f",
+                        "surface-canvas": "#F8FAFC",
+                        "tertiary": "#733f00",
+                        "secondary-fixed-dim": "#80d5cb",
+                        "on-primary-container": "#cbe4ff",
+                        "on-error-container": "#93000a",
+                        "surface-bright": "#faf8ff",
+                        "on-tertiary": "#ffffff",
+                        "tertiary-fixed": "#ffdcc1",
+                        "error": "#ba1a1a",
+                        "surface-container-highest": "#dae2fc",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container": "#eaedff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-mobile": "16px",
+                        "gutter": "16px",
+                        "2xl": "32px",
+                        "base": "16px",
+                        "lg": "20px",
+                        "xs": "4px",
+                        "margin-desktop": "32px",
+                        "md": "12px",
+                        "sm": "8px",
+                        "xl": "24px"
+                    },
+                    "fontFamily": {
+                        "body-base": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "title-md": ["Plus Jakarta Sans"],
+                        "display-lg": ["Plus Jakarta Sans"],
+                        "headline-lg": ["Plus Jakarta Sans"],
+                        "label-caps": ["Plus Jakarta Sans"],
+                        "title-lg": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "body-base": ["15px", { "lineHeight": "22px", "letterSpacing": "0", "fontWeight": "400" }],
+                        "body-sm": ["13px", { "lineHeight": "18px", "letterSpacing": "0", "fontWeight": "400" }],
+                        "headline-md": ["22px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "title-md": ["16px", { "lineHeight": "22px", "letterSpacing": "0", "fontWeight": "600" }],
+                        "display-lg": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+                        "headline-lg": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "label-caps": ["11px", { "lineHeight": "14px", "letterSpacing": "0.06em", "fontWeight": "700" }],
+                        "title-lg": ["18px", { "lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined.fill {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-surface-canvas text-on-surface font-body-base min-h-screen flex flex-col pt-16 pb-20 md:pb-0 md:pt-16">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 shadow-sm flex items-center px-margin-mobile h-16 md:px-margin-desktop bg-primary"><a class="p-2 -ml-2 rounded-full hover:bg-white/10 transition-colors text-white active:scale-95 transition-transform" href="{{DATA:SCREEN:SCREEN_8}}"><span class="material-symbols-outlined" data-icon="arrow_back">arrow_back</span></a><h1 class="ml-4 font-headline-md text-headline-md text-white">Help Center</h1></header>
+<!-- Main Canvas -->
+<main class="flex-grow w-full max-w-[1280px] mx-auto px-margin-mobile md:px-margin-desktop py-xl flex flex-col gap-xl">
+<!-- Search Section -->
+<section class="w-full max-w-2xl mx-auto">
+<div class="relative flex items-center w-full h-12 rounded-xl bg-surface border border-border-hairline shadow-sm overflow-hidden focus-within:ring-2 focus-within:ring-role-passenger focus-within:border-role-passenger transition-all">
+<span class="material-symbols-outlined text-outline ml-4">search</span>
+<input class="w-full h-full bg-transparent border-none focus:ring-0 text-body-base text-on-surface px-4 placeholder:text-outline-variant" placeholder="Search for help..." type="text">
+</div>
+</section>
+<!-- FAQ Section -->
+<section class="w-full max-w-2xl mx-auto flex flex-col gap-base">
+<h2 class="font-title-lg text-title-lg text-on-surface">Frequently Asked Questions</h2>
+<div class="bg-surface rounded-xl border border-border-hairline shadow-sm overflow-hidden divide-y divide-border-hairline">
+<!-- FAQ Item 1 -->
+<details class="group p-4 bg-surface hover:bg-surface-container-low transition-colors cursor-pointer">
+<summary class="flex justify-between items-center font-title-md text-title-md text-on-surface list-none">
+                        How to request a car?
+                        <span class="material-symbols-outlined text-outline-variant group-open:rotate-180 transition-transform">expand_more</span>
+</summary>
+<div class="mt-4 text-body-base text-on-surface-variant">
+                        To request a car, navigate to the Home screen and tap the 'New Request' button. Fill in your destination, date, and purpose of travel, then submit for approval.
+                    </div>
+</details>
+<!-- FAQ Item 2 -->
+<details class="group p-4 bg-surface hover:bg-surface-container-low transition-colors cursor-pointer">
+<summary class="flex justify-between items-center font-title-md text-title-md text-on-surface list-none">
+                        Tracking your assignment
+                        <span class="material-symbols-outlined text-outline-variant group-open:rotate-180 transition-transform">expand_more</span>
+</summary>
+<div class="mt-4 text-body-base text-on-surface-variant">
+                        You can track your assigned vehicle in the 'Trips' tab once your request has been approved by the Admin team.
+                    </div>
+</details>
+<!-- FAQ Item 3 -->
+<details class="group p-4 bg-surface hover:bg-surface-container-low transition-colors cursor-pointer">
+<summary class="flex justify-between items-center font-title-md text-title-md text-on-surface list-none">
+                        Updating profile information
+                        <span class="material-symbols-outlined text-outline-variant group-open:rotate-180 transition-transform">expand_more</span>
+</summary>
+<div class="mt-4 text-body-base text-on-surface-variant">
+                        Go to the Profile tab and tap 'Edit Profile'. Here you can update your contact number, department, and default pick-up location.
+                    </div>
+</details>
+<!-- FAQ Item 4 -->
+<details class="group p-4 bg-surface hover:bg-surface-container-low transition-colors cursor-pointer">
+<summary class="flex justify-between items-center font-title-md text-title-md text-on-surface list-none">
+                        Understanding the point system
+                        <span class="material-symbols-outlined text-outline-variant group-open:rotate-180 transition-transform">expand_more</span>
+</summary>
+<div class="mt-4 text-body-base text-on-surface-variant">
+                        Points are allocated monthly based on your department budget. Each trip deducts points based on distance and vehicle type requested.
+                    </div>
+</details>
+</div>
+</section>
+<!-- Still Need Help Section -->
+<section class="w-full max-w-2xl mx-auto flex flex-col gap-base">
+<h2 class="font-title-lg text-title-lg text-on-surface">Still need help?</h2>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-gutter">
+<!-- Support Card 1 -->
+<a class="flex flex-col items-center justify-center p-6 bg-surface rounded-xl border border-border-hairline shadow-sm hover:shadow-md hover:bg-surface-container-low transition-all group" href="#">
+<div class="w-12 h-12 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined" data-icon="mail">mail</span>
+</div>
+<span class="font-title-md text-title-md text-on-surface">Email Support</span>
+<span class="text-body-sm text-on-surface-variant mt-1">We typically reply in 2 hours</span>
+</a>
+<!-- Support Card 2 -->
+<a class="flex flex-col items-center justify-center p-6 bg-surface rounded-xl border border-border-hairline shadow-sm hover:shadow-md hover:bg-surface-container-low transition-all group" href="#">
+<div class="w-12 h-12 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined" data-icon="call">call</span>
+</div>
+<span class="font-title-md text-title-md text-on-surface">Call Transport Admin</span>
+<span class="text-body-sm text-on-surface-variant mt-1">Available 8AM - 5PM</span>
+</a>
+</div>
+</section>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<!-- Destination count: 5. Suppressed on non-destinations. This is a Help Center, typically accessed from Profile/Account. 
+         However, the prompt explicitly requires it with "Account" active. -->
+
+
+
+</body></html>

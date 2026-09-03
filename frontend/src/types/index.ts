@@ -185,3 +185,48 @@ export interface ErrorResponse {
     message: string;
   };
 }
+
+// ─── Report Types ────────────────────────────────────────────────────────────
+
+export interface ReportTemplate {
+  id: number;
+  name: string;
+  type: "unit" | "driver";
+  description: string;
+}
+
+export interface ReportTemplatesResponse {
+  resourceId: number;
+  templates: ReportTemplate[];
+}
+
+export interface ReportTable {
+  tableName: string;
+  tableIndex: number;
+  header: string[];
+  rowCount: number;
+  rows: Record<string, string | number>[];
+}
+
+export interface UnitReportResponse {
+  unitId: number;
+  templateId: number;
+  templateName: string;
+  interval: { from: number; to: number };
+  tables: ReportTable[];
+}
+
+export interface DriverReportResponse {
+  driverId: number;
+  templateId: number;
+  templateName: string;
+  interval: { from: number; to: number };
+  tables: ReportTable[];
+}
+
+export interface ReportQueryParams {
+  templateId?: number;
+  timeFrom: number;
+  timeTo: number;
+  sid: string;
+}

@@ -1,0 +1,471 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Transport Requests - AdminPanel</title>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Plus+Jakarta+Sans:wght@500;600;700;800&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Configuration -->
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+                "primary-container": "#00507d",
+                "tertiary-fixed-dim": "#ffb77d",
+                "on-secondary": "#ffffff",
+                "on-secondary-container": "#0c6f67",
+                "on-surface-variant": "#41474f",
+                "on-secondary-fixed-variant": "#00504a",
+                "on-tertiary": "#ffffff",
+                "secondary-fixed-dim": "#84d5cc",
+                "border-hairline": "#E2E8F0",
+                "surface-container-highest": "#dae2fc",
+                "secondary": "#006a63",
+                "inverse-surface": "#283044",
+                "role-admin": "#059669",
+                "on-background": "#131b2e",
+                "surface-variant": "#dae2fc",
+                "error": "#ba1a1a",
+                "background": "#faf8ff",
+                "surface-container-high": "#e1e7ff",
+                "role-driver": "#22c55e",
+                "on-primary-fixed-variant": "#004a75",
+                "inverse-on-surface": "#eef0ff",
+                "on-primary": "#ffffff",
+                "on-primary-container": "#8ac2f5",
+                "tertiary": "#552b00",
+                "primary": "#059669",
+                "role-passenger": "#3b82f6",
+                "primary-fixed": "#cde5ff",
+                "inverse-primary": "#95ccff",
+                "on-tertiary-fixed-variant": "#6e3900",
+                "outline": "#717880",
+                "on-error-container": "#93000a",
+                "surface-tint": "#236391",
+                "on-surface": "#131b2e",
+                "on-secondary-fixed": "#00201d",
+                "surface-canvas": "#F8FAFC",
+                "on-primary-fixed": "#001d32",
+                "surface-container": "#eaedff",
+                "secondary-container": "#9deee5",
+                "surface-container-low": "#f2f3ff",
+                "surface-dim": "#d2d9f4",
+                "outline-variant": "#c0c7d1",
+                "primary-fixed-dim": "#95ccff",
+                "on-error": "#ffffff",
+                "tertiary-fixed": "#ffdcc3",
+                "on-tertiary-container": "#faac6b",
+                "error-container": "#ffdad6",
+                "secondary-fixed": "#a0f1e8",
+                "surface-container-lowest": "#ffffff",
+                "on-tertiary-fixed": "#2f1500",
+                "surface-bright": "#faf8ff",
+                "tertiary-container": "#753e03",
+                "surface": "#faf8ff"
+        },
+        "borderRadius": {
+                "DEFAULT": "0.25rem",
+                "lg": "0.5rem",
+                "xl": "0.75rem",
+                "full": "9999px"
+        },
+        "spacing": {
+                "base": "16px",
+                "margin-desktop": "32px",
+                "gutter": "16px",
+                "md": "12px",
+                "margin-mobile": "16px",
+                "2xl": "32px",
+                "xs": "4px",
+                "lg": "20px",
+                "xl": "24px",
+                "sm": "8px"
+        },
+        "fontFamily": {
+                "title-md": [
+                        "Plus Jakarta Sans"
+                ],
+                "title-lg": [
+                        "Plus Jakarta Sans"
+                ],
+                "body-base": [
+                        "Inter"
+                ],
+                "display-lg": [
+                        "Plus Jakarta Sans"
+                ],
+                "body-sm": [
+                        "Inter"
+                ],
+                "label-caps": [
+                        "Plus Jakarta Sans"
+                ],
+                "headline-lg": [
+                        "Plus Jakarta Sans"
+                ],
+                "headline-md": [
+                        "Plus Jakarta Sans"
+                ]
+        },
+        "fontSize": {
+                "title-md": [
+                        "16px",
+                        {
+                                "lineHeight": "22px",
+                                "letterSpacing": "0",
+                                "fontWeight": "600"
+                        }
+                ],
+                "title-lg": [
+                        "18px",
+                        {
+                                "lineHeight": "24px",
+                                "letterSpacing": "-0.01em",
+                                "fontWeight": "600"
+                        }
+                ],
+                "body-base": [
+                        "15px",
+                        {
+                                "lineHeight": "22px",
+                                "letterSpacing": "0",
+                                "fontWeight": "400"
+                        }
+                ],
+                "display-lg": [
+                        "36px",
+                        {
+                                "lineHeight": "44px",
+                                "letterSpacing": "-0.02em",
+                                "fontWeight": "800"
+                        }
+                ],
+                "body-sm": [
+                        "13px",
+                        {
+                                "lineHeight": "18px",
+                                "letterSpacing": "0",
+                                "fontWeight": "400"
+                        }
+                ],
+                "label-caps": [
+                        "11px",
+                        {
+                                "lineHeight": "14px",
+                                "letterSpacing": "0.06em",
+                                "fontWeight": "700"
+                        }
+                ],
+                "headline-lg": [
+                        "28px",
+                        {
+                                "lineHeight": "36px",
+                                "letterSpacing": "-0.02em",
+                                "fontWeight": "700"
+                        }
+                ],
+                "headline-md": [
+                        "22px",
+                        {
+                                "lineHeight": "28px",
+                                "letterSpacing": "-0.01em",
+                                "fontWeight": "700"
+                        }
+                ]
+        }
+},
+    },
+  }
+</script>
+<style>
+        .table-row-hover:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.05);
+            background-color: #ffffff;
+            z-index: 10;
+            position: relative;
+        }
+        
+        .modal-overlay {
+            backdrop-filter: blur(4px);
+        }
+        
+        /* Custom scrollbar for data grid */
+        .custom-scrollbar::-webkit-scrollbar {
+            height: 8px;
+            width: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f5f9; 
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1; 
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8; 
+        }
+    </style>
+</head>
+<body class="bg-surface-canvas font-body-base text-on-surface antialiased min-h-screen flex">
+<!-- JSON Component: SideNavBar -->
+<nav class="fixed left-0 top-0 h-full w-64 bg-surface-container-low dark:bg-inverse-surface border-r border-hairline shadow-sm flex flex-col py-xl z-20">
+<div class="px-xl mb-xl">
+<h1 class="font-headline-lg text-headline-lg font-bold text-role-admin dark:text-inverse-primary">PCCP</h1>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-xs">Admin Control Center</p>
+</div>
+<div class="px-xl mb-xl">
+<button class="w-full bg-role-admin hover:bg-opacity-90 text-on-primary font-title-md text-title-md py-md rounded-lg flex items-center justify-center gap-sm transition-colors duration-200 shadow-sm">
+<span class="material-symbols-outlined" style="font-variation-settings: &quot;FILL&quot; 1;">add</span>
+                New Dispatch
+            </button>
+</div>
+<ul class="flex flex-col gap-xs px-base flex-1 overflow-y-auto">
+<li class="">
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant hover:text-role-admin hover:bg-surface-container-highest transition-colors duration-200 font-title-md text-title-md" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: &quot;FILL&quot; 0;">dashboard</span>
+                    Dashboard
+                </a>
+</li>
+<li class="">
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-role-admin font-bold border-r-4 border-role-admin bg-surface-container-high transition-colors duration-200 font-title-md text-title-md" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: &quot;FILL&quot; 1;">local_shipping</span>
+                    Transport Requests
+                </a>
+</li>
+<li class="">
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant hover:text-role-admin hover:bg-surface-container-highest transition-colors duration-200 font-title-md text-title-md" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: &quot;FILL&quot; 0;">inventory_2</span>
+                    Fleet Management
+                </a>
+</li>
+<li class="">
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant hover:text-role-admin hover:bg-surface-container-highest transition-colors duration-200 font-title-md text-title-md" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: &quot;FILL&quot; 0;">location_on</span>
+                    GPS &amp; Telematics
+                </a>
+</li>
+<li class="">
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant hover:text-role-admin hover:bg-surface-container-highest transition-colors duration-200 font-title-md text-title-md" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: &quot;FILL&quot; 0;">bar_chart</span>
+                    Performance
+                </a>
+</li>
+<li class="">
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant hover:text-role-admin hover:bg-surface-container-highest transition-colors duration-200 font-title-md text-title-md" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: &quot;FILL&quot; 0;">group</span>
+                    User Accounts
+                </a>
+</li>
+<li class="">
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant hover:text-role-admin hover:bg-surface-container-highest transition-colors duration-200 font-title-md text-title-md mt-auto" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: &quot;FILL&quot; 0;">support_agent</span>
+                    Support
+                </a>
+</li>
+</ul>
+<div class="mt-auto pt-xl px-xl border-t border-hairline flex items-center gap-md">
+<div class="w-10 h-10 rounded-full bg-surface-dim overflow-hidden flex-shrink-0">
+<img alt="Admin User Avatar" class="w-full h-full object-cover" data-alt="Professional headshot of a corporate logistics administrator in a modern office setting. Clean bright lighting, neutral background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBs8Nuj2u3BDV8uHaLo-ZkS3HuW4DfG9oSU-QEqb29hVYk-y0K_nspXJoy3Kj0AFrCQIClDRmbG2bwDFsUzvQSuuB5hrmmTfaR6iCTn7f3z5ewnoydfKud3FefAJcbyXUMSnL78qap4aHrcCzbe3LoWi6vuikl5asoEIJQleibguM5iEFVJE8p_nSZJSFj7GW-ILMYeSOqbCknfXLgLG2ZY5wVHznmsc4fnVAlfPvBEt0RjrhHguh0">
+</div>
+<div class="flex-1 min-w-0">
+<p class="font-title-md text-title-md text-on-surface truncate">SysAdmin</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate">Master Control</p>
+</div>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="ml-64 flex-1 flex flex-col h-screen overflow-hidden">
+<!-- JSON Component: TopAppBar -->
+<header class="h-16 bg-surface-container-lowest border-b border-hairline flex justify-between items-center px-margin-desktop w-full z-10 flex-shrink-0">
+<div class="flex-1 max-w-md">
+<div class="relative">
+<span class="material-symbols-outlined absolute left-md top-1/2 -translate-y-1/2 text-outline" style="font-variation-settings: &quot;FILL&quot; 0;">search</span>
+<input class="w-full bg-surface-canvas border border-outline-variant rounded-lg pl-10 pr-md py-sm focus:bg-white focus:ring-1 focus:ring-role-admin focus:border-role-admin font-body-sm text-body-sm text-on-surface placeholder-outline transition-colors" placeholder="Search requests, names, or IDs..." type="text">
+</div>
+</div>
+<div class="flex items-center gap-lg">
+<button class="text-role-admin font-title-md text-title-md hover:opacity-80 transition-opacity">
+                    Quick Action
+                </button>
+<div class="flex items-center gap-sm">
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-highest text-on-surface-variant hover:text-role-admin transition-colors">
+<span class="material-symbols-outlined" style="font-variation-settings: &quot;FILL&quot; 0;">notifications</span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-highest text-on-surface-variant hover:text-role-admin transition-colors">
+<span class="material-symbols-outlined" style="font-variation-settings: &quot;FILL&quot; 0;">settings</span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-highest text-on-surface-variant hover:text-role-admin transition-colors">
+<span class="material-symbols-outlined" style="font-variation-settings: &quot;FILL&quot; 0;">help</span>
+</button>
+</div>
+</div>
+</header>
+<!-- Canvas Content -->
+<div class="flex-1 overflow-y-auto p-margin-desktop bg-surface-canvas">
+<!-- Page Header & Filters -->
+<div class="mb-xl">
+<div class="flex items-end justify-between mb-lg">
+<div>
+<h2 class="font-display-lg text-display-lg text-on-surface">Transport Requests</h2>
+<p class="font-body-base text-body-base text-on-surface-variant mt-xs">Manage and assign corporate travel and logistics dispatches.</p>
+</div>
+<div class="flex gap-md">
+<button class="bg-white border border-outline-variant text-on-surface font-title-md text-title-md py-sm px-md rounded-lg flex items-center gap-sm hover:bg-surface-container-lowest transition-colors shadow-sm">
+<span class="material-symbols-outlined text-outline" style="font-variation-settings: &quot;FILL&quot; 0;">calendar_month</span>
+                            Today
+                            <span class="material-symbols-outlined text-outline ml-xs" style="font-variation-settings: &quot;FILL&quot; 0;">arrow_drop_down</span>
+</button>
+<button class="bg-white border border-outline-variant text-on-surface font-title-md text-title-md py-sm px-md rounded-lg flex items-center gap-sm hover:bg-surface-container-lowest transition-colors shadow-sm">
+<span class="material-symbols-outlined text-outline" style="font-variation-settings: &quot;FILL&quot; 0;">filter_list</span>
+                            Filter
+                        </button>
+</div>
+</div>
+<!-- Status Tabs (Bento Style) -->
+<div class="grid grid-cols-5 gap-md">
+<div class="bg-white p-md rounded-xl border border-role-admin shadow-sm ring-1 ring-role-admin/20 relative overflow-hidden cursor-pointer">
+<div class="absolute -top-4 -right-4 w-16 h-16 bg-role-admin/5 rounded-full blur-xl"></div>
+<p class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider mb-xs">All Requests</p>
+<p class="font-headline-md text-headline-md text-on-surface">124</p>
+</div>
+<div class="bg-white p-md rounded-xl border border-hairline shadow-sm hover:border-outline-variant transition-colors cursor-pointer group">
+<div class="flex justify-between items-start">
+<p class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider mb-xs">Pending</p>
+<span class="w-2 h-2 rounded-full bg-error mt-1"></span>
+</div>
+<p class="font-headline-md text-headline-md text-on-surface group-hover:text-role-admin transition-colors">12</p>
+</div>
+<div class="bg-white p-md rounded-xl border border-hairline shadow-sm hover:border-outline-variant transition-colors cursor-pointer group">
+<div class="flex justify-between items-start">
+<p class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider mb-xs">Assigned</p>
+<span class="w-2 h-2 rounded-full bg-role-admin mt-1"></span>
+</div>
+<p class="font-headline-md text-headline-md text-on-surface group-hover:text-role-admin transition-colors">45</p>
+</div>
+<div class="bg-white p-md rounded-xl border border-hairline shadow-sm hover:border-outline-variant transition-colors cursor-pointer group">
+<div class="flex justify-between items-start">
+<p class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider mb-xs">In-Progress</p>
+<span class="w-2 h-2 rounded-full bg-role-admin mt-1"></span>
+</div>
+<p class="font-headline-md text-headline-md text-on-surface group-hover:text-role-admin transition-colors">18</p>
+</div>
+<div class="bg-white p-md rounded-xl border border-hairline shadow-sm hover:border-outline-variant transition-colors cursor-pointer group">
+<div class="flex justify-between items-start">
+<p class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider mb-xs">Completed</p>
+<span class="w-2 h-2 rounded-full bg-outline mt-1"></span>
+</div>
+<p class="font-headline-md text-headline-md text-on-surface group-hover:text-role-admin transition-colors">49</p>
+</div>
+</div>
+</div>
+<!-- Data Grid / Glassmorphism Card -->
+<div class="bg-white/80 backdrop-blur-md rounded-xl border border-hairline shadow-sm overflow-hidden flex flex-col h-[500px]">
+<!-- Table Header -->
+<div class="bg-surface-container-lowest border-b border-hairline p-md grid grid-cols-[100px_1.2fr_100px_1.2fr_150px_1.2fr_1.2fr_60px_1.5fr_120px] gap-sm font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider"><div class="">Req ID</div><div class="">Requester</div><div class="">Trip Type</div><div class="">Purpose</div><div class="">Pickup Date/Time</div><div class="">Pickup</div><div class="">Destination</div><div class="text-center">Pax</div><div class="text-center">Assignment</div><div class="text-center">Status</div></div>
+<!-- Table Body -->
+<div class="overflow-y-auto custom-scrollbar flex-1 p-sm"><!-- Row 1: Pending --><div class="grid grid-cols-[100px_1.2fr_100px_1.2fr_150px_1.2fr_1.2fr_60px_1.5fr_120px] gap-sm items-center p-md rounded-lg border border-transparent table-row-hover mb-xs transition-all duration-200"><div class="font-title-md text-title-md text-role-admin">TRQ-8992</div><div class="flex flex-col min-w-0"><span class="font-title-md text-title-md text-on-surface truncate">Shoon</span><span class="text-body-sm text-on-surface-variant truncate">Marketing</span></div><div class="font-body-sm text-body-sm text-on-surface-variant">One Way</div><div class="font-body-sm text-body-sm text-on-surface truncate">Executive Commute</div><div><p class="font-title-md text-title-md text-on-surface">Oct 24, 2023</p><p class="font-body-sm text-body-sm text-on-surface-variant">14:30 PM</p></div><div class="font-body-sm text-body-sm text-on-surface truncate">Corporate HQ</div><div class="font-body-sm text-body-sm text-on-surface truncate">Sule Square Mall</div><div class="font-body-sm text-body-sm text-on-surface text-center">1</div><div class="flex justify-center"><button class="bg-role-admin text-on-primary font-title-md text-title-md py-1 px-3 rounded-md hover:bg-opacity-90 transition-colors shadow-sm text-sm whitespace-nowrap flex items-center gap-1" onclick="document.getElementById('assignModal').classList.remove('hidden')"><span class="material-symbols-outlined text-[16px]">assignment_ind</span>Assign</button></div><div class="flex justify-center"><span class="inline-flex items-center px-2 py-1 rounded-full bg-error-container text-on-error-container font-label-caps text-label-caps"><span class="w-1.5 h-1.5 rounded-full bg-error mr-1.5"></span>PENDING</span></div></div><!-- Row 2: Assigned --><div class="grid grid-cols-[100px_1.2fr_100px_1.2fr_150px_1.2fr_1.2fr_60px_1.5fr_120px] gap-sm items-center p-md rounded-lg border border-transparent table-row-hover mb-xs transition-all duration-200 bg-surface-canvas/50"><div class="font-title-md text-title-md text-role-admin">TRQ-8991</div><div class="flex flex-col min-w-0"><span class="font-title-md text-title-md text-on-surface truncate">John Doe</span><span class="text-body-sm text-on-surface-variant truncate">Sales</span></div><div class="font-body-sm text-body-sm text-on-surface-variant">Round Trip</div><div class="font-body-sm text-body-sm text-on-surface truncate">Client Meeting</div><div><p class="font-title-md text-title-md text-on-surface">Oct 24, 2023</p><p class="font-body-sm text-body-sm text-on-surface-variant">10:00 AM</p></div><div class="font-body-sm text-body-sm text-on-surface truncate">Branch Office</div><div class="font-body-sm text-body-sm text-on-surface truncate">Airport Terminal 1</div><div class="font-body-sm text-body-sm text-on-surface text-center">1</div><div class="flex flex-col items-center justify-center text-center"><span class="font-body-sm text-body-sm text-on-surface font-medium truncate max-w-full">Ko Aung Naing Win</span><span class="text-[10px] text-on-surface-variant truncate max-w-full">Toyota Alphard - YGN-7B-1234</span></div><div class="flex justify-center"><span class="inline-flex items-center px-2 py-1 rounded-full bg-secondary-container text-on-secondary-container font-label-caps text-label-caps"><span class="w-1.5 h-1.5 rounded-full bg-role-admin mr-1.5"></span>ASSIGNED</span></div></div><!-- Row 3: Completed --><div class="grid grid-cols-[100px_1.2fr_100px_1.2fr_150px_1.2fr_1.2fr_60px_1.5fr_120px] gap-sm items-center p-md rounded-lg border border-transparent table-row-hover mb-xs transition-all duration-200 bg-surface-canvas/50"><div class="font-title-md text-title-md text-role-admin">TRQ-8985</div><div class="flex flex-col min-w-0"><span class="font-title-md text-title-md text-on-surface truncate">Myo Lwin</span><span class="text-body-sm text-on-surface-variant truncate">Engineering</span></div><div class="font-body-sm text-body-sm text-on-surface-variant">One Way</div><div class="font-body-sm text-body-sm text-on-surface truncate">Site Inspection</div><div><p class="font-title-md text-title-md text-on-surface">Oct 24, 2023</p><p class="font-body-sm text-body-sm text-on-surface-variant">09:15 AM</p></div><div class="font-body-sm text-body-sm text-on-surface truncate">Site Alpha</div><div class="font-body-sm text-body-sm text-on-surface truncate">Corporate HQ</div><div class="font-body-sm text-body-sm text-on-surface text-center">4</div><div class="flex flex-col items-center justify-center opacity-70"><span class="font-body-sm text-body-sm text-on-surface truncate max-w-full">Grab (External)</span></div><div class="flex justify-center"><span class="inline-flex items-center px-2 py-1 rounded-full bg-surface-variant text-on-surface-variant font-label-caps text-label-caps"><span class="w-1.5 h-1.5 rounded-full bg-outline mr-1.5"></span>COMPLETED</span></div></div></div>
+</div>
+</div>
+</main>
+<!-- Assignment Modal Interface -->
+<div class="fixed inset-0 z-50 flex items-center justify-center hidden" id="assignModal">
+<!-- Overlay -->
+<div class="absolute inset-0 bg-on-surface/40 modal-overlay" onclick="document.getElementById('assignModal').classList.add('hidden')"></div>
+<!-- Modal Card -->
+<div class="bg-surface-container-lowest rounded-xl shadow-lg border border-hairline w-full max-w-lg relative z-10 overflow-hidden">
+<!-- Accent Line based on admin role color -->
+<div class="h-1 w-full bg-role-admin"></div>
+<div class="p-xl">
+<div class="flex justify-between items-start mb-lg">
+<div>
+<h3 class="font-display-lg text-[24px] text-on-surface font-bold leading-tight">Assign Transport</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Request ID: <span class="font-semibold text-role-admin">TRQ-8992</span> • Shoon</p>
+</div>
+<button class="text-on-surface-variant hover:text-error transition-colors" onclick="document.getElementById('assignModal').classList.add('hidden')">
+<span class="material-symbols-outlined" style="font-variation-settings: &quot;FILL&quot; 0;">close</span>
+</button>
+</div>
+<div class="bg-surface-canvas p-md rounded-lg mb-lg border border-hairline grid grid-cols-2 gap-sm">
+<div>
+<p class="font-label-caps text-[10px] text-on-surface-variant uppercase">Pickup</p>
+<p class="font-body-sm text-body-sm text-on-surface truncate font-medium">HQ Building A, Lobby</p>
+</div>
+<div>
+<p class="font-label-caps text-[10px] text-on-surface-variant uppercase">Destination</p>
+<p class="font-body-sm text-body-sm text-on-surface truncate font-medium">Sule Square Mall</p>
+</div>
+<div class="col-span-2">
+<p class="font-label-caps text-[10px] text-on-surface-variant uppercase">Time</p>
+<p class="font-body-sm text-body-sm text-on-surface font-medium text-error">Today, 14:30 PM (in 2 hours)</p>
+</div>
+</div>
+<!-- Assignment Form -->
+<form class="space-y-md">
+<!-- Option 1: Internal -->
+<div class="relative">
+<label class="block font-title-md text-title-md text-on-surface mb-xs">Select Corporate Chauffeur</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-md top-1/2 -translate-y-1/2 text-outline-variant" style="font-variation-settings: &quot;FILL&quot; 0;">person</span>
+<select class="w-full bg-surface-canvas border border-outline-variant rounded-lg pl-10 pr-md py-sm focus:bg-white focus:ring-1 focus:ring-role-admin focus:border-role-admin font-body-base text-body-base text-on-surface appearance-none">
+<option disabled="" selected="" value="">Choose a driver...</option>
+<option value="ko_aung">Ko Aung Naing Win (Available)</option>
+<option value="zaw_min">Zaw Min (Busy until 15:00)</option>
+<option value="tun_tun">Tun Tun (Available)</option>
+</select>
+<span class="material-symbols-outlined absolute right-md top-1/2 -translate-y-1/2 text-outline-variant pointer-events-none" style="font-variation-settings: &quot;FILL&quot; 0;">arrow_drop_down</span>
+</div>
+</div>
+<div class="relative">
+<label class="block font-title-md text-title-md text-on-surface mb-xs">Select Company Vehicle</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-md top-1/2 -translate-y-1/2 text-outline-variant" style="font-variation-settings: &quot;FILL&quot; 0;">directions_car</span>
+<select class="w-full bg-surface-canvas border border-outline-variant rounded-lg pl-10 pr-md py-sm focus:bg-white focus:ring-1 focus:ring-role-admin focus:border-role-admin font-body-base text-body-base text-on-surface appearance-none">
+<option disabled="" selected="" value="">Choose a vehicle...</option>
+<option value="v1">Toyota Alphard - YGN-7B-1234</option>
+<option value="v2">Honda Fit - YGN-2C-5678</option>
+<option value="v3">Ford Transit - YGN-9A-9012 (Van)</option>
+</select>
+<span class="material-symbols-outlined absolute right-md top-1/2 -translate-y-1/2 text-outline-variant pointer-events-none" style="font-variation-settings: &quot;FILL&quot; 0;">arrow_drop_down</span>
+</div>
+</div>
+<div class="flex items-center justify-center py-sm">
+<div class="h-px bg-hairline w-full"></div>
+<span class="px-sm text-on-surface-variant font-label-caps text-label-caps">OR</span>
+<div class="h-px bg-hairline w-full"></div>
+</div>
+<!-- Option 2: External -->
+<label class="flex items-center gap-sm p-md rounded-lg border border-outline-variant hover:bg-surface-canvas cursor-pointer transition-colors group">
+<input class="w-4 h-4 text-role-admin focus:ring-role-admin border-outline-variant" name="assignment_type" type="radio">
+<div class="flex-1">
+<p class="font-title-md text-title-md text-on-surface group-hover:text-role-admin transition-colors">Use Grab (External Service)</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Send a voucher code to the requester.</p>
+</div>
+<div class="w-10 h-10 rounded-full bg-surface-dim flex items-center justify-center">
+<img alt="External Service" class="w-6 h-6 object-contain" data-alt="Abstract generic rideshare app icon logo, green and white colors, clean vector style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuADx8MBk98s3BctGPe6qscK8NiDO1V50UEUK96i1CsdoxoPcCNZpboy2yoHYIOnD4VkZfvytL1tcN40hVVuCUkGZ4bFsmc4rA4mrTM-QNc5jqkh4UTm0pACRtVviO36tHs2YOyHhl6jkC2eCERicZubEfuN2lWb2a_mfq98-9gEdXQITEQI4qzE7TD894B0BBzl1W48QOpCWgSJDo5HvRrutZc0Km94R4EhcFO34NI9EB6stle6hCY">
+</div>
+</label>
+<div class="pt-lg flex gap-md">
+<button class="flex-1 py-md bg-white border border-outline-variant text-on-surface font-title-md text-title-md rounded-lg hover:bg-surface-canvas transition-colors" onclick="document.getElementById('assignModal').classList.add('hidden')" type="button">
+                            Cancel
+                        </button>
+<button class="flex-1 py-md bg-role-admin text-on-primary font-title-md text-title-md rounded-lg hover:bg-opacity-90 transition-colors shadow-sm" type="button">
+                            Confirm Assignment
+                        </button>
+</div>
+</form>
+</div>
+</div>
+</div>
+
+
+</body></html>

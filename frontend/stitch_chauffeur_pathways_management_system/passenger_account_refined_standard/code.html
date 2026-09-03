@@ -1,0 +1,287 @@
+<!DOCTYPE html><html lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Passenger Account - PCCP Vector</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-fixed": "#ffdcc1",
+                        "surface-dim": "#d2d9f4",
+                        "on-primary-fixed": "#001d32",
+                        "outline-variant": "#c0c7d1",
+                        "secondary-fixed-dim": "#80d5cb",
+                        "surface-container": "#eaedff",
+                        "inverse-primary": "#94ccff",
+                        "secondary-container": "#99efe5",
+                        "on-secondary-fixed-variant": "#00504a",
+                        "secondary": "#006a63",
+                        "error-container": "#ffdad6",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "border-hairline": "#E2E8F0",
+                        "surface-container-low": "#f2f3ff",
+                        "error": "#ba1a1a",
+                        "on-background": "#131b2e",
+                        "on-tertiary-fixed-variant": "#6c3a00",
+                        "surface-container-high": "#e1e7ff",
+                        "inverse-on-surface": "#eef0ff",
+                        "background": "#faf8ff",
+                        "inverse-surface": "#283044",
+                        "on-error-container": "#93000a",
+                        "role-driver": "#7C3AED",
+                        "on-primary-container": "#cbe4ff",
+                        "on-secondary-container": "#006f67",
+                        "outline": "#707881",
+                        "surface-tint": "#006399",
+                        "primary": "#00507d",
+                        "surface-container-highest": "#dae2fc",
+                        "role-admin": "#059669",
+                        "primary-container": "#0369a1",
+                        "on-surface-variant": "#40474f",
+                        "secondary-fixed": "#9cf2e8",
+                        "tertiary-container": "#955301",
+                        "primary-fixed": "#cde5ff",
+                        "role-passenger": "#2563EB",
+                        "on-primary-fixed-variant": "#004b74",
+                        "on-tertiary-fixed": "#2e1500",
+                        "on-error": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "surface-canvas": "#F8FAFC",
+                        "surface-variant": "#dae2fc",
+                        "on-tertiary-container": "#ffdbbe",
+                        "on-surface": "#131b2e",
+                        "surface": "#faf8ff",
+                        "tertiary-fixed-dim": "#ffb878",
+                        "surface-bright": "#faf8ff",
+                        "tertiary": "#733f00",
+                        "primary-fixed-dim": "#94ccff",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary-fixed": "#00201d"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-mobile": "16px",
+                        "base": "16px",
+                        "gutter": "16px",
+                        "margin-desktop": "32px",
+                        "2xl": "32px",
+                        "sm": "8px",
+                        "md": "12px",
+                        "xl": "24px",
+                        "lg": "20px",
+                        "xs": "4px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "label-caps": ["Plus Jakarta Sans"],
+                        "title-md": ["Plus Jakarta Sans"],
+                        "display-lg": ["Plus Jakarta Sans"],
+                        "headline-lg": ["Plus Jakarta Sans"],
+                        "title-lg": ["Plus Jakarta Sans"],
+                        "body-sm": ["Inter"],
+                        "body-base": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["22px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "label-caps": ["11px", { "lineHeight": "14px", "letterSpacing": "0.06em", "fontWeight": "700" }],
+                        "title-md": ["16px", { "lineHeight": "22px", "letterSpacing": "0", "fontWeight": "600" }],
+                        "display-lg": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+                        "headline-lg": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "title-lg": ["18px", { "lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "body-sm": ["13px", { "lineHeight": "18px", "letterSpacing": "0", "fontWeight": "400" }],
+                        "body-base": ["15px", { "lineHeight": "22px", "letterSpacing": "0", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .toggle-checkbox:checked {
+            right: 0;
+            border-color: #0369a1;
+        }
+        .toggle-checkbox:checked + .toggle-label {
+            background-color: #0369a1;
+        }
+    </style>
+</head>
+<body class="bg-surface-canvas text-on-surface antialiased pb-24 max-w-[440px] mx-auto min-h-screen relative shadow-2xl">
+<!-- TopAppBar -->
+<header class="w-full top-0 sticky z-50 shadow-sm border-b border-border-hairline flex justify-between items-center h-16 px-margin-mobile md:px-margin-desktop transition-colors bg-primary">
+<div class="flex items-center justify-center h-10 w-10 overflow-hidden rounded-lg bg-white p-1"><img src="https://lh3.googleusercontent.com/aida-public/AB6AXuBwh9hJ16vL-j8IHosX_e80QtvflYTtlHHSVq1gxhgSYlr_PaU2gu4bUC0eIDkYJbGcd30neVFJ1Ft6SOCNMAbIth_XUMsO9Sdcti5kL6X29phnkH-_Z6IbTEkqltztd0yzt_OOgBaPiZ7OEThEM1OOS_zJzoYgdia2G1RnMSqlxaFIRp58TntLnnvBYmIIPJ5hsDpUzUKXPlsia8vv01pAZM_mR0ochzT240vKIaRU4prapSarrT6tffAeXUYkbMlF" alt="PCCP Logo" class="h-full w-full object-contain"></div>
+<h1 class="text-headline-md font-headline-md font-bold text-on-primary">PCCP Vector</h1>
+<button class="text-on-surface hover:bg-surface-container transition-colors rounded-full p-2 active:opacity-80 transition-opacity flex items-center justify-center relative">
+<span class="material-symbols-outlined text-on-primary" style="font-variation-settings: &quot;FILL&quot; 0;">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full"></span>
+</button>
+</header>
+<main class="px-margin-mobile py-base space-y-xl pb-32">
+<!-- Profile Header -->
+<section class="bg-surface-container-lowest rounded-xl p-base shadow-[0_-1px_3px_rgba(15,23,42,0.05)] border border-border-hairline flex items-center gap-base">
+<div class="w-16 h-16 rounded-full overflow-hidden flex-shrink-0 border-2 border-surface-container">
+<img class="w-full h-full object-cover" data-alt="Professional headshot of an East Asian woman with short black hair wearing a modern gray blazer, against a clean light blue background. Corporate style portrait, soft studio lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAvdTBKaT4DwQfTnBZxN2NrRPSwoRwkSuvnQGvdxDamZQmQOEeYxqAPNcUuPIDpRoxCif25BU6ss-TQkCVIAQmu4e9XR4vdJLYusSOj6rzSGLb_3ofXkW_SmQKxo7GONxDGQH-0f9JGm6hTsG5-omkKeMdy17YKuJqlZqdyCJ9KjzZbpZNwzoZWoMPizP42P7UqKs-zyYB2LIPFCxbPvSudJKwlRjbM6PNvmMPlgMdb3Nji1qXXBzE">
+</div>
+<div>
+<h2 class="font-title-lg text-title-lg text-on-surface">Shoon</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">SME Department</p>
+<div class="mt-xs inline-flex items-center gap-xs px-2 py-1 rounded-full bg-surface-container-low border border-border-hairline">
+<span class="material-symbols-outlined text-[14px] text-role-passenger" style="font-variation-settings: &quot;FILL&quot; 1;">directions_car</span>
+<span class="font-label-caps text-label-caps text-role-passenger">Passenger</span>
+</div>
+</div>
+</section>
+<!-- Personal Information -->
+<section class="space-y-sm">
+<h3 class="font-title-md text-title-md text-on-surface px-sm">Personal Information</h3>
+<div class="bg-surface-container-lowest rounded-xl shadow-[0_-1px_3px_rgba(15,23,42,0.05)] border border-border-hairline overflow-hidden divide-y divide-border-hairline">
+<div class="p-base flex items-center justify-between">
+<div class="flex items-center gap-md text-on-surface-variant">
+<span class="material-symbols-outlined" style="font-variation-settings: &quot;FILL&quot; 0;">mail</span>
+<span class="font-body-base text-body-base">Email</span>
+</div>
+<span class="font-body-base text-body-base text-on-surface">shoon@pccp.corp</span>
+</div>
+<div class="p-base flex items-center justify-between">
+<div class="flex items-center gap-md text-on-surface-variant">
+<span class="material-symbols-outlined" style="font-variation-settings: &quot;FILL&quot; 0;">badge</span>
+<span class="font-body-base text-body-base">Employee ID</span>
+</div>
+<span class="font-body-base text-body-base text-on-surface">EMP-20394</span>
+</div>
+<div class="p-base flex items-center justify-between">
+<div class="flex items-center gap-md text-on-surface-variant">
+<span class="material-symbols-outlined" style="font-variation-settings: &quot;FILL&quot; 0;">phone</span>
+<span class="font-body-base text-body-base">Phone</span>
+</div>
+<button class="font-body-base text-body-base text-primary font-medium hover:underline flex items-center gap-xs">
+                        +1 (555) 019-2834
+                        <span class="material-symbols-outlined text-[16px]" style="font-variation-settings: &quot;FILL&quot; 0;">edit</span>
+</button>
+</div>
+</div>
+</section>
+<!-- App Settings -->
+<section class="space-y-sm">
+<h3 class="font-title-md text-title-md text-on-surface px-sm">App Settings</h3>
+<div class="bg-surface-container-lowest rounded-xl shadow-[0_-1px_3px_rgba(15,23,42,0.05)] border border-border-hairline overflow-hidden divide-y divide-border-hairline">
+<div class="p-base flex items-center justify-between">
+<div class="flex items-center gap-md text-on-surface-variant">
+<span class="material-symbols-outlined" style="font-variation-settings: &quot;FILL&quot; 0;">notifications_active</span>
+<span class="font-body-base text-body-base">Push Notifications</span>
+</div>
+<div class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in">
+<input checked="" class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 appearance-none cursor-pointer z-10 top-0 transition-all duration-300 right-0 border-primary-container" id="toggle-notifications" name="toggle" type="checkbox">
+<label class="toggle-label block overflow-hidden h-5 rounded-full bg-primary-container cursor-pointer transition-colors duration-300" for="toggle-notifications"></label>
+</div>
+</div>
+<div class="p-base flex items-center justify-between">
+<div class="flex items-center gap-md text-on-surface-variant">
+<span class="material-symbols-outlined" style="font-variation-settings: &quot;FILL&quot; 0;">language</span>
+<span class="font-body-base text-body-base">Language</span>
+</div>
+<button class="font-body-base text-body-base text-on-surface flex items-center gap-xs">
+                        English
+                        <span class="material-symbols-outlined text-[20px] text-on-surface-variant" style="font-variation-settings: &quot;FILL&quot; 0;">chevron_right</span>
+</button>
+</div>
+<div class="p-base flex items-center justify-between">
+<div class="flex items-center gap-md text-on-surface-variant">
+<span class="material-symbols-outlined" style="font-variation-settings: &quot;FILL&quot; 0;">dark_mode</span>
+<span class="font-body-base text-body-base">Dark Mode</span>
+</div>
+<div class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in">
+<input class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 appearance-none cursor-pointer z-10 top-0 transition-all duration-300 left-0 border-outline-variant" id="toggle-dark" name="toggle" type="checkbox">
+<label class="toggle-label block overflow-hidden h-5 rounded-full bg-outline-variant cursor-pointer transition-colors duration-300" for="toggle-dark"></label>
+</div>
+</div>
+</div>
+</section>
+<!-- Support & Legal -->
+<section class="space-y-sm">
+<h3 class="font-title-md text-title-md text-on-surface px-sm">Support &amp; Legal</h3>
+<div class="bg-surface-container-lowest rounded-xl shadow-[0_-1px_3px_rgba(15,23,42,0.05)] border border-border-hairline overflow-hidden divide-y divide-border-hairline">
+<button class="w-full p-base flex items-center justify-between hover:bg-surface-container-low transition-colors text-left">
+<div class="flex items-center gap-md text-on-surface-variant">
+<span class="material-symbols-outlined" style="font-variation-settings: &quot;FILL&quot; 0;">help</span>
+<span class="font-body-base text-body-base">Help Center</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant" style="font-variation-settings: &quot;FILL&quot; 0;">chevron_right</span>
+</button>
+<button class="w-full p-base flex items-center justify-between hover:bg-surface-container-low transition-colors text-left">
+<div class="flex items-center gap-md text-on-surface-variant">
+<span class="material-symbols-outlined" style="font-variation-settings: &quot;FILL&quot; 0;">description</span>
+<span class="font-body-base text-body-base">Terms of Service</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant" style="font-variation-settings: &quot;FILL&quot; 0;">chevron_right</span>
+</button>
+<button class="w-full p-base flex items-center justify-between hover:bg-surface-container-low transition-colors text-left">
+<div class="flex items-center gap-md text-on-surface-variant">
+<span class="material-symbols-outlined" style="font-variation-settings: &quot;FILL&quot; 0;">privacy_tip</span>
+<span class="font-body-base text-body-base">Privacy Policy</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant" style="font-variation-settings: &quot;FILL&quot; 0;">chevron_right</span>
+</button>
+</div>
+</section>
+<!-- Logout Action -->
+<div class="pt-base">
+<button class="w-full h-[48px] bg-error-container text-on-error-container font-title-md text-title-md rounded-xl flex items-center justify-center gap-sm active:scale-95 transition-transform">
+<span class="material-symbols-outlined" style="font-variation-settings: &quot;FILL&quot; 0;">logout</span>
+                Log Out
+            </button>
+<p class="text-center font-body-sm text-body-sm text-outline mt-sm">Version 2.4.1 (Build 839)</p>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-2 py-3 bg-surface dark:bg-inverse-surface border-t border-border-hairline shadow-lg rounded-t-xl pb-6 max-w-[440px] mx-auto right-0">
+<!-- Home (Inactive) -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant px-4 py-1 hover:bg-surface-container dark:hover:bg-surface-container-high transition-all active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">home</span>
+<span class="font-label-caps text-label-caps mt-1">Home</span>
+</a>
+<!-- Requests (Inactive) -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant px-4 py-1 hover:bg-surface-container dark:hover:bg-surface-container-high transition-all active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">pending_actions</span>
+<span class="font-label-caps text-label-caps mt-1">Requests</span>
+</a>
+<!-- Trips (Inactive) -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant px-4 py-1 hover:bg-surface-container dark:hover:bg-surface-container-high transition-all active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">route</span>
+<span class="font-label-caps text-label-caps mt-1">Trips</span>
+</a>
+<!-- Notifications (Inactive) -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant px-4 py-1 hover:bg-surface-container dark:hover:bg-surface-container-high transition-all active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">notifications</span>
+<span class="font-label-caps text-label-caps mt-1">Notifications</span>
+</a>
+<!-- Account (Active) -->
+<a class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-2xl px-4 py-1 hover:bg-surface-container dark:hover:bg-surface-container-high transition-all active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">person</span>
+<span class="font-label-caps text-label-caps mt-1">Account</span>
+</a>
+</nav>
+<script>
+        // Simple toggle interactions
+        document.getElementById('toggle-notifications').addEventListener('change', function(e) {
+            console.log('Notifications:', e.target.checked);
+        });
+        document.getElementById('toggle-dark').addEventListener('change', function(e) {
+            console.log('Dark mode:', e.target.checked);
+            // In a real app, this would toggle the 'dark' class on HTML
+        });
+    </script>
+
+
+</body></html>

@@ -1,0 +1,263 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>PCCP Transport Management System - Login</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary-fixed": "#9cf2e8",
+                        "role-passenger-container": "#DBEAFE",
+                        "on-tertiary-fixed-variant": "#6c3a00",
+                        "on-secondary-container": "#006f67",
+                        "background": "#faf8ff",
+                        "surface-tint": "#006399",
+                        "primary-fixed": "#cde5ff",
+                        "outline-variant": "#c0c7d1",
+                        "outline": "#707881",
+                        "on-background": "#131b2e",
+                        "inverse-surface": "#283044",
+                        "on-primary-fixed-variant": "#004b74",
+                        "on-surface-variant": "#40474f",
+                        "surface-canvas": "#F8FAFC",
+                        "primary-container": "#0369a1",
+                        "secondary-container": "#99efe5",
+                        "surface-container-lowest": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "on-primary-container": "#cbe4ff",
+                        "surface-variant": "#dae2fd",
+                        "on-tertiary-fixed": "#2e1500",
+                        "surface-container": "#eaedff",
+                        "error": "#ba1a1a",
+                        "inverse-primary": "#94ccff",
+                        "role-admin": "#059669",
+                        "surface-container-highest": "#dae2fd",
+                        "primary": "#00507d",
+                        "on-secondary-fixed": "#00201d",
+                        "on-error": "#ffffff",
+                        "tertiary-container": "#955301",
+                        "on-surface": "#131b2e",
+                        "tertiary-fixed-dim": "#ffb878",
+                        "on-tertiary-container": "#ffdbbe",
+                        "role-driver": "#7C3AED",
+                        "error-container": "#ffdad6",
+                        "role-admin-container": "#D1FAE5",
+                        "primary-fixed-dim": "#94ccff",
+                        "border-hairline": "#E2E8F0",
+                        "on-error-container": "#93000a",
+                        "on-primary": "#ffffff",
+                        "surface-bright": "#faf8ff",
+                        "on-tertiary": "#ffffff",
+                        "inverse-on-surface": "#eef0ff",
+                        "role-driver-container": "#EDE9FE",
+                        "surface-container-low": "#f2f3ff",
+                        "surface": "#faf8ff",
+                        "surface-container-high": "#e2e7ff",
+                        "tertiary-fixed": "#ffdcc1",
+                        "role-passenger": "#2563EB",
+                        "secondary-fixed-dim": "#80d5cb",
+                        "secondary": "#006a63",
+                        "on-primary-fixed": "#001d32",
+                        "tertiary": "#733f00",
+                        "on-secondary-fixed-variant": "#00504a",
+                        "surface-dim": "#d2d9f4"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-mobile": "16px",
+                        "unit": "4px",
+                        "margin-desktop": "32px",
+                        "gutter": "16px",
+                        "sm": "8px",
+                        "2xl": "32px",
+                        "xs": "4px",
+                        "base": "16px",
+                        "md": "12px",
+                        "lg": "20px",
+                        "xl": "24px"
+                    },
+                    "fontFamily": {
+                        "label-caps": ["Plus Jakarta Sans"],
+                        "title-lg": ["Plus Jakarta Sans"],
+                        "body-sm": ["Inter"],
+                        "body-base": ["Inter"],
+                        "display-lg": ["Plus Jakarta Sans"],
+                        "title-md": ["Plus Jakarta Sans"],
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "stat-lg": ["Plus Jakarta Sans"],
+                        "headline-lg": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "label-caps": ["11px", { "lineHeight": "14px", "letterSpacing": "0.06em", "fontWeight": "700" }],
+                        "title-lg": ["18px", { "lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "body-sm": ["13px", { "lineHeight": "18px", "letterSpacing": "0", "fontWeight": "400" }],
+                        "body-base": ["15px", { "lineHeight": "22px", "letterSpacing": "0", "fontWeight": "400" }],
+                        "display-lg": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+                        "title-md": ["16px", { "lineHeight": "22px", "letterSpacing": "0", "fontWeight": "600" }],
+                        "headline-md": ["22px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "stat-lg": ["30px", { "lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-lg": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-surface-canvas text-on-surface min-h-screen flex items-center justify-center p-4 antialiased">
+<!-- Login Container -->
+<main class="w-full max-w-[440px] bg-white rounded-xl border border-border-hairline shadow-[0px_1px_3px_0px_rgba(15,23,42,0.05)] overflow-hidden transition-all duration-300">
+<!-- Header Section -->
+<div class="px-8 pt-8 pb-6 text-center">
+<img alt="PCCP Transportation Logo" class="h-20 mx-auto mb-6 object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC05d2jpa_wNcW-b9JEoYc3ZF2CynNAXTKHR-TAlAxleopuGxDcK7even5wjoMs02D5411f4ghj5FVceUao2zz91DbbX8yl1TrhZ-MMEmZ4wPOOWI3yVRS3kkkzJGQslPBtlF2tQGndKdVsKYcCZCZOShYRR0E_ca9V6YuZgzjOr5jodkNedwPWfIluu_0XHTkrbokqNxY1BPFgAwqvMKsCKcSPLgWdqIVWzPOOSMeQ1nDtg8hbJLV1ArkJxnAH7rZW">
+<h1 class="text-headline-md font-headline-md text-on-surface mb-2">Welcome Back</h1>
+<p class="text-body-sm font-body-sm text-on-surface-variant">Sign in to the Transport Management System</p>
+</div>
+<!-- Role Selector (Segmented Control) -->
+<div class="px-8 mb-6">
+<div class="flex p-1 bg-surface-container-low rounded-lg border border-border-hairline/50"><button class="role-tab flex-1 py-2 text-center text-body-sm font-title-md rounded-md bg-white text-on-surface shadow-[0px_1px_2px_rgba(0,0,0,0.05)] transition-all cursor-default" data-role="passenger" type="button">Passenger</button><button class="role-tab flex-1 py-2 text-center text-body-sm font-body-sm text-on-surface-variant hover:text-on-surface rounded-md transition-all" data-role="driver" type="button">Driver</button><button class="role-tab flex-1 py-2 text-center text-body-sm font-body-sm text-on-surface-variant hover:text-on-surface rounded-md transition-all" data-role="admin" type="button">Admin</button></div>
+</div>
+<!-- Login Form -->
+<div class="px-8 pb-8">
+<form class="space-y-5" id="loginForm" onsubmit="event.preventDefault();">
+<!-- Username / ID Field -->
+<div class="space-y-1.5">
+<label class="block text-label-caps font-label-caps text-on-surface-variant uppercase" for="userId" id="userLabel">Email / Phone</label>
+<div class="relative">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-outline">
+<span class="material-symbols-outlined text-[20px]" id="userIcon">person</span>
+</div>
+<input class="block w-full pl-10 pr-3 py-2.5 border border-outline-variant rounded-lg bg-surface-canvas text-body-base font-body-base text-on-surface placeholder:text-outline focus:bg-white focus:outline-none focus:ring-2 focus:border-transparent transition-colors custom-focus-ring focus:ring-role-driver" id="userId" name="userId" placeholder="Enter your ID" required="" type="text">
+</div>
+</div>
+<!-- Password Field -->
+<div class="space-y-1.5">
+<label class="block text-label-caps font-label-caps text-on-surface-variant uppercase" for="password">Password</label>
+<div class="relative">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-outline">
+<span class="material-symbols-outlined text-[20px]">lock</span>
+</div>
+<input class="block w-full pl-10 pr-3 py-2.5 border border-outline-variant rounded-lg bg-surface-canvas text-body-base font-body-base text-on-surface placeholder:text-outline focus:bg-white focus:outline-none focus:ring-2 focus:border-transparent transition-colors custom-focus-ring focus:ring-role-driver" id="password" name="password" placeholder="••••••••" required="" type="password">
+</div>
+</div>
+<!-- Options -->
+<div class="flex items-center justify-between pt-2 pb-4">
+<div class="flex items-center">
+<input class="h-4 w-4 rounded border-outline-variant text-primary focus:ring-primary-container bg-surface-canvas" id="remember-me" name="remember-me" type="checkbox">
+<label class="ml-2 block text-body-sm font-body-sm text-on-surface-variant" for="remember-me">
+                            Remember me
+                        </label>
+</div>
+<div class="text-body-sm font-body-sm">
+<a class="text-primary hover:text-primary-container transition-colors font-medium hover:underline" href="#">Forgot password?</a>
+</div>
+</div>
+<!-- Submit Button -->
+<button class="w-full h-[48px] flex items-center justify-center gap-2 rounded-lg text-white text-title-md font-title-md hover:opacity-90 transition-opacity focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-role-admin-container shadow-sm bg-role-driver bg-role-passenger" id="submitBtn" type="submit">
+                    Sign In
+                    <span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+</button>
+</form>
+</div>
+</main>
+<script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const tabs = document.querySelectorAll('.role-tab');
+            const submitBtn = document.getElementById('submitBtn');
+            const userLabel = document.getElementById('userLabel');
+            const userIcon = document.getElementById('userIcon');
+            const inputs = document.querySelectorAll('.custom-focus-ring');
+
+            // Define role-specific configuration based on Style Guidance
+            const roleConfig = {
+                admin: {
+                    buttonBg: 'bg-role-admin',
+                    focusRing: 'focus:ring-role-admin',
+                    label: 'Admin ID',
+                    icon: 'admin_panel_settings'
+                },
+                passenger: {
+                    buttonBg: 'bg-role-passenger',
+                    focusRing: 'focus:ring-role-passenger',
+                    label: 'Email / Phone',
+                    icon: 'person'
+                },
+                driver: {
+                    buttonBg: 'bg-role-driver',
+                    focusRing: 'focus:ring-role-driver',
+                    label: 'Driver ID',
+                    icon: 'directions_car'
+                }
+            };
+
+            // Set initial state
+            let currentRole = 'admin';
+            updateInputsFocus(roleConfig[currentRole].focusRing);
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const selectedRole = tab.dataset.role;
+                    if (selectedRole === currentRole) return;
+
+                    // 1. Reset all tabs to inactive state
+                    tabs.forEach(t => {
+                        t.classList.remove('bg-white', 'text-on-surface', 'font-title-md', 'shadow-[0px_1px_2px_rgba(0,0,0,0.05)]', 'cursor-default');
+                        t.classList.add('text-on-surface-variant', 'font-body-sm', 'cursor-pointer');
+                    });
+
+                    // 2. Set clicked tab to active state
+                    tab.classList.add('bg-white', 'text-on-surface', 'font-title-md', 'shadow-[0px_1px_2px_rgba(0,0,0,0.05)]', 'cursor-default');
+                    tab.classList.remove('text-on-surface-variant', 'font-body-sm', 'cursor-pointer');
+
+                    // 3. Update Form Elements based on Role
+                    const config = roleConfig[selectedRole];
+                    
+                    // Update Button Color
+                    submitBtn.classList.remove(roleConfig[currentRole].buttonBg);
+                    submitBtn.classList.add(config.buttonBg);
+
+                    // Update Focus Rings
+                    inputs.forEach(input => {
+                        input.classList.remove(roleConfig[currentRole].focusRing);
+                        input.classList.add(config.focusRing);
+                    });
+
+                    // Update Labels and Icons for contextual clarity
+                    userLabel.textContent = config.label;
+                    userIcon.textContent = config.icon;
+
+                    currentRole = selectedRole;
+                });
+            });
+
+            function updateInputsFocus(newRingClass) {
+                inputs.forEach(input => {
+                    // Remove any existing specific focus rings (cleanup utility)
+                    input.classList.forEach(className => {
+                        if(className.startsWith('focus:ring-role-')) {
+                            input.classList.remove(className);
+                        }
+                    });
+                    input.classList.add(newRingClass);
+                });
+            }
+        });
+    </script>
+
+
+</body></html>

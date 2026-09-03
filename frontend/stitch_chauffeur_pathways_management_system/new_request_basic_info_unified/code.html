@@ -1,0 +1,190 @@
+<!DOCTYPE html><html class="light" lang="en" style="width: 390px; height: 725px; overflow: hidden; position: relative;"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>New Request - Step 1: Basic Info</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-high": "#e1e7ff",
+                        "on-surface-variant": "#40474f",
+                        "on-tertiary-container": "#ffdbbe",
+                        "on-secondary": "#ffffff",
+                        "on-secondary-fixed-variant": "#00504a",
+                        "on-tertiary-fixed-variant": "#6c3a00",
+                        "surface-canvas": "#F8FAFC",
+                        "role-admin": "#059669",
+                        "on-surface": "#131b2e",
+                        "surface-container": "#eaedff",
+                        "on-primary-fixed-variant": "#004b74",
+                        "on-primary-container": "#cbe4ff",
+                        "surface-container-low": "#f2f3ff",
+                        "on-secondary-fixed": "#00201d",
+                        "primary-fixed-dim": "#94ccff",
+                        "on-background": "#131b2e",
+                        "outline": "#707881",
+                        "surface-bright": "#faf8ff",
+                        "outline-variant": "#c0c7d1",
+                        "surface-container-highest": "#dae2fc",
+                        "surface-variant": "#dae2fc",
+                        "secondary-fixed": "#9cf2e8",
+                        "inverse-on-surface": "#eef0ff",
+                        "on-error": "#ffffff",
+                        "on-tertiary-fixed": "#2e1500",
+                        "primary": "#00507d",
+                        "background": "#faf8ff",
+                        "secondary": "#006a63",
+                        "on-secondary-container": "#006f67",
+                        "role-passenger": "#2563EB",
+                        "surface-container-lowest": "#ffffff",
+                        "tertiary-fixed-dim": "#ffb878",
+                        "tertiary": "#733f00",
+                        "surface-tint": "#006399",
+                        "on-primary-fixed": "#001d32",
+                        "error": "#ba1a1a",
+                        "on-primary": "#ffffff",
+                        "border-hairline": "#E2E8F0",
+                        "primary-fixed": "#cde5ff",
+                        "on-error-container": "#93000a",
+                        "secondary-container": "#99efe5",
+                        "error-container": "#ffdad6",
+                        "surface": "#faf8ff",
+                        "on-tertiary": "#ffffff",
+                        "secondary-fixed-dim": "#80d5cb",
+                        "inverse-primary": "#94ccff",
+                        "surface-dim": "#d2d9f4",
+                        "tertiary-container": "#955301",
+                        "tertiary-fixed": "#ffdcc1",
+                        "primary-container": "#0369a1",
+                        "inverse-surface": "#283044",
+                        "role-driver": "#7C3AED"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xs": "4px",
+                        "margin-desktop": "32px",
+                        "gutter": "16px",
+                        "md": "12px",
+                        "margin-mobile": "16px",
+                        "2xl": "32px",
+                        "xl": "24px",
+                        "lg": "20px",
+                        "base": "16px",
+                        "sm": "8px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Plus Jakarta Sans"],
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "label-caps": ["Plus Jakarta Sans"],
+                        "body-base": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "title-lg": ["Plus Jakarta Sans"],
+                        "display-lg": ["Plus Jakarta Sans"],
+                        "title-md": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-md": ["22px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "label-caps": ["11px", { "lineHeight": "14px", "letterSpacing": "0.06em", "fontWeight": "700" }],
+                        "body-base": ["15px", { "lineHeight": "22px", "letterSpacing": "0", "fontWeight": "400" }],
+                        "body-sm": ["13px", { "lineHeight": "18px", "letterSpacing": "0", "fontWeight": "400" }],
+                        "title-lg": ["18px", { "lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "display-lg": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+                        "title-md": ["16px", { "lineHeight": "22px", "letterSpacing": "0", "fontWeight": "600" }]
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-surface-canvas min-h-screen text-on-surface font-body-base antialiased flex flex-col pt-16">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-surface-bright border-b border-border-hairline shadow-sm flex items-center justify-between h-16 transition-all">
+<div class="flex items-center gap-4 flex-1 px-margin-mobile md:px-margin-desktop h-16">
+<button aria-label="Go back" class="p-2 rounded-full hover:bg-surface-container transition-colors active:scale-95 flex items-center justify-center group flex-shrink-0 bg-primary-container text-on-primary">
+<span class="material-symbols-outlined text-2xl group-hover:text-primary transition-colors">arrow_back</span>
+</button>
+
+<h1 class="font-title-lg text-title-lg font-bold text-primary tracking-tight">New Request</h1>
+</div>
+
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-grow flex flex-col items-center justify-start p-margin-mobile md:p-margin-desktop w-full max-w-[440px] mx-auto">
+<!-- Progress Indicator -->
+<div class="w-full mb-xl"><div class="flex justify-between items-center mb-2">
+<span class="font-title-md text-title-md text-on-surface font-bold">Step 1 of 3</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Basic Info</span>
+</div>
+<div class="flex gap-2 w-full h-2">
+<div class="h-full rounded-full flex-1 bg-primary-container"></div>
+<div class="h-full rounded-full flex-1 bg-surface-container-low"></div>
+<div class="h-full rounded-full flex-1 bg-surface-container-low"></div>
+</div></div>
+<!-- Form Card -->
+<div class="bg-surface-container-lowest border border-border-hairline shadow-[0px_1px_3px_rgba(15,23,42,0.05)] rounded-xl p-xl w-full flex flex-col gap-lg">
+<!-- Requester Name -->
+<div class="flex flex-col gap-xs">
+<label class="font-title-md text-title-md text-on-surface" for="requester-name">Requester Name</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 transform -translate-y-1/2 text-outline-variant">person</span>
+<input class="w-full pl-10 pr-4 py-3 bg-surface-canvas border-none rounded-lg font-body-base text-on-surface focus:ring-2 focus:ring-primary-container focus:bg-surface-container-lowest transition-all" id="requester-name" readonly="" type="text" value="Shoon">
+</div>
+</div>
+<!-- Department -->
+<div class="flex flex-col gap-xs">
+<label class="font-title-md text-title-md text-on-surface" for="department">Department</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 transform -translate-y-1/2 text-outline-variant z-10">domain</span>
+<select class="w-full pl-10 pr-4 py-3 bg-surface-canvas border-none rounded-lg font-body-base text-on-surface focus:ring-2 focus:ring-primary-container focus:bg-surface-container-lowest transition-all appearance-none" id="department">
+<option selected="" value="SME Department">SME Department</option>
+<option value="HR Department">HR Department</option>
+<option value="IT Department">IT Department</option>
+<option value="Finance">Finance</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-1/2 transform -translate-y-1/2 text-outline-variant pointer-events-none">expand_more</span>
+</div>
+</div>
+<!-- Request Date -->
+<div class="flex flex-col gap-xs">
+<label class="font-title-md text-title-md text-on-surface" for="request-date">Request Date</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 transform -translate-y-1/2 text-outline-variant">calendar_today</span>
+<input class="w-full pl-10 pr-4 py-3 bg-surface-canvas border border-border-hairline rounded-lg font-body-base text-on-surface focus:ring-2 focus:ring-primary-container focus:bg-surface-container-lowest transition-all" id="request-date" type="date">
+</div>
+</div>
+<!-- Purpose of Trip -->
+<div class="flex flex-col gap-xs">
+<label class="font-title-md text-title-md text-on-surface" for="purpose">Purpose of Trip</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-3 text-outline-variant">description</span>
+<textarea class="w-full pl-10 pr-4 py-3 bg-surface-canvas border border-border-hairline rounded-lg font-body-base text-on-surface focus:ring-2 focus:ring-primary-container focus:bg-surface-container-lowest transition-all resize-none" id="purpose" placeholder="Briefly describe the purpose..." rows="3"></textarea>
+</div>
+</div>
+</div>
+<!-- Next Button -->
+<div class="w-full mt-2xl pb-xl">
+<button class="w-full h-12 text-on-primary rounded-lg font-title-lg text-title-lg flex items-center justify-center gap-sm hover:opacity-90 active:scale-[0.98] transition-all shadow-sm bg-primary-container">
+                Next Step
+                <span class="material-symbols-outlined" style="font-variation-settings: &quot;FILL&quot; 1;">arrow_forward</span>
+</button>
+</div>
+</main>
+<script>
+        // Set today's date as default for the date picker
+        document.getElementById('request-date').valueAsDate = new Date();
+    </script>
+
+
+<div id="snapdom-sandbox" data-snapdom-sandbox="true" aria-hidden="true" style="position: absolute; left: -9999px; top: -9999px; width: 0px; height: 0px; overflow: hidden;"></div></body></html>

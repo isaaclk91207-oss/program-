@@ -1,0 +1,372 @@
+<!DOCTYPE html><html class="light" lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Review Transport Request</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&amp;family=Inter:wght@400;500&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-surface": "#131b2e",
+                        "surface": "#faf8ff",
+                        "error-container": "#ffdad6",
+                        "on-tertiary-container": "#ffdbbe",
+                        "surface-container-high": "#e2e7ff",
+                        "primary-fixed-dim": "#94ccff",
+                        "surface-tint": "#006399",
+                        "primary": "#00507d",
+                        "on-tertiary-fixed": "#2e1500",
+                        "on-secondary": "#ffffff",
+                        "outline-variant": "#c0c7d1",
+                        "surface-canvas": "#F8FAFC",
+                        "primary-container": "#0369a1",
+                        "background": "#faf8ff",
+                        "secondary-fixed": "#9cf2e8",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-dim": "#d2d9f4",
+                        "on-background": "#131b2e",
+                        "on-primary-container": "#cbe4ff",
+                        "primary-fixed": "#cde5ff",
+                        "error": "#ba1a1a",
+                        "surface-container-low": "#f2f3ff",
+                        "inverse-on-surface": "#eef0ff",
+                        "on-secondary-fixed": "#00201d",
+                        "border-hairline": "#E2E8F0",
+                        "tertiary-fixed-dim": "#ffb878",
+                        "inverse-primary": "#94ccff",
+                        "surface-container": "#eaedff",
+                        "on-surface-variant": "#40474f",
+                        "role-admin-container": "#D1FAE5",
+                        "secondary": "#006a63",
+                        "surface-container-highest": "#dae2fd",
+                        "tertiary": "#733f00",
+                        "role-passenger-container": "#DBEAFE",
+                        "inverse-surface": "#283044",
+                        "on-primary-fixed-variant": "#004b74",
+                        "role-driver": "#7C3AED",
+                        "secondary-container": "#99efe5",
+                        "role-passenger": "#2563EB",
+                        "surface-bright": "#faf8ff",
+                        "on-primary-fixed": "#001d32",
+                        "role-admin": "#059669",
+                        "on-secondary-fixed-variant": "#00504a",
+                        "on-tertiary": "#ffffff",
+                        "on-tertiary-fixed-variant": "#6c3a00",
+                        "on-error-container": "#93000a",
+                        "on-secondary-container": "#006f67",
+                        "surface-variant": "#dae2fd",
+                        "on-error": "#ffffff",
+                        "role-driver-container": "#EDE9FE",
+                        "outline": "#707881",
+                        "on-primary": "#ffffff",
+                        "tertiary-container": "#955301",
+                        "secondary-fixed-dim": "#80d5cb",
+                        "tertiary-fixed": "#ffdcc1"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xs": "4px",
+                        "gutter": "16px",
+                        "unit": "4px",
+                        "margin-desktop": "32px",
+                        "lg": "20px",
+                        "2xl": "32px",
+                        "base": "16px",
+                        "xl": "24px",
+                        "margin-mobile": "16px",
+                        "md": "12px",
+                        "sm": "8px"
+                    },
+                    "fontFamily": {
+                        "title-lg": ["Plus Jakarta Sans"],
+                        "headline-lg": ["Plus Jakarta Sans"],
+                        "label-caps": ["Plus Jakarta Sans"],
+                        "body-base": ["Inter"],
+                        "title-md": ["Plus Jakarta Sans"],
+                        "stat-lg": ["Plus Jakarta Sans"],
+                        "body-sm": ["Inter"],
+                        "display-lg": ["Plus Jakarta Sans"],
+                        "headline-md": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "title-lg": ["18px", { "lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "headline-lg": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "label-caps": ["11px", { "lineHeight": "14px", "letterSpacing": "0.06em", "fontWeight": "700" }],
+                        "body-base": ["15px", { "lineHeight": "22px", "letterSpacing": "0", "fontWeight": "400" }],
+                        "title-md": ["16px", { "lineHeight": "22px", "letterSpacing": "0", "fontWeight": "600" }],
+                        "stat-lg": ["30px", { "lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-sm": ["13px", { "lineHeight": "18px", "letterSpacing": "0", "fontWeight": "400" }],
+                        "display-lg": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+                        "headline-md": ["22px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; background-color: #F8FAFC; }
+        .font-plus-jakarta { font-family: 'Plus Jakarta Sans', sans-serif; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface-canvas text-on-surface min-h-screen flex flex-col">
+<!-- Top App Bar -->
+<header class="bg-surface-container-highest dark:bg-inverse-surface border-b border-outline-variant dark:border-outline flat no shadows docked full-width top-0 z-40 sticky">
+<div class="flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop h-16">
+<div class="flex items-center gap-4">
+<button class="text-on-surface-variant dark:text-surface-variant hover:bg-surface-variant dark:hover:bg-surface-container-highest transition-colors p-2 rounded-full hidden md:block">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<div class="text-title-lg font-title-lg font-extrabold text-primary dark:text-primary-fixed-dim">PCCP Transport</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="hidden md:flex items-center gap-6">
+<span class="text-primary dark:text-primary-fixed-dim font-bold font-plus-jakarta text-sm cursor-pointer border-b-2 border-primary pb-1">Dashboard</span>
+<span class="text-on-surface-variant dark:text-surface-variant font-plus-jakarta text-sm cursor-pointer hover:text-primary transition-colors">Fleet Management</span>
+<span class="text-on-surface-variant dark:text-surface-variant font-plus-jakarta text-sm cursor-pointer hover:text-primary transition-colors">Driver Assessments</span>
+<span class="text-on-surface-variant dark:text-surface-variant font-plus-jakarta text-sm cursor-pointer hover:text-primary transition-colors">Trip Reports</span>
+<span class="text-on-surface-variant dark:text-surface-variant font-plus-jakarta text-sm cursor-pointer hover:text-primary transition-colors">Settings</span>
+</div>
+<button class="text-on-surface-variant hover:bg-surface-variant p-2 rounded-full transition-colors relative">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="absolute top-1 right-1 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<div class="w-8 h-8 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center font-bold text-sm">
+                    PU
+                </div>
+</div>
+</div>
+</header>
+<div class="flex flex-1 overflow-hidden">
+<!-- Navigation Drawer (Desktop) -->
+<aside class="hidden md:flex flex-col h-full bg-white dark:bg-inverse-surface border-r border-border-hairline dark:border-outline shadow-sm fixed left-0 top-16 w-[260px] z-30">
+<div class="p-6 border-b border-border-hairline flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-role-admin-container text-role-admin flex items-center justify-center font-bold text-lg">
+                    AD
+                </div>
+<div>
+<h3 class="text-title-md font-title-md text-on-surface">System Administrator</h3>
+<p class="text-body-sm font-body-sm text-on-surface-variant">Logistics Ops</p>
+<span class="text-label-caps font-label-caps text-role-admin mt-1 block">Admin Role</span>
+</div>
+</div>
+<nav class="flex-1 py-4 flex flex-col gap-1 px-2 overflow-y-auto">
+<a class="bg-role-admin-container text-role-admin font-bold rounded-lg mx-2 px-4 py-3 flex items-center gap-3 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="text-title-md font-title-md">Dashboard</span>
+</a>
+<a class="text-on-surface-variant dark:text-surface-variant px-4 py-3 flex items-center gap-3 hover:bg-surface-container-low dark:hover:bg-surface-container-highest rounded-lg mx-2 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="directions_car">directions_car</span>
+<span class="text-title-md font-title-md">Fleet Management</span>
+</a>
+<a class="text-on-surface-variant dark:text-surface-variant px-4 py-3 flex items-center gap-3 hover:bg-surface-container-low dark:hover:bg-surface-container-highest rounded-lg mx-2 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="assignment_ind">assignment_ind</span>
+<span class="text-title-md font-title-md">Driver Assessments</span>
+</a>
+<a class="text-on-surface-variant dark:text-surface-variant px-4 py-3 flex items-center gap-3 hover:bg-surface-container-low dark:hover:bg-surface-container-highest rounded-lg mx-2 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+<span class="text-title-md font-title-md">Trip Reports</span>
+</a>
+<a class="text-on-surface-variant dark:text-surface-variant px-4 py-3 flex items-center gap-3 hover:bg-surface-container-low dark:hover:bg-surface-container-highest rounded-lg mx-2 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="text-title-md font-title-md">Settings</span>
+</a>
+</nav>
+</aside>
+<!-- Main Content Canvas -->
+<main class="flex-1 w-full md:ml-[260px] flex flex-col pb-24 md:pb-0 h-[calc(100vh-64px)] overflow-y-auto min-h-screen">
+<div class="max-w-4xl mx-auto w-full px-margin-mobile md:px-margin-desktop py-8 flex-1 flex flex-col">
+<!-- Progress Stepper -->
+<div class="mb-8">
+<div class="flex items-center justify-between mb-2">
+<span class="text-body-sm font-body-sm text-on-surface-variant">Step 3 of 3</span>
+<span class="text-body-sm font-body-sm text-primary font-bold">Review</span>
+</div>
+<div class="flex gap-2">
+<div class="h-2 flex-1 bg-primary-container rounded-full"></div>
+<div class="h-2 flex-1 bg-primary-container rounded-full"></div>
+<div class="h-2 flex-1 bg-primary-container rounded-full"></div>
+</div>
+</div>
+<div class="mb-6 flex justify-between items-end">
+<div>
+<h1 class="text-headline-lg font-headline-lg text-on-surface">Review Transport Request</h1>
+<p class="text-body-base font-body-base text-on-surface-variant mt-1">Please verify the details below before submitting your request.</p>
+</div>
+</div>
+<!-- Summary Cards Bento Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 flex-1">
+<!-- Request Information -->
+<div class="bg-surface-container-lowest rounded-xl border border-border-hairline p-6 flex flex-col relative group">
+<div class="flex justify-between items-center mb-4 border-b border-border-hairline pb-2">
+<h2 class="text-title-md font-title-md text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-xl text-primary-container" data-icon="info">info</span>
+                                Request Information
+                            </h2>
+<button class="text-primary hover:bg-primary-fixed rounded p-1 transition-colors text-sm font-bold flex items-center gap-1 opacity-0 group-hover:opacity-100 focus:opacity-100">
+<span class="material-symbols-outlined text-[18px]">edit</span> Edit
+                            </button>
+</div>
+<div class="flex flex-col gap-3 text-body-base font-body-base">
+<div class="flex justify-between">
+<span class="text-on-surface-variant">Requestor</span>
+<span class="font-medium">John Doe (Emp ID: 12345)</span>
+</div>
+<div class="flex justify-between">
+<span class="text-on-surface-variant">Department</span>
+<span class="font-medium">Sales &amp; Marketing</span>
+</div>
+<div class="flex justify-between">
+<span class="text-on-surface-variant">Passengers</span>
+<span class="font-medium">2</span>
+</div>
+</div>
+</div>
+<!-- Service -->
+<div class="bg-surface-container-lowest rounded-xl border border-border-hairline p-6 flex flex-col relative group">
+<div class="flex justify-between items-center mb-4 border-b border-border-hairline pb-2">
+<h2 class="text-title-md font-title-md text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-xl text-primary-container" data-icon="airport_shuttle">airport_shuttle</span>
+                                Service Type
+                            </h2>
+<button class="text-primary hover:bg-primary-fixed rounded p-1 transition-colors text-sm font-bold flex items-center gap-1 opacity-0 group-hover:opacity-100 focus:opacity-100">
+<span class="material-symbols-outlined text-[18px]">edit</span> Edit
+                            </button>
+</div>
+<div class="flex flex-col gap-3 text-body-base font-body-base">
+<div class="flex justify-between">
+<span class="text-on-surface-variant">Vehicle Preference</span>
+<span class="font-medium">Standard Sedan</span>
+</div>
+<div class="flex justify-between">
+<span class="text-on-surface-variant">Service Level</span>
+<span class="bg-primary-container text-on-primary-container text-label-caps font-label-caps px-2 py-1 rounded">STANDARD</span>
+</div>
+</div>
+</div>
+<!-- Route -->
+<div class="bg-surface-container-lowest rounded-xl border border-border-hairline p-6 flex flex-col relative group md:col-span-2">
+<div class="flex justify-between items-center mb-4 border-b border-border-hairline pb-2">
+<h2 class="text-title-md font-title-md text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-xl text-primary-container" data-icon="route">route</span>
+                                Route
+                            </h2>
+<button class="text-primary hover:bg-primary-fixed rounded p-1 transition-colors text-sm font-bold flex items-center gap-1 opacity-0 group-hover:opacity-100 focus:opacity-100">
+<span class="material-symbols-outlined text-[18px]">edit</span> Edit
+                            </button>
+</div>
+<div class="flex items-center gap-4 text-body-base font-body-base py-2">
+<div class="flex flex-col items-center">
+<span class="material-symbols-outlined text-secondary" data-icon="my_location">my_location</span>
+<div class="w-0.5 h-8 bg-border-hairline my-1"></div>
+<span class="material-symbols-outlined text-primary" data-icon="location_on">location_on</span>
+<div class="w-0.5 h-8 bg-border-hairline my-1"></div>
+<span class="material-symbols-outlined text-secondary" data-icon="flag">flag</span>
+</div>
+<div class="flex flex-col justify-between h-full py-1 gap-4">
+<div>
+<span class="block text-label-caps font-label-caps text-on-surface-variant">PICKUP</span>
+<span class="font-medium text-lg">uab HO</span>
+</div>
+<div>
+<span class="block text-label-caps font-label-caps text-on-surface-variant">DESTINATION</span>
+<span class="font-medium text-lg">Naypyitaw</span>
+</div>
+<div>
+<span class="block text-label-caps font-label-caps text-on-surface-variant">RETURN</span>
+<span class="font-medium text-lg">uab HO</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Schedule -->
+<div class="bg-surface-container-lowest rounded-xl border border-border-hairline p-6 flex flex-col relative group">
+<div class="flex justify-between items-center mb-4 border-b border-border-hairline pb-2">
+<h2 class="text-title-md font-title-md text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-xl text-primary-container" data-icon="event">event</span>
+                                Schedule
+                            </h2>
+<button class="text-primary hover:bg-primary-fixed rounded p-1 transition-colors text-sm font-bold flex items-center gap-1 opacity-0 group-hover:opacity-100 focus:opacity-100">
+<span class="material-symbols-outlined text-[18px]">edit</span> Edit
+                            </button>
+</div>
+<div class="flex flex-col gap-3 text-body-base font-body-base">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="calendar_today">calendar_today</span>
+<span class="font-medium">11 Aug 2026</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="schedule">schedule</span>
+<span class="font-medium">9:00 AM - 5:00 PM</span>
+</div>
+</div>
+</div>
+<!-- Purpose & Notes -->
+<div class="bg-surface-container-lowest rounded-xl border border-border-hairline p-6 flex flex-col relative group">
+<div class="flex justify-between items-center mb-4 border-b border-border-hairline pb-2">
+<h2 class="text-title-md font-title-md text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-xl text-primary-container" data-icon="assignment">assignment</span>
+                                Purpose &amp; Notes
+                            </h2>
+<button class="text-primary hover:bg-primary-fixed rounded p-1 transition-colors text-sm font-bold flex items-center gap-1 opacity-0 group-hover:opacity-100 focus:opacity-100">
+<span class="material-symbols-outlined text-[18px]">edit</span> Edit
+                            </button>
+</div>
+<div class="flex flex-col gap-4 text-body-base font-body-base">
+<div>
+<span class="block text-label-caps font-label-caps text-on-surface-variant mb-1">PURPOSE</span>
+<span class="font-medium">Customer Appointment - ABC Company</span>
+</div>
+<div>
+<span class="block text-label-caps font-label-caps text-on-surface-variant mb-1">NOTES</span>
+<p class="text-on-surface bg-surface p-3 rounded border border-border-hairline text-sm italic">
+                                    "Please ensure vehicle has functioning AC. Will be carrying presentation materials."
+                                </p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Sticky Bottom Actions -->
+<div class="bottom-0 left-0 right-0 md:relative bg-white border-t border-border-hairline p-4 md:px-margin-desktop md:py-6 md:bg-transparent md:border-none z-20 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)] md:shadow-none mt-auto mt-12 sticky">
+<div class="max-w-4xl mx-auto flex justify-between items-center gap-4"><button class="px-8 py-3 border border-outline-variant text-on-surface font-title-md text-title-md rounded-lg hover:bg-surface-container-low transition-colors flex-1 md:flex-none justify-center h-[48px] md:h-auto" onclick="window.location.href='{{DATA:SCREEN:SCREEN_57}}'">Back</button>
+
+<button class="px-8 py-3 text-on-primary font-title-md text-title-md rounded-lg hover:bg-primary-container transition-colors shadow-sm flex items-center gap-2 flex-1 md:flex-none justify-center h-[48px] md:h-auto bg-primary-container" onclick="window.location.href='{{DATA:SCREEN:SCREEN_58}}'">
+<span class="material-symbols-outlined text-[20px]" data-icon="check_circle">check_circle</span>
+                        Submit Request
+                    </button>
+</div>
+</div>
+</main>
+</div>
+<!-- Bottom Nav Bar (Mobile) -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body></html>

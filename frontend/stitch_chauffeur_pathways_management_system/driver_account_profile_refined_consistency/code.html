@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Driver Profile</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-tertiary-fixed-variant": "#6c3a00",
+                      "on-secondary-fixed-variant": "#00504a",
+                      "on-primary-fixed": "#001d32",
+                      "on-secondary-fixed": "#00201d",
+                      "role-passenger": "#2563EB",
+                      "on-surface": "#131b2e",
+                      "inverse-primary": "#94ccff",
+                      "tertiary-container": "#955301",
+                      "surface-container-low": "#f2f3ff",
+                      "on-primary-container": "#cbe4ff",
+                      "error-container": "#ffdad6",
+                      "surface-tint": "#006399",
+                      "primary-fixed-dim": "#94ccff",
+                      "on-error-container": "#93000a",
+                      "primary-container": "#0369a1",
+                      "outline": "#707881",
+                      "on-surface-variant": "#40474f",
+                      "tertiary-fixed-dim": "#ffb878",
+                      "inverse-on-surface": "#eef0ff",
+                      "surface-container-high": "#e1e7ff",
+                      "primary": "#00507d",
+                      "on-tertiary-container": "#ffdbbe",
+                      "surface-bright": "#faf8ff",
+                      "outline-variant": "#c0c7d1",
+                      "on-primary": "#ffffff",
+                      "tertiary": "#733f00",
+                      "primary-fixed": "#cde5ff",
+                      "background": "#faf8ff",
+                      "surface-container": "#eaedff",
+                      "error": "#ba1a1a",
+                      "on-secondary": "#ffffff",
+                      "surface-container-lowest": "#ffffff",
+                      "on-error": "#ffffff",
+                      "border-hairline": "#E2E8F0",
+                      "surface": "#faf8ff",
+                      "tertiary-fixed": "#ffdcc1",
+                      "surface-canvas": "#F8FAFC",
+                      "on-secondary-container": "#006f67",
+                      "role-driver": "#7C3AED",
+                      "on-tertiary": "#ffffff",
+                      "secondary-fixed": "#9cf2e8",
+                      "surface-variant": "#dae2fc",
+                      "secondary": "#006a63",
+                      "role-admin": "#059669",
+                      "on-primary-fixed-variant": "#004b74",
+                      "on-tertiary-fixed": "#2e1500",
+                      "surface-container-highest": "#dae2fc",
+                      "on-background": "#131b2e",
+                      "surface-dim": "#d2d9f4",
+                      "inverse-surface": "#283044",
+                      "secondary-fixed-dim": "#80d5cb",
+                      "secondary-container": "#99efe5"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "base": "16px",
+                      "sm": "8px",
+                      "md": "12px",
+                      "gutter": "16px",
+                      "2xl": "32px",
+                      "lg": "20px",
+                      "margin-mobile": "16px",
+                      "xs": "4px",
+                      "xl": "24px",
+                      "margin-desktop": "32px"
+              },
+              "fontFamily": {
+                      "body-sm": ["Inter"],
+                      "headline-lg": ["Plus Jakarta Sans"],
+                      "headline-md": ["Plus Jakarta Sans"],
+                      "display-lg": ["Plus Jakarta Sans"],
+                      "title-md": ["Plus Jakarta Sans"],
+                      "body-base": ["Inter"],
+                      "title-lg": ["Plus Jakarta Sans"],
+                      "label-caps": ["Plus Jakarta Sans"]
+              },
+              "fontSize": {
+                      "body-sm": ["13px", {"lineHeight": "18px", "letterSpacing": "0", "fontWeight": "400"}],
+                      "headline-lg": ["28px", {"lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "headline-md": ["22px", {"lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                      "display-lg": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                      "title-md": ["16px", {"lineHeight": "22px", "letterSpacing": "0", "fontWeight": "600"}],
+                      "body-base": ["15px", {"lineHeight": "22px", "letterSpacing": "0", "fontWeight": "400"}],
+                      "title-lg": ["18px", {"lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                      "label-caps": ["11px", {"lineHeight": "14px", "letterSpacing": "0.06em", "fontWeight": "700"}]
+              }
+      },
+          },
+        }
+    </script>
+</head>
+<body class="bg-surface-canvas text-on-surface font-body-base pb-[88px] min-h-screen">
+<!-- Top App Bar -->
+<header class="fixed top-0 w-full z-50 bg-surface-container-lowest shadow-sm flex items-center justify-between px-margin-mobile h-16">
+<div class="flex items-center">
+<span class="material-symbols-outlined text-role-driver text-2xl mr-2" style="font-variation-settings: 'FILL' 0;">arrow_back</span>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-role-driver text-[28px]" style="font-variation-settings: 'FILL' 0;">directions_car</span>
+<h1 class="font-headline-md text-headline-md-mobile md:text-headline-md text-role-driver">PCCP Vector</h1>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative">
+<span class="material-symbols-outlined text-on-surface-variant hover:bg-surface-container-high transition-colors p-2 rounded-full cursor-pointer" style="font-variation-settings: 'FILL' 0;">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full"></span>
+</div>
+<img alt="Profile Photo" class="w-8 h-8 rounded-full border border-outline-variant object-cover" src="https://lh3.googleusercontent.com/aida/AP1WRLu4Ai7HlLeND9XqBoIdIOmDa6MtFecA9FzNiSdxy4fgT3440VtTeBmSMWX7mjGaeHSCbnuhUAmqw392TZs7FoLNPFb2ZuKI8RdRFFPgFcAEtIsqsrps60FaS98Ud8aeqJ2SntM0aaag8Lh2hJrl_C57CS-B33qNT6ngY0ePa6TY92XUAKul1aQX2W8v_3d5CRryNa_Uk2lQNn1jvfcM8FVYbATrj5rM9xdeNxh7Hj9n-XdED-yig8-w"/>
+</div>
+</header>
+<!-- Main Content -->
+<main class="pt-20 px-margin-mobile md:px-margin-desktop max-w-lg mx-auto">
+<p class="text-on-surface-variant font-body-sm text-body-sm mb-4">Manage your profile, vehicle, and preferences.</p>
+<!-- Status Badge -->
+<div class="inline-flex items-center border border-outline-variant rounded-full px-3 py-1 mb-6 bg-surface-container-lowest">
+<span class="material-symbols-outlined text-role-driver text-sm mr-1" style="font-variation-settings: 'FILL' 1;">verified_user</span>
+<span class="font-label-caps text-label-caps text-role-driver">ACTIVE DRIVER</span>
+</div>
+<!-- Profile Card -->
+<div class="bg-surface-container-lowest rounded-xl shadow-[0px_1px_3px_rgba(15,23,42,0.05)] border border-border-hairline p-6 flex flex-col items-center mb-6 relative overflow-hidden">
+<!-- Soft background gradient -->
+<div class="absolute inset-0 bg-gradient-to-b from-surface-variant to-transparent opacity-30 pointer-events-none"></div>
+<div class="relative mb-4 z-10">
+<img alt="Ko Aung Naing Win" class="w-24 h-24 rounded-full border-4 border-surface-container-lowest object-cover shadow-sm" src="https://lh3.googleusercontent.com/aida/AP1WRLu4Ai7HlLeND9XqBoIdIOmDa6MtFecA9FzNiSdxy4fgT3440VtTeBmSMWX7mjGaeHSCbnuhUAmqw392TZs7FoLNPFb2ZuKI8RdRFFPgFcAEtIsqsrps60FaS98Ud8aeqJ2SntM0aaag8Lh2hJrl_C57CS-B33qNT6ngY0ePa6TY92XUAKul1aQX2W8v_3d5CRryNa_Uk2lQNn1jvfcM8FVYbATrj5rM9xdeNxh7Hj9n-XdED-yig8-w"/>
+<div class="absolute bottom-0 right-0 bg-role-driver rounded-full p-1 flex items-center justify-center border-2 border-surface-container-lowest">
+<span class="material-symbols-outlined text-on-primary text-[14px]" style="font-variation-settings: 'FILL' 1;">check</span>
+</div>
+</div>
+<h2 class="font-headline-md text-headline-md text-on-surface mb-1 z-10 text-center">Ko Aung Naing Win</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant z-10 text-center mb-6">D-8829 • CC Tier</p>
+<div class="w-full border-t border-border-hairline pt-4 flex justify-between z-10">
+<div>
+<p class="font-label-caps text-label-caps text-on-surface-variant mb-1">PHONE</p>
+<p class="font-title-md text-title-md text-on-surface">+95 9 123 456 789</p>
+</div>
+<div class="text-right">
+<p class="font-label-caps text-label-caps text-on-surface-variant mb-1">SINCE</p>
+<p class="font-title-md text-title-md text-on-surface">Mar 2021</p>
+</div>
+</div>
+</div>
+<!-- Certification Card -->
+<div class="bg-surface-container-lowest rounded-xl shadow-[0px_1px_3px_rgba(15,23,42,0.05)] border border-border-hairline p-6 mb-6">
+<div class="flex items-center mb-4">
+<span class="material-symbols-outlined text-role-driver mr-2 text-xl" style="font-variation-settings: 'FILL' 0;">military_tech</span>
+<h3 class="font-title-lg text-title-lg text-on-surface">Certification</h3>
+</div>
+<div class="bg-surface-container-low rounded-lg p-4 flex items-center justify-between mb-4">
+<div>
+<h4 class="font-title-md text-title-md text-on-surface mb-1">CC — Certified Chauffeur</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Valid until Oct 2025</p>
+</div>
+<span class="material-symbols-outlined text-role-admin text-2xl" style="font-variation-settings: 'FILL' 0;">check_circle</span>
+</div>
+<div class="mt-4 pt-4 border-t border-border-hairline">
+<p class="font-label-caps text-label-caps text-on-surface-variant mb-3">PROGRESSION PATH</p>
+<div class="flex items-center justify-between text-sm font-body-sm">
+<div class="flex flex-col items-center">
+<div class="w-8 h-8 rounded-full bg-surface-container-high flex items-center justify-center text-on-surface-variant mb-1">CD</div>
+</div>
+<div class="flex-1 h-px bg-outline-variant mx-2"></div>
+<div class="flex flex-col items-center">
+<div class="w-8 h-8 rounded-full bg-role-driver text-on-primary font-bold flex items-center justify-center mb-1 ring-2 ring-role-driver ring-offset-2">CC</div>
+</div>
+<div class="flex-1 h-px bg-outline-variant mx-2 border-dashed"></div>
+<div class="flex flex-col items-center opacity-60">
+<div class="w-8 h-8 rounded-full bg-surface-container-high flex items-center justify-center text-on-surface-variant mb-1 border border-outline-variant">CPC</div>
+</div>
+<div class="flex-1 h-px bg-outline-variant mx-2 border-dashed opacity-50"></div>
+<div class="flex flex-col items-center opacity-40">
+<div class="w-8 h-8 rounded-full bg-surface-container-lowest border border-outline-variant flex items-center justify-center text-on-surface-variant mb-1">CEC</div>
+</div>
+<div class="flex-1 h-px bg-outline-variant mx-2 border-dashed opacity-50"></div>
+<div class="flex flex-col items-center opacity-40">
+<div class="w-8 h-8 rounded-full bg-surface-container-lowest border border-outline-variant flex items-center justify-center text-on-surface-variant mb-1">CMC</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Bottom Nav Bar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-2 py-3 pb-safe bg-surface-container-lowest md:hidden" style="box-shadow: 0 -1px 3px rgba(15,23,42,0.05);">
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-container-high transition-colors w-16 rounded-xl py-1 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 0;">home</span>
+<span class="font-label-caps text-label-caps">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-container-high transition-colors w-16 rounded-xl py-1 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 0;">assignment</span>
+<span class="font-label-caps text-label-caps">Assignments</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-container-high transition-colors w-16 rounded-xl py-1 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 0;">route</span>
+<span class="font-label-caps text-label-caps">Trips</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-container-high transition-colors w-16 rounded-xl py-1 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 0;">query_stats</span>
+<span class="font-label-caps text-label-caps">Performance</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-role-driver text-on-primary w-16 rounded-xl py-1 active:scale-90 transition-transform shadow-sm" href="#">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 1;">person</span>
+<span class="font-label-caps text-label-caps">Account</span>
+</a>
+</nav>
+</body></html>

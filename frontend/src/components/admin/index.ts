@@ -14,3 +14,4 @@ export { default as SettingsPanel } from "./SettingsPanel";
 export { default as OperationalRecords } from "./OperationalRecords";
 export { default as AssessmentsOverview } from "./AssessmentsOverview";
 export { default as PassengersList } from "./PassengersList";
+export { default as ReportsPage } from "./ReportsPage";

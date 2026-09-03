@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>PCCP - Login</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Plus+Jakarta+Sans:wght@500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Configuration -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "primary-fixed-dim": "#94ccff",
+                    "outline": "#707881",
+                    "tertiary-fixed-dim": "#ffb878",
+                    "surface-canvas": "#F8FAFC",
+                    "on-surface": "#131b2e",
+                    "secondary": "#006a63",
+                    "surface-container": "#eaedff",
+                    "error": "#ba1a1a",
+                    "secondary-fixed-dim": "#80d5cb",
+                    "on-error-container": "#93000a",
+                    "primary-fixed": "#cde5ff",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-container-low": "#f2f3ff",
+                    "role-driver": "#7C3AED",
+                    "on-error": "#ffffff",
+                    "on-secondary-container": "#006f67",
+                    "surface-bright": "#faf8ff",
+                    "tertiary-container": "#955301",
+                    "outline-variant": "#c0c7d1",
+                    "secondary-container": "#99efe5",
+                    "surface-tint": "#006399",
+                    "surface-variant": "#dae2fc",
+                    "secondary-fixed": "#9cf2e8",
+                    "role-admin": "#059669",
+                    "surface-dim": "#d2d9f4",
+                    "on-tertiary-container": "#ffdbbe",
+                    "on-tertiary": "#ffffff",
+                    "tertiary": "#733f00",
+                    "on-tertiary-fixed-variant": "#6c3a00",
+                    "surface": "#faf8ff",
+                    "on-surface-variant": "#40474f",
+                    "role-passenger": "#2563EB",
+                    "primary-container": "#0369a1",
+                    "border-hairline": "#E2E8F0",
+                    "error-container": "#ffdad6",
+                    "background": "#faf8ff",
+                    "on-background": "#131b2e",
+                    "inverse-primary": "#94ccff",
+                    "on-primary-container": "#cbe4ff",
+                    "surface-container-high": "#e1e7ff",
+                    "on-primary-fixed-variant": "#004b74",
+                    "inverse-on-surface": "#eef0ff",
+                    "surface-container-highest": "#dae2fc",
+                    "on-tertiary-fixed": "#2e1500",
+                    "on-secondary-fixed-variant": "#00504a",
+                    "tertiary-fixed": "#ffdcc1",
+                    "primary": "#00507d",
+                    "on-primary-fixed": "#001d32",
+                    "on-secondary-fixed": "#00201d",
+                    "on-secondary": "#ffffff",
+                    "inverse-surface": "#283044",
+                    "on-primary": "#ffffff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "xs": "4px",
+                    "gutter": "16px",
+                    "margin-desktop": "32px",
+                    "md": "12px",
+                    "margin-mobile": "16px",
+                    "xl": "24px",
+                    "lg": "20px",
+                    "base": "16px",
+                    "2xl": "32px",
+                    "sm": "8px"
+            },
+            "fontFamily": {
+                    "title-md": ["Plus Jakarta Sans"],
+                    "label-caps": ["Plus Jakarta Sans"],
+                    "body-sm": ["Inter"],
+                    "title-lg": ["Plus Jakarta Sans"],
+                    "headline-md": ["Plus Jakarta Sans"],
+                    "headline-lg": ["Plus Jakarta Sans"],
+                    "display-lg": ["Plus Jakarta Sans"],
+                    "body-base": ["Inter"]
+            },
+            "fontSize": {
+                    "title-md": ["16px", {"lineHeight": "22px", "letterSpacing": "0", "fontWeight": "600"}],
+                    "label-caps": ["11px", {"lineHeight": "14px", "letterSpacing": "0.06em", "fontWeight": "700"}],
+                    "body-sm": ["13px", {"lineHeight": "18px", "letterSpacing": "0", "fontWeight": "400"}],
+                    "title-lg": ["18px", {"lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "headline-md": ["22px", {"lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                    "headline-lg": ["28px", {"lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "display-lg": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                    "body-base": ["15px", {"lineHeight": "22px", "letterSpacing": "0", "fontWeight": "400"}]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        .role-card-active {
+            border-color: currentColor !important;
+            background-color: var(--active-bg, transparent);
+        }
+    </style>
+</head>
+<body class="bg-surface-canvas text-on-surface font-body-base min-h-screen flex flex-col antialiased selection:bg-primary-container selection:text-on-primary-container">
+<!-- Transactional Page: Nav Shell Suppressed -->
+<main class="flex-1 flex flex-col items-center justify-center w-full px-margin-mobile py-8 md:px-margin-desktop">
+<div class="w-full max-w-[440px] flex flex-col items-center">
+<!-- Header -->
+<div class="flex flex-col items-center mb-8 text-center">
+<img alt="PCCP Logo" class="w-24 h-24 mb-6 object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuByHP3Nbc28RT3HLpRaoHDiRZLEG9hW7k-z56GoqTJ6GY0JzXTm-WLoDF2gdNqOxC5mSmOTz5meFhdDG-oMxzRTk0Lx4J2722YOepdmHUVDgzF9dPOlk5bp6sEsQzilZO0q1OdV4TEMlLI8fOOREJmdSDeJ0UKiOCVt97DTfrDwznX1GyjwyHV0mc9fxUryEcvDs0VtvaN4YfQ5UTmiuI1K6vYyAY4qpgbVewInc1u3uKprjzXYB0YIwJ4CayeZKNXy"/>
+<h1 class="font-display-lg text-display-lg text-primary mb-2">Welcome to PCCP</h1>
+<p class="font-body-base text-on-surface-variant">Professional Chauffeur &amp; Transport Platform</p>
+</div>
+<!-- Role Selection -->
+<div class="w-full mb-8">
+<h2 class="font-title-md text-title-md text-on-surface mb-4">Select your access</h2>
+<div class="flex flex-col gap-sm">
+<!-- Driver Card -->
+<label class="relative flex items-start gap-4 p-4 rounded-xl border border-border-hairline bg-surface-container-lowest shadow-[0px_1px_3px_rgba(15,23,42,0.05)] cursor-pointer hover:border-outline-variant transition-all duration-200" onclick="selectRole('driver', 'text-role-driver', 'bg-role-driver/10')">
+<input checked="" class="peer sr-only" name="role" type="radio" value="driver"/>
+<div class="flex-shrink-0 w-10 h-10 rounded-full bg-role-driver/10 flex items-center justify-center text-role-driver">
+<span class="material-symbols-outlined" data-icon="directions_car">directions_car</span>
+</div>
+<div class="flex-1">
+<h3 class="font-title-md text-title-md text-on-surface">Driver</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Manage your trips, driving activity, performance and assessment.</p>
+</div>
+<div class="absolute inset-0 rounded-xl border-2 border-transparent peer-checked:border-role-driver pointer-events-none transition-colors"></div>
+</label>
+<!-- Passenger Card -->
+<label class="relative flex items-start gap-4 p-4 rounded-xl border border-border-hairline bg-surface-container-lowest shadow-[0px_1px_3px_rgba(15,23,42,0.05)] cursor-pointer hover:border-outline-variant transition-all duration-200" onclick="selectRole('passenger', 'text-role-passenger', 'bg-role-passenger/10')">
+<input class="peer sr-only" name="role" type="radio" value="passenger"/>
+<div class="flex-shrink-0 w-10 h-10 rounded-full bg-role-passenger/10 flex items-center justify-center text-role-passenger">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+</div>
+<div class="flex-1">
+<h3 class="font-title-md text-title-md text-on-surface">Passenger</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Request transport, track your trip and manage your travel.</p>
+</div>
+<div class="absolute inset-0 rounded-xl border-2 border-transparent peer-checked:border-role-passenger pointer-events-none transition-colors"></div>
+</label>
+<!-- Admin Card -->
+<label class="relative flex items-start gap-4 p-4 rounded-xl border border-border-hairline bg-surface-container-lowest shadow-[0px_1px_3px_rgba(15,23,42,0.05)] cursor-pointer hover:border-outline-variant transition-all duration-200" onclick="selectRole('admin', 'text-role-admin', 'bg-role-admin/10')">
+<input class="peer sr-only" name="role" type="radio" value="admin"/>
+<div class="flex-shrink-0 w-10 h-10 rounded-full bg-role-admin/10 flex items-center justify-center text-role-admin">
+<span class="material-symbols-outlined" data-icon="admin_panel_settings">admin_panel_settings</span>
+</div>
+<div class="flex-1">
+<h3 class="font-title-md text-title-md text-on-surface">Admin</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Manage transport operations, drivers, vehicles and performance.</p>
+</div>
+<div class="absolute inset-0 rounded-xl border-2 border-transparent peer-checked:border-role-admin pointer-events-none transition-colors"></div>
+</label>
+</div>
+</div>
+<!-- Login Form -->
+<div class="w-full bg-surface-container-lowest rounded-xl shadow-[0px_1px_3px_rgba(15,23,42,0.05)] border border-border-hairline p-6 relative overflow-hidden">
+<!-- Dynamic Header Gradient based on role -->
+<div class="absolute top-0 left-0 w-full h-1 bg-role-driver transition-colors duration-300" id="form-header-gradient"></div>
+<h2 class="font-headline-md text-headline-md text-on-surface mb-6" id="form-title">Sign in as Driver</h2>
+<form class="flex flex-col gap-4">
+<div>
+<label class="sr-only" for="email">Email or Employee ID</label>
+<div class="relative">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-outline" data-icon="mail">mail</span>
+</div>
+<input class="w-full pl-10 pr-4 py-3 bg-surface-canvas border border-border-hairline rounded-lg font-body-base text-on-surface focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-shadow placeholder:text-outline-variant" id="email" placeholder="Email or Employee ID" type="text"/>
+</div>
+</div>
+<div>
+<label class="sr-only" for="password">Password</label>
+<div class="relative">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-outline" data-icon="lock">lock</span>
+</div>
+<input class="w-full pl-10 pr-12 py-3 bg-surface-canvas border border-border-hairline rounded-lg font-body-base text-on-surface focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-shadow placeholder:text-outline-variant" id="password" placeholder="Password" type="password"/>
+<button class="absolute inset-y-0 right-0 pr-3 flex items-center text-outline hover:text-on-surface transition-colors" type="button">
+<span class="material-symbols-outlined" data-icon="visibility">visibility</span>
+</button>
+</div>
+</div>
+<div class="flex items-center justify-between mt-2">
+<label class="flex items-center gap-2 cursor-pointer group">
+<div class="relative flex items-center justify-center w-5 h-5 rounded border border-outline group-hover:border-primary transition-colors">
+<input class="peer sr-only" type="checkbox"/>
+<div class="absolute inset-0 bg-primary rounded opacity-0 peer-checked:opacity-100 transition-opacity flex items-center justify-center">
+<span class="material-symbols-outlined text-[14px] text-on-primary" data-icon="check">check</span>
+</div>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Remember me</span>
+</label>
+<a class="font-body-sm text-body-sm text-primary hover:opacity-80 transition-opacity" href="#">Forgot password?</a>
+</div>
+<button class="w-full mt-4 h-12 bg-role-driver hover:opacity-90 text-on-primary font-title-md text-title-md rounded-lg flex items-center justify-center gap-2 transition-all active:scale-[0.98]" id="submit-btn" type="submit">
+                        Sign In
+                        <span class="material-symbols-outlined" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</form>
+</div>
+<!-- Footer -->
+<div class="mt-8 text-center">
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+                    Need help? <a class="text-primary hover:underline" href="#">Contact Transport Support</a>
+</p>
+</div>
+</div>
+</main>
+<script>
+        function selectRole(roleId, textColorClass, bgColorClass) {
+            const titleEl = document.getElementById('form-title');
+            const btnEl = document.getElementById('submit-btn');
+            const gradientEl = document.getElementById('form-header-gradient');
+            
+            // Map role to proper casing for UI
+            const roleNames = {
+                'driver': 'Driver',
+                'passenger': 'Passenger',
+                'admin': 'Admin'
+            };
+            
+            const displayRole = roleNames[roleId];
+            titleEl.textContent = `Sign in as ${displayRole}`;
+            
+            // Map role to tailwind color classes
+            const colorMap = {
+                'driver': 'bg-role-driver',
+                'passenger': 'bg-role-passenger',
+                'admin': 'bg-role-admin'
+            };
+
+            // Update button color
+            btnEl.className = `w-full mt-4 h-12 ${colorMap[roleId]} hover:opacity-90 text-on-primary font-title-md text-title-md rounded-lg flex items-center justify-center gap-2 transition-all active:scale-[0.98]`;
+            
+            // Update gradient bar
+            gradientEl.className = `absolute top-0 left-0 w-full h-1 ${colorMap[roleId]} transition-colors duration-300`;
+        }
+    </script>
+</body></html>

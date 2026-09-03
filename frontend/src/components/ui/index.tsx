@@ -311,7 +311,7 @@ export function Avatar({
   size?: "sm" | "md" | "lg";
   className?: string;
 }) {
-  const initials = name
+  const initials = (name || "")
     .split(" ")
     .map((n) => n[0])
     .join("")

@@ -1,0 +1,277 @@
+<!DOCTYPE html><html class="light" lang="en" style="width: 390px; height: 922px; overflow: hidden; position: relative;"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Driver Account - Profile</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "secondary-container": "#99efe5",
+                      "inverse-surface": "#283044",
+                      "role-admin-container": "#D1FAE5",
+                      "surface-container-highest": "#dae2fd",
+                      "on-secondary-fixed-variant": "#00504a",
+                      "on-tertiary": "#ffffff",
+                      "primary-fixed-dim": "#94ccff",
+                      "on-primary-fixed-variant": "#004b74",
+                      "role-driver-container": "#EDE9FE",
+                      "tertiary": "#733f00",
+                      "tertiary-fixed-dim": "#ffb878",
+                      "tertiary-container": "#955301",
+                      "surface-canvas": "#F8FAFC",
+                      "on-tertiary-container": "#ffdbbe",
+                      "primary": "#00507d",
+                      "surface-container-low": "#f2f3ff",
+                      "surface-container-lowest": "#ffffff",
+                      "surface-bright": "#faf8ff",
+                      "surface-dim": "#d2d9f4",
+                      "on-background": "#131b2e",
+                      "secondary-fixed": "#9cf2e8",
+                      "role-driver": "#7C3AED",
+                      "on-surface": "#131b2e",
+                      "border-hairline": "#E2E8F0",
+                      "on-secondary-container": "#006f67",
+                      "on-secondary-fixed": "#00201d",
+                      "background": "#faf8ff",
+                      "inverse-primary": "#94ccff",
+                      "secondary-fixed-dim": "#80d5cb",
+                      "role-passenger": "#2563EB",
+                      "on-tertiary-fixed-variant": "#6c3a00",
+                      "on-secondary": "#ffffff",
+                      "primary-container": "#0369a1",
+                      "secondary": "#006a63",
+                      "on-primary-container": "#cbe4ff",
+                      "on-primary": "#ffffff",
+                      "surface": "#faf8ff",
+                      "surface-container-high": "#e2e7ff",
+                      "surface-container": "#eaedff",
+                      "on-surface-variant": "#40474f",
+                      "on-error": "#ffffff",
+                      "on-error-container": "#93000a",
+                      "inverse-on-surface": "#eef0ff",
+                      "role-passenger-container": "#DBEAFE",
+                      "role-admin": "#059669",
+                      "on-primary-fixed": "#001d32",
+                      "outline-variant": "#c0c7d1",
+                      "error": "#ba1a1a",
+                      "primary-fixed": "#cde5ff",
+                      "surface-variant": "#dae2fd",
+                      "on-tertiary-fixed": "#2e1500",
+                      "surface-tint": "#006399",
+                      "outline": "#707881",
+                      "error-container": "#ffdad6",
+                      "tertiary-fixed": "#ffdcc1"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "margin-desktop": "32px",
+                      "md": "12px",
+                      "margin-mobile": "16px",
+                      "sm": "8px",
+                      "xl": "24px",
+                      "base": "16px",
+                      "2xl": "32px",
+                      "gutter": "16px",
+                      "lg": "20px",
+                      "xs": "4px",
+                      "unit": "4px"
+              },
+              "fontFamily": {
+                      "headline-md": ["Plus Jakarta Sans"],
+                      "label-caps": ["Plus Jakarta Sans"],
+                      "headline-lg": ["Plus Jakarta Sans"],
+                      "body-base": ["Inter"],
+                      "body-sm": ["Inter"],
+                      "title-md": ["Plus Jakarta Sans"],
+                      "title-lg": ["Plus Jakarta Sans"],
+                      "display-lg": ["Plus Jakarta Sans"],
+                      "stat-lg": ["Plus Jakarta Sans"]
+              },
+              "fontSize": {
+                      "headline-md": ["22px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                      "label-caps": ["11px", { "lineHeight": "14px", "letterSpacing": "0.06em", "fontWeight": "700" }],
+                      "headline-lg": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                      "body-base": ["15px", { "lineHeight": "22px", "letterSpacing": "0", "fontWeight": "400" }],
+                      "body-sm": ["13px", { "lineHeight": "18px", "letterSpacing": "0", "fontWeight": "400" }],
+                      "title-md": ["16px", { "lineHeight": "22px", "letterSpacing": "0", "fontWeight": "600" }],
+                      "title-lg": ["18px", { "lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                      "display-lg": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+                      "stat-lg": ["30px", { "lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "700" }]
+              }
+            }
+          }
+        }
+    </script>
+<style>
+        body { background-color: #F8FAFC; /* Slate canvas */ }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .material-symbols-outlined.fill { font-variation-settings: 'FILL' 1; }
+    </style>
+</head>
+<body class="antialiased text-on-surface pb-safe">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-surface dark:bg-surface-dim border-b border-outline-variant dark:border-outline flex justify-between items-center px-margin-mobile h-14">
+<div class="flex items-center gap-4">
+<button class="text-on-surface-variant hover:bg-surface-container-low transition-colors rounded-full p-2 active:opacity-80 transition-opacity">
+<span class="material-symbols-outlined" data-icon="menu">menu</span>
+</button>
+<span class="font-title-lg text-title-lg text-role-driver dark:text-role-driver-container font-bold">Driver Account</span>
+</div>
+<div class="w-8 h-8 rounded-full bg-surface-container-highest overflow-hidden border border-border-hairline">
+<img alt="Driver Profile" class="w-full h-full object-cover" data-alt="A professional headshot of a mature, dependable-looking man in a crisp chauffeur uniform with a neatly tied tie. The lighting is studio quality, bright, and flattering against a neutral grey background, conveying trust and reliability." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDzHXCi1LjyYLztcwSkFtV8wkkuqYx9HjLK5IPA01-RGAXEBQlEQa7Mv4WHObmcs-r4eqy7WM_3_irIxR6BD74b63DfedMyCdSQW8itZKeLDZHke14jWGm0BrcWs2Rs8ohmGHLz1-_RWwXr3UX8inFFp6rsL4ogjlJ7iCmat9ERu21gUmbbInWNNyPSFlHGr3KIFXjr9ivEqMztFBtW_ThfzVCim3ytwibZSLV-xGu6v6TgmUDyHIk">
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="pt-[72px] pb-[88px] px-margin-mobile md:px-margin-desktop max-w-4xl mx-auto space-y-xl">
+<!-- Profile Header Section -->
+<section class="bg-surface-container-lowest rounded-xl border border-border-hairline p-base flex flex-col sm:flex-row items-start sm:items-center gap-base">
+<div class="flex items-center gap-base">
+<div class="w-20 h-20 rounded-full bg-surface-container-highest overflow-hidden border-2 border-role-driver-container shadow-sm shrink-0">
+<img alt="Ko Aung Naing Win" class="w-full h-full object-cover" data-alt="A professional headshot of a mature, dependable-looking man in a crisp chauffeur uniform with a neatly tied tie. The lighting is studio quality, bright, and flattering against a neutral grey background, conveying trust and reliability." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDzHXCi1LjyYLztcwSkFtV8wkkuqYx9HjLK5IPA01-RGAXEBQlEQa7Mv4WHObmcs-r4eqy7WM_3_irIxR6BD74b63DfedMyCdSQW8itZKeLDZHke14jWGm0BrcWs2Rs8ohmGHLz1-_RWwXr3UX8inFFp6rsL4ogjlJ7iCmat9ERu21gUmbbInWNNyPSFlHGr3KIFXjr9ivEqMztFBtW_ThfzVCim3ytwibZSLV-xGu6v6TgmUDyHIk">
+</div>
+<div>
+<h1 class="font-headline-md text-headline-md text-on-surface">Ko Aung Naing Win</h1>
+<p class="font-body-base text-body-base text-on-surface-variant mt-1 flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px] text-role-driver">badge</span>
+                        Driver ID: D-8829
+                    </p>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5 flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px] text-role-driver">phone</span>
+                        Phone: 09-66662332
+                    </p>
+<div class="mt-2 inline-flex items-center bg-role-driver-container px-2 py-0.5 rounded-full">
+<span class="w-2 h-2 rounded-full bg-role-driver mr-2"></span>
+<span class="font-label-caps text-label-caps text-role-driver">Active Status</span>
+</div>
+</div>
+</div>
+<div class="w-full sm:w-auto sm:ml-auto mt-4 sm:mt-0 pt-4 sm:pt-0 border-t sm:border-t-0 border-outline-variant flex flex-col gap-1">
+<p class="font-body-sm text-body-sm text-on-surface"><span class="font-semibold text-on-surface-variant">Current Certification:</span> CC</p>
+<p class="font-body-sm text-body-sm text-on-surface"><span class="font-semibold text-on-surface-variant">Certified Since:</span> 01-Jan-2026</p>
+</div>
+</section>
+<!-- Assigned Vehicle Section -->
+<section class="bg-surface-container-lowest rounded-xl border border-border-hairline p-base flex items-center justify-between">
+<div class="flex items-center gap-base">
+<div class="w-12 h-12 rounded-full bg-role-driver-container flex items-center justify-center text-role-driver shrink-0">
+<span class="material-symbols-outlined" data-icon="directions_car">directions_car</span>
+</div>
+<div>
+<h2 class="font-title-md text-title-md text-on-surface">Toyota Alphard</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">License Plate: 4D-1200</p>
+</div>
+</div>
+<div class="text-right">
+<span class="inline-block bg-surface-container px-2 py-1 rounded font-label-caps text-label-caps text-on-surface-variant">Assigned Vehicle</span>
+</div>
+</section>
+<!-- Settings List -->
+<section class="space-y-base">
+<!-- Personal Information -->
+<a class="block bg-surface-container-lowest rounded-xl border border-border-hairline p-base flex items-center justify-between hover:bg-surface-container-low transition-colors group" href="#">
+<div class="flex items-center gap-base">
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-on-surface-variant group-hover:text-primary-container transition-colors">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+</div>
+<div>
+<h2 class="font-title-md text-title-md text-on-surface">Personal Information</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">View and edit your personal details</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline-variant group-hover:text-on-surface transition-colors">chevron_right</span>
+</a>
+<!-- Security -->
+<a class="block bg-surface-container-lowest rounded-xl border border-border-hairline p-base flex items-center justify-between hover:bg-surface-container-low transition-colors group" href="#">
+<div class="flex items-center gap-base">
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-on-surface-variant group-hover:text-primary-container transition-colors">
+<span class="material-symbols-outlined" data-icon="security">security</span>
+</div>
+<div>
+<h2 class="font-title-md text-title-md text-on-surface">Security</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Manage passwords and biometric login</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline-variant group-hover:text-on-surface transition-colors">chevron_right</span>
+</a>
+<!-- Notifications -->
+<a class="block bg-surface-container-lowest rounded-xl border border-border-hairline p-base flex items-center justify-between hover:bg-surface-container-low transition-colors group" href="#">
+<div class="flex items-center gap-base">
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-on-surface-variant group-hover:text-primary-container transition-colors">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</div>
+<div>
+<h2 class="font-title-md text-title-md text-on-surface">Notifications</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Manage alerts and sounds</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline-variant group-hover:text-on-surface transition-colors">chevron_right</span>
+</a>
+<!-- Support -->
+<a class="block bg-surface-container-lowest rounded-xl border border-border-hairline p-base flex items-center justify-between hover:bg-surface-container-low transition-colors group" href="#">
+<div class="flex items-center gap-base">
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-on-surface-variant group-hover:text-primary-container transition-colors">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+</div>
+<div>
+<h2 class="font-title-md text-title-md text-on-surface">Support</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">View driver manual and FAQs</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline-variant group-hover:text-on-surface transition-colors">chevron_right</span>
+</a>
+<!-- Logout Button -->
+<a href="{{DATA:SCREEN:SCREEN_70}}" class="w-full mt-xl bg-surface-container-lowest border-2 border-outline-variant text-on-surface font-title-md text-title-md rounded-lg py-3 flex items-center justify-center gap-2 hover:bg-error-container hover:border-error hover:text-error transition-colors"><span class="material-symbols-outlined" data-icon="logout">logout</span>Logout</a>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="md:hidden fixed bottom-0 w-full z-50 pb-safe bg-surface border-t border-outline-variant dark:border-outline shadow-sm flex justify-around items-center h-16 px-2">
+<!-- Home -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline px-3 py-1.5 hover:text-role-driver dark:hover:text-role-driver-container scale-95 active:scale-90 transition-transform duration-150" href="{{DATA:SCREEN:SCREEN_18}}">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-label-caps text-label-caps mt-1">Home</span>
+</a>
+<!-- Assignments -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline px-3 py-1.5 hover:text-role-driver dark:hover:text-role-driver-container scale-95 active:scale-90 transition-transform duration-150" href="{{DATA:SCREEN:SCREEN_15}}">
+<span class="material-symbols-outlined" data-icon="assignment">assignment</span>
+<span class="font-label-caps text-label-caps mt-1">Assignments</span>
+</a>
+<!-- Trips -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline px-3 py-1.5 hover:text-role-driver dark:hover:text-role-driver-container scale-95 active:scale-90 transition-transform duration-150" href="{{DATA:SCREEN:SCREEN_17}}">
+<span class="material-symbols-outlined" data-icon="local_shipping">directions_car</span>
+<span class="font-label-caps text-label-caps mt-1">Trips</span>
+</a>
+<!-- Performance -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline px-3 py-1.5 hover:text-role-driver dark:hover:text-role-driver-container scale-95 active:scale-90 transition-transform duration-150" href="{{DATA:SCREEN:SCREEN_16}}">
+<span class="material-symbols-outlined" data-icon="speed">speed</span>
+<span class="font-label-caps text-label-caps mt-1">Performance</span>
+</a>
+<!-- Account (Active) -->
+<a class="flex flex-col items-center justify-center bg-role-driver text-on-primary rounded-xl px-3 py-1.5 scale-95 active:scale-90 transition-transform duration-150" href="{{DATA:SCREEN:SCREEN_14}}">
+<span class="material-symbols-outlined fill" data-icon="person">person</span>
+<span class="font-label-caps text-label-caps mt-1 font-bold">Account</span>
+</a>
+</nav>
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="snapdom-sandbox" data-snapdom-sandbox="true" aria-hidden="true" style="position: absolute; left: -9999px; top: -9999px; width: 0px; height: 0px; overflow: hidden;"></div></body></html>

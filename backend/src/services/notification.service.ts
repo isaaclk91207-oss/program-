@@ -32,7 +32,7 @@ export class NotificationService {
   ): Promise<NotificationResponse[]> {
     const where: Record<string, unknown> = {
       recipientId,
-      recipientRole,
+      recipientRole: recipientRole.toUpperCase(),
     };
 
     if (unreadOnly) {
@@ -68,7 +68,7 @@ export class NotificationService {
     await prisma.notification.updateMany({
       where: {
         recipientId,
-        recipientRole,
+        recipientRole: recipientRole.toUpperCase(),
         read: false,
       },
       data: { read: true },
@@ -79,7 +79,7 @@ export class NotificationService {
     return prisma.notification.count({
       where: {
         recipientId,
-        recipientRole,
+        recipientRole: recipientRole.toUpperCase(),
         read: false,
       },
     });

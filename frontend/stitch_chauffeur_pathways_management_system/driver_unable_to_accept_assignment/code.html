@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Unable to Accept Assignment</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "secondary": "#006a63",
+                        "on-tertiary": "#ffffff",
+                        "on-primary-container": "#cbe4ff",
+                        "outline": "#707881",
+                        "on-error": "#ffffff",
+                        "outline-variant": "#c0c7d1",
+                        "secondary-fixed": "#9cf2e8",
+                        "on-primary-fixed": "#001d32",
+                        "surface-container-high": "#e2e7ff",
+                        "surface-variant": "#dae2fd",
+                        "role-admin": "#059669",
+                        "primary-fixed": "#cde5ff",
+                        "surface-container-highest": "#dae2fd",
+                        "on-primary-fixed-variant": "#004b74",
+                        "role-passenger": "#2563EB",
+                        "on-error-container": "#93000a",
+                        "on-tertiary-fixed-variant": "#6c3a00",
+                        "surface-bright": "#faf8ff",
+                        "on-secondary": "#ffffff",
+                        "surface-container-low": "#f2f3ff",
+                        "error-container": "#ffdad6",
+                        "role-driver-container": "#EDE9FE",
+                        "surface-tint": "#006399",
+                        "on-secondary-container": "#006f67",
+                        "surface-container": "#eaedff",
+                        "border-hairline": "#E2E8F0",
+                        "inverse-surface": "#283044",
+                        "secondary-container": "#99efe5",
+                        "role-admin-container": "#D1FAE5",
+                        "secondary-fixed-dim": "#80d5cb",
+                        "tertiary": "#733f00",
+                        "on-primary": "#ffffff",
+                        "on-surface": "#131b2e",
+                        "tertiary-container": "#955301",
+                        "on-secondary-fixed": "#00201d",
+                        "on-tertiary-fixed": "#2e1500",
+                        "tertiary-fixed-dim": "#ffb878",
+                        "on-background": "#131b2e",
+                        "inverse-primary": "#94ccff",
+                        "surface-dim": "#d2d9f4",
+                        "inverse-on-surface": "#eef0ff",
+                        "primary-container": "#0369a1",
+                        "tertiary-fixed": "#ffdcc1",
+                        "surface-canvas": "#F8FAFC",
+                        "surface-container-lowest": "#ffffff",
+                        "on-secondary-fixed-variant": "#00504a",
+                        "primary": "#00507d",
+                        "error": "#ba1a1a",
+                        "primary-fixed-dim": "#94ccff",
+                        "surface": "#faf8ff",
+                        "background": "#faf8ff",
+                        "on-tertiary-container": "#ffdbbe",
+                        "role-driver": "#7C3AED",
+                        "role-passenger-container": "#DBEAFE",
+                        "on-surface-variant": "#40474f"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    spacing: {
+                        "sm": "8px",
+                        "margin-desktop": "32px",
+                        "unit": "4px",
+                        "lg": "20px",
+                        "2xl": "32px",
+                        "margin-mobile": "16px",
+                        "xl": "24px",
+                        "md": "12px",
+                        "xs": "4px",
+                        "base": "16px",
+                        "gutter": "16px"
+                    },
+                    fontFamily: {
+                        "stat-lg": ["Plus Jakarta Sans"],
+                        "display-lg": ["Plus Jakarta Sans"],
+                        "title-md": ["Plus Jakarta Sans"],
+                        "body-base": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "title-lg": ["Plus Jakarta Sans"],
+                        "headline-lg": ["Plus Jakarta Sans"],
+                        "label-caps": ["Plus Jakarta Sans"]
+                    },
+                    fontSize: {
+                        "stat-lg": ["30px", { "lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "display-lg": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+                        "title-md": ["16px", { "lineHeight": "22px", "letterSpacing": "0", "fontWeight": "600" }],
+                        "body-base": ["15px", { "lineHeight": "22px", "letterSpacing": "0", "fontWeight": "400" }],
+                        "body-sm": ["13px", { "lineHeight": "18px", "letterSpacing": "0", "fontWeight": "400" }],
+                        "headline-md": ["22px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "title-lg": ["18px", { "lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "headline-lg": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "label-caps": ["11px", { "lineHeight": "14px", "letterSpacing": "0.06em", "fontWeight": "700" }]
+                    }
+                }
+            }
+        };
+    </script>
+<style>
+        body { background-color: #F8FAFC; }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        .radio-custom:checked + div {
+            border-color: #7C3AED;
+            background-color: #EDE9FE;
+        }
+        .radio-custom:checked + div .radio-icon {
+            color: #7C3AED;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="font-body-base text-on-surface antialiased pb-24 pt-14">
+<!-- Top App Bar (From Shared Components) -->
+<header class="fixed top-0 w-full z-50 bg-surface dark:bg-surface-dim border-b border-outline-variant dark:border-outline flex justify-between items-center px-margin-mobile h-14 w-full">
+<div class="flex items-center gap-2">
+<button class="p-2 -ml-2 rounded-full hover:bg-surface-container-low transition-colors active:opacity-80 transition-opacity">
+<span class="material-symbols-outlined text-role-driver dark:text-role-driver-container">arrow_back</span>
+</button>
+<span class="font-headline-md text-headline-md font-bold text-role-driver dark:text-role-driver-container">Driver Portal</span>
+</div>
+<div class="h-8 w-8 rounded-full bg-surface-container-high flex items-center justify-center overflow-hidden border border-border-hairline">
+<span class="material-symbols-outlined text-on-surface-variant text-sm">person</span>
+</div>
+</header>
+<main class="px-margin-mobile py-lg max-w-md mx-auto relative" id="main-content">
+<!-- Header Section -->
+<div class="mb-lg">
+<h1 class="font-headline-md text-headline-md text-on-surface mb-sm">Unable to Accept Assignment?</h1>
+<p class="font-body-base text-body-base text-on-surface-variant">Please tell Transport Admin why you cannot accept this assignment.</p>
+</div>
+<!-- Assignment Summary Card -->
+<div class="bg-surface-container-lowest rounded-xl border border-border-hairline p-base mb-xl shadow-sm">
+<div class="flex items-center justify-between mb-md pb-md border-b border-border-hairline">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider">Assignment #TRN-8924</span>
+<span class="font-label-caps text-label-caps text-role-driver bg-role-driver-container px-2 py-1 rounded-full uppercase">Pending Response</span>
+</div>
+<div class="flex items-start gap-md">
+<div class="p-2 bg-surface-container-low rounded-lg">
+<span class="material-symbols-outlined text-on-surface-variant">route</span>
+</div>
+<div>
+<h3 class="font-title-md text-title-md text-on-surface">Medical Resupply - Sector 4</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-xs">Departing: 14:00 • Est. 4h 30m</p>
+</div>
+</div>
+</div>
+<!-- Form Section -->
+<form class="space-y-md" id="decline-form">
+<label class="block relative cursor-pointer group">
+<input class="radio-custom sr-only peer" name="reason" required="" type="radio" value="already_assigned"/>
+<div class="p-base bg-surface-container-lowest rounded-xl border border-border-hairline flex items-center gap-md transition-colors hover:bg-surface-container-low">
+<span class="material-symbols-outlined text-outline radio-icon transition-colors">assignment_ind</span>
+<span class="font-title-md text-title-md text-on-surface flex-grow">Already Assigned</span>
+<div class="w-5 h-5 rounded-full border-2 border-outline-variant peer-checked:border-role-driver flex items-center justify-center">
+<div class="w-2.5 h-2.5 rounded-full bg-role-driver opacity-0 peer-checked:opacity-100 transition-opacity"></div>
+</div>
+</div>
+</label>
+<label class="block relative cursor-pointer group">
+<input class="radio-custom sr-only peer" name="reason" type="radio" value="schedule_conflict"/>
+<div class="p-base bg-surface-container-lowest rounded-xl border border-border-hairline flex items-center gap-md transition-colors hover:bg-surface-container-low">
+<span class="material-symbols-outlined text-outline radio-icon transition-colors">event_busy</span>
+<span class="font-title-md text-title-md text-on-surface flex-grow">Schedule Conflict</span>
+<div class="w-5 h-5 rounded-full border-2 border-outline-variant peer-checked:border-role-driver flex items-center justify-center">
+<div class="w-2.5 h-2.5 rounded-full bg-role-driver opacity-0 peer-checked:opacity-100 transition-opacity"></div>
+</div>
+</div>
+</label>
+<label class="block relative cursor-pointer group">
+<input class="radio-custom sr-only peer" name="reason" type="radio" value="vehicle_issue"/>
+<div class="p-base bg-surface-container-lowest rounded-xl border border-border-hairline flex items-center gap-md transition-colors hover:bg-surface-container-low">
+<span class="material-symbols-outlined text-outline radio-icon transition-colors">car_repair</span>
+<span class="font-title-md text-title-md text-on-surface flex-grow">Vehicle Issue</span>
+<div class="w-5 h-5 rounded-full border-2 border-outline-variant peer-checked:border-role-driver flex items-center justify-center">
+<div class="w-2.5 h-2.5 rounded-full bg-role-driver opacity-0 peer-checked:opacity-100 transition-opacity"></div>
+</div>
+</div>
+</label>
+<label class="block relative cursor-pointer group">
+<input class="radio-custom sr-only peer" name="reason" type="radio" value="personal_emergency"/>
+<div class="p-base bg-surface-container-lowest rounded-xl border border-border-hairline flex items-center gap-md transition-colors hover:bg-surface-container-low">
+<span class="material-symbols-outlined text-outline radio-icon transition-colors">emergency</span>
+<span class="font-title-md text-title-md text-on-surface flex-grow">Personal Emergency</span>
+<div class="w-5 h-5 rounded-full border-2 border-outline-variant peer-checked:border-role-driver flex items-center justify-center">
+<div class="w-2.5 h-2.5 rounded-full bg-role-driver opacity-0 peer-checked:opacity-100 transition-opacity"></div>
+</div>
+</div>
+</label>
+<label class="block relative cursor-pointer group">
+<input class="radio-custom sr-only peer" id="reason-other" name="reason" type="radio" value="other"/>
+<div class="p-base bg-surface-container-lowest rounded-xl border border-border-hairline flex items-center gap-md transition-colors hover:bg-surface-container-low">
+<span class="material-symbols-outlined text-outline radio-icon transition-colors">more_horiz</span>
+<span class="font-title-md text-title-md text-on-surface flex-grow">Other</span>
+<div class="w-5 h-5 rounded-full border-2 border-outline-variant peer-checked:border-role-driver flex items-center justify-center">
+<div class="w-2.5 h-2.5 rounded-full bg-role-driver opacity-0 peer-checked:opacity-100 transition-opacity"></div>
+</div>
+</div>
+</label>
+<!-- Hidden Note Area -->
+<div class="hidden mt-md transition-all duration-300 opacity-0 transform -translate-y-2" id="additional-note-container">
+<label class="block font-title-md text-title-md text-on-surface mb-xs" for="additional_note">Additional Note</label>
+<textarea class="w-full bg-surface-container-lowest border border-outline-variant rounded-xl p-md font-body-base text-body-base text-on-surface focus:border-role-driver focus:ring-2 focus:ring-role-driver-container outline-none transition-all resize-none placeholder-on-surface-variant/50" id="additional_note" name="additional_note" placeholder="Please provide details..." rows="3"></textarea>
+</div>
+<div class="pt-xl mt-xl border-t border-border-hairline">
+<button class="w-full h-[48px] bg-role-driver text-on-primary rounded-xl font-title-md text-title-md flex items-center justify-center gap-2 hover:bg-role-driver/90 active:scale-95 transition-all shadow-sm" type="submit">
+<span class="material-symbols-outlined">send</span>
+                    Submit to Transport Admin
+                </button>
+</div>
+</form>
+<!-- Success State (Hidden by default) -->
+<div class="hidden absolute inset-0 bg-surface-canvas z-10 flex flex-col items-center justify-center py-2xl" id="success-state">
+<div class="w-20 h-20 rounded-full bg-role-driver-container flex items-center justify-center mb-xl animate-bounce">
+<span class="material-symbols-outlined text-role-driver text-4xl" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<h2 class="font-headline-md text-headline-md text-on-surface mb-sm text-center">Transport Admin Notified</h2>
+<p class="font-body-base text-body-base text-on-surface-variant text-center mb-xl max-w-xs">
+                Your response has been submitted. The assignment status is now awaiting review.
+            </p>
+<div class="bg-surface-container-lowest border border-border-hairline rounded-xl p-base w-full flex items-center justify-between mb-xl">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-outline">admin_panel_settings</span>
+<span class="font-title-md text-title-md text-on-surface">Assignment Status</span>
+</div>
+<span class="font-label-caps text-label-caps text-role-admin bg-role-admin-container px-3 py-1.5 rounded-full uppercase">Needs Admin Review</span>
+</div>
+<button class="h-[48px] px-lg border-2 border-outline-variant text-on-surface font-title-md text-title-md rounded-xl hover:bg-surface-container-low transition-colors w-full" onclick="window.location.reload()">
+                Return to Assignments
+            </button>
+</div>
+</main>
+<!-- Bottom Nav Bar (From Shared Components) -->
+<nav class="fixed bottom-0 w-full z-50 pb-safe border-t border-outline-variant dark:border-outline bg-surface shadow-sm flex justify-around items-center w-full h-16 px-2 md:hidden">
+<button class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline px-3 py-1.5 hover:text-role-driver dark:hover:text-role-driver-container scale-95 active:scale-90 transition-transform duration-150 group">
+<span class="material-symbols-outlined mb-1 group-hover:text-role-driver transition-colors">home</span>
+<span class="font-label-caps text-label-caps">Home</span>
+</button>
+<!-- Active Tab: Assignments -->
+<button class="flex flex-col items-center justify-center bg-role-driver-container dark:bg-role-driver text-role-driver dark:text-on-primary rounded-xl px-3 py-1.5 scale-95 active:scale-90 transition-transform duration-150">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 1;">assignment</span>
+<span class="font-label-caps text-label-caps">Assignments</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline px-3 py-1.5 hover:text-role-driver dark:hover:text-role-driver-container scale-95 active:scale-90 transition-transform duration-150 group">
+<span class="material-symbols-outlined mb-1 group-hover:text-role-driver transition-colors">route</span>
+<span class="font-label-caps text-label-caps">Trips</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline px-3 py-1.5 hover:text-role-driver dark:hover:text-role-driver-container scale-95 active:scale-90 transition-transform duration-150 group">
+<span class="material-symbols-outlined mb-1 group-hover:text-role-driver transition-colors">query_stats</span>
+<span class="font-label-caps text-label-caps">Performance</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline px-3 py-1.5 hover:text-role-driver dark:hover:text-role-driver-container scale-95 active:scale-90 transition-transform duration-150 group">
+<span class="material-symbols-outlined mb-1 group-hover:text-role-driver transition-colors">person</span>
+<span class="font-label-caps text-label-caps">Account</span>
+</button>
+</nav>
+<script>
+        // Handle 'Other' radio selection to show text area
+        const radioButtons = document.querySelectorAll('input[name="reason"]');
+        const additionalNoteContainer = document.getElementById('additional-note-container');
+        const additionalNoteInput = document.getElementById('additional_note');
+
+        radioButtons.forEach(radio => {
+            radio.addEventListener('change', (e) => {
+                if (e.target.value === 'other') {
+                    additionalNoteContainer.classList.remove('hidden');
+                    additionalNoteInput.setAttribute('required', 'true');
+                    // Small delay to allow display:block to apply before animating opacity
+                    setTimeout(() => {
+                        additionalNoteContainer.classList.remove('opacity-0', '-translate-y-2');
+                        additionalNoteContainer.classList.add('opacity-100', 'translate-y-0');
+                    }, 10);
+                } else {
+                    additionalNoteContainer.classList.add('opacity-0', '-translate-y-2');
+                    additionalNoteContainer.classList.remove('opacity-100', 'translate-y-0');
+                    additionalNoteInput.removeAttribute('required');
+                    setTimeout(() => {
+                        additionalNoteContainer.classList.add('hidden');
+                    }, 300); // Wait for transition to finish
+                }
+            });
+        });
+
+        // Handle Form Submission
+        const form = document.getElementById('decline-form');
+        const successState = document.getElementById('success-state');
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            // In a real app, API call goes here
+            
+            // Hide form and show success state
+            form.style.display = 'none';
+            document.querySelector('.mb-lg').style.display = 'none'; // hide header text
+            
+            successState.classList.remove('hidden');
+            // Animate in
+            successState.classList.add('animate-fade-in');
+        });
+    </script>
+</body></html>

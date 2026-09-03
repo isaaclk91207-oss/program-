@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>My Assignments - Driver App</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Plus+Jakarta+Sans:wght@500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Config -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "error-container": "#ffdad6",
+                        "surface-dim": "#d2d9f4",
+                        "inverse-on-surface": "#eef0ff",
+                        "on-tertiary-fixed": "#2e1500",
+                        "tertiary-fixed": "#ffdcc1",
+                        "secondary": "#006a63",
+                        "on-primary-container": "#cbe4ff",
+                        "surface-canvas": "#F8FAFC",
+                        "on-surface-variant": "#40474f",
+                        "on-primary-fixed-variant": "#004b74",
+                        "primary-fixed-dim": "#94ccff",
+                        "error": "#ba1a1a",
+                        "surface-bright": "#faf8ff",
+                        "role-driver-container": "#EDE9FE",
+                        "role-admin": "#059669",
+                        "on-secondary-fixed-variant": "#00504a",
+                        "on-tertiary-fixed-variant": "#6c3a00",
+                        "on-primary-fixed": "#001d32",
+                        "primary-fixed": "#cde5ff",
+                        "surface-container-low": "#f2f3ff",
+                        "on-tertiary-container": "#ffdbbe",
+                        "outline-variant": "#c0c7d1",
+                        "on-tertiary": "#ffffff",
+                        "secondary-fixed-dim": "#80d5cb",
+                        "on-surface": "#131b2e",
+                        "tertiary-container": "#955301",
+                        "secondary-fixed": "#9cf2e8",
+                        "surface-container-highest": "#dae2fd",
+                        "surface": "#faf8ff",
+                        "on-secondary": "#ffffff",
+                        "on-secondary-fixed": "#00201d",
+                        "tertiary": "#733f00",
+                        "border-hairline": "#E2E8F0",
+                        "on-error-container": "#93000a",
+                        "secondary-container": "#99efe5",
+                        "on-secondary-container": "#006f67",
+                        "background": "#faf8ff",
+                        "surface-variant": "#dae2fd",
+                        "surface-container-lowest": "#ffffff",
+                        "role-passenger-container": "#DBEAFE",
+                        "surface-container-high": "#e2e7ff",
+                        "on-primary": "#ffffff",
+                        "primary": "#00507d",
+                        "role-passenger": "#2563EB",
+                        "surface-container": "#eaedff",
+                        "primary-container": "#0369a1",
+                        "inverse-surface": "#283044",
+                        "on-error": "#ffffff",
+                        "outline": "#707881",
+                        "tertiary-fixed-dim": "#ffb878",
+                        "surface-tint": "#006399",
+                        "inverse-primary": "#94ccff",
+                        "role-driver": "#7C3AED",
+                        "on-background": "#131b2e",
+                        "role-admin-container": "#D1FAE5"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "unit": "4px",
+                        "2xl": "32px",
+                        "base": "16px",
+                        "sm": "8px",
+                        "margin-mobile": "16px",
+                        "margin-desktop": "32px",
+                        "xs": "4px",
+                        "md": "12px",
+                        "lg": "20px",
+                        "gutter": "16px",
+                        "xl": "24px"
+                    },
+                    "fontFamily": {
+                        "title-md": ["Plus Jakarta Sans"],
+                        "title-lg": ["Plus Jakarta Sans"],
+                        "body-sm": ["Inter"],
+                        "stat-lg": ["Plus Jakarta Sans"],
+                        "label-caps": ["Plus Jakarta Sans"],
+                        "display-lg": ["Plus Jakarta Sans"],
+                        "headline-lg": ["Plus Jakarta Sans"],
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "body-base": ["Inter"]
+                    },
+                    "fontSize": {
+                        "title-md": ["16px", { "lineHeight": "22px", "letterSpacing": "0", "fontWeight": "600" }],
+                        "title-lg": ["18px", { "lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "body-sm": ["13px", { "lineHeight": "18px", "letterSpacing": "0", "fontWeight": "400" }],
+                        "stat-lg": ["30px", { "lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "label-caps": ["11px", { "lineHeight": "14px", "letterSpacing": "0.06em", "fontWeight": "700" }],
+                        "display-lg": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+                        "headline-lg": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-md": ["22px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "body-base": ["15px", { "lineHeight": "22px", "letterSpacing": "0", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-surface-canvas text-on-surface font-body-base antialiased min-h-screen flex flex-col">
+<!-- TopAppBar Shared Component -->
+<header class="flex justify-between items-center w-full px-margin-mobile h-12 bg-surface border-b border-hairline fixed top-0 z-50 transition-all duration-200">
+<div class="flex items-center gap-md">
+<button aria-label="Menu" class="material-symbols-outlined text-primary hover:bg-surface-container-low p-1 rounded transition-colors">menu</button>
+<span class="font-display-lg text-display-lg font-extrabold text-primary tracking-tight" style="font-size: 20px; line-height: 24px;">PCCP Transport</span>
+</div>
+<div class="w-8 h-8 rounded-full bg-surface-container-high border border-hairline overflow-hidden flex items-center justify-center">
+<span class="material-symbols-outlined text-on-surface-variant" style="font-size: 20px;">person</span>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-1 w-full max-w-md mx-auto pt-[64px] pb-[80px] px-margin-mobile flex flex-col gap-lg"><!-- CURRENT Section -->
+<section class="flex flex-col gap-md">
+<div class="flex items-center justify-between px-1">
+<h3 class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider">Current</h3>
+</div>
+<div class="bg-surface-container-lowest border border-role-driver/30 rounded-xl p-base shadow-sm relative overflow-hidden">
+<div class="absolute left-0 top-0 w-1 h-full bg-role-driver"></div>
+<div class="flex justify-between items-start mb-md pl-2">
+<div class="flex flex-col gap-1">
+<span class="inline-block px-2 py-1 bg-role-driver-container text-role-driver font-label-caps text-label-caps rounded-full w-max tracking-wider">IN PROGRESS</span>
+<h2 class="font-title-lg text-title-lg text-on-surface mt-1">PCCP-TR-2026-0001</h2>
+</div>
+<div class="flex flex-col items-end">
+<span class="font-title-md text-title-md text-on-surface">08:30 AM</span>
+</div>
+</div>
+<div class="flex flex-col gap-sm mb-lg pl-2">
+<div class="flex items-center gap-sm text-on-surface">
+<span class="material-symbols-outlined text-primary" style="font-size: 20px;">route</span>
+<span class="font-body-base">uab HO → Airport</span>
+</div>
+<div class="flex items-center gap-sm text-on-surface-variant">
+<span class="material-symbols-outlined" style="font-size: 20px;">group</span>
+<span class="font-body-sm">2 passengers</span>
+</div>
+</div>
+<button class="w-full h-[48px] bg-role-driver text-white rounded-lg font-title-md text-title-md flex justify-center items-center gap-xs hover:opacity-90 active:scale-[0.98] transition-all">
+            Open Assignment
+        </button>
+</div>
+</section>
+<!-- UPCOMING Section -->
+<section class="flex flex-col gap-md">
+<div class="flex items-center justify-between px-1">
+<h3 class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider">Upcoming</h3>
+</div>
+<div class="bg-surface-container-lowest border border-hairline rounded-xl p-md shadow-sm flex flex-col gap-sm hover:border-outline-variant transition-colors cursor-pointer">
+<div class="flex justify-between items-center">
+<span class="px-2 py-1 bg-surface-container text-on-surface-variant font-label-caps text-label-caps rounded-full tracking-wider">UPCOMING</span>
+<span class="font-title-md text-title-md text-on-surface">02:00 PM</span>
+</div>
+<div>
+<span class="font-title-md text-title-md text-on-surface">PCCP-TR-2026-0002</span>
+</div>
+<div class="flex items-center gap-xs text-on-surface-variant">
+<span class="material-symbols-outlined" style="font-size: 18px;">near_me</span>
+<span class="font-body-sm truncate">uab HO → Sule Square</span>
+</div>
+</div>
+</section>
+<!-- COMPLETED Section -->
+<section class="flex flex-col gap-md">
+<div class="flex items-center justify-between px-1">
+<h3 class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider">Completed</h3>
+</div>
+<div class="bg-surface-container-low border border-hairline rounded-xl p-md flex flex-col gap-sm opacity-80">
+<div class="flex justify-between items-center">
+<span class="px-2 py-1 bg-role-admin-container text-role-admin font-label-caps text-label-caps rounded-full tracking-wider">COMPLETED</span>
+<span class="font-title-md text-title-md text-on-surface-variant">07:00 AM</span>
+</div>
+<div>
+<span class="font-title-md text-title-md text-on-surface-variant">PCCP-TR-2026-0000</span>
+</div>
+<div class="flex items-center gap-xs text-on-surface-variant">
+<span class="material-symbols-outlined" style="font-size: 18px;">check_circle</span>
+<span class="font-body-sm truncate">uab HO → Downtown</span>
+</div>
+</div>
+</section></main>
+<!-- BottomNavBar Shared Component -->
+<nav class="fixed bottom-0 w-full z-50 rounded-t-xl bg-surface border-t border-hairline shadow-md flex justify-around items-center h-[64px] pb-safe md:hidden transition-transform duration-150">
+<!-- Active Tab: Trips (Mapped to 'Assignments' in Driver Context) -->
+<button class="flex flex-col items-center justify-center bg-role-passenger-container text-on-primary-container rounded-xl px-3 py-1 scale-95 transition-transform duration-150 group">
+<span class="material-symbols-outlined text-role-passenger" style="font-variation-settings: 'FILL' 1;">local_shipping</span>
+<span class="font-body-sm text-body-sm mt-1 text-role-passenger font-medium">Assignments</span>
+</button>
+<!-- Inactive Tab: Requests -->
+<button class="flex flex-col items-center justify-center text-on-surface-variant px-3 py-1 scale-95 active:scale-90 transition-transform duration-150 hover:bg-surface-container-high rounded-xl">
+<span class="material-symbols-outlined">add_location_alt</span>
+<span class="font-body-sm text-body-sm mt-1">Requests</span>
+</button>
+<!-- Inactive Tab: Performance -->
+<button class="flex flex-col items-center justify-center text-on-surface-variant px-3 py-1 scale-95 active:scale-90 transition-transform duration-150 hover:bg-surface-container-high rounded-xl">
+<span class="material-symbols-outlined">speed</span>
+<span class="font-body-sm text-body-sm mt-1">Performance</span>
+</button>
+<!-- Inactive Tab: Account -->
+<button class="flex flex-col items-center justify-center text-on-surface-variant px-3 py-1 scale-95 active:scale-90 transition-transform duration-150 hover:bg-surface-container-high rounded-xl">
+<span class="material-symbols-outlined">person</span>
+<span class="font-body-sm text-body-sm mt-1">Account</span>
+</button>
+</nav>
+</body></html>

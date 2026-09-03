@@ -1,0 +1,225 @@
+<!DOCTYPE html><html class="light" lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>QR Verification</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&amp;family=Inter:wght@400;600&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "error-container": "#ffdad6",
+                        "surface-dim": "#d2d9f4",
+                        "inverse-on-surface": "#eef0ff",
+                        "on-tertiary-fixed": "#2e1500",
+                        "tertiary-fixed": "#ffdcc1",
+                        "secondary": "#006a63",
+                        "on-primary-container": "#cbe4ff",
+                        "surface-canvas": "#F8FAFC",
+                        "on-surface-variant": "#40474f",
+                        "on-primary-fixed-variant": "#004b74",
+                        "primary-fixed-dim": "#94ccff",
+                        "error": "#ba1a1a",
+                        "surface-bright": "#faf8ff",
+                        "role-driver-container": "#EDE9FE",
+                        "role-admin": "#059669",
+                        "on-secondary-fixed-variant": "#00504a",
+                        "on-tertiary-fixed-variant": "#6c3a00",
+                        "on-primary-fixed": "#001d32",
+                        "primary-fixed": "#cde5ff",
+                        "surface-container-low": "#f2f3ff",
+                        "on-tertiary-container": "#ffdbbe",
+                        "outline-variant": "#c0c7d1",
+                        "on-tertiary": "#ffffff",
+                        "secondary-fixed-dim": "#80d5cb",
+                        "on-surface": "#131b2e",
+                        "tertiary-container": "#955301",
+                        "secondary-fixed": "#9cf2e8",
+                        "surface-container-highest": "#dae2fd",
+                        "surface": "#faf8ff",
+                        "on-secondary": "#ffffff",
+                        "on-secondary-fixed": "#00201d",
+                        "tertiary": "#733f00",
+                        "border-hairline": "#E2E8F0",
+                        "on-error-container": "#93000a",
+                        "secondary-container": "#99efe5",
+                        "on-secondary-container": "#006f67",
+                        "background": "#faf8ff",
+                        "surface-variant": "#dae2fd",
+                        "surface-container-lowest": "#ffffff",
+                        "role-passenger-container": "#DBEAFE",
+                        "surface-container-high": "#e2e7ff",
+                        "on-primary": "#ffffff",
+                        "primary": "#00507d",
+                        "role-passenger": "#2563EB",
+                        "surface-container": "#eaedff",
+                        "primary-container": "#0369a1",
+                        "inverse-surface": "#283044",
+                        "on-error": "#ffffff",
+                        "outline": "#707881",
+                        "tertiary-fixed-dim": "#ffb878",
+                        "surface-tint": "#006399",
+                        "inverse-primary": "#94ccff",
+                        "role-driver": "#7C3AED",
+                        "on-background": "#131b2e",
+                        "role-admin-container": "#D1FAE5"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "unit": "4px",
+                        "2xl": "32px",
+                        "base": "16px",
+                        "sm": "8px",
+                        "margin-mobile": "16px",
+                        "margin-desktop": "32px",
+                        "xs": "4px",
+                        "md": "12px",
+                        "lg": "20px",
+                        "gutter": "16px",
+                        "xl": "24px"
+                    },
+                    "fontFamily": {
+                        "title-md": ["Plus Jakarta Sans"],
+                        "title-lg": ["Plus Jakarta Sans"],
+                        "body-sm": ["Inter"],
+                        "stat-lg": ["Plus Jakarta Sans"],
+                        "label-caps": ["Plus Jakarta Sans"],
+                        "display-lg": ["Plus Jakarta Sans"],
+                        "headline-lg": ["Plus Jakarta Sans"],
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "body-base": ["Inter"]
+                    },
+                    "fontSize": {
+                        "title-md": ["16px", { "lineHeight": "22px", "letterSpacing": "0", "fontWeight": "600" }],
+                        "title-lg": ["18px", { "lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "body-sm": ["13px", { "lineHeight": "18px", "letterSpacing": "0", "fontWeight": "400" }],
+                        "stat-lg": ["30px", { "lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "label-caps": ["11px", { "lineHeight": "14px", "letterSpacing": "0.06em", "fontWeight": "700" }],
+                        "display-lg": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+                        "headline-lg": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-md": ["22px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "body-base": ["15px", { "lineHeight": "22px", "letterSpacing": "0", "fontWeight": "400" }]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-surface-canvas min-h-screen text-on-surface">
+<!-- Content Canvas -->
+<main class="max-w-md mx-auto min-h-screen bg-surface-container-lowest shadow-md border-x border-hairline flex flex-col pt-safe">
+<!-- Verification Badge Header -->
+<header class="bg-role-admin-container p-xl flex flex-col items-center justify-center text-center border-b border-hairline relative overflow-hidden">
+<div class="absolute inset-0 opacity-10 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9InBhdHRlcm4iIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTTIwIDIwdjIwaDIwdjIweiIgZmlsbD0iIzAwMCIgZmlsbC1vcGFjaXR5PSIwLjEiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjcGF0dGVybikiLz48L3N2Zz4=')]"></div>
+<div class="w-20 h-20 bg-white rounded-full flex items-center justify-center shadow-sm z-10 mb-md relative">
+<div class="absolute inset-0 rounded-full border-4 border-role-admin opacity-20"></div>
+<span class="material-symbols-outlined text-[40px] text-role-admin" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<h1 class="font-display-lg text-display-lg text-role-admin z-10">PCCP VERIFIED</h1>
+<p class="font-body-base text-body-base text-role-admin opacity-90 z-10 mt-xs">Official Vehicle &amp; Driver Match</p>
+<p class="font-label-caps text-label-caps text-role-admin opacity-90 z-10 mt-xs uppercase tracking-widest">Assignment: TRP-2026-0012</p><p class="font-label-caps text-label-caps text-role-admin opacity-70 z-10 mt-xs uppercase">Scanned at 14:32 • Today</p>
+</header>
+<div class="flex-1 p-margin-mobile flex flex-col gap-lg overflow-y-auto"><div class="bg-surface-container-high p-base rounded-lg border border-hairline flex items-center gap-2"><span class="material-symbols-outlined text-primary">info</span><p class="font-body-sm text-on-surface-variant"><strong>Show to Passenger:</strong> This secure assignment token verifies your driver, vehicle, and route for this trip.</p></div>
+<!-- Driver Profile -->
+<section class="bg-white rounded-xl border border-hairline p-base flex gap-base items-center">
+<div class="w-16 h-16 rounded-full overflow-hidden bg-surface-variant flex-shrink-0 relative">
+<img class="w-full h-full object-cover" data-alt="Professional headshot of an Asian male driver wearing a dark uniform suit and tie, smiling subtly against a plain gray background. The lighting is soft and corporate, conveying reliability and trustworthiness. The image is high-resolution with a focus on professional presentation." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC6RmBdymdLJl3oa_IcPd9Ne3MY3flQEYwgVM1SUEv58UyXjZ8PJ-XgbPomaPOD4997VHhD7MICQjJU-hXoPmNvBpJFGcyHJnxnTCQHaJBjgSjqGCug6ustiBKEQ9o7rvjvasvvDW2sFUH0ueD7mpQkampXHlbitfFRWOJdXwUB6eyM004YP2u0bx8OxUUZkR3Fpap2VQaU7tcAuLogNbl7TfaI4TFm2gLXrGNagYrQMjcvDSyUw6Y">
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-start">
+<div>
+<h2 class="font-title-lg text-title-lg text-on-surface truncate">U Aung Min</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-xs">ID: D-8829</p>
+</div>
+<span class="bg-primary-container text-white px-2 py-1 rounded font-label-caps text-label-caps ml-2 flex-shrink-0">CC CERTIFIED</span>
+</div>
+</div>
+</section>
+<!-- Vehicle Profile -->
+<section class="bg-white rounded-xl border border-hairline p-base flex gap-base items-center">
+<div class="w-16 h-16 rounded-lg overflow-hidden bg-surface-variant flex-shrink-0 flex items-center justify-center">
+<span class="material-symbols-outlined text-[32px] text-primary" style="font-variation-settings: 'FILL' 1;">directions_car</span>
+</div>
+<div class="flex-1 min-w-0">
+<h2 class="font-title-lg text-title-lg text-on-surface truncate">Toyota Alphard</h2>
+<div class="flex items-center gap-2 mt-xs">
+<span class="bg-surface-container-high text-on-surface-variant px-2 py-1 rounded font-label-caps text-label-caps border border-hairline font-mono tracking-widest">7F/1234</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant">• White</p>
+</div>
+</div>
+</section>
+<!-- Current Assignment -->
+<section class="bg-white rounded-xl border border-hairline p-base">
+<h3 class="font-label-caps text-label-caps text-on-surface-variant uppercase mb-md border-b border-hairline pb-xs">Secure Assignment Token</h3>
+<div class="flex items-center gap-sm mb-md">
+<span class="material-symbols-outlined text-role-passenger" style="font-variation-settings: 'FILL' 1;">confirmation_number</span>
+<span class="font-title-md text-title-md text-on-surface">Trip #TRP-2026-0012</span>
+</div>
+<div class="relative pl-6 before:absolute before:left-2 before:top-2 before:bottom-2 before:w-[2px] before:bg-outline-variant before:-z-10">
+<div class="relative mb-4">
+<div class="absolute -left-[27px] top-1 w-4 h-4 rounded-full bg-white border-2 border-role-passenger flex items-center justify-center">
+<div class="w-1.5 h-1.5 rounded-full bg-role-passenger"></div>
+</div>
+<p class="font-label-caps text-label-caps text-on-surface-variant uppercase">Pickup</p>
+<p class="font-body-base text-body-base text-on-surface">Sule Square, Yangon</p>
+</div>
+<div class="relative">
+<div class="absolute -left-[27px] top-1 w-4 h-4 rounded-full bg-role-passenger flex items-center justify-center">
+<span class="material-symbols-outlined text-[10px] text-white" style="font-variation-settings: 'FILL' 1;">location_on</span>
+</div>
+<p class="font-label-caps text-label-caps text-on-surface-variant uppercase">Destination</p>
+<p class="font-body-base text-body-base text-on-surface">Yangon International Airport</p>
+</div>
+</div>
+</section>
+<div class="mt-auto pt-lg">
+    <button class="w-full h-12 bg-primary-container text-white font-title-md text-title-md rounded-lg shadow-sm hover:opacity-90 transition-opacity active:scale-[0.98] flex items-center justify-center gap-2">
+        <span class="material-symbols-outlined">directions_car</span>
+        Confirm &amp; Board Vehicle
+    </button>
+    <p class="text-center font-label-caps text-label-caps text-on-surface-variant mt-md uppercase flex items-center justify-center gap-1">
+        <span class="material-symbols-outlined text-[14px]">lock</span>
+        Authorized PCCP Verification Only
+    </p>
+</div></div>
+<!-- Footer / Action -->
+<footer class="bg-surface-container-lowest border-t border-hairline px-margin-mobile py-2 flex justify-between items-center mt-auto"><div class="flex flex-col items-center gap-1 flex-1">
+        <span class="material-symbols-outlined text-on-surface-variant">home</span>
+        <span class="font-label-caps text-label-caps text-on-surface-variant">Home</span>
+    </div>
+    <div class="flex flex-col items-center gap-1 flex-1">
+        <span class="material-symbols-outlined text-on-surface-variant">assignment</span>
+        <span class="font-label-caps text-label-caps text-on-surface-variant">Assignments</span>
+    </div>
+    <div class="flex flex-col items-center gap-1 flex-1">
+        <span class="material-symbols-outlined text-on-surface-variant">local_shipping</span>
+        <span class="font-label-caps text-label-caps text-on-surface-variant">Trips</span>
+    </div>
+    <div class="flex flex-col items-center gap-1 flex-1">
+        <span class="material-symbols-outlined text-on-surface-variant">speed</span>
+        <span class="font-label-caps text-label-caps text-on-surface-variant">Performance</span>
+    </div>
+    <div class="flex flex-col items-center gap-1 flex-1">
+        <div class="bg-role-driver-container px-4 py-1 rounded-full flex flex-col items-center">
+            <span class="material-symbols-outlined text-role-driver" style="font-variation-settings: 'FILL' 1;">person</span>
+        </div>
+        <span class="font-label-caps text-label-caps text-role-driver">Account</span>
+    </div></footer>
+</main>
+
+
+</body></html>

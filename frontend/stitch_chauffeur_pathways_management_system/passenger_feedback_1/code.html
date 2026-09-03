@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Passenger Feedback - PCCP</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Config -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-tertiary-fixed-variant": "#6c3a00",
+                    "inverse-on-surface": "#eef0ff",
+                    "on-primary": "#ffffff",
+                    "on-primary-fixed-variant": "#004b74",
+                    "role-driver-container": "#EDE9FE",
+                    "primary": "#00507d",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-bright": "#faf8ff",
+                    "surface-variant": "#dae2fd",
+                    "tertiary-fixed": "#ffdcc1",
+                    "tertiary-container": "#955301",
+                    "role-passenger-container": "#DBEAFE",
+                    "surface": "#faf8ff",
+                    "surface-container": "#eaedff",
+                    "on-surface": "#131b2e",
+                    "on-background": "#131b2e",
+                    "error": "#ba1a1a",
+                    "on-tertiary": "#ffffff",
+                    "surface-tint": "#006399",
+                    "on-secondary-container": "#006f67",
+                    "background": "#faf8ff",
+                    "surface-container-low": "#f2f3ff",
+                    "tertiary-fixed-dim": "#ffb878",
+                    "secondary-fixed-dim": "#80d5cb",
+                    "role-admin": "#059669",
+                    "primary-container": "#0369a1",
+                    "on-surface-variant": "#40474f",
+                    "primary-fixed": "#cde5ff",
+                    "secondary-container": "#99efe5",
+                    "border-hairline": "#E2E8F0",
+                    "surface-container-high": "#e2e7ff",
+                    "outline": "#707881",
+                    "on-error": "#ffffff",
+                    "on-error-container": "#93000a",
+                    "role-passenger": "#2563EB",
+                    "inverse-surface": "#283044",
+                    "role-admin-container": "#D1FAE5",
+                    "on-secondary": "#ffffff",
+                    "surface-canvas": "#F8FAFC",
+                    "on-tertiary-fixed": "#2e1500",
+                    "primary-fixed-dim": "#94ccff",
+                    "tertiary": "#733f00",
+                    "secondary": "#006a63",
+                    "on-tertiary-container": "#ffdbbe",
+                    "on-secondary-fixed-variant": "#00504a",
+                    "secondary-fixed": "#9cf2e8",
+                    "outline-variant": "#c0c7d1",
+                    "on-secondary-fixed": "#00201d",
+                    "role-driver": "#7C3AED",
+                    "surface-dim": "#d2d9f4",
+                    "on-primary-container": "#cbe4ff",
+                    "inverse-primary": "#94ccff",
+                    "error-container": "#ffdad6",
+                    "on-primary-fixed": "#001d32",
+                    "surface-container-highest": "#dae2fd"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "lg": "20px",
+                    "base": "16px",
+                    "gutter": "16px",
+                    "unit": "4px",
+                    "sm": "8px",
+                    "xl": "24px",
+                    "margin-mobile": "16px",
+                    "xs": "4px",
+                    "2xl": "32px",
+                    "md": "12px",
+                    "margin-desktop": "32px"
+            },
+            "fontFamily": {
+                    "title-md": [
+                            "Plus Jakarta Sans"
+                    ],
+                    "body-base": [
+                            "Inter"
+                    ],
+                    "label-caps": [
+                            "Plus Jakarta Sans"
+                    ],
+                    "body-sm": [
+                            "Inter"
+                    ],
+                    "title-lg": [
+                            "Plus Jakarta Sans"
+                    ],
+                    "display-lg": [
+                            "Plus Jakarta Sans"
+                    ],
+                    "headline-lg": [
+                            "Plus Jakarta Sans"
+                    ],
+                    "stat-lg": [
+                            "Plus Jakarta Sans"
+                    ],
+                    "headline-md": [
+                            "Plus Jakarta Sans"
+                    ]
+            },
+            "fontSize": {
+                    "title-md": [
+                            "16px",
+                            {
+                                    "lineHeight": "22px",
+                                    "letterSpacing": "0",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "body-base": [
+                            "15px",
+                            {
+                                    "lineHeight": "22px",
+                                    "letterSpacing": "0",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "label-caps": [
+                            "11px",
+                            {
+                                    "lineHeight": "14px",
+                                    "letterSpacing": "0.06em",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "body-sm": [
+                            "13px",
+                            {
+                                    "lineHeight": "18px",
+                                    "letterSpacing": "0",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "title-lg": [
+                            "18px",
+                            {
+                                    "lineHeight": "24px",
+                                    "letterSpacing": "-0.01em",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "display-lg": [
+                            "36px",
+                            {
+                                    "lineHeight": "44px",
+                                    "letterSpacing": "-0.02em",
+                                    "fontWeight": "800"
+                            }
+                    ],
+                    "headline-lg": [
+                            "28px",
+                            {
+                                    "lineHeight": "36px",
+                                    "letterSpacing": "-0.02em",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "stat-lg": [
+                            "30px",
+                            {
+                                    "lineHeight": "36px",
+                                    "letterSpacing": "-0.02em",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "headline-md": [
+                            "22px",
+                            {
+                                    "lineHeight": "28px",
+                                    "letterSpacing": "-0.01em",
+                                    "fontWeight": "700"
+                            }
+                    ]
+            }
+    },
+        },
+      }
+    </script>
+<style>
+        .star-filled { font-variation-settings: 'FILL' 1; }
+        .star-empty { font-variation-settings: 'FILL' 0; }
+        
+        /* Custom scrollbar for chip containers */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface-canvas text-on-surface font-body-base min-h-screen flex flex-col">
+<!-- Top App Bar (Task-focused, so replacing menu with close) -->
+<header class="bg-surface text-primary flex justify-between items-center w-full px-margin-mobile h-12 border-b border-border-hairline z-10 sticky top-0">
+<button class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-surface-container-low active:opacity-70 transition-all text-on-surface-variant">
+<span class="material-symbols-outlined">close</span>
+</button>
+<div class="font-title-md text-title-md font-bold">Feedback</div>
+<div class="w-8"></div> <!-- Spacer for alignment -->
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-1 w-full max-w-md mx-auto px-margin-mobile py-xl flex flex-col relative">
+<!-- Assessment Form State -->
+<div class="flex flex-col gap-2xl opacity-100 transition-opacity duration-300" id="feedback-form-container">
+<!-- Header Section -->
+<section class="text-center">
+<h1 class="font-headline-lg text-headline-lg text-on-surface mb-sm">How was your journey?</h1>
+<p class="font-body-base text-body-base text-outline">Your feedback helps us improve our professional chauffeur service.</p>
+</section>
+<!-- Rating Component -->
+<section class="flex flex-col items-center gap-md">
+<div class="flex gap-sm justify-center" id="star-container">
+<!-- Stars will be handled by JS for interactivity -->
+<button class="text-outline-variant hover:scale-110 active:scale-95 transition-transform" data-rating="1" type="button">
+<span class="material-symbols-outlined star-empty text-[48px]">star</span>
+</button>
+<button class="text-outline-variant hover:scale-110 active:scale-95 transition-transform" data-rating="2" type="button">
+<span class="material-symbols-outlined star-empty text-[48px]">star</span>
+</button>
+<button class="text-outline-variant hover:scale-110 active:scale-95 transition-transform" data-rating="3" type="button">
+<span class="material-symbols-outlined star-empty text-[48px]">star</span>
+</button>
+<button class="text-outline-variant hover:scale-110 active:scale-95 transition-transform" data-rating="4" type="button">
+<span class="material-symbols-outlined star-empty text-[48px]">star</span>
+</button>
+<button class="text-outline-variant hover:scale-110 active:scale-95 transition-transform" data-rating="5" type="button">
+<span class="material-symbols-outlined star-empty text-[48px]">star</span>
+</button>
+</div>
+<div class="font-title-md text-title-md text-role-passenger h-6" id="rating-label"></div>
+</section>
+<!-- Dynamic Feedback Area (Hidden initially) -->
+<section class="hidden flex-col gap-lg animate-[fadeIn_0.3s_ease-out]" id="dynamic-feedback-area">
+<!-- Primary Chips Section -->
+<div class="flex flex-col gap-sm">
+<h3 class="font-title-md text-title-md text-on-surface" id="primary-question"></h3>
+<div class="flex flex-wrap gap-2" id="primary-chips">
+<!-- Chips injected by JS -->
+</div>
+</div>
+<!-- Secondary Chips Section (Only for 4 stars usually) -->
+<div class="hidden flex-col gap-sm" id="secondary-section">
+<h3 class="font-title-md text-title-md text-on-surface" id="secondary-question"></h3>
+<div class="flex flex-wrap gap-2" id="secondary-chips">
+<!-- Chips injected by JS -->
+</div>
+</div>
+<!-- Text Area -->
+<div class="flex flex-col gap-sm mt-sm">
+<label class="font-title-md text-title-md text-on-surface" for="comments" id="comments-label">Any comments or suggestions?</label>
+<textarea class="w-full bg-surface-container-lowest border border-border-hairline rounded-lg p-md font-body-base text-body-base text-on-surface placeholder:text-outline-variant focus:border-role-passenger focus:ring-1 focus:ring-role-passenger outline-none resize-none shadow-sm" id="comments" placeholder="Tell us more about your experience..." rows="4"></textarea>
+</div>
+</section>
+</div>
+<!-- Success State (Hidden initially) -->
+<div class="hidden absolute inset-0 bg-surface-canvas flex-col items-center justify-center p-margin-mobile text-center animate-[fadeIn_0.5s_ease-out] z-20" id="success-state">
+<div class="w-16 h-16 bg-role-admin-container rounded-full flex items-center justify-center mb-xl">
+<span class="material-symbols-outlined text-role-admin text-[32px] star-filled">check_circle</span>
+</div>
+<h2 class="font-headline-md text-headline-md text-on-surface mb-sm">Thank You!</h2>
+<p class="font-body-base text-body-base text-outline mb-2xl">Your feedback has been submitted successfully.</p>
+<button class="w-full h-12 bg-surface-container-high text-on-surface rounded-lg font-title-md text-title-md flex items-center justify-center hover:bg-surface-variant active:scale-95 transition-all" onclick="closeApp()">
+                Done
+            </button>
+</div>
+</main>
+<!-- Bottom Fixed Action (Submit) - Only visible when rating is selected -->
+<div class="hidden fixed bottom-0 w-full bg-surface border-t border-border-hairline p-margin-mobile pb-safe shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)] z-10 transition-transform transform translate-y-full" id="bottom-action-bar">
+<button class="w-full h-12 bg-role-passenger text-on-primary rounded-lg font-title-md text-title-md flex items-center justify-center hover:opacity-90 active:scale-95 transition-all shadow-md" id="submit-btn">
+            Submit Feedback
+        </button>
+</div>
+<style>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .pb-safe { padding-bottom: max(16px, env(safe-area-inset-bottom)); }
+    </style>
+<script>
+        const feedbackLogic = {
+            1: {
+                label: "Very Poor",
+                primaryQ: "What was the main problem?",
+                primaryChips: ["Unsafe Driving", "Excessive Speed", "Harsh Braking", "Reckless Driving", "Unprofessional Behavior", "Disrespectful Driver", "Ignored Instructions", "Driver Was Very Late", "Poor Communication", "Dirty Vehicle", "Vehicle Problem", "Other"],
+                commentLabel: "Any comments or details?"
+            },
+            2: {
+                label: "Poor",
+                primaryQ: "What could be improved?",
+                primaryChips: ["Driving", "Safety", "Communication", "Punctuality", "Vehicle Cleanliness", "Vehicle Condition", "Professional Behavior", "Route Selection", "Comfort", "Other"],
+                commentLabel: "Any comments or suggestions?"
+            },
+            3: {
+                label: "Average",
+                primaryQ: "What could be improved?",
+                primaryChips: ["Driving Smoothness", "Punctuality", "Communication", "Vehicle Cleanliness", "Vehicle Comfort", "Professional Appearance", "Route Knowledge", "Service Quality", "Other"],
+                commentLabel: "Any comments or suggestions?"
+            },
+            4: {
+                label: "Good",
+                primaryQ: "What did you like about the service?",
+                primaryChips: ["Professional & Courteous", "Safe Driving", "Smooth Driving", "Clean Vehicle", "On Time", "Friendly & Helpful", "Good Communication", "Professional Appearance"],
+                secondaryQ: "What could be improved?",
+                secondaryChips: ["Driving", "Communication", "Punctuality", "Comfort", "Vehicle Cleanliness", "Other"],
+                commentLabel: "Any comments or suggestions?"
+            },
+            5: {
+                label: "Excellent",
+                primaryQ: "What did the driver do well?",
+                primaryChips: ["Professional & Courteous", "Safe Driving", "Smooth Driving", "Clean Vehicle", "On Time", "Friendly & Helpful", "Good Communication", "Professional Appearance", "Excellent Route Knowledge", "Comfortable Journey"],
+                commentLabel: "Any compliments or suggestions?"
+            }
+        };
+
+        let currentRating = 0;
+        const starButtons = document.querySelectorAll('#star-container button');
+        const ratingLabel = document.getElementById('rating-label');
+        const dynamicArea = document.getElementById('dynamic-feedback-area');
+        const bottomActionBar = document.getElementById('bottom-action-bar');
+        
+        const primaryQEl = document.getElementById('primary-question');
+        const primaryChipsContainer = document.getElementById('primary-chips');
+        
+        const secondarySection = document.getElementById('secondary-section');
+        const secondaryQEl = document.getElementById('secondary-question');
+        const secondaryChipsContainer = document.getElementById('secondary-chips');
+        
+        const commentsLabel = document.getElementById('comments-label');
+
+        // Star Click Handling
+        starButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const rating = parseInt(btn.getAttribute('data-rating'));
+                setRating(rating);
+            });
+        });
+
+        function setRating(rating) {
+            currentRating = rating;
+            
+            // Update Visual Stars
+            starButtons.forEach((btn, index) => {
+                const icon = btn.querySelector('span');
+                if (index < rating) {
+                    // Filled state
+                    icon.classList.remove('star-empty');
+                    icon.classList.add('star-filled');
+                    btn.classList.remove('text-outline-variant');
+                    btn.classList.add('text-tertiary-fixed-dim'); // Using brand accent color for stars
+                } else {
+                    // Empty state
+                    icon.classList.remove('star-filled');
+                    icon.classList.add('star-empty');
+                    btn.classList.remove('text-tertiary-fixed-dim');
+                    btn.classList.add('text-outline-variant');
+                }
+            });
+
+            const data = feedbackLogic[rating];
+            ratingLabel.textContent = data.label;
+
+            // Populate Dynamic Content
+            primaryQEl.textContent = data.primaryQ;
+            primaryChipsContainer.innerHTML = generateChipsHTML(data.primaryChips);
+
+            if (data.secondaryQ && data.secondaryChips) {
+                secondarySection.classList.remove('hidden');
+                secondarySection.classList.add('flex');
+                secondaryQEl.textContent = data.secondaryQ;
+                secondaryChipsContainer.innerHTML = generateChipsHTML(data.secondaryChips);
+            } else {
+                secondarySection.classList.add('hidden');
+                secondarySection.classList.remove('flex');
+            }
+
+            commentsLabel.textContent = data.commentLabel;
+
+            // Show dynamic area and bottom button
+            dynamicArea.classList.remove('hidden');
+            dynamicArea.classList.add('flex');
+            
+            bottomActionBar.classList.remove('hidden');
+            // Small delay to allow display block to render before transforming
+            setTimeout(() => {
+                bottomActionBar.classList.remove('translate-y-full');
+            }, 10);
+            
+            // Add padding to main so content isn't hidden behind fixed bottom bar
+            document.querySelector('main').style.paddingBottom = '100px';
+        }
+
+        function generateChipsHTML(chipsArray) {
+            return chipsArray.map(chip => `
+                <button type="button" onclick="toggleChip(this)" class="inline-flex items-center justify-center px-sm py-xs rounded-lg border border-outline-variant bg-surface-container-lowest text-body-sm font-body-sm text-on-surface-variant hover:bg-surface-container-low transition-colors duration-200 select-none">
+                    ${chip}
+                </button>
+            `).join('');
+        }
+
+        function toggleChip(button) {
+            const isActive = button.classList.contains('bg-role-passenger-container');
+            
+            if (isActive) {
+                // Deactivate
+                button.classList.remove('bg-role-passenger-container', 'border-role-passenger', 'text-role-passenger');
+                button.classList.add('bg-surface-container-lowest', 'border-outline-variant', 'text-on-surface-variant');
+            } else {
+                // Activate
+                button.classList.remove('bg-surface-container-lowest', 'border-outline-variant', 'text-on-surface-variant');
+                button.classList.add('bg-role-passenger-container', 'border-role-passenger', 'text-role-passenger');
+            }
+        }
+
+        // Submit Handling
+        document.getElementById('submit-btn').addEventListener('click', () => {
+            // In a real app, collect data here. For UI, show success state.
+            document.getElementById('feedback-form-container').style.opacity = '0';
+            bottomActionBar.classList.add('translate-y-full');
+            
+            setTimeout(() => {
+                document.getElementById('feedback-form-container').classList.add('hidden');
+                bottomActionBar.classList.add('hidden');
+                document.getElementById('success-state').classList.remove('hidden');
+                document.getElementById('success-state').classList.add('flex');
+            }, 300);
+        });
+
+        function closeApp() {
+            // Mock close action
+            console.log("Returning to previous screen");
+            // Reset state for demo purposes if clicked again
+            location.reload();
+        }
+    </script>
+</body></html>

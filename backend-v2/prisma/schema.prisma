@@ -1,0 +1,121 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// ─── Models ──────────────────────────────────────────────────────────────────
+
+model Vehicle {
+  id              String   @id @default(uuid())
+  plateNumber     String   @unique @map("plate_number")
+  netprosUnitId   String   @unique @map("netpros_unit_id")
+  isHeadOffice    Boolean  @default(true) @map("is_head_office")
+  status          String   @default("ACTIVE") // ACTIVE | IN_USE | MAINTENANCE
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
+
+  trips             Trip[]
+  drivingHours      DrivingHourRecord[]
+  ecoDrivingRecords EcoDrivingRecord[]
+
+  @@map("vehicles")
+}
+
+model Driver {
+  id           String    @id @default(uuid())
+  employeeId   String    @unique @map("employee_id")
+  name         String
+  status       String    @default("AVAILABLE") // AVAILABLE | ON_TRIP | OFF_DUTY
+  ecoScore     Float?    @map("eco_score")
+  ecoPenalties Float?    @map("eco_penalties")
+  lastEcoSync  DateTime? @map("last_eco_sync")
+  createdAt    DateTime  @default(now()) @map("created_at")
+  updatedAt    DateTime  @updatedAt @map("updated_at")
+
+  trips             Trip[]
+  drivingHours      DrivingHourRecord[]
+  ecoDrivingRecords EcoDrivingRecord[]
+
+  @@map("drivers")
+}
+
+model TransportRequest {
+  id              String   @id @default(uuid())
+  passengerName   String   @map("passenger_name")
+  department      String
+  pickupLocation  String   @map("pickup_location")
+  destination     String
+  requestDate     DateTime @map("request_date")
+  status          String   @default("PENDING") // PENDING | ASSIGNED | QR_PENDING | IN_PROGRESS | DROPOFF_COMPLETE | CANCELLED
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
+
+  trip Trip?
+
+  @@map("transport_requests")
+}
+
+model Trip {
+  id        String   @id @default(uuid())
+  requestId String   @unique @map("request_id")
+  driverId  String   @map("driver_id")
+  vehicleId String   @map("vehicle_id")
+  startTime DateTime? @map("start_time")
+  endTime   DateTime? @map("end_time")
+  status    String   @default("PENDING") // PENDING | IN_PROGRESS | COMPLETED | CANCELLED
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  request      TransportRequest     @relation(fields: [requestId], references: [id])
+  driver       Driver               @relation(fields: [driverId], references: [id])
+  vehicle      Vehicle              @relation(fields: [vehicleId], references: [id])
+  drivingHours DrivingHourRecord[]
+
+  @@map("trips")
+}
+
+model DrivingHourRecord {
+  id              String   @id @default(uuid())
+  driverId        String   @map("driver_id")
+  vehicleId       String   @map("vehicle_id")
+  netprosUnitId   String   @map("netpros_unit_id")
+  durationSeconds Int      @map("duration_seconds")
+  date            DateTime
+  tripId          String?  @map("trip_id")
+  createdAt       DateTime @default(now()) @map("created_at")
+
+  driver  Driver  @relation(fields: [driverId], references: [id])
+  vehicle Vehicle @relation(fields: [vehicleId], references: [id])
+  trip    Trip?   @relation(fields: [tripId], references: [id])
+
+  @@map("driving_hour_records")
+}
+
+model EcoDrivingRecord {
+  id                  String   @id @default(uuid())
+  driverId            String   @map("driver_id")
+  vehicleId           String   @map("vehicle_id")
+  netprosUnitId       String   @map("netpros_unit_id")
+  violationType       String   @map("violation_type")
+  violationValue      Float    @map("violation_value")
+  penaltyPoints       Float    @map("penalty_points")
+  rank                Float
+  duration            Float?
+  mileage             Float?
+  avgSpeed            Float?   @map("avg_speed")
+  tripDuration        Float?   @map("trip_duration")
+  engineHoursDuration Float?   @map("engine_hours_duration")
+  date                DateTime
+  syncDate            DateTime @default(now()) @map("sync_date")
+  createdAt           DateTime @default(now()) @map("created_at")
+
+  driver  Driver  @relation(fields: [driverId], references: [id])
+  vehicle Vehicle @relation(fields: [vehicleId], references: [id])
+
+  @@unique([vehicleId, violationType, date])
+  @@map("eco_driving_records")
+}

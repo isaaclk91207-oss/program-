@@ -1,0 +1,786 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>PCCP Admin - Fleet Management</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&amp;family=Plus+Jakarta+Sans:wght@600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "secondary-fixed": "#cee5ff",
+                      "on-primary": "#ffffff",
+                      "surface-container-lowest": "#ffffff",
+                      "on-secondary-container": "#335d81",
+                      "inverse-on-surface": "#eef0ff",
+                      "surface-container-high": "#e1e7ff",
+                      "on-primary-container": "#f5fff7",
+                      "on-tertiary-fixed-variant": "#004395",
+                      "tertiary-fixed": "#d8e2ff",
+                      "tertiary-container": "#2170e4",
+                      "on-surface-variant": "#3d4a42",
+                      "outline-variant": "#bccac0",
+                      "error": "#ba1a1a",
+                      "on-primary-fixed": "#002114",
+                      "inverse-surface": "#283044",
+                      "inverse-primary": "#68dba9",
+                      "status-maintenance": "#f59e0b",
+                      "secondary-container": "#add6ff",
+                      "on-secondary-fixed-variant": "#1c4a6d",
+                      "surface-tint": "#006c4a",
+                      "tertiary-fixed-dim": "#adc6ff",
+                      "on-tertiary-fixed": "#001a42",
+                      "background": "#faf8ff",
+                      "primary": "#006948",
+                      "error-container": "#ffdad6",
+                      "status-out-of-service": "#dc2626",
+                      "surface": "#faf8ff",
+                      "surface-container-highest": "#dae2fc",
+                      "secondary-fixed-dim": "#a1cbf4",
+                      "secondary": "#386286",
+                      "primary-fixed": "#85f8c4",
+                      "border-hairline": "#E2E8F0",
+                      "on-error-container": "#93000a",
+                      "on-secondary": "#ffffff",
+                      "surface-container-low": "#f2f3ff",
+                      "primary-container": "#00855d",
+                      "surface-canvas": "#F8FAFC",
+                      "outline": "#6d7a72",
+                      "on-secondary-fixed": "#001d32",
+                      "primary-fixed-dim": "#68dba9",
+                      "surface-bright": "#faf8ff",
+                      "surface-variant": "#dae2fc",
+                      "surface-container": "#eaedff",
+                      "on-background": "#131b2e",
+                      "status-active": "#059669",
+                      "surface-dim": "#d2d9f4",
+                      "on-primary-fixed-variant": "#005137",
+                      "on-tertiary-container": "#fefcff",
+                      "on-tertiary": "#ffffff",
+                      "on-error": "#ffffff",
+                      "on-surface": "#131b2e",
+                      "tertiary": "#0058be"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "2xl": "32px",
+                      "gutter": "16px",
+                      "margin-desktop": "32px",
+                      "margin-mobile": "16px",
+                      "xl": "24px",
+                      "table-row": "40px",
+                      "md": "12px",
+                      "xs": "4px",
+                      "lg": "20px",
+                      "base": "16px",
+                      "sm": "8px"
+              },
+              "fontFamily": {
+                      "title-lg": [
+                              "Plus Jakarta Sans", "sans-serif"
+                      ],
+                      "headline-md": [
+                              "Plus Jakarta Sans", "sans-serif"
+                      ],
+                      "body-sm": [
+                              "Inter", "sans-serif"
+                      ],
+                      "body-xs": [
+                              "Inter", "sans-serif"
+                      ],
+                      "body-base": [
+                              "Inter", "sans-serif"
+                      ],
+                      "headline-lg": [
+                              "Plus Jakarta Sans", "sans-serif"
+                      ],
+                      "title-md": [
+                              "Plus Jakarta Sans", "sans-serif"
+                      ],
+                      "label-caps": [
+                              "Plus Jakarta Sans", "sans-serif"
+                      ]
+              },
+              "fontSize": {
+                      "title-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "24px",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-md": [
+                              "22px",
+                              {
+                                      "lineHeight": "28px",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "body-sm": [
+                              "13px",
+                              {
+                                      "lineHeight": "18px",
+                                      "letterSpacing": "0",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "body-xs": [
+                              "12px",
+                              {
+                                      "lineHeight": "16px",
+                                      "letterSpacing": "0.01em",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "body-base": [
+                              "15px",
+                              {
+                                      "lineHeight": "22px",
+                                      "letterSpacing": "0",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-lg": [
+                              "28px",
+                              {
+                                      "lineHeight": "36px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "title-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "22px",
+                                      "letterSpacing": "0",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "label-caps": [
+                              "11px",
+                              {
+                                      "lineHeight": "14px",
+                                      "letterSpacing": "0.06em",
+                                      "fontWeight": "700"
+                              }
+                      ]
+              }
+            }
+          }
+        }
+      </script>
+<style>
+        .material-symbols-outlined {
+          font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        /* Custom scrollbar for high-density tables */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #E2E8F0;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #bccac0;
+        }
+      </style>
+</head>
+<body class="bg-surface-canvas font-body-base text-on-surface text-body-base flex overflow-hidden h-screen w-full">
+<!-- Shared Component: SideNavBar -->
+<nav class="hidden md:flex flex-col h-screen w-[240px] z-50 bg-secondary shadow-sm fixed left-0 top-0">
+  <div class="px-lg py-xl flex items-center gap-md border-b border-[#335d81]">
+    <div class="w-10 h-10 rounded bg-surface-container-lowest flex items-center justify-center overflow-hidden shrink-0">
+      <img alt="PCCP Logo" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB0hNibqft-A1qV2jcfQroNFolHoU8U04g-RGd0w2iC_2GJcu0qhVk0njn6_otqSoPk_gVI8G0M_lWN_ELEWmZ1YhKRefjHpjKeTm81up1TZR0PbAV3O3BYcawPdNl9PFGPet3sOK8bpN6yogooG--X9PGHGIRFt4a6Tt-Zvvo3patWoqY4yWTY4uBFOc5Aa1u5TPY3sGeQEnH79WOpDmr8vZqzWsxZsee81uiln8WEBZwd15YZCFQ">
+    </div>
+    <div>
+      <h1 class="font-title-lg text-title-lg font-bold text-on-primary tracking-tight">PCCP Admin</h1>
+      <p class="font-body-xs text-body-xs text-secondary-fixed">Fleet Control Center</p>
+    </div>
+  </div>
+  <div class="flex-1 overflow-y-auto py-md px-sm space-y-1">
+    <a class="flex items-center gap-md px-md py-md rounded-DEFAULT text-secondary-fixed hover:bg-on-secondary-fixed-variant hover:text-on-primary transition-colors duration-200 cursor-pointer active:scale-95 group" href="#">
+      <span class="material-symbols-outlined group-hover:text-on-primary text-secondary-fixed transition-colors">dashboard</span>
+      <span class="font-body-base text-body-base">Dashboard</span>
+    </a>
+    <a class="flex items-center gap-md px-md py-md rounded-DEFAULT text-secondary-fixed hover:bg-on-secondary-fixed-variant hover:text-on-primary transition-colors duration-200 cursor-pointer active:scale-95 group" href="#">
+      <span class="material-symbols-outlined group-hover:text-on-primary text-secondary-fixed transition-colors">local_shipping</span>
+      <span class="font-body-base text-body-base">Transport Requests</span>
+    </a>
+    <a class="flex items-center gap-md px-md py-md rounded-DEFAULT bg-primary text-on-primary border-l-4 border-primary-fixed transition-colors duration-200 cursor-pointer active:scale-95" href="#">
+      <span class="material-symbols-outlined text-primary-fixed">directions_car</span>
+      <span class="font-body-base text-body-base font-medium">Fleet Management</span>
+    </a>
+    <a class="flex items-center gap-md px-md py-md rounded-DEFAULT text-secondary-fixed hover:bg-on-secondary-fixed-variant hover:text-on-primary transition-colors duration-200 cursor-pointer active:scale-95 group" href="#">
+      <span class="material-symbols-outlined group-hover:text-on-primary text-secondary-fixed transition-colors">location_on</span>
+      <span class="font-body-base text-body-base">GPS &amp; Telematics</span>
+    </a>
+    <a class="flex items-center gap-md px-md py-md rounded-DEFAULT text-secondary-fixed hover:bg-on-secondary-fixed-variant hover:text-on-primary transition-colors duration-200 cursor-pointer active:scale-95 group" href="#">
+      <span class="material-symbols-outlined group-hover:text-on-primary text-secondary-fixed transition-colors">bar_chart</span>
+      <span class="font-body-base text-body-base">Performance</span>
+    </a>
+    <a class="flex items-center gap-md px-md py-md rounded-DEFAULT text-secondary-fixed hover:bg-on-secondary-fixed-variant hover:text-on-primary transition-colors duration-200 cursor-pointer active:scale-95 group" href="#">
+      <span class="material-symbols-outlined group-hover:text-on-primary text-secondary-fixed transition-colors">group</span>
+      <span class="font-body-base text-body-base">User Accounts</span>
+    </a>
+    <a class="flex items-center gap-md px-md py-md rounded-DEFAULT text-secondary-fixed hover:bg-on-secondary-fixed-variant hover:text-on-primary transition-colors duration-200 cursor-pointer active:scale-95 group" href="#">
+      <span class="material-symbols-outlined group-hover:text-on-primary text-secondary-fixed transition-colors">help_outline</span>
+      <span class="font-body-base text-body-base">Support</span>
+    </a>
+  </div>
+  <div class="p-md border-t border-[#335d81] bg-on-secondary-fixed-variant/20">
+    <div class="flex items-center gap-md">
+      <div class="w-8 h-8 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center overflow-hidden shrink-0">
+        <img alt="SysAdmin" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAkapU6Bq3HCfl1iWZgGrLy5T9ka5zTemLGRbG9QZSTIRR_GnPplJb8vQQCaN4pR-P7TlbrBUNUbHVTtNc1O-jfvOPMcAhyuyZSRqGIQGHA4vFBzO3-CS-3yw1mn_gAWBu2kk2bfosmh7_oflrwKyjikB2tvjDWfJ5AE0_vjpYTXlwaYccpzJ3OuLsQuaZr_g5SHGNGQ7OxNtKe9nr4MAiG3fGcS77_e2DmdCpINeeivFMYAvcMn4Y">
+      </div>
+      <div class="min-w-0">
+        <p class="font-body-xs text-body-xs font-semibold text-on-primary truncate">SysAdmin</p>
+        <p class="font-body-xs text-[10px] text-secondary-fixed/70 truncate">System Administrator</p>
+      </div>
+      <button class="ml-auto text-secondary-fixed hover:text-on-primary">
+        <span class="material-symbols-outlined text-[18px]">logout</span>
+      </button>
+    </div>
+  </div>
+</nav>
+<!-- Main Content Area -->
+<main class="flex-1 flex flex-col md:ml-[240px] w-full min-w-0 bg-surface-canvas relative h-screen">
+<!-- Shared Component: TopAppBar -->
+<header class="flex items-center justify-between px-margin-desktop w-full z-40 bg-surface fixed top-0 right-0 h-16 w-[calc(100%-240px)] border-b border-hairline transition-colors">
+<div class="flex items-center gap-md">
+<span class="font-headline-md text-headline-md font-bold text-primary tracking-tight">PCCP Portal</span>
+</div>
+<div class="flex-1 max-w-md mx-xl hidden lg:block">
+<div class="relative flex items-center bg-surface-container-low rounded-full px-4 py-2 border border-border-hairline focus-within:ring-2 focus-within:ring-primary focus-within:border-primary transition-all">
+<span class="material-symbols-outlined text-outline mr-2" data-icon="search">search</span>
+<input class="bg-transparent border-none outline-none w-full font-body-sm text-body-sm text-on-surface placeholder:text-outline-variant p-0 m-0 focus:ring-0" placeholder="Search vehicles, plates, or drivers..." type="text">
+</div>
+</div>
+<div class="flex items-center gap-sm">
+<button aria-label="Notifications" class="p-2 rounded-full text-on-surface-variant hover:bg-surface-container-low transition-colors">
+<div class="relative">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="absolute top-0 right-0 w-2 h-2 bg-error rounded-full border-2 border-surface"></span>
+</div>
+</button>
+<button aria-label="Settings" class="p-2 rounded-full text-on-surface-variant hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+<button aria-label="Help" class="p-2 rounded-full text-on-surface-variant hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+</button>
+<div class="h-8 w-px bg-border-hairline mx-2"></div>
+<button class="flex items-center gap-2 hover:bg-surface-container-low p-1 pr-3 rounded-full transition-colors">
+<div class="w-8 h-8 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center overflow-hidden">
+<img alt="System Administrator" class="w-full h-full object-cover" data-alt="A professional headshot of a corporate system administrator, smiling confidently in a modern, well-lit office environment. High contrast, sharp focus, wearing business casual attire." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAkapU6Bq3HCfl1iWZgGrLy5T9ka5zTemLGRbG9QZSTIRR_GnPplJb8vQQCaN4pR-P7TlbrBUNUbHVTtNc1O-jfvOPMcAhyuyZSRqGIQGHA4vFBzO3-CS-3yw1mn_gAWBu2kk2bfosmh7_oflrwKyjikB2tvjDWfJ5AE0_vjpYTXlwaYccpzJ3OuLsQuaZr_g5SHGNGQ7OxNtKe9nr4MAiG3fGcS77_e2DmdCpINeeivFMYAvcMn4Y">
+</div>
+<div class="hidden sm:block text-left">
+<p class="font-body-xs text-body-xs font-semibold text-on-surface leading-tight">Admin User</p>
+</div>
+</button>
+</div>
+</header>
+<!-- Scrollable Content -->
+<div class="flex-1 overflow-y-auto mt-16 p-margin-desktop pt-xl">
+<!-- Page Header -->
+<div class="flex flex-col sm:flex-row sm:items-end justify-between gap-md mb-xl">
+<div>
+<h2 class="font-headline-lg text-headline-lg font-bold text-on-surface tracking-tight">Fleet Overview</h2>
+<p class="font-body-base text-body-base text-on-surface-variant mt-1">Real-time status and deployment metrics.</p>
+</div>
+<div class="flex gap-md">
+<button class="flex items-center gap-2 px-4 py-2 bg-surface text-on-surface border border-border-hairline rounded-md hover:bg-surface-container-low transition-colors font-body-sm text-body-sm font-medium">
+<span class="material-symbols-outlined text-[18px]" data-icon="download">download</span>
+                        Export Report
+                    </button>
+<button class="flex items-center gap-2 px-4 py-2 bg-[#059669] text-white rounded-md hover:bg-primary-container transition-colors font-body-sm text-body-sm font-medium shadow-sm">
+<span class="material-symbols-outlined text-[18px]" data-icon="add">add</span>
+                        Register Vehicle
+                    </button>
+</div>
+</div>
+<!-- Fleet Metric Cards (Bento Grid Style) -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-gutter mb-xl">
+<div class="bg-white border border-border-hairline rounded-lg p-lg shadow-sm border-l-4 border-l-secondary-fixed flex flex-col justify-between relative overflow-hidden group">
+<div class="flex justify-between items-start mb-md z-10 relative">
+<h3 class="font-title-md text-title-md text-on-surface-variant">Total Vehicles</h3>
+<span class="material-symbols-outlined text-outline-variant bg-surface p-1.5 rounded-DEFAULT" data-icon="directions_car">directions_car</span>
+</div>
+<div class="flex items-baseline gap-2 z-10 relative">
+<span class="font-headline-lg text-headline-lg font-bold text-on-surface">48</span>
+</div>
+<div class="absolute -bottom-4 -right-4 opacity-5 group-hover:scale-110 transition-transform duration-500 pointer-events-none">
+<span class="material-symbols-outlined text-[100px]" data-icon="directions_car" style="font-variation-settings: 'FILL' 1;">directions_car</span>
+</div>
+</div>
+<div class="bg-white border border-border-hairline rounded-lg p-lg shadow-sm border-l-4 border-l-status-active flex flex-col justify-between relative overflow-hidden group">
+<div class="flex justify-between items-start mb-md z-10 relative">
+<h3 class="font-title-md text-title-md text-on-surface-variant">Active</h3>
+<span class="material-symbols-outlined text-status-active bg-status-active/10 p-1.5 rounded-DEFAULT" data-icon="check_circle">check_circle</span>
+</div>
+<div class="flex items-baseline gap-2 z-10 relative">
+<span class="font-headline-lg text-headline-lg font-bold text-on-surface">42</span>
+<span class="font-body-xs text-body-xs text-status-active font-medium bg-status-active/10 px-1.5 rounded">+2 today</span>
+</div>
+<div class="w-full h-8 mt-2 z-10 relative flex items-end">
+<div class="w-1/6 h-2 bg-status-active/30 rounded-t-sm mx-0.5"></div>
+<div class="w-1/6 h-4 bg-status-active/40 rounded-t-sm mx-0.5"></div>
+<div class="w-1/6 h-5 bg-status-active/50 rounded-t-sm mx-0.5"></div>
+<div class="w-1/6 h-3 bg-status-active/60 rounded-t-sm mx-0.5"></div>
+<div class="w-1/6 h-7 bg-status-active/80 rounded-t-sm mx-0.5"></div>
+<div class="w-1/6 h-full bg-status-active rounded-t-sm mx-0.5"></div>
+</div>
+</div>
+<div class="bg-white border border-border-hairline rounded-lg p-lg shadow-sm border-l-4 border-l-status-maintenance flex flex-col justify-between relative overflow-hidden group">
+<div class="flex justify-between items-start mb-md z-10 relative">
+<h3 class="font-title-md text-title-md text-on-surface-variant">In Maintenance</h3>
+<span class="material-symbols-outlined text-status-maintenance bg-status-maintenance/10 p-1.5 rounded-DEFAULT" data-icon="build">build</span>
+</div>
+<div class="flex items-baseline gap-2 z-10 relative">
+<span class="font-headline-lg text-headline-lg font-bold text-on-surface">4</span>
+</div>
+<div class="mt-2 text-status-maintenance font-body-sm text-body-sm z-10 relative flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]" data-icon="warning">warning</span>
+                        2 pending approval
+                    </div>
+</div>
+<div class="bg-white border border-border-hairline rounded-lg p-lg shadow-sm border-l-4 border-l-status-out-of-service flex flex-col justify-between relative overflow-hidden group">
+<div class="flex justify-between items-start mb-md z-10 relative">
+<h3 class="font-title-md text-title-md text-on-surface-variant">Out of Service</h3>
+<span class="material-symbols-outlined text-status-out-of-service bg-status-out-of-service/10 p-1.5 rounded-DEFAULT" data-icon="block">block</span>
+</div>
+<div class="flex items-baseline gap-2 z-10 relative">
+<span class="font-headline-lg text-headline-lg font-bold text-on-surface">2</span>
+</div>
+<div class="mt-2 text-on-surface-variant font-body-sm text-body-sm z-10 relative">
+                        VH-1011, VH-0982
+                    </div>
+</div>
+</div>
+<!-- Main Content Area: Table and Sidebar Grid -->
+<div class="grid grid-cols-1 xl:grid-cols-4 gap-gutter h-[calc(100vh-320px)] min-h-[500px]">
+<!-- Data Table Section (Takes 3 columns on large screens) -->
+<div class="xl:col-span-3 bg-white border border-border-hairline rounded-lg shadow-sm flex flex-col overflow-hidden relative">
+<!-- Table Toolbar -->
+<div class="px-gutter py-md border-b border-border-hairline flex justify-between items-center bg-surface-canvas">
+<div class="flex items-center gap-md">
+<h3 class="font-title-md text-title-md font-bold text-on-surface">Vehicle Directory</h3>
+<div class="bg-surface-container-low text-on-surface-variant font-label-caps text-label-caps px-2 py-1 rounded">48 RECORDS</div>
+</div>
+<div class="flex items-center gap-sm">
+<div class="relative">
+<span class="material-symbols-outlined absolute left-2.5 top-1.5 text-outline-variant text-[18px]" data-icon="filter_list">filter_list</span>
+<select class="pl-8 pr-8 py-1.5 bg-surface border border-border-hairline rounded-md text-body-sm font-body-sm focus:ring-1 focus:ring-primary focus:border-primary outline-none cursor-pointer appearance-none">
+<option>All Types</option>
+<option>Executive Sedan</option>
+<option>SUV</option>
+<option>Luxury Van</option>
+</select>
+</div>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-2.5 top-1.5 text-outline-variant text-[18px]" data-icon="sort">sort</span>
+<select class="pl-8 pr-8 py-1.5 bg-surface border border-border-hairline rounded-md text-body-sm font-body-sm focus:ring-1 focus:ring-primary focus:border-primary outline-none cursor-pointer appearance-none">
+<option>Status (Active First)</option>
+<option>Mileage (High to Low)</option>
+<option>ID (A-Z)</option>
+</select>
+</div>
+</div>
+</div>
+<!-- High Density Table Container -->
+<div class="flex-1 overflow-auto">
+<table class="w-full text-left border-collapse min-w-[900px]">
+<thead class="bg-surface-container-low sticky top-0 z-20">
+<tr>
+<th class="py-2 px-gutter font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider font-semibold border-b border-border-hairline group cursor-pointer hover:bg-surface-container-high transition-colors">
+<div class="flex items-center gap-1">Vehicle ID <span class="material-symbols-outlined text-[14px] opacity-0 group-hover:opacity-100" data-icon="arrow_upward">arrow_upward</span></div>
+</th>
+<th class="py-2 px-gutter font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider font-semibold border-b border-border-hairline group cursor-pointer hover:bg-surface-container-high transition-colors">Model</th>
+<th class="py-2 px-gutter font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider font-semibold border-b border-border-hairline">Plate Number</th>
+<th class="py-2 px-gutter font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider font-semibold border-b border-border-hairline group cursor-pointer hover:bg-surface-container-high transition-colors">Type</th>
+<th class="py-2 px-gutter font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider font-semibold border-b border-border-hairline">Status</th>
+<th class="py-2 px-gutter font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider font-semibold border-b border-border-hairline text-right group cursor-pointer hover:bg-surface-container-high transition-colors">Mileage</th>
+<th class="py-2 px-gutter font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider font-semibold border-b border-border-hairline group cursor-pointer hover:bg-surface-container-high transition-colors">Last Service</th>
+<th class="py-2 px-gutter font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider font-semibold border-b border-border-hairline">Assigned Driver</th>
+<th class="py-2 px-gutter font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider font-semibold border-b border-border-hairline text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="font-body-sm text-body-sm divide-y divide-border-hairline">
+<!-- Example Row 1 - Active -->
+<tr class="h-table-row hover:bg-surface transition-colors group">
+<td class="px-gutter whitespace-nowrap font-medium text-on-surface">VH-1024</td>
+<td class="px-gutter whitespace-nowrap text-on-surface-variant">Toyota Alphard</td>
+<td class="px-gutter whitespace-nowrap font-mono text-xs">YGN 2Q-8829</td>
+<td class="px-gutter whitespace-nowrap text-on-surface-variant">Luxury Van</td>
+<td class="px-gutter whitespace-nowrap">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-bold bg-status-active/10 text-status-active">
+<span class="w-1.5 h-1.5 rounded-full bg-status-active mr-1"></span>Active
+                                        </span>
+</td>
+<td class="px-gutter whitespace-nowrap text-right font-mono text-xs">12,400 km</td>
+<td class="px-gutter whitespace-nowrap text-on-surface-variant">Oct 12, 2023</td>
+<td class="px-gutter whitespace-nowrap text-on-surface-variant flex items-center gap-2 h-full py-[7px]">
+<div class="w-6 h-6 rounded-full bg-surface-container-high overflow-hidden shrink-0">
+<img alt="Driver" class="w-full h-full object-cover" data-alt="Small headshot portrait of a professional driver named Ko Aung Naing Win, wearing a crisp uniform shirt. Neutral background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAx87HOtIoNyKsy3lPXC-muFuzyeqJV8-S8B0xkxkU3X3uVVrH-rEObotFATXTaUh_2BVO3Q6dnFHCH_avci3FakD-hGm8Ovek-mKs2gJknJvSGimnEyinlKJ38eoYRbqVe4wd9KYjo0hUbnZPvImZ6dxi_kH28xK4JC11ynn8AD157C25NOlox3OthMWiJ-iPv8t8gPVGHyXUahSHDsHfwTKeQTIknoCtf15RgkYzS6d9S9DYoboQ">
+</div>
+                                        Ko Aung Naing Win
+                                    </td>
+<td class="px-gutter whitespace-nowrap text-right">
+<button class="text-on-surface-variant hover:text-primary transition-colors opacity-0 group-hover:opacity-100 p-1" title="View Details">
+<span class="material-symbols-outlined text-[18px]" data-icon="visibility">visibility</span>
+</button>
+<button class="text-on-surface-variant hover:text-primary transition-colors opacity-0 group-hover:opacity-100 p-1" title="Edit">
+<span class="material-symbols-outlined text-[18px]" data-icon="edit">edit</span>
+</button>
+</td>
+</tr>
+<!-- Example Row 2 - Maintenance -->
+<tr class="h-table-row hover:bg-surface transition-colors group">
+<td class="px-gutter whitespace-nowrap font-medium text-on-surface">VH-1056</td>
+<td class="px-gutter whitespace-nowrap text-on-surface-variant">Lexus ES 300h</td>
+<td class="px-gutter whitespace-nowrap font-mono text-xs">YGN 4R-1122</td>
+<td class="px-gutter whitespace-nowrap text-on-surface-variant">Executive Sedan</td>
+<td class="px-gutter whitespace-nowrap">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-bold bg-status-maintenance/10 text-status-maintenance">
+<span class="w-1.5 h-1.5 rounded-full bg-status-maintenance mr-1"></span>Maintenance
+                                        </span>
+</td>
+<td class="px-gutter whitespace-nowrap text-right font-mono text-xs">45,210 km</td>
+<td class="px-gutter whitespace-nowrap text-on-surface-variant">Sep 05, 2023</td>
+<td class="px-gutter whitespace-nowrap text-on-surface-variant flex items-center gap-2 h-full py-[7px]">
+<span class="text-outline italic text-[12px]">- Unassigned -</span>
+</td>
+<td class="px-gutter whitespace-nowrap text-right">
+<button class="text-on-surface-variant hover:text-primary transition-colors opacity-0 group-hover:opacity-100 p-1" title="View Details">
+<span class="material-symbols-outlined text-[18px]" data-icon="visibility">visibility</span>
+</button>
+<button class="text-on-surface-variant hover:text-primary transition-colors opacity-0 group-hover:opacity-100 p-1" title="Edit">
+<span class="material-symbols-outlined text-[18px]" data-icon="edit">edit</span>
+</button>
+</td>
+</tr>
+<!-- Example Row 3 - Out of Service -->
+<tr class="h-table-row hover:bg-surface transition-colors group bg-error-container/20">
+<td class="px-gutter whitespace-nowrap font-medium text-on-surface">VH-0982</td>
+<td class="px-gutter whitespace-nowrap text-on-surface-variant">Toyota Fortuner</td>
+<td class="px-gutter whitespace-nowrap font-mono text-xs">MDY 1A-4455</td>
+<td class="px-gutter whitespace-nowrap text-on-surface-variant">SUV</td>
+<td class="px-gutter whitespace-nowrap">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-bold bg-status-out-of-service/10 text-status-out-of-service">
+<span class="w-1.5 h-1.5 rounded-full bg-status-out-of-service mr-1"></span>Out of Service
+                                        </span>
+</td>
+<td class="px-gutter whitespace-nowrap text-right font-mono text-xs">89,500 km</td>
+<td class="px-gutter whitespace-nowrap text-on-surface-variant">Jan 12, 2023</td>
+<td class="px-gutter whitespace-nowrap text-on-surface-variant flex items-center gap-2 h-full py-[7px]">
+<span class="text-outline italic text-[12px]">- Unassigned -</span>
+</td>
+<td class="px-gutter whitespace-nowrap text-right">
+<button class="text-on-surface-variant hover:text-primary transition-colors opacity-0 group-hover:opacity-100 p-1" title="View Details">
+<span class="material-symbols-outlined text-[18px]" data-icon="visibility">visibility</span>
+</button>
+<button class="text-on-surface-variant hover:text-primary transition-colors opacity-0 group-hover:opacity-100 p-1" title="Edit">
+<span class="material-symbols-outlined text-[18px]" data-icon="edit">edit</span>
+</button>
+</td>
+</tr>
+<!-- Example Row 4 - Active -->
+<tr class="h-table-row hover:bg-surface transition-colors group">
+<td class="px-gutter whitespace-nowrap font-medium text-on-surface">VH-1088</td>
+<td class="px-gutter whitespace-nowrap text-on-surface-variant">Toyota Camry</td>
+<td class="px-gutter whitespace-nowrap font-mono text-xs">YGN 5B-9012</td>
+<td class="px-gutter whitespace-nowrap text-on-surface-variant">Executive Sedan</td>
+<td class="px-gutter whitespace-nowrap">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-bold bg-status-active/10 text-status-active">
+<span class="w-1.5 h-1.5 rounded-full bg-status-active mr-1"></span>Active
+                                        </span>
+</td>
+<td class="px-gutter whitespace-nowrap text-right font-mono text-xs">22,150 km</td>
+<td class="px-gutter whitespace-nowrap text-on-surface-variant">Nov 20, 2023</td>
+<td class="px-gutter whitespace-nowrap text-on-surface-variant flex items-center gap-2 h-full py-[7px]">
+<div class="w-6 h-6 rounded-full bg-surface-container-high overflow-hidden shrink-0 flex items-center justify-center text-[10px] font-bold text-on-surface-variant">
+                                            UT
+                                        </div>
+                                        U Tint
+                                    </td>
+<td class="px-gutter whitespace-nowrap text-right">
+<button class="text-on-surface-variant hover:text-primary transition-colors opacity-0 group-hover:opacity-100 p-1" title="View Details">
+<span class="material-symbols-outlined text-[18px]" data-icon="visibility">visibility</span>
+</button>
+<button class="text-on-surface-variant hover:text-primary transition-colors opacity-0 group-hover:opacity-100 p-1" title="Edit">
+<span class="material-symbols-outlined text-[18px]" data-icon="edit">edit</span>
+</button>
+</td>
+</tr>
+<!-- Generate 11 more similar rows to meet the 15-20 requirement, using a script for conciseness in this output, but rendering HTML as requested -->
+<script>
+                                    const tbody = document.querySelector('tbody');
+                                    const statuses = ['Active', 'Active', 'Active', 'Maintenance', 'Active'];
+                                    const types = ['Executive Sedan', 'SUV', 'Luxury Van'];
+                                    const drivers = ['Daw Aye Aye', 'U Kyaw', 'Ko Min Tun', '- Unassigned -', 'U Zaw'];
+                                    
+                                    for(let i=0; i<11; i++) {
+                                        const id = `VH-${1100 + i}`;
+                                        const status = statuses[i % statuses.length];
+                                        const type = types[i % types.length];
+                                        const driver = drivers[i % drivers.length];
+                                        const isMaint = status === 'Maintenance';
+                                        
+                                        const statusPill = isMaint 
+                                            ? `<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-bold bg-status-maintenance/10 text-status-maintenance"><span class="w-1.5 h-1.5 rounded-full bg-status-maintenance mr-1"></span>Maintenance</span>`
+                                            : `<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-bold bg-status-active/10 text-status-active"><span class="w-1.5 h-1.5 rounded-full bg-status-active mr-1"></span>Active</span>`;
+                                            
+                                        const driverCol = driver === '- Unassigned -'
+                                            ? `<span class="text-outline italic text-[12px]">- Unassigned -</span>`
+                                            : `<div class="w-6 h-6 rounded-full bg-surface-container-high overflow-hidden shrink-0 flex items-center justify-center text-[10px] font-bold text-on-surface-variant">${driver.split(' ').map(n=>n[0]).join('').substring(0,2)}</div>${driver}`;
+
+                                        const tr = document.createElement('tr');
+                                        tr.className = `h-table-row hover:bg-surface transition-colors group ${isMaint ? 'bg-surface-container-low/30' : ''}`;
+                                        tr.innerHTML = `
+                                            <td class="px-gutter whitespace-nowrap font-medium text-on-surface">${id}</td>
+                                            <td class="px-gutter whitespace-nowrap text-on-surface-variant">Standard Model</td>
+                                            <td class="px-gutter whitespace-nowrap font-mono text-xs">YGN ${Math.floor(Math.random()*9)}X-${1000+Math.floor(Math.random()*8999)}</td>
+                                            <td class="px-gutter whitespace-nowrap text-on-surface-variant">${type}</td>
+                                            <td class="px-gutter whitespace-nowrap">${statusPill}</td>
+                                            <td class="px-gutter whitespace-nowrap text-right font-mono text-xs">${10000 + (i*3450)} km</td>
+                                            <td class="px-gutter whitespace-nowrap text-on-surface-variant">Dec 0${1+i}, 2023</td>
+                                            <td class="px-gutter whitespace-nowrap text-on-surface-variant flex items-center gap-2 h-full py-[7px]">${driverCol}</td>
+                                            <td class="px-gutter whitespace-nowrap text-right">
+                                                <button class="text-on-surface-variant hover:text-primary transition-colors opacity-0 group-hover:opacity-100 p-1"><span class="material-symbols-outlined text-[18px]" data-icon="visibility">visibility</span></button>
+                                                <button class="text-on-surface-variant hover:text-primary transition-colors opacity-0 group-hover:opacity-100 p-1"><span class="material-symbols-outlined text-[18px]" data-icon="edit">edit</span></button>
+                                            </td>
+                                        `;
+                                        tbody.appendChild(tr);
+                                    }
+                                 </script><tr class="h-table-row hover:bg-surface transition-colors group ">
+                                            <td class="px-gutter whitespace-nowrap font-medium text-on-surface">VH-1100</td>
+                                            <td class="px-gutter whitespace-nowrap text-on-surface-variant">Standard Model</td>
+                                            <td class="px-gutter whitespace-nowrap font-mono text-xs">YGN 8X-1412</td>
+                                            <td class="px-gutter whitespace-nowrap text-on-surface-variant">Executive Sedan</td>
+                                            <td class="px-gutter whitespace-nowrap"><span class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-bold bg-status-active/10 text-status-active"><span class="w-1.5 h-1.5 rounded-full bg-status-active mr-1"></span>Active</span></td>
+                                            <td class="px-gutter whitespace-nowrap text-right font-mono text-xs">10000 km</td>
+                                            <td class="px-gutter whitespace-nowrap text-on-surface-variant">Dec 01, 2023</td>
+                                            <td class="px-gutter whitespace-nowrap text-on-surface-variant flex items-center gap-2 h-full py-[7px]"><div class="w-6 h-6 rounded-full bg-surface-container-high overflow-hidden shrink-0 flex items-center justify-center text-[10px] font-bold text-on-surface-variant">DA</div>Daw Aye Aye</td>
+                                            <td class="px-gutter whitespace-nowrap text-right">
+                                                <button class="text-on-surface-variant hover:text-primary transition-colors opacity-0 group-hover:opacity-100 p-1"><span class="material-symbols-outlined text-[18px]" data-icon="visibility">visibility</span></button>
+                                                <button class="text-on-surface-variant hover:text-primary transition-colors opacity-0 group-hover:opacity-100 p-1"><span class="material-symbols-outlined text-[18px]" data-icon="edit">edit</span></button>
+                                            </td>
+                                        </tr><tr class="h-table-row hover:bg-surface transition-colors group ">
+                                            <td class="px-gutter whitespace-nowrap font-medium text-on-surface">VH-1101</td>
+                                            <td class="px-gutter whitespace-nowrap text-on-surface-variant">Standard Model</td>
+                                            <td class="px-gutter whitespace-nowrap font-mono text-xs">YGN 1X-5995</td>
+                                            <td class="px-gutter whitespace-nowrap text-on-surface-variant">SUV</td>
+                                            <td class="px-gutter whitespace-nowrap"><span class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-bold bg-status-active/10 text-status-active"><span class="w-1.5 h-1.5 rounded-full bg-status-active mr-1"></span>Active</span></td>
+                                            <td class="px-gutter whitespace-nowrap text-right font-mono text-xs">13450 km</td>
+                                            <td class="px-gutter whitespace-nowrap text-on-surface-variant">Dec 02, 2023</td>
+                                            <td class="px-gutter whitespace-nowrap text-on-surface-variant flex items-center gap-2 h-full py-[7px]"><div class="w-6 h-6 rounded-full bg-surface-container-high overflow-hidden shrink-0 flex items-center justify-center text-[10px] font-bold text-on-surface-variant">UK</div>U Kyaw</td>
+                                            <td class="px-gutter whitespace-nowrap text-right">
+                                                <button class="text-on-surface-variant hover:text-primary transition-colors opacity-0 group-hover:opacity-100 p-1"><span class="material-symbols-outlined text-[18px]" data-icon="visibility">visibility</span></button>
+                                                <button class="text-on-surface-variant hover:text-primary transition-colors opacity-0 group-hover:opacity-100 p-1"><span class="material-symbols-outlined text-[18px]" data-icon="edit">edit</span></button>
+                                            </td>
+                                        </tr><tr class="h-table-row hover:bg-surface transition-colors group ">
+                                            <td class="px-gutter whitespace-nowrap font-medium text-on-surface">VH-1102</td>
+                                            <td class="px-gutter whitespace-nowrap text-on-surface-variant">Standard Model</td>
+                                            <td class="px-gutter whitespace-nowrap font-mono text-xs">YGN 5X-6629</td>
+                                            <td class="px-gutter whitespace-nowrap text-on-surface-variant">Luxury Van</td>
+                                            <td class="px-gutter whitespace-nowrap"><span class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-bold bg-status-active/10 text-status-active"><span class="w-1.5 h-1.5 rounded-full bg-status-active mr-1"></span>Active</span></td>
+                                            <td class="px-gutter whitespace-nowrap text-right font-mono text-xs">16900 km</td>
+                                            <td class="px-gutter whitespace-nowrap text-on-surface-variant">Dec 03, 2023</td>
+                                            <td class="px-gutter whitespace-nowrap text-on-surface-variant flex items-center gap-2 h-full py-[7px]"><div class="w-6 h-6 rounded-full bg-surface-container-high overflow-hidden shrink-0 flex items-center justify-center text-[10px] font-bold text-on-surface-variant">KM</div>Ko Min Tun</td>
+                                            <td class="px-gutter whitespace-nowrap text-right">
+                                                <button class="text-on-surface-variant hover:text-primary transition-colors opacity-0 group-hover:opacity-100 p-1"><span class="material-symbols-outlined text-[18px]" data-icon="visibility">visibility</span></button>
+                                                <button class="text-on-surface-variant hover:text-primary transition-colors opacity-0 group-hover:opacity-100 p-1"><span class="material-symbols-outlined text-[18px]" data-icon="edit">edit</span></button>
+                                            </td>
+                                        </tr><tr class="h-table-row hover:bg-surface transition-colors group bg-surface-container-low/30">
+                                            <td class="px-gutter whitespace-nowrap font-medium text-on-surface">VH-1103</td>
+                                            <td class="px-gutter whitespace-nowrap text-on-surface-variant">Standard Model</td>
+                                            <td class="px-gutter whitespace-nowrap font-mono text-xs">YGN 2X-5982</td>
+                                            <td class="px-gutter whitespace-nowrap text-on-surface-variant">Executive Sedan</td>
+                                            <td class="px-gutter whitespace-nowrap"><span class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-bold bg-status-maintenance/10 text-status-maintenance"><span class="w-1.5 h-1.5 rounded-full bg-status-maintenance mr-1"></span>Maintenance</span></td>
+                                            <td class="px-gutter whitespace-nowrap text-right font-mono text-xs">20350 km</td>
+                                            <td class="px-gutter whitespace-nowrap text-on-surface-variant">Dec 04, 2023</td>
+                                            <td class="px-gutter whitespace-nowrap text-on-surface-variant flex items-center gap-2 h-full py-[7px]"><span class="text-outline italic text-[12px]">- Unassigned -</span></td>
+                                            <td class="px-gutter whitespace-nowrap text-right">
+                                                <button class="text-on-surface-variant hover:text-primary transition-colors opacity-0 group-hover:opacity-100 p-1"><span class="material-symbols-outlined text-[18px]" data-icon="visibility">visibility</span></button>
+                                                <button class="text-on-surface-variant hover:text-primary transition-colors opacity-0 group-hover:opacity-100 p-1"><span class="material-symbols-outlined text-[18px]" data-icon="edit">edit</span></button>
+                                            </td>
+                                        </tr><tr class="h-table-row hover:bg-surface transition-colors group ">
+                                            <td class="px-gutter whitespace-nowrap font-medium text-on-surface">VH-1104</td>
+                                            <td class="px-gutter whitespace-nowrap text-on-surface-variant">Standard Model</td>
+                                            <td class="px-gutter whitespace-nowrap font-mono text-xs">YGN 5X-6131</td>
+                                            <td class="px-gutter whitespace-nowrap text-on-surface-variant">SUV</td>
+                                            <td class="px-gutter whitespace-nowrap"><span class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-bold bg-status-active/10 text-status-active"><span class="w-1.5 h-1.5 rounded-full bg-status-active mr-1"></span>Active</span></td>
+                                            <td class="px-gutter whitespace-nowrap text-right font-mono text-xs">23800 km</td>
+                                            <td class="px-gutter whitespace-nowrap text-on-surface-variant">Dec 05, 2023</td>
+                                            <td class="px-gutter whitespace-nowrap text-on-surface-variant flex items-center gap-2 h-full py-[7px]"><div class="w-6 h-6 rounded-full bg-surface-container-high overflow-hidden shrink-0 flex items-center justify-center text-[10px] font-bold text-on-surface-variant">UZ</div>U Zaw</td>
+                                            <td class="px-gutter whitespace-nowrap text-right">
+                                                <button class="text-on-surface-variant hover:text-primary transition-colors opacity-0 group-hover:opacity-100 p-1"><span class="material-symbols-outlined text-[18px]" data-icon="visibility">visibility</span></button>
+                                                <button class="text-on-surface-variant hover:text-primary transition-colors opacity-0 group-hover:opacity-100 p-1"><span class="material-symbols-outlined text-[18px]" data-icon="edit">edit</span></button>
+                                            </td>
+                                        </tr><tr class="h-table-row hover:bg-surface transition-colors group ">
+                                            <td class="px-gutter whitespace-nowrap font-medium text-on-surface">VH-1105</td>
+                                            <td class="px-gutter whitespace-nowrap text-on-surface-variant">Standard Model</td>
+                                            <td class="px-gutter whitespace-nowrap font-mono text-xs">YGN 4X-7755</td>
+                                            <td class="px-gutter whitespace-nowrap text-on-surface-variant">Luxury Van</td>
+                                            <td class="px-gutter whitespace-nowrap"><span class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-bold bg-status-active/10 text-status-active"><span class="w-1.5 h-1.5 rounded-full bg-status-active mr-1"></span>Active</span></td>
+                                            <td class="px-gutter whitespace-nowrap text-right font-mono text-xs">27250 km</td>
+                                            <td class="px-gutter whitespace-nowrap text-on-surface-variant">Dec 06, 2023</td>
+                                            <td class="px-gutter whitespace-nowrap text-on-surface-variant flex items-center gap-2 h-full py-[7px]"><div class="w-6 h-6 rounded-full bg-surface-container-high overflow-hidden shrink-0 flex items-center justify-center text-[10px] font-bold text-on-surface-variant">DA</div>Daw Aye Aye</td>
+                                            <td class="px-gutter whitespace-nowrap text-right">
+                                                <button class="text-on-surface-variant hover:text-primary transition-colors opacity-0 group-hover:opacity-100 p-1"><span class="material-symbols-outlined text-[18px]" data-icon="visibility">visibility</span></button>
+                                                <button class="text-on-surface-variant hover:text-primary transition-colors opacity-0 group-hover:opacity-100 p-1"><span class="material-symbols-outlined text-[18px]" data-icon="edit">edit</span></button>
+                                            </td>
+                                        </tr><tr class="h-table-row hover:bg-surface transition-colors group ">
+                                            <td class="px-gutter whitespace-nowrap font-medium text-on-surface">VH-1106</td>
+                                            <td class="px-gutter whitespace-nowrap text-on-surface-variant">Standard Model</td>
+                                            <td class="px-gutter whitespace-nowrap font-mono text-xs">YGN 5X-8297</td>
+                                            <td class="px-gutter whitespace-nowrap text-on-surface-variant">Executive Sedan</td>
+                                            <td class="px-gutter whitespace-nowrap"><span class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-bold bg-status-active/10 text-status-active"><span class="w-1.5 h-1.5 rounded-full bg-status-active mr-1"></span>Active</span></td>
+                                            <td class="px-gutter whitespace-nowrap text-right font-mono text-xs">30700 km</td>
+                                            <td class="px-gutter whitespace-nowrap text-on-surface-variant">Dec 07, 2023</td>
+                                            <td class="px-gutter whitespace-nowrap text-on-surface-variant flex items-center gap-2 h-full py-[7px]"><div class="w-6 h-6 rounded-full bg-surface-container-high overflow-hidden shrink-0 flex items-center justify-center text-[10px] font-bold text-on-surface-variant">UK</div>U Kyaw</td>
+                                            <td class="px-gutter whitespace-nowrap text-right">
+                                                <button class="text-on-surface-variant hover:text-primary transition-colors opacity-0 group-hover:opacity-100 p-1"><span class="material-symbols-outlined text-[18px]" data-icon="visibility">visibility</span></button>
+                                                <button class="text-on-surface-variant hover:text-primary transition-colors opacity-0 group-hover:opacity-100 p-1"><span class="material-symbols-outlined text-[18px]" data-icon="edit">edit</span></button>
+                                            </td>
+                                        </tr><tr class="h-table-row hover:bg-surface transition-colors group ">
+                                            <td class="px-gutter whitespace-nowrap font-medium text-on-surface">VH-1107</td>
+                                            <td class="px-gutter whitespace-nowrap text-on-surface-variant">Standard Model</td>
+                                            <td class="px-gutter whitespace-nowrap font-mono text-xs">YGN 4X-8842</td>
+                                            <td class="px-gutter whitespace-nowrap text-on-surface-variant">SUV</td>
+                                            <td class="px-gutter whitespace-nowrap"><span class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-bold bg-status-active/10 text-status-active"><span class="w-1.5 h-1.5 rounded-full bg-status-active mr-1"></span>Active</span></td>
+                                            <td class="px-gutter whitespace-nowrap text-right font-mono text-xs">34150 km</td>
+                                            <td class="px-gutter whitespace-nowrap text-on-surface-variant">Dec 08, 2023</td>
+                                            <td class="px-gutter whitespace-nowrap text-on-surface-variant flex items-center gap-2 h-full py-[7px]"><div class="w-6 h-6 rounded-full bg-surface-container-high overflow-hidden shrink-0 flex items-center justify-center text-[10px] font-bold text-on-surface-variant">KM</div>Ko Min Tun</td>
+                                            <td class="px-gutter whitespace-nowrap text-right">
+                                                <button class="text-on-surface-variant hover:text-primary transition-colors opacity-0 group-hover:opacity-100 p-1"><span class="material-symbols-outlined text-[18px]" data-icon="visibility">visibility</span></button>
+                                                <button class="text-on-surface-variant hover:text-primary transition-colors opacity-0 group-hover:opacity-100 p-1"><span class="material-symbols-outlined text-[18px]" data-icon="edit">edit</span></button>
+                                            </td>
+                                        </tr><tr class="h-table-row hover:bg-surface transition-colors group bg-surface-container-low/30">
+                                            <td class="px-gutter whitespace-nowrap font-medium text-on-surface">VH-1108</td>
+                                            <td class="px-gutter whitespace-nowrap text-on-surface-variant">Standard Model</td>
+                                            <td class="px-gutter whitespace-nowrap font-mono text-xs">YGN 2X-7489</td>
+                                            <td class="px-gutter whitespace-nowrap text-on-surface-variant">Luxury Van</td>
+                                            <td class="px-gutter whitespace-nowrap"><span class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-bold bg-status-maintenance/10 text-status-maintenance"><span class="w-1.5 h-1.5 rounded-full bg-status-maintenance mr-1"></span>Maintenance</span></td>
+                                            <td class="px-gutter whitespace-nowrap text-right font-mono text-xs">37600 km</td>
+                                            <td class="px-gutter whitespace-nowrap text-on-surface-variant">Dec 09, 2023</td>
+                                            <td class="px-gutter whitespace-nowrap text-on-surface-variant flex items-center gap-2 h-full py-[7px]"><span class="text-outline italic text-[12px]">- Unassigned -</span></td>
+                                            <td class="px-gutter whitespace-nowrap text-right">
+                                                <button class="text-on-surface-variant hover:text-primary transition-colors opacity-0 group-hover:opacity-100 p-1"><span class="material-symbols-outlined text-[18px]" data-icon="visibility">visibility</span></button>
+                                                <button class="text-on-surface-variant hover:text-primary transition-colors opacity-0 group-hover:opacity-100 p-1"><span class="material-symbols-outlined text-[18px]" data-icon="edit">edit</span></button>
+                                            </td>
+                                        </tr><tr class="h-table-row hover:bg-surface transition-colors group ">
+                                            <td class="px-gutter whitespace-nowrap font-medium text-on-surface">VH-1109</td>
+                                            <td class="px-gutter whitespace-nowrap text-on-surface-variant">Standard Model</td>
+                                            <td class="px-gutter whitespace-nowrap font-mono text-xs">YGN 1X-9049</td>
+                                            <td class="px-gutter whitespace-nowrap text-on-surface-variant">Executive Sedan</td>
+                                            <td class="px-gutter whitespace-nowrap"><span class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-bold bg-status-active/10 text-status-active"><span class="w-1.5 h-1.5 rounded-full bg-status-active mr-1"></span>Active</span></td>
+                                            <td class="px-gutter whitespace-nowrap text-right font-mono text-xs">41050 km</td>
+                                            <td class="px-gutter whitespace-nowrap text-on-surface-variant">Dec 010, 2023</td>
+                                            <td class="px-gutter whitespace-nowrap text-on-surface-variant flex items-center gap-2 h-full py-[7px]"><div class="w-6 h-6 rounded-full bg-surface-container-high overflow-hidden shrink-0 flex items-center justify-center text-[10px] font-bold text-on-surface-variant">UZ</div>U Zaw</td>
+                                            <td class="px-gutter whitespace-nowrap text-right">
+                                                <button class="text-on-surface-variant hover:text-primary transition-colors opacity-0 group-hover:opacity-100 p-1"><span class="material-symbols-outlined text-[18px]" data-icon="visibility">visibility</span></button>
+                                                <button class="text-on-surface-variant hover:text-primary transition-colors opacity-0 group-hover:opacity-100 p-1"><span class="material-symbols-outlined text-[18px]" data-icon="edit">edit</span></button>
+                                            </td>
+                                        </tr><tr class="h-table-row hover:bg-surface transition-colors group ">
+                                            <td class="px-gutter whitespace-nowrap font-medium text-on-surface">VH-1110</td>
+                                            <td class="px-gutter whitespace-nowrap text-on-surface-variant">Standard Model</td>
+                                            <td class="px-gutter whitespace-nowrap font-mono text-xs">YGN 6X-4459</td>
+                                            <td class="px-gutter whitespace-nowrap text-on-surface-variant">SUV</td>
+                                            <td class="px-gutter whitespace-nowrap"><span class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-bold bg-status-active/10 text-status-active"><span class="w-1.5 h-1.5 rounded-full bg-status-active mr-1"></span>Active</span></td>
+                                            <td class="px-gutter whitespace-nowrap text-right font-mono text-xs">44500 km</td>
+                                            <td class="px-gutter whitespace-nowrap text-on-surface-variant">Dec 011, 2023</td>
+                                            <td class="px-gutter whitespace-nowrap text-on-surface-variant flex items-center gap-2 h-full py-[7px]"><div class="w-6 h-6 rounded-full bg-surface-container-high overflow-hidden shrink-0 flex items-center justify-center text-[10px] font-bold text-on-surface-variant">DA</div>Daw Aye Aye</td>
+                                            <td class="px-gutter whitespace-nowrap text-right">
+                                                <button class="text-on-surface-variant hover:text-primary transition-colors opacity-0 group-hover:opacity-100 p-1"><span class="material-symbols-outlined text-[18px]" data-icon="visibility">visibility</span></button>
+                                                <button class="text-on-surface-variant hover:text-primary transition-colors opacity-0 group-hover:opacity-100 p-1"><span class="material-symbols-outlined text-[18px]" data-icon="edit">edit</span></button>
+                                            </td>
+                                        </tr>
+<!-- End dynamically generated rows -->
+</tbody>
+</table>
+</div>
+<!-- Table Pagination Footer -->
+<div class="px-gutter py-md border-t border-border-hairline bg-surface-canvas flex justify-between items-center text-body-sm font-body-sm text-on-surface-variant">
+<div class="">Showing 1 to 15 of 48 entries</div>
+<div class="flex gap-1">
+<button class="p-1 rounded hover:bg-surface-container-high border border-transparent hover:border-border-hairline disabled:opacity-50"><span class="material-symbols-outlined text-[18px]" data-icon="chevron_left">chevron_left</span></button>
+<button class="w-7 h-7 rounded bg-primary text-white font-medium flex items-center justify-center">1</button>
+<button class="w-7 h-7 rounded hover:bg-surface-container-high border border-transparent hover:border-border-hairline flex items-center justify-center">2</button>
+<button class="w-7 h-7 rounded hover:bg-surface-container-high border border-transparent hover:border-border-hairline flex items-center justify-center">3</button>
+<span class="w-7 h-7 flex items-center justify-center">...</span>
+<button class="p-1 rounded hover:bg-surface-container-high border border-transparent hover:border-border-hairline"><span class="material-symbols-outlined text-[18px]" data-icon="chevron_right">chevron_right</span></button>
+</div>
+</div>
+</div>
+<!-- Maintenance Alerts Panel -->
+<div class="xl:col-span-1 flex flex-col gap-md h-full">
+<div class="bg-white border border-border-hairline rounded-lg shadow-sm flex flex-col flex-1 overflow-hidden">
+<div class="px-gutter py-md border-b border-border-hairline bg-surface-canvas flex justify-between items-center">
+<h3 class="font-title-md text-title-md font-bold text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-status-maintenance text-[20px]" data-icon="warning_amber">warning_amber</span>
+                                Action Required
+                            </h3>
+<span class="bg-error text-white text-xs font-bold px-2 py-0.5 rounded-full">3</span>
+</div>
+<div class="flex-1 overflow-y-auto p-md space-y-md">
+<!-- Alert Item 1 (Urgent) -->
+<div class="p-md rounded-md border border-error-container bg-error-container/10 border-l-4 border-l-error">
+<div class="flex justify-between items-start mb-1">
+<span class="font-label-caps text-label-caps text-error font-bold">URGENT</span>
+<span class="text-xs text-on-surface-variant font-mono">VH-1056</span>
+</div>
+<h4 class="font-title-md text-title-md text-on-surface mb-1">Brake Pad Replacement Due</h4>
+<p class="font-body-xs text-body-xs text-on-surface-variant mb-3">Vehicle has exceeded recommended mileage for brake pad service by 500km.</p>
+<div class="flex gap-2">
+<button class="px-3 py-1.5 bg-surface border border-border-hairline rounded text-xs font-medium hover:bg-surface-container-low transition-colors">Schedule</button>
+<button class="px-3 py-1.5 bg-error text-white rounded text-xs font-medium hover:bg-on-error-container transition-colors">Ground Vehicle</button>
+</div>
+</div>
+<!-- Alert Item 2 -->
+<div class="p-md rounded-md border border-status-maintenance/30 bg-status-maintenance/5 border-l-4 border-l-status-maintenance">
+<div class="flex justify-between items-start mb-1">
+<span class="font-label-caps text-label-caps text-status-maintenance font-bold">UPCOMING</span>
+<span class="text-xs text-on-surface-variant font-mono">VH-0982</span>
+</div>
+<h4 class="font-title-md text-title-md text-on-surface mb-1">Annual Registration Renewal</h4>
+<p class="font-body-xs text-body-xs text-on-surface-variant mb-3">Registration expires in 14 days. Document processing required.</p>
+<button class="px-3 py-1.5 bg-surface border border-border-hairline rounded text-xs font-medium hover:bg-surface-container-low transition-colors w-full text-center">View Documents</button>
+</div>
+<!-- Alert Item 3 -->
+<div class="p-md rounded-md border border-border-hairline bg-surface border-l-4 border-l-tertiary-container">
+<div class="flex justify-between items-start mb-1">
+<span class="font-label-caps text-label-caps text-tertiary-container font-bold">ROUTINE</span>
+<span class="text-xs text-on-surface-variant font-mono">VH-1088</span>
+</div>
+<h4 class="font-title-md text-title-md text-on-surface mb-1">Oil Change Recommended</h4>
+<p class="font-body-xs text-body-xs text-on-surface-variant mb-3">Approaching 10,000km interval threshold.</p>
+<button class="px-3 py-1.5 bg-surface border border-border-hairline rounded text-xs font-medium hover:bg-surface-container-low transition-colors w-full text-center">Acknowledge</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="h-xl w-full"></div> <!-- Bottom padding -->
+</div>
+</main>
+
+
+</body></html>

@@ -121,7 +121,7 @@ export class DriverService {
       throw createAppError(404, "DRIVER_NOT_FOUND", "Driver not found");
     }
 
-    return driver;
+    return this.formatResponse(driver);
   }
 
   async create(data: CreateDriverDto): Promise<DriverResponse> {

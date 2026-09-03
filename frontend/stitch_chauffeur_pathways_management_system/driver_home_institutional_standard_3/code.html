@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>PCCP Driver Home</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Plus+Jakarta+Sans:wght@500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-error": "#ffffff",
+                        "tertiary": "#733f00",
+                        "surface-dim": "#d2d9f4",
+                        "tertiary-container": "#955301",
+                        "border-hairline": "#E2E8F0",
+                        "on-secondary-fixed": "#00201d",
+                        "outline-variant": "#c0c7d1",
+                        "on-primary-fixed-variant": "#004b74",
+                        "secondary-fixed": "#9cf2e8",
+                        "inverse-surface": "#283044",
+                        "secondary-container": "#99efe5",
+                        "error-container": "#ffdad6",
+                        "background": "#faf8ff",
+                        "primary-container": "#0369a1",
+                        "surface-variant": "#dae2fc",
+                        "outline": "#707881",
+                        "secondary": "#006a63",
+                        "on-tertiary": "#ffffff",
+                        "surface-tint": "#006399",
+                        "primary-fixed-dim": "#94ccff",
+                        "error": "#ba1a1a",
+                        "role-driver": "#7C3AED",
+                        "surface-container-highest": "#dae2fc",
+                        "on-tertiary-fixed-variant": "#6c3a00",
+                        "on-surface-variant": "#40474f",
+                        "primary": "#00507d",
+                        "tertiary-fixed-dim": "#ffb878",
+                        "secondary-fixed-dim": "#80d5cb",
+                        "surface-canvas": "#F8FAFC",
+                        "role-passenger": "#2563EB",
+                        "tertiary-fixed": "#ffdcc1",
+                        "surface-container-lowest": "#ffffff",
+                        "role-admin": "#059669",
+                        "surface-container-high": "#e1e7ff",
+                        "on-tertiary-container": "#ffdbbe",
+                        "surface": "#faf8ff",
+                        "inverse-on-surface": "#eef0ff",
+                        "on-error-container": "#93000a",
+                        "on-primary": "#ffffff",
+                        "on-primary-fixed": "#001d32",
+                        "on-surface": "#131b2e",
+                        "primary-fixed": "#cde5ff",
+                        "on-secondary-fixed-variant": "#00504a",
+                        "inverse-primary": "#94ccff",
+                        "surface-container": "#eaedff",
+                        "surface-bright": "#faf8ff",
+                        "on-secondary-container": "#006f67",
+                        "on-background": "#131b2e",
+                        "surface-container-low": "#f2f3ff",
+                        "on-primary-container": "#cbe4ff",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-fixed": "#2e1500"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "lg": "20px",
+                        "xl": "24px",
+                        "margin-desktop": "32px",
+                        "sm": "8px",
+                        "gutter": "16px",
+                        "md": "12px",
+                        "margin-mobile": "16px",
+                        "2xl": "32px",
+                        "xs": "4px",
+                        "base": "16px"
+                    },
+                    "fontFamily": {
+                        "label-caps": ["Plus Jakarta Sans"],
+                        "title-lg": ["Plus Jakarta Sans"],
+                        "body-sm": ["Inter"],
+                        "display-lg": ["Plus Jakarta Sans"],
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "title-md": ["Plus Jakarta Sans"],
+                        "headline-lg": ["Plus Jakarta Sans"],
+                        "body-base": ["Inter"]
+                    },
+                    "fontSize": {
+                        "label-caps": ["11px", { "lineHeight": "14px", "letterSpacing": "0.06em", "fontWeight": "700" }],
+                        "title-lg": ["18px", { "lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "body-sm": ["13px", { "lineHeight": "18px", "letterSpacing": "0", "fontWeight": "400" }],
+                        "display-lg": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+                        "headline-md": ["22px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "title-md": ["16px", { "lineHeight": "22px", "letterSpacing": "0", "fontWeight": "600" }],
+                        "headline-lg": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-base": ["15px", { "lineHeight": "22px", "letterSpacing": "0", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { background-color: theme('colors.surface-canvas'); color: theme('colors.on-surface'); }
+        .pb-safe { padding-bottom: env(safe-area-inset-bottom, 16px); }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="antialiased min-h-screen flex flex-col font-body-base">
+<!-- TopAppBar -->
+<header class="bg-surface text-role-driver font-title-lg text-title-lg fixed top-0 w-full z-50 border-b border-outline-variant flex justify-between items-center px-margin-mobile h-14 w-full">
+<button class="hover:bg-surface-container-low transition-colors active:opacity-80 transition-opacity p-2 -ml-2 rounded-full">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">menu</span>
+</button>
+<span class="font-headline-md text-headline-md font-bold text-role-driver">Driver Portal</span>
+<button class="hover:bg-surface-container-low transition-colors active:opacity-80 transition-opacity p-2 -mr-2 rounded-full">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">account_circle</span>
+</button>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-grow pt-[72px] pb-[96px] px-margin-mobile md:px-margin-desktop w-full max-w-[1280px] mx-auto grid grid-cols-1 md:grid-cols-12 gap-gutter">
+<!-- Welcome & Status Banner (Full Width) -->
+<div class="col-span-1 md:col-span-12 mb-base">
+<div class="bg-surface-container-low rounded-xl p-base border border-border-hairline shadow-[0px_1px_3px_rgba(15,23,42,0.05)] flex flex-col md:flex-row justify-between items-start md:items-center gap-base">
+<div>
+<h1 class="font-headline-md text-headline-md text-on-surface mb-xs">Good Morning, Ko Aung Naing Win</h1>
+<div class="flex flex-wrap items-center gap-x-md gap-y-xs font-body-sm text-body-sm text-on-surface-variant">
+<span class="flex items-center gap-xs"><span class="material-symbols-outlined text-[16px]">badge</span> ID: D-8829</span>
+<span class="hidden md:inline">•</span>
+<span class="flex items-center gap-xs"><span class="material-symbols-outlined text-[16px]">verified</span> CC — Certified Chauffeur</span>
+</div>
+</div>
+<div class="bg-role-driver/10 text-role-driver px-md py-sm rounded-lg flex items-center gap-sm font-title-md text-title-md border border-role-driver/20 self-stretch md:self-auto justify-center">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">assignment_ind</span>
+                    ASSIGNED
+                </div>
+</div>
+</div>
+<!-- Current Assignment Card -->
+<div class="col-span-1 md:col-span-8 lg:col-span-9 flex flex-col gap-gutter">
+<section class="bg-surface-container-lowest rounded-xl border border-border-hairline shadow-[0px_1px_3px_rgba(15,23,42,0.05)] overflow-hidden">
+<div class="p-base md:p-xl border-b border-border-hairline flex flex-col sm:flex-row justify-between items-start sm:items-center gap-sm">
+<div>
+<div class="font-label-caps text-label-caps text-role-driver mb-xs uppercase tracking-wider">Current Assignment</div>
+<h2 class="font-title-lg text-title-lg text-on-surface">PCCP-TR-2026-0012</h2>
+</div>
+<div class="flex items-center gap-sm text-on-surface font-title-md text-title-md bg-surface-container py-xs px-md rounded-md">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">schedule</span>
+                        Today, 08:30 AM
+                    </div>
+</div>
+<div class="p-base md:p-xl grid grid-cols-1 md:grid-cols-2 gap-gutter">
+<!-- Route -->
+<div class="flex flex-col gap-base relative">
+<div class="absolute left-[11px] top-[24px] bottom-[24px] w-0.5 bg-outline-variant"></div>
+<div class="flex gap-md z-10">
+<div class="w-[24px] h-[24px] rounded-full bg-role-driver flex items-center justify-center shrink-0 mt-0.5">
+<div class="w-2 h-2 rounded-full bg-on-primary"></div>
+</div>
+<div>
+<div class="font-label-caps text-label-caps text-on-surface-variant uppercase">Pickup</div>
+<div class="font-title-md text-title-md text-on-surface">uab HO</div>
+</div>
+</div>
+<div class="flex gap-md z-10">
+<div class="w-[24px] h-[24px] rounded-full bg-surface-container border-2 border-role-driver flex items-center justify-center shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-[14px] text-role-driver">location_on</span>
+</div>
+<div>
+<div class="font-label-caps text-label-caps text-on-surface-variant uppercase">Destination</div>
+<div class="font-title-md text-title-md text-on-surface">Yangon International Airport</div>
+</div>
+</div>
+</div>
+<!-- Details -->
+<div class="flex flex-col gap-md bg-surface-canvas p-base rounded-lg border border-border-hairline">
+<div class="grid grid-cols-[24px_1fr] gap-sm items-start">
+<span class="material-symbols-outlined text-outline">sync_alt</span>
+<div>
+<div class="font-label-caps text-label-caps text-on-surface-variant uppercase">Service</div>
+<div class="font-body-base text-body-base text-on-surface">Round Trip</div>
+</div>
+</div>
+<div class="grid grid-cols-[24px_1fr] gap-sm items-start">
+<span class="material-symbols-outlined text-outline">groups</span>
+<div>
+<div class="font-label-caps text-label-caps text-on-surface-variant uppercase">Passenger</div>
+<div class="font-body-base text-body-base text-on-surface">Aung Aung <span class="text-on-surface-variant">(2 People)</span></div>
+</div>
+</div>
+<div class="grid grid-cols-[24px_1fr] gap-sm items-start">
+<span class="material-symbols-outlined text-outline">directions_car</span>
+<div>
+<div class="font-label-caps text-label-caps text-on-surface-variant uppercase">Vehicle</div>
+<div class="font-body-base text-body-base text-on-surface">Toyota Alphard <span class="text-on-surface-variant">(4D-1200)</span></div>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-low p-base border-t border-border-hairline flex justify-end">
+<button class="bg-role-driver hover:bg-role-driver/90 text-on-primary font-title-md text-title-md py-md px-xl rounded-full flex items-center gap-sm transition-colors w-full md:w-auto justify-center h-[48px]">
+                        View Assignment
+                        <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+</section>
+</div>
+<!-- Sidebar Columns -->
+<div class="col-span-1 md:col-span-4 lg:col-span-3 flex flex-col gap-gutter">
+<!-- Today's Summary -->
+<section class="bg-surface-container-lowest rounded-xl border border-border-hairline shadow-[0px_1px_3px_rgba(15,23,42,0.05)] p-base">
+<h3 class="font-title-lg text-title-lg text-on-surface mb-base flex items-center gap-sm">
+<span class="material-symbols-outlined text-role-driver" style="font-variation-settings: 'FILL' 1;">calendar_today</span>
+                    Today's Summary
+                </h3>
+<div class="grid grid-cols-3 gap-sm text-center">
+<div class="bg-surface-canvas rounded-lg p-sm border border-border-hairline flex flex-col items-center justify-center">
+<span class="font-headline-lg text-headline-lg text-on-surface mb-xs">2</span>
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Upcoming</span>
+</div>
+<div class="bg-role-driver/10 rounded-lg p-sm border border-role-driver/20 flex flex-col items-center justify-center">
+<span class="font-headline-lg text-headline-lg text-role-driver mb-xs">1</span>
+<span class="font-label-caps text-label-caps text-role-driver uppercase">Active</span>
+</div>
+<div class="bg-surface-canvas rounded-lg p-sm border border-border-hairline flex flex-col items-center justify-center">
+<span class="font-headline-lg text-headline-lg text-on-surface mb-xs">3</span>
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Completed</span>
+</div>
+</div>
+</section>
+<!-- Performance Section -->
+<section class="bg-surface-container-lowest rounded-xl border border-border-hairline shadow-[0px_1px_3px_rgba(15,23,42,0.05)] p-base flex flex-col gap-base">
+<h3 class="font-title-lg text-title-lg text-on-surface flex items-center gap-sm">
+<span class="material-symbols-outlined text-role-driver" style="font-variation-settings: 'FILL' 1;">query_stats</span>
+                    Performance
+                </h3>
+<div class="space-y-md">
+<div class="flex justify-between items-center border-b border-border-hairline pb-sm">
+<span class="font-body-base text-body-base text-on-surface-variant flex items-center gap-sm"><span class="material-symbols-outlined text-[18px]">verified_user</span> Safety Score</span>
+<span class="font-title-md text-title-md text-on-surface">94%</span>
+</div>
+<div class="flex justify-between items-center border-b border-border-hairline pb-sm">
+<span class="font-body-base text-body-base text-on-surface-variant flex items-center gap-sm"><span class="material-symbols-outlined text-[18px]">star_rate</span> Passenger Rating</span>
+<span class="font-title-md text-title-md text-on-surface flex items-center gap-xs">4.8 <span class="material-symbols-outlined text-[16px] text-[#F59E0B]" style="font-variation-settings: 'FILL' 1;">star</span></span>
+</div>
+<div class="flex justify-between items-center">
+<span class="font-body-base text-body-base text-on-surface-variant flex items-center gap-sm"><span class="material-symbols-outlined text-[18px]">workspace_premium</span> Accident-Free</span>
+<span class="font-title-md text-title-md text-on-surface">3 Years</span>
+</div>
+</div>
+<button class="w-full bg-surface-canvas hover:bg-surface-container-low text-on-surface font-title-md text-title-md py-sm px-base rounded-lg border border-border-hairline transition-colors flex items-center justify-center gap-sm h-[40px]">
+                    View Performance
+                </button>
+</section>
+<!-- Certification Section -->
+<section class="bg-surface-container-lowest rounded-xl border border-border-hairline shadow-[0px_1px_3px_rgba(15,23,42,0.05)] p-base bg-gradient-to-br from-surface-container-lowest to-surface-container-low">
+<h3 class="font-title-lg text-title-lg text-on-surface mb-base flex items-center gap-sm">
+<span class="material-symbols-outlined text-role-driver" style="font-variation-settings: 'FILL' 1;">military_tech</span>
+                    Certification Track
+                </h3>
+<div class="flex flex-col gap-sm">
+<div>
+<div class="font-label-caps text-label-caps text-on-surface-variant uppercase mb-xs">Current Level</div>
+<div class="bg-role-driver text-on-primary font-title-md text-title-md py-sm px-md rounded-lg flex items-center gap-sm">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">badge</span>
+                            CC — Certified Chauffeur
+                        </div>
+</div>
+<div class="flex justify-center text-outline-variant py-xs">
+<span class="material-symbols-outlined">keyboard_double_arrow_down</span>
+</div>
+<div>
+<div class="font-label-caps text-label-caps text-on-surface-variant uppercase mb-xs">Next Level</div>
+<div class="bg-surface-canvas border border-outline-variant text-on-surface font-body-base text-body-base py-sm px-md rounded-lg flex items-center gap-sm opacity-70">
+<span class="material-symbols-outlined">workspace_premium</span>
+                            CPC — Certified Professional Chauffeur
+                        </div>
+</div>
+</div>
+</section>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="bg-surface fixed bottom-0 w-full z-50 pb-safe border-t border-outline-variant shadow-sm flex justify-around items-center w-full h-16 px-2 md:hidden">
+<a class="flex flex-col items-center justify-center bg-role-driver-container dark:bg-role-driver text-on-secondary-container dark:text-on-primary rounded-xl px-3 py-1.5 hover:text-role-driver transition-colors scale-95 active:scale-90 transition-transform duration-150" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">home</span>
+<span class="font-label-caps text-label-caps mt-1">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline px-3 py-1.5 hover:text-role-driver transition-colors scale-95 active:scale-90 transition-transform duration-150" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">assignment</span>
+<span class="font-label-caps text-label-caps mt-1">Assignments</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline px-3 py-1.5 hover:text-role-driver transition-colors scale-95 active:scale-90 transition-transform duration-150" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">route</span>
+<span class="font-label-caps text-label-caps mt-1">Trips</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline px-3 py-1.5 hover:text-role-driver transition-colors scale-95 active:scale-90 transition-transform duration-150" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">query_stats</span>
+<span class="font-label-caps text-label-caps mt-1">Performance</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline px-3 py-1.5 hover:text-role-driver transition-colors scale-95 active:scale-90 transition-transform duration-150" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">person</span>
+<span class="font-label-caps text-label-caps mt-1">Account</span>
+</a>
+</nav>
+</body></html>

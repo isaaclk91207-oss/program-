@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>New Transport Request</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "inverse-primary": "#94ccff",
+                        "surface-container": "#eaedff",
+                        "secondary-fixed-dim": "#80d5cb",
+                        "on-tertiary-container": "#ffdbbe",
+                        "on-primary-container": "#cbe4ff",
+                        "on-error-container": "#93000a",
+                        "on-primary-fixed": "#001d32",
+                        "primary-fixed": "#cde5ff",
+                        "secondary-fixed": "#9cf2e8",
+                        "on-secondary-fixed": "#00201d",
+                        "error": "#ba1a1a",
+                        "surface-bright": "#faf8ff",
+                        "on-primary": "#ffffff",
+                        "secondary": "#006a63",
+                        "surface-tint": "#006399",
+                        "surface-container-low": "#f2f3ff",
+                        "surface-canvas": "#F8FAFC",
+                        "primary-container": "#0369a1",
+                        "on-secondary": "#ffffff",
+                        "border-hairline": "#E2E8F0",
+                        "on-tertiary": "#ffffff",
+                        "inverse-surface": "#283044",
+                        "on-secondary-container": "#006f67",
+                        "primary-fixed-dim": "#94ccff",
+                        "on-secondary-fixed-variant": "#00504a",
+                        "tertiary": "#733f00",
+                        "surface-variant": "#dae2fc",
+                        "role-driver": "#7C3AED",
+                        "secondary-container": "#99efe5",
+                        "surface-container-lowest": "#ffffff",
+                        "on-surface-variant": "#40474f",
+                        "on-tertiary-fixed": "#2e1500",
+                        "outline": "#707881",
+                        "surface-container-high": "#e1e7ff",
+                        "tertiary-fixed-dim": "#ffb878",
+                        "surface-container-highest": "#dae2fc",
+                        "surface": "#faf8ff",
+                        "inverse-on-surface": "#eef0ff",
+                        "role-passenger": "#2563EB",
+                        "tertiary-container": "#955301",
+                        "on-error": "#ffffff",
+                        "surface-dim": "#d2d9f4",
+                        "primary": "#00507d",
+                        "background": "#faf8ff",
+                        "tertiary-fixed": "#ffdcc1",
+                        "on-background": "#131b2e",
+                        "on-primary-fixed-variant": "#004b74",
+                        "error-container": "#ffdad6",
+                        "on-tertiary-fixed-variant": "#6c3a00",
+                        "on-surface": "#131b2e",
+                        "role-admin": "#059669",
+                        "outline-variant": "#c0c7d1"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-mobile": "16px",
+                        "lg": "20px",
+                        "margin-desktop": "32px",
+                        "xl": "24px",
+                        "base": "16px",
+                        "gutter": "16px",
+                        "md": "12px",
+                        "xs": "4px",
+                        "sm": "8px",
+                        "2xl": "32px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Plus Jakarta Sans"],
+                        "body-sm": ["Inter"],
+                        "title-lg": ["Plus Jakarta Sans"],
+                        "label-caps": ["Plus Jakarta Sans"],
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "title-md": ["Plus Jakarta Sans"],
+                        "body-base": ["Inter"],
+                        "display-lg": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-sm": ["13px", { "lineHeight": "18px", "letterSpacing": "0", "fontWeight": "400" }],
+                        "title-lg": ["18px", { "lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "label-caps": ["11px", { "lineHeight": "14px", "letterSpacing": "0.06em", "fontWeight": "700" }],
+                        "headline-md": ["22px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "title-md": ["16px", { "lineHeight": "22px", "letterSpacing": "0", "fontWeight": "600" }],
+                        "body-base": ["15px", { "lineHeight": "22px", "letterSpacing": "0", "fontWeight": "400" }],
+                        "display-lg": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "800" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .icon-fill {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        input:checked + div .radio-inner { transform: scale(1); }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface-canvas min-h-screen text-on-surface flex flex-col font-body-base">
+<!-- TopAppBar -->
+<header class="bg-surface dark:bg-surface-dim w-full top-0 sticky shadow-sm border-b border-border-hairline dark:border-outline-variant z-40">
+<div class="flex justify-between items-center h-16 px-margin-mobile md:px-margin-desktop w-full">
+<button class="text-on-surface-variant hover:bg-surface-container transition-colors p-2 rounded-full active:opacity-80 transition-opacity">
+<span class="material-symbols-outlined" data-icon="arrow_back">arrow_back</span>
+</button>
+<div class="text-headline-md font-headline-md font-bold text-primary dark:text-inverse-primary text-center flex-1">
+                New Request
+            </div>
+<div class="w-10"></div> <!-- Spacer for centering -->
+</div>
+</header>
+<main class="flex-1 w-full max-w-[600px] mx-auto p-margin-mobile md:p-margin-desktop space-y-lg md:space-y-xl pb-24">
+<!-- Progress Indicator -->
+<div class="flex items-center justify-between mb-xl">
+<div class="flex flex-col items-center">
+<div class="w-8 h-8 rounded-full bg-role-passenger text-on-primary flex items-center justify-center font-bold text-body-sm shadow-sm">1</div>
+<span class="text-[10px] mt-xs font-semibold text-role-passenger uppercase tracking-wider">Details</span>
+</div>
+<div class="flex-1 h-[2px] bg-border-hairline mx-sm"><div class="h-full bg-role-passenger w-1/2"></div></div>
+<div class="flex flex-col items-center opacity-50">
+<div class="w-8 h-8 rounded-full bg-surface-variant text-on-surface-variant flex items-center justify-center font-bold text-body-sm border border-border-hairline">2</div>
+<span class="text-[10px] mt-xs font-semibold text-on-surface-variant uppercase tracking-wider">Vehicle</span>
+</div>
+<div class="flex-1 h-[2px] bg-border-hairline mx-sm"></div>
+<div class="flex flex-col items-center opacity-50">
+<div class="w-8 h-8 rounded-full bg-surface-variant text-on-surface-variant flex items-center justify-center font-bold text-body-sm border border-border-hairline">3</div>
+<span class="text-[10px] mt-xs font-semibold text-on-surface-variant uppercase tracking-wider">Review</span>
+</div>
+</div>
+<!-- Section 1: Basic Info -->
+<section class="bg-surface rounded-xl shadow-[0_1px_3px_rgba(15,23,42,0.05)] border border-border-hairline p-base md:p-lg space-y-md">
+<h2 class="font-title-md text-title-md text-primary mb-md flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px]" data-icon="info">info</span>
+                General Information
+            </h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-md md:gap-base">
+<!-- Today Date (Disabled) -->
+<div class="flex flex-col space-y-xs">
+<label class="font-label-caps text-label-caps text-on-surface-variant">Today's Date</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline-variant text-[20px]">calendar_today</span>
+<input class="w-full bg-surface-container-low text-on-surface-variant border border-border-hairline rounded-lg py-2 pl-10 pr-3 font-body-sm cursor-not-allowed opacity-70" disabled="" type="text" value="18 Aug 2026"/>
+</div>
+</div>
+<!-- Month (Disabled) -->
+<div class="flex flex-col space-y-xs">
+<label class="font-label-caps text-label-caps text-on-surface-variant">Month</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline-variant text-[20px]">event_note</span>
+<input class="w-full bg-surface-container-low text-on-surface-variant border border-border-hairline rounded-lg py-2 pl-10 pr-3 font-body-sm cursor-not-allowed opacity-70" disabled="" type="text" value="August"/>
+</div>
+</div>
+<!-- Request Date (Required) -->
+<div class="flex flex-col space-y-xs md:col-span-2">
+<label class="font-label-caps text-label-caps text-on-surface-variant flex items-center">
+                        Request Date <span class="text-error ml-1">*</span>
+</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-role-passenger text-[20px]">calendar_month</span>
+<input class="w-full bg-surface text-on-surface border border-border-hairline focus:border-role-passenger focus:ring-1 focus:ring-role-passenger rounded-lg py-2 pl-10 pr-3 font-body-sm transition-colors outline-none placeholder:text-outline-variant" required="" type="date"/>
+</div>
+</div>
+<!-- Request Person -->
+<div class="flex flex-col space-y-xs">
+<label class="font-label-caps text-label-caps text-on-surface-variant">Request Person</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[20px]">person</span>
+<input class="w-full bg-surface text-on-surface border border-border-hairline rounded-lg py-2 pl-10 pr-3 font-body-sm bg-surface-canvas focus:outline-none" readonly="" type="text" value="Hsu Yadanar"/>
+</div>
+</div>
+<!-- Department -->
+<div class="flex flex-col space-y-xs">
+<label class="font-label-caps text-label-caps text-on-surface-variant">Department/Section</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[20px]">corporate_fare</span>
+<input class="w-full bg-surface text-on-surface border border-border-hairline rounded-lg py-2 pl-10 pr-3 font-body-sm bg-surface-canvas focus:outline-none" readonly="" type="text" value="SME"/>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 2: Passengers -->
+<section class="bg-surface rounded-xl shadow-[0_1px_3px_rgba(15,23,42,0.05)] border border-border-hairline p-base md:p-lg space-y-md">
+<div class="flex justify-between items-center mb-md">
+<h2 class="font-title-md text-title-md text-primary flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px]" data-icon="group">group</span>
+                    Passengers
+                </h2>
+<button class="text-role-passenger text-body-sm font-semibold flex items-center gap-1 hover:bg-surface-container px-2 py-1 rounded-md transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">person_add</span>
+                    Add
+                </button>
+</div>
+<div class="space-y-sm">
+<!-- Passenger 1 -->
+<div class="flex items-center justify-between p-3 rounded-lg border border-border-hairline bg-surface-canvas">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-role-passenger/10 text-role-passenger flex items-center justify-center font-bold text-body-sm uppercase">
+                            HY
+                        </div>
+<div>
+<p class="font-body-base text-body-base text-on-surface font-medium leading-none">Hsu Yadanar</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant text-[12px] mt-1">Requester</p>
+</div>
+</div>
+<button class="text-outline hover:text-error transition-colors p-1 rounded-full hover:bg-surface-variant">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<!-- Passenger 2 -->
+<div class="flex items-center justify-between p-3 rounded-lg border border-border-hairline bg-surface-canvas">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-surface-variant text-on-surface-variant flex items-center justify-center font-bold text-body-sm uppercase">
+                            ZT
+                        </div>
+<div>
+<p class="font-body-base text-body-base text-on-surface font-medium leading-none">Zin Thu Aye</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant text-[12px] mt-1">Passenger</p>
+</div>
+</div>
+<button class="text-outline hover:text-error transition-colors p-1 rounded-full hover:bg-surface-variant">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<!-- Passenger 3 -->
+<div class="flex items-center justify-between p-3 rounded-lg border border-border-hairline bg-surface-canvas">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-surface-variant text-on-surface-variant flex items-center justify-center font-bold text-body-sm uppercase">
+                            WS
+                        </div>
+<div>
+<p class="font-body-base text-body-base text-on-surface font-medium leading-none">Wai Su Hlaing</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant text-[12px] mt-1">Passenger</p>
+</div>
+</div>
+<button class="text-outline hover:text-error transition-colors p-1 rounded-full hover:bg-surface-variant">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+</div>
+</section>
+<!-- Section 3: Service Type -->
+<section class="bg-surface rounded-xl shadow-[0_1px_3px_rgba(15,23,42,0.05)] border border-border-hairline p-base md:p-lg space-y-md">
+<h2 class="font-title-md text-title-md text-primary mb-md flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px]" data-icon="directions_car">directions_car</span>
+                Service Type
+            </h2>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-sm">
+<!-- Option 1: One Way -->
+<label class="relative cursor-pointer group">
+<input checked="" class="peer sr-only" name="service_type" type="radio" value="one_way"/>
+<div class="p-3 rounded-lg border border-border-hairline peer-checked:border-role-passenger peer-checked:bg-surface-container-low transition-all duration-200 flex items-center gap-3 hover:bg-surface-canvas">
+<div class="w-5 h-5 rounded-full border-2 border-outline-variant flex items-center justify-center peer-checked:border-role-passenger shrink-0">
+<div class="w-2.5 h-2.5 rounded-full bg-role-passenger scale-0 transition-transform duration-200 radio-inner"></div>
+</div>
+<div class="flex flex-col">
+<span class="font-body-base font-medium text-on-surface peer-checked:text-role-passenger">One Way</span>
+<span class="text-xs text-on-surface-variant">Single destination drop-off</span>
+</div>
+<span class="material-symbols-outlined ml-auto text-outline-variant peer-checked:text-role-passenger icon-fill opacity-50">arrow_right_alt</span>
+</div>
+</label>
+<!-- Option 2: Round Trip -->
+<label class="relative cursor-pointer group">
+<input class="peer sr-only" name="service_type" type="radio" value="round_trip"/>
+<div class="p-3 rounded-lg border border-border-hairline peer-checked:border-role-passenger peer-checked:bg-surface-container-low transition-all duration-200 flex items-center gap-3 hover:bg-surface-canvas">
+<div class="w-5 h-5 rounded-full border-2 border-outline-variant flex items-center justify-center peer-checked:border-role-passenger shrink-0">
+<div class="w-2.5 h-2.5 rounded-full bg-role-passenger scale-0 transition-transform duration-200 radio-inner"></div>
+</div>
+<div class="flex flex-col">
+<span class="font-body-base font-medium text-on-surface peer-checked:text-role-passenger">Round Trip</span>
+<span class="text-xs text-on-surface-variant">Return to origin same day</span>
+</div>
+<span class="material-symbols-outlined ml-auto text-outline-variant peer-checked:text-role-passenger icon-fill opacity-50">sync_alt</span>
+</div>
+</label>
+<!-- Option 3: Multi-Stop -->
+<label class="relative cursor-pointer group">
+<input class="peer sr-only" name="service_type" type="radio" value="multi_stop"/>
+<div class="p-3 rounded-lg border border-border-hairline peer-checked:border-role-passenger peer-checked:bg-surface-container-low transition-all duration-200 flex items-center gap-3 hover:bg-surface-canvas">
+<div class="w-5 h-5 rounded-full border-2 border-outline-variant flex items-center justify-center peer-checked:border-role-passenger shrink-0">
+<div class="w-2.5 h-2.5 rounded-full bg-role-passenger scale-0 transition-transform duration-200 radio-inner"></div>
+</div>
+<div class="flex flex-col">
+<span class="font-body-base font-medium text-on-surface peer-checked:text-role-passenger">Multi-Stop</span>
+<span class="text-xs text-on-surface-variant">Several stops before return</span>
+</div>
+<span class="material-symbols-outlined ml-auto text-outline-variant peer-checked:text-role-passenger icon-fill opacity-50">route</span>
+</div>
+</label>
+<!-- Option 4: Overnight -->
+<label class="relative cursor-pointer group">
+<input class="peer sr-only" name="service_type" type="radio" value="overnight"/>
+<div class="p-3 rounded-lg border border-border-hairline peer-checked:border-role-passenger peer-checked:bg-surface-container-low transition-all duration-200 flex items-center gap-3 hover:bg-surface-canvas">
+<div class="w-5 h-5 rounded-full border-2 border-outline-variant flex items-center justify-center peer-checked:border-role-passenger shrink-0">
+<div class="w-2.5 h-2.5 rounded-full bg-role-passenger scale-0 transition-transform duration-200 radio-inner"></div>
+</div>
+<div class="flex flex-col">
+<span class="font-body-base font-medium text-on-surface peer-checked:text-role-passenger">Overnight</span>
+<span class="text-xs text-on-surface-variant">Multi-day trip requirement</span>
+</div>
+<span class="material-symbols-outlined ml-auto text-outline-variant peer-checked:text-role-passenger icon-fill opacity-50">bedtime</span>
+</div>
+</label>
+</div>
+</section>
+</main>
+<!-- Bottom Action Bar (Contextual FAB equivalent for form) -->
+<div class="fixed bottom-0 left-0 w-full bg-surface border-t border-border-hairline p-margin-mobile shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)] z-40 md:static md:shadow-none md:border-none md:bg-transparent md:pt-0 pb-6">
+<div class="max-w-[600px] mx-auto flex gap-md">
+<button class="flex-1 py-3 px-4 rounded-xl border border-outline-variant text-on-surface-variant font-title-md font-semibold hover:bg-surface-variant transition-colors active:scale-95 duration-150">
+                Cancel
+            </button>
+<button class="flex-[2] py-3 px-4 rounded-xl bg-role-passenger text-on-primary font-title-md font-semibold shadow-sm hover:opacity-90 transition-opacity flex justify-center items-center gap-2 active:scale-95 duration-150">
+                Next Step
+                <span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+</button>
+</div>
+</div>
+</body></html>

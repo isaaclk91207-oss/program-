@@ -320,4 +320,30 @@ export async function triggerNetprosSync() {
   return res.data;
 }
 
+// ─── Reports ─────────────────────────────────────────────────────────────────
+
+export async function getReportTemplates() {
+  const res = await api.get("/reports/templates");
+  return res.data;
+}
+
+export async function getUnitReport(unitId: number, params: {
+  templateId?: number;
+  timeFrom: number;
+  timeTo: number;
+  sid?: string;
+}) {
+  const res = await api.get(`/reports/unit/${unitId}`, { params });
+  return res.data;
+}
+
+export async function getDriverReport(driverId: number, params: {
+  timeFrom: number;
+  timeTo: number;
+  sid?: string;
+}) {
+  const res = await api.get(`/reports/driver/${driverId}`, { params });
+  return res.data;
+}
+
 export default api;

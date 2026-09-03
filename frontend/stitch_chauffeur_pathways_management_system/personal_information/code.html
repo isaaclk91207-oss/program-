@@ -1,0 +1,241 @@
+<!DOCTYPE html><html lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Driver Personal Information - PCCP Vector</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet">
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Theme Configuration -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "outline-variant": "#c0c7d1",
+                        "surface": "#faf8ff",
+                        "on-secondary": "#ffffff",
+                        "tertiary": "#733f00",
+                        "role-driver": "#7C3AED",
+                        "surface-tint": "#006399",
+                        "surface-container": "#eaedff",
+                        "surface-container-low": "#f2f3ff",
+                        "secondary-container": "#99efe5",
+                        "on-tertiary-container": "#ffdbbe",
+                        "surface-canvas": "#F8FAFC",
+                        "inverse-primary": "#94ccff",
+                        "inverse-on-surface": "#eef0ff",
+                        "outline": "#707881",
+                        "on-primary-fixed-variant": "#004b74",
+                        "tertiary-container": "#955301",
+                        "secondary-fixed-dim": "#80d5cb",
+                        "on-error": "#ffffff",
+                        "surface-dim": "#d2d9f4",
+                        "tertiary-fixed": "#ffdcc1",
+                        "on-tertiary-fixed": "#2e1500",
+                        "on-primary": "#ffffff",
+                        "on-surface-variant": "#40474f",
+                        "surface-container-high": "#e1e7ff",
+                        "border-hairline": "#E2E8F0",
+                        "primary-fixed-dim": "#94ccff",
+                        "on-primary-fixed": "#001d32",
+                        "inverse-surface": "#283044",
+                        "tertiary-fixed-dim": "#ffb878",
+                        "primary": "#00507d",
+                        "primary-fixed": "#cde5ff",
+                        "surface-container-highest": "#dae2fc",
+                        "surface-container-lowest": "#ffffff",
+                        "secondary-fixed": "#9cf2e8",
+                        "on-tertiary-fixed-variant": "#6c3a00",
+                        "on-primary-container": "#cbe4ff",
+                        "on-secondary-fixed": "#00201d",
+                        "role-passenger": "#2563EB",
+                        "on-background": "#131b2e",
+                        "primary-container": "#0369a1",
+                        "on-surface": "#131b2e",
+                        "surface-variant": "#dae2fc",
+                        "on-error-container": "#93000a",
+                        "on-secondary-fixed-variant": "#00504a",
+                        "background": "#faf8ff",
+                        "on-secondary-container": "#006f67",
+                        "role-admin": "#059669",
+                        "error": "#ba1a1a",
+                        "error-container": "#ffdad6",
+                        "surface-bright": "#faf8ff",
+                        "on-tertiary": "#ffffff",
+                        "secondary": "#006a63"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    spacing: {
+                        "2xl": "32px",
+                        "lg": "20px",
+                        "sm": "8px",
+                        "margin-desktop": "32px",
+                        "xs": "4px",
+                        "xl": "24px",
+                        "margin-mobile": "16px",
+                        "gutter": "16px",
+                        "md": "12px",
+                        "base": "16px"
+                    },
+                    fontFamily: {
+                        "title-lg": ["Plus Jakarta Sans"],
+                        "title-md": ["Plus Jakarta Sans"],
+                        "label-caps": ["Plus Jakarta Sans"],
+                        "headline-lg": ["Plus Jakarta Sans"],
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "body-base": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "display-lg": ["Plus Jakarta Sans"]
+                    },
+                    fontSize: {
+                        "title-lg": ["18px", { lineHeight: "24px", letterSpacing: "-0.01em", fontWeight: "600" }],
+                        "title-md": ["16px", { lineHeight: "22px", letterSpacing: "0", fontWeight: "600" }],
+                        "label-caps": ["11px", { lineHeight: "14px", letterSpacing: "0.06em", fontWeight: "700" }],
+                        "headline-lg": ["28px", { lineHeight: "36px", letterSpacing: "-0.02em", fontWeight: "700" }],
+                        "headline-md": ["22px", { lineHeight: "28px", letterSpacing: "-0.01em", fontWeight: "700" }],
+                        "body-base": ["15px", { lineHeight: "22px", letterSpacing: "0", fontWeight: "400" }],
+                        "body-sm": ["13px", { lineHeight: "18px", letterSpacing: "0", fontWeight: "400" }],
+                        "display-lg": ["36px", { lineHeight: "44px", letterSpacing: "-0.02em", fontWeight: "800" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .pb-safe { padding-bottom: env(safe-area-inset-bottom); }
+    </style>
+</head>
+<body class="bg-surface-canvas text-on-surface font-body-base min-h-screen antialiased selection:bg-role-driver selection:text-white">
+<!-- TopAppBar -->
+<header class="bg-surface shadow-sm fixed top-0 w-full z-50 flex justify-between items-center px-margin-mobile h-16 md:px-margin-desktop border-b border-border-hairline left-0 right-0">
+<div class="flex items-center gap-3 text-primary-container font-title-md"><span class="material-symbols-outlined text-primary-container" style="font-variation-settings: &quot;FILL&quot; 1; color: rgb(3, 105, 161);">directions_car</span>PCCP Vector</div>
+<button aria-label="Notifications" class="w-10 h-10 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-surface-container-low transition-colors active:scale-95 duration-200">
+<span class="material-symbols-outlined" data-icon="notifications" data-weight="fill" style="font-variation-settings: &quot;FILL&quot; 1;">notifications</span>
+</button>
+</header>
+<!-- Main Content Canvas -->
+<main class="pt-24 pb-32 px-margin-mobile md:px-margin-desktop max-w-2xl mx-auto w-full flex flex-col gap-xl">
+<!-- Profile Header -->
+<div class="flex flex-col gap-2 mb-4">
+    <a href="#" class="inline-flex items-center gap-1 text-role-driver font-title-md hover:opacity-80 transition-opacity">
+        <span class="material-symbols-outlined text-lg">arrow_back</span>
+        <span class="">Back to Account</span>
+    </a>
+    <h1 class="font-headline-md text-headline-md text-on-surface">Personal Information</h1>
+    <p class="text-body-sm text-on-surface-variant">View and manage your driver profile details.</p>
+</div><div class="flex flex-col items-center text-center gap-sm">
+<div class="relative">
+<div class="w-24 h-24 rounded-full overflow-hidden border-4 border-surface shadow-sm ring-1 ring-border-hairline">
+<img alt="Ko Aung Naing Win Profile" class="w-full h-full object-cover" data-alt="A high-resolution, close-up portrait of Ko Aung Naing Win, a professional driver. He has a friendly, reliable expression and is wearing a crisp, dark blue company polo shirt. The lighting is bright and even, set against a pristine white background to fit a modern app interface." src="https://lh3.googleusercontent.com/aida-public/AB6AXuArOlhxXtCh4I5qO4deSorSO3xIj1jKVV3Cjb8qL5SYtTUPHXlFtPfMzj-a-K4cSCXlQsLBOXXbS8oYTtub9W95GpzTTBqd9Tm6Hs3ue5SBrO5eOc3vom8Hk1bwemTAIipZYtEw7rp0K-dXHtqLmVjCvBJkIAWvwzET_4FsRQcdEyVihXXlrrWpBdvJWUyGv_z2m7T1oXWjfI-YXWe7NNmtnIKRht5j6SIAIJzXySU8z3qmkWUXo-I">
+</div>
+<div class="absolute bottom-0 right-0 bg-surface rounded-full p-1 shadow-sm border border-border-hairline">
+<span class="material-symbols-outlined text-role-driver text-sm" data-icon="verified" data-weight="fill" style="font-variation-settings: &quot;FILL&quot; 1;">verified</span>
+</div>
+</div>
+<h2 class="font-title-md text-title-md text-on-surface mt-2">Ko Aung Naing Win</h2>
+<span class="inline-flex items-center px-2.5 py-1 rounded-full font-label-caps text-label-caps bg-role-driver/10 text-role-driver">
+                Senior Driver
+            </span>
+</div>
+<!-- Personal Information Section -->
+<section class="flex flex-col gap-md">
+
+<div class="bg-surface rounded-xl border border-border-hairline shadow-[0_1px_3px_rgba(15,23,42,0.05)] overflow-hidden">
+<div class="flex flex-col divide-y divide-border-hairline">
+<!-- Field: Full Name -->
+<div class="p-4 flex flex-col gap-1 bg-surface-container-lowest hover:bg-surface-canvas transition-colors">
+<span class="font-body-sm text-body-sm text-outline">Full Name</span>
+<div class="flex items-center justify-between">
+<span class="font-body-base text-body-base text-on-surface font-medium">Ko Aung Naing Win</span>
+<span class="material-symbols-outlined text-outline-variant" data-icon="person">person</span>
+</div>
+</div>
+<!-- Field: Phone Number -->
+<div class="p-4 flex flex-col gap-1 bg-surface-container-lowest hover:bg-surface-canvas transition-colors">
+<span class="font-body-sm text-body-sm text-outline">Phone Number</span>
+<div class="flex items-center justify-between">
+<span class="font-body-base text-body-base text-on-surface font-medium">+95 9 123 456 789</span>
+<span class="material-symbols-outlined text-outline-variant" data-icon="call">call</span>
+</div>
+</div>
+<!-- Field: Email -->
+<div class="p-4 flex flex-col gap-1 bg-surface-container-lowest hover:bg-surface-canvas transition-colors">
+<span class="font-body-sm text-body-sm text-outline">Email Address</span>
+<div class="flex items-center justify-between">
+<span class="font-body-base text-body-base text-on-surface font-medium">aungnaing.win@pccpvector.com</span>
+<span class="material-symbols-outlined text-outline-variant" data-icon="mail">mail</span>
+</div>
+</div>
+<!-- Field: Date of Birth -->
+<div class="p-4 flex flex-col gap-1 bg-surface-container-lowest hover:bg-surface-canvas transition-colors">
+<span class="font-body-sm text-body-sm text-outline">Date of Birth</span>
+<div class="flex items-center justify-between">
+<span class="font-body-base text-body-base text-on-surface font-medium">14 October 1985</span>
+<span class="material-symbols-outlined text-outline-variant" data-icon="calendar_today">calendar_today</span>
+</div>
+</div>
+<!-- Field: Home Address -->
+<div class="p-4 flex flex-col gap-1 bg-surface-container-lowest hover:bg-surface-canvas transition-colors">
+<span class="font-body-sm text-body-sm text-outline">Home Address</span>
+<div class="flex items-start justify-between gap-4">
+<span class="font-body-base text-body-base text-on-surface font-medium leading-relaxed">No. 123, Bogyoke Aung San Road,<br>Kyauktada Township, Yangon</span>
+<span class="material-symbols-outlined text-outline-variant mt-0.5" data-icon="home_pin">home_pin</span>
+</div>
+</div>
+</div>
+</div>
+<p class="font-body-sm text-body-sm text-outline px-2 text-center mt-2">
+                This information is managed by dispatch. To change these details, submit an update request.
+            </p>
+</section>
+<!-- Action Area -->
+<div class="mt-4">
+<button class="w-full h-12 flex items-center justify-center gap-2 bg-surface border border-outline-variant rounded-lg font-title-md text-title-md text-on-surface hover:bg-surface-container-low transition-colors active:scale-[0.98] duration-200 shadow-sm">
+<span class="material-symbols-outlined text-lg" data-icon="edit_document">edit_document</span>
+                Request Update
+            </button>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 w-full z-50 bg-surface border-t border-border-hairline shadow-lg flex justify-around items-center px-2 py-2 pb-safe md:hidden">
+<!-- Home (Inactive) -->
+<a class="flex flex-col items-center justify-center w-16 h-14 text-on-surface-variant hover:bg-surface-container-high transition-all active:scale-90 duration-150 rounded-xl" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="home">home</span>
+<span class="font-label-caps text-[10px] leading-none">Home</span>
+</a>
+<!-- Assignments (Inactive) -->
+<a class="flex flex-col items-center justify-center w-16 h-14 text-on-surface-variant hover:bg-surface-container-high transition-all active:scale-90 duration-150 rounded-xl" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="assignment">assignment</span>
+<span class="font-label-caps text-[10px] leading-none">Assignments</span>
+</a>
+<!-- Trips (Inactive) -->
+<a class="flex flex-col items-center justify-center w-16 h-14 text-on-surface-variant hover:bg-surface-container-high transition-all active:scale-90 duration-150 rounded-xl" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="directions_car">directions_car</span>
+<span class="font-label-caps text-[10px] leading-none">Trips</span>
+</a>
+<!-- Performance (Inactive) -->
+<a class="flex flex-col items-center justify-center w-16 h-14 text-on-surface-variant hover:bg-surface-container-high transition-all active:scale-90 duration-150 rounded-xl" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="leaderboard">leaderboard</span>
+<span class="font-label-caps text-[10px] leading-none">Performance</span>
+</a>
+<!-- Account (Active) -->
+<a class="flex flex-col items-center justify-center w-16 h-14 text-role-driver bg-primary-container/10 rounded-xl transition-all active:scale-90 duration-150" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="person" data-weight="fill" style="font-variation-settings: &quot;FILL&quot; 1;">person</span>
+<span class="font-label-caps text-[10px] leading-none">Account</span>
+</a>
+</nav>
+
+
+</body></html>

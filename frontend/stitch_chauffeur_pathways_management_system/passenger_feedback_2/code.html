@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Passenger Feedback - PCCP Transport</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "surface-dim": "#d2d9f4",
+                      "on-background": "#131b2e",
+                      "surface-container": "#eaedff",
+                      "on-secondary": "#ffffff",
+                      "surface-canvas": "#F8FAFC",
+                      "error-container": "#ffdad6",
+                      "on-primary": "#ffffff",
+                      "outline-variant": "#c0c7d1",
+                      "inverse-surface": "#283044",
+                      "surface-tint": "#006399",
+                      "primary-fixed": "#cde5ff",
+                      "primary-container": "#0369a1",
+                      "tertiary": "#733f00",
+                      "on-surface": "#131b2e",
+                      "secondary": "#006a63",
+                      "tertiary-fixed-dim": "#ffb878",
+                      "on-secondary-container": "#006f67",
+                      "secondary-fixed-dim": "#80d5cb",
+                      "border-hairline": "#E2E8F0",
+                      "background": "#faf8ff",
+                      "surface-variant": "#dae2fd",
+                      "outline": "#707881",
+                      "on-primary-fixed": "#001d32",
+                      "inverse-on-surface": "#eef0ff",
+                      "surface-container-lowest": "#ffffff",
+                      "on-primary-fixed-variant": "#004b74",
+                      "on-error-container": "#93000a",
+                      "tertiary-container": "#955301",
+                      "error": "#ba1a1a",
+                      "on-tertiary-container": "#ffdbbe",
+                      "surface-container-low": "#f2f3ff",
+                      "on-tertiary-fixed-variant": "#6c3a00",
+                      "on-surface-variant": "#40474f",
+                      "surface": "#faf8ff",
+                      "role-driver": "#7C3AED",
+                      "on-secondary-fixed-variant": "#00504a",
+                      "secondary-fixed": "#9cf2e8",
+                      "tertiary-fixed": "#ffdcc1",
+                      "role-admin": "#059669",
+                      "surface-container-high": "#e2e7ff",
+                      "role-admin-container": "#D1FAE5",
+                      "primary": "#00507d",
+                      "secondary-container": "#99efe5",
+                      "on-primary-container": "#cbe4ff",
+                      "role-passenger": "#2563EB",
+                      "surface-bright": "#faf8ff",
+                      "on-secondary-fixed": "#00201d",
+                      "primary-fixed-dim": "#94ccff",
+                      "on-tertiary": "#ffffff",
+                      "inverse-primary": "#94ccff",
+                      "on-tertiary-fixed": "#2e1500",
+                      "surface-container-highest": "#dae2fd",
+                      "role-passenger-container": "#DBEAFE",
+                      "on-error": "#ffffff",
+                      "role-driver-container": "#EDE9FE"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "xl": "24px",
+                      "unit": "4px",
+                      "lg": "20px",
+                      "2xl": "32px",
+                      "margin-desktop": "32px",
+                      "xs": "4px",
+                      "base": "16px",
+                      "sm": "8px",
+                      "gutter": "16px",
+                      "md": "12px",
+                      "margin-mobile": "16px"
+              },
+              "fontFamily": {
+                      "title-md": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "body-base": [
+                              "Inter"
+                      ],
+                      "body-sm": [
+                              "Inter"
+                      ],
+                      "display-lg": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "headline-md": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "headline-lg": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "title-lg": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "stat-lg": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "label-caps": [
+                              "Plus Jakarta Sans"
+                      ]
+              },
+              "fontSize": {
+                      "title-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "22px",
+                                      "letterSpacing": "0",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "body-base": [
+                              "15px",
+                              {
+                                      "lineHeight": "22px",
+                                      "letterSpacing": "0",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "body-sm": [
+                              "13px",
+                              {
+                                      "lineHeight": "18px",
+                                      "letterSpacing": "0",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "display-lg": [
+                              "36px",
+                              {
+                                      "lineHeight": "44px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "800"
+                              }
+                      ],
+                      "headline-md": [
+                              "22px",
+                              {
+                                      "lineHeight": "28px",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "headline-lg": [
+                              "28px",
+                              {
+                                      "lineHeight": "36px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "title-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "24px",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "stat-lg": [
+                              "30px",
+                              {
+                                      "lineHeight": "36px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "label-caps": [
+                              "11px",
+                              {
+                                      "lineHeight": "14px",
+                                      "letterSpacing": "0.06em",
+                                      "fontWeight": "700"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined[data-weight="fill"] {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface-canvas text-on-surface font-body-base min-h-screen flex flex-col antialiased">
+<!-- TopAppBar (Web) -->
+<header class="hidden md:flex justify-between items-center w-full px-margin-desktop h-16 bg-surface border-b border-hairline docked full-width top-0 z-50">
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:bg-surface-container-low transition-all duration-200 p-2 rounded-full" data-icon="menu">menu</span>
+<span class="font-display-lg text-display-lg font-extrabold text-primary">PCCP Transport</span>
+</div>
+<div class="flex items-center gap-xl h-full">
+<nav class="flex h-full gap-lg">
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-container-low transition-all duration-200 px-4 h-full border-b-2 border-transparent" href="#">
+<span class="font-label-caps text-label-caps">Trips</span>
+</a>
+<a class="flex flex-col items-center justify-center text-primary font-bold hover:bg-surface-container-low transition-all duration-200 px-4 h-full border-b-2 border-primary" href="#">
+<span class="font-label-caps text-label-caps">Feedback</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-container-low transition-all duration-200 px-4 h-full border-b-2 border-transparent" href="#">
+<span class="font-label-caps text-label-caps">Performance</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-container-low transition-all duration-200 px-4 h-full border-b-2 border-transparent" href="#">
+<span class="font-label-caps text-label-caps">Account</span>
+</a>
+</nav>
+<div class="w-10 h-10 rounded-full bg-surface-container overflow-hidden">
+<img alt="User profile" class="w-full h-full object-cover" data-alt="A professional headshot of a corporate passenger in modern corporate setting. High key lighting, clean slate aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAGt5z5eZlYQMphECvVVc8UFxIFCFBrfBXUkNkwWxOLmr-Q6R3sy8PcvLuxFrrKphHpEN3PhFNxwhhb14gck6h8-RTalBTA74fy4hPXcKST6RRXKXhYtXrLJmCwDDHBTu0ejj0v6kuvUDovGnswLf4bejnHjiDOODGBl33inDqZyeiqzAFwMasXTHkn2GMM7fKddsFoXOu1RO2b7twjlwDcy7_EY5gnQBoHMnJss0ZUUXDL6ywuIuQ"/>
+</div>
+</div>
+</header>
+<!-- TopAppBar (Mobile) -->
+<header class="flex md:hidden justify-between items-center w-full px-margin-mobile h-12 bg-surface border-b border-hairline docked full-width top-0 z-50">
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-primary cursor-pointer active:opacity-70 transition-all duration-200" data-icon="arrow_back">arrow_back</span>
+</div>
+<span class="font-headline-md text-headline-md font-bold text-on-surface">Feedback</span>
+<div class="w-8 h-8 rounded-full bg-surface-container overflow-hidden">
+<img alt="User profile" class="w-full h-full object-cover" data-alt="A professional headshot of a corporate passenger in modern corporate setting. High key lighting, clean slate aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCfODJI44f4wILRroaL325p4WkoNHMKSOS-LH63QtvzHjA38P-w1WDKg9bxyVjQDnN3immmMv8Otv1hjVdqXQ0m6wRtTnhCaQmHyPQ5pZYtYD2gKmqRhqCFU2cGqyPZp2pG9Lj5X5Ycgt-iv-UDtAuvGQFWj5VxInNt_dbQx7CvHW_cdCkS75RKVGhU1Vy9QieQB5SeRp00ksXEi07VyDAjcZl9eKfrmjQlEN94o2kFNetxymJnd1A"/>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-grow flex justify-center w-full px-margin-mobile md:px-margin-desktop py-lg pb-[100px] md:pb-lg overflow-y-auto">
+<div class="w-full max-w-2xl flex flex-col gap-xl">
+<!-- Trip Selection Card -->
+<section class="bg-surface-container-lowest rounded-xl border border-hairline p-base shadow-[0px_1px_3px_0px_rgba(15,23,42,0.05)]">
+<h2 class="font-title-md text-title-md text-on-surface mb-md">Select Trip to Review</h2>
+<div class="border border-primary rounded-lg p-md bg-role-passenger-container cursor-pointer flex items-center justify-between mb-sm transition-all duration-200 hover:shadow-md">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded-full bg-surface-container-lowest flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" data-icon="local_shipping" data-weight="fill">local_shipping</span>
+</div>
+<div>
+<div class="font-title-md text-title-md text-on-surface">Trip #8829 - Main Warehouse to Port</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant">Today, 10:30 AM • Driver: M. Roberts</div>
+</div>
+</div>
+<span class="material-symbols-outlined text-primary" data-icon="check_circle" data-weight="fill">check_circle</span>
+</div>
+<div class="border border-hairline rounded-lg p-md bg-surface-container-lowest cursor-pointer flex items-center justify-between opacity-70 hover:opacity-100 hover:bg-surface-container-low transition-all duration-200">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="local_shipping">local_shipping</span>
+</div>
+<div>
+<div class="font-title-md text-title-md text-on-surface">Trip #8828 - Regional Hub Beta</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant">Yesterday, 14:15 PM • Driver: S. Jenkins</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Rating Section -->
+<section class="bg-surface-container-lowest rounded-xl border border-hairline p-base shadow-[0px_1px_3px_0px_rgba(15,23,42,0.05)] flex flex-col items-center py-xl">
+<h2 class="font-headline-md text-headline-md text-on-surface mb-sm">How was your trip?</h2>
+<p class="font-body-base text-body-base text-on-surface-variant mb-xl text-center">Your feedback helps us improve PCCP transport quality.</p>
+<div class="flex gap-sm mb-2xl">
+<button class="p-2 text-outline hover:text-primary transition-colors duration-200 group">
+<span class="material-symbols-outlined text-[40px] group-hover:scale-110 transition-transform" data-icon="star" data-weight="fill">star</span>
+</button>
+<button class="p-2 text-outline hover:text-primary transition-colors duration-200 group">
+<span class="material-symbols-outlined text-[40px] group-hover:scale-110 transition-transform" data-icon="star" data-weight="fill">star</span>
+</button>
+<button class="p-2 text-outline hover:text-primary transition-colors duration-200 group">
+<span class="material-symbols-outlined text-[40px] group-hover:scale-110 transition-transform" data-icon="star" data-weight="fill">star</span>
+</button>
+<button class="p-2 text-outline hover:text-primary transition-colors duration-200 group">
+<span class="material-symbols-outlined text-[40px] group-hover:scale-110 transition-transform" data-icon="star" data-weight="fill">star</span>
+</button>
+<button class="p-2 text-surface-container-high hover:text-primary transition-colors duration-200 group">
+<span class="material-symbols-outlined text-[40px] group-hover:scale-110 transition-transform" data-icon="star">star</span>
+</button>
+</div>
+<div class="w-full">
+<h3 class="font-title-md text-title-md text-on-surface mb-md">What went well?</h3>
+<div class="flex flex-wrap gap-sm mb-lg">
+<button class="px-4 py-2 rounded-full border-1.5 border-primary bg-role-passenger-container text-primary font-label-caps text-label-caps transition-all duration-200">ON TIME</button>
+<button class="px-4 py-2 rounded-full border border-hairline bg-surface-container-lowest text-on-surface-variant font-label-caps text-label-caps hover:bg-surface-container-low transition-all duration-200">SMOOTH RIDE</button>
+<button class="px-4 py-2 rounded-full border-1.5 border-primary bg-role-passenger-container text-primary font-label-caps text-label-caps transition-all duration-200">CLEAN VEHICLE</button>
+<button class="px-4 py-2 rounded-full border border-hairline bg-surface-container-lowest text-on-surface-variant font-label-caps text-label-caps hover:bg-surface-container-low transition-all duration-200">PROFESSIONAL DRIVER</button>
+</div>
+<div class="flex flex-col gap-xs">
+<label class="font-title-md text-title-md text-on-surface" for="comments">Additional Comments</label>
+<textarea class="w-full rounded-lg border border-outline-variant bg-surface-container-lowest p-md font-body-base text-body-base text-on-surface focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all duration-200 resize-none placeholder-on-surface-variant/50" id="comments" placeholder="Tell us more about your experience..." rows="4"></textarea>
+</div>
+</div>
+<button class="w-full mt-xl bg-primary text-on-primary font-title-md text-title-md py-3 rounded-lg hover:bg-on-primary-fixed-variant transition-colors duration-200 h-[48px] md:h-auto">
+                    Submit Feedback
+                </button>
+</section>
+</div>
+</main>
+<!-- BottomNavBar (Mobile) -->
+<nav class="md:hidden fixed bottom-0 w-full z-50 rounded-t-xl border-t border-hairline bg-surface shadow-md pb-safe flex justify-around items-center h-[64px]">
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-3 py-1 scale-95 active:scale-90 transition-transform duration-150" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="local_shipping">local_shipping</span>
+<span class="font-body-sm text-body-sm">Trips</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-3 py-1 scale-95 active:scale-90 transition-transform duration-150" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="add_location_alt">add_location_alt</span>
+<span class="font-body-sm text-body-sm">Requests</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-role-passenger-container text-on-primary-container rounded-xl px-3 py-1 scale-95 active:scale-90 transition-transform duration-150" href="#">
+<span class="material-symbols-outlined mb-1 text-primary" data-icon="rate_review" data-weight="fill">rate_review</span>
+<span class="font-body-sm text-body-sm font-bold text-primary">Feedback</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-3 py-1 scale-95 active:scale-90 transition-transform duration-150" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="person">person</span>
+<span class="font-body-sm text-body-sm">Account</span>
+</a>
+</nav>
+<script>
+        // Simple star rating interaction
+        document.addEventListener('DOMContentLoaded', () => {
+            const stars = document.querySelectorAll('button[class*="group"] span[data-icon="star"]');
+            
+            stars.forEach((star, index) => {
+                star.parentElement.addEventListener('click', () => {
+                    stars.forEach((s, i) => {
+                        if (i <= index) {
+                            s.setAttribute('data-weight', 'fill');
+                            s.parentElement.classList.remove('text-surface-container-high', 'text-outline');
+                            s.parentElement.classList.add('text-primary');
+                        } else {
+                            s.removeAttribute('data-weight');
+                            s.parentElement.classList.remove('text-primary', 'text-outline');
+                            s.parentElement.classList.add('text-surface-container-high');
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+</body></html>

@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Passenger - New Transport Request - Step 2</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "inverse-primary": "#94ccff",
+                      "surface-container": "#eaedff",
+                      "secondary-fixed-dim": "#80d5cb",
+                      "on-tertiary-container": "#ffdbbe",
+                      "on-primary-container": "#cbe4ff",
+                      "on-error-container": "#93000a",
+                      "on-primary-fixed": "#001d32",
+                      "primary-fixed": "#cde5ff",
+                      "secondary-fixed": "#9cf2e8",
+                      "on-secondary-fixed": "#00201d",
+                      "error": "#ba1a1a",
+                      "surface-bright": "#faf8ff",
+                      "on-primary": "#ffffff",
+                      "secondary": "#006a63",
+                      "surface-tint": "#006399",
+                      "surface-container-low": "#f2f3ff",
+                      "surface-canvas": "#F8FAFC",
+                      "primary-container": "#0369a1",
+                      "on-secondary": "#ffffff",
+                      "border-hairline": "#E2E8F0",
+                      "on-tertiary": "#ffffff",
+                      "inverse-surface": "#283044",
+                      "on-secondary-container": "#006f67",
+                      "primary-fixed-dim": "#94ccff",
+                      "on-secondary-fixed-variant": "#00504a",
+                      "tertiary": "#733f00",
+                      "surface-variant": "#dae2fc",
+                      "role-driver": "#7C3AED",
+                      "secondary-container": "#99efe5",
+                      "surface-container-lowest": "#ffffff",
+                      "on-surface-variant": "#40474f",
+                      "on-tertiary-fixed": "#2e1500",
+                      "outline": "#707881",
+                      "surface-container-high": "#e1e7ff",
+                      "tertiary-fixed-dim": "#ffb878",
+                      "surface-container-highest": "#dae2fc",
+                      "surface": "#faf8ff",
+                      "inverse-on-surface": "#eef0ff",
+                      "role-passenger": "#2563EB",
+                      "tertiary-container": "#955301",
+                      "on-error": "#ffffff",
+                      "surface-dim": "#d2d9f4",
+                      "primary": "#00507d",
+                      "background": "#faf8ff",
+                      "tertiary-fixed": "#ffdcc1",
+                      "on-background": "#131b2e",
+                      "on-primary-fixed-variant": "#004b74",
+                      "error-container": "#ffdad6",
+                      "on-tertiary-fixed-variant": "#6c3a00",
+                      "on-surface": "#131b2e",
+                      "role-admin": "#059669",
+                      "outline-variant": "#c0c7d1"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "margin-mobile": "16px",
+                      "lg": "20px",
+                      "margin-desktop": "32px",
+                      "xl": "24px",
+                      "base": "16px",
+                      "gutter": "16px",
+                      "md": "12px",
+                      "xs": "4px",
+                      "sm": "8px",
+                      "2xl": "32px"
+              },
+              "fontFamily": {
+                      "headline-lg": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "body-sm": [
+                              "Inter"
+                      ],
+                      "title-lg": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "label-caps": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "headline-md": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "title-md": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "body-base": [
+                              "Inter"
+                      ],
+                      "display-lg": [
+                              "Plus Jakarta Sans"
+                      ]
+              },
+              "fontSize": {
+                      "headline-lg": [
+                              "28px",
+                              {
+                                      "lineHeight": "36px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "body-sm": [
+                              "13px",
+                              {
+                                      "lineHeight": "18px",
+                                      "letterSpacing": "0",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "title-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "24px",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "label-caps": [
+                              "11px",
+                              {
+                                      "lineHeight": "14px",
+                                      "letterSpacing": "0.06em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "headline-md": [
+                              "22px",
+                              {
+                                      "lineHeight": "28px",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "title-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "22px",
+                                      "letterSpacing": "0",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "body-base": [
+                              "15px",
+                              {
+                                      "lineHeight": "22px",
+                                      "letterSpacing": "0",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "display-lg": [
+                              "36px",
+                              {
+                                      "lineHeight": "44px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "800"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+    </script>
+<style type="text/tailwindcss">
+        @layer utilities {
+            .material-symbols-outlined {
+                font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            }
+            .material-symbols-outlined.fill {
+                font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            }
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface-canvas text-on-surface font-body-base min-h-screen flex flex-col pb-24 md:pb-0">
+<!-- TopAppBar -->
+<header class="w-full top-0 sticky z-50 bg-surface dark:bg-surface-dim border-b border-border-hairline dark:border-outline-variant shadow-sm flex justify-between items-center h-16 px-margin-mobile md:px-margin-desktop">
+<div class="flex items-center gap-sm">
+<button aria-label="Back" class="p-2 text-on-surface-variant hover:bg-surface-container rounded-full transition-colors">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<h1 class="font-headline-md text-headline-md font-bold text-primary dark:text-inverse-primary">New Request</h1>
+</div>
+<div class="flex items-center gap-sm">
+<span class="font-label-caps text-label-caps bg-surface-container text-primary px-2 py-1 rounded-full border border-border-hairline">Step 2 of 3</span>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-grow flex flex-col md:items-center py-margin-mobile md:py-margin-desktop px-margin-mobile md:px-margin-desktop w-full max-w-7xl mx-auto gap-lg">
+<div class="w-full max-w-[600px] flex flex-col gap-lg">
+<!-- Progress Indicator -->
+<div class="w-full flex items-center justify-between mb-sm">
+<div class="flex-1 h-1 bg-role-passenger rounded-full"></div>
+<div class="w-2"></div>
+<div class="flex-1 h-1 bg-role-passenger rounded-full relative">
+<div class="absolute -top-3 left-1/2 -translate-x-1/2 w-6 h-6 bg-role-passenger text-on-primary font-label-caps text-[10px] rounded-full flex items-center justify-center border-2 border-surface">2</div>
+</div>
+<div class="w-2"></div>
+<div class="flex-1 h-1 bg-surface-variant rounded-full"></div>
+</div>
+<!-- Header -->
+<div>
+<h2 class="font-title-lg text-title-lg text-on-surface mb-xs">Route &amp; Purpose</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Define your journey stops and reason for travel.</p>
+</div>
+<!-- Route Builder Card -->
+<div class="bg-on-primary rounded-xl border border-border-hairline shadow-[0_1px_3px_rgba(15,23,42,0.05)] p-lg flex flex-col gap-base relative overflow-hidden">
+<h3 class="font-title-md text-title-md text-on-surface flex items-center gap-xs">
+<span class="material-symbols-outlined text-role-passenger text-[20px]">route</span>
+                    Multi-Stop Route
+                </h3>
+<div class="relative pl-6 mt-sm flex flex-col gap-lg">
+<!-- Vertical connecting line -->
+<div class="absolute left-[11px] top-4 bottom-8 w-[2px] bg-surface-variant rounded-full z-0"></div>
+<!-- Origin -->
+<div class="relative z-10 flex gap-sm items-start">
+<div class="w-6 h-6 rounded-full bg-surface border-2 border-role-passenger flex-shrink-0 flex items-center justify-center mt-1 -ml-[25px]">
+<div class="w-2 h-2 rounded-full bg-role-passenger"></div>
+</div>
+<div class="flex-grow flex flex-col gap-xs">
+<label class="font-label-caps text-label-caps text-on-surface-variant">From (Origin)</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[20px]">location_on</span>
+<input class="w-full bg-surface-canvas border border-border-hairline rounded-lg py-2 pl-10 pr-3 font-body-base text-body-base text-on-surface focus:ring-2 focus:ring-role-passenger focus:border-role-passenger focus:bg-on-primary transition-colors h-12" placeholder="Enter pickup location" readonly="" type="text" value="uab HO"/>
+</div>
+</div>
+</div>
+<!-- Stop 1 -->
+<div class="relative z-10 flex gap-sm items-start">
+<div class="w-6 h-6 rounded-full bg-surface border-2 border-surface-variant flex-shrink-0 flex items-center justify-center mt-1 -ml-[25px]">
+<span class="font-label-caps text-[10px] text-on-surface-variant">1</span>
+</div>
+<div class="flex-grow flex flex-col gap-xs">
+<label class="font-label-caps text-label-caps text-on-surface-variant">Stop 1</label>
+<div class="flex gap-sm">
+<div class="relative flex-grow">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[20px]">place</span>
+<input class="w-full bg-surface-canvas border border-border-hairline rounded-lg py-2 pl-10 pr-3 font-body-base text-body-base text-on-surface focus:ring-2 focus:ring-role-passenger focus:border-role-passenger focus:bg-on-primary transition-colors h-12" placeholder="Enter destination" type="text" value="Sule Square"/>
+</div>
+<div class="relative w-32 flex-shrink-0">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[20px]">schedule</span>
+<input class="w-full bg-surface-canvas border border-border-hairline rounded-lg py-2 pl-10 pr-3 font-body-base text-body-base text-on-surface focus:ring-2 focus:ring-role-passenger focus:border-role-passenger focus:bg-on-primary transition-colors h-12" type="time" value="10:00"/>
+</div>
+</div>
+</div>
+<button aria-label="Remove Stop" class="mt-8 text-error hover:bg-error-container p-2 rounded-full transition-colors flex-shrink-0">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<!-- Stop 2 -->
+<div class="relative z-10 flex gap-sm items-start">
+<div class="w-6 h-6 rounded-full bg-surface border-2 border-surface-variant flex-shrink-0 flex items-center justify-center mt-1 -ml-[25px]">
+<span class="font-label-caps text-[10px] text-on-surface-variant">2</span>
+</div>
+<div class="flex-grow flex flex-col gap-xs">
+<label class="font-label-caps text-label-caps text-on-surface-variant">Stop 2</label>
+<div class="flex gap-sm">
+<div class="relative flex-grow">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[20px]">place</span>
+<input class="w-full bg-surface-canvas border border-border-hairline rounded-lg py-2 pl-10 pr-3 font-body-base text-body-base text-on-surface focus:ring-2 focus:ring-role-passenger focus:border-role-passenger focus:bg-on-primary transition-colors h-12" placeholder="Enter destination" type="text" value="Customer Office"/>
+</div>
+<div class="relative w-32 flex-shrink-0">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[20px]">schedule</span>
+<input class="w-full bg-surface-canvas border border-border-hairline rounded-lg py-2 pl-10 pr-3 font-body-base text-body-base text-on-surface focus:ring-2 focus:ring-role-passenger focus:border-role-passenger focus:bg-on-primary transition-colors h-12" type="time" value="11:30"/>
+</div>
+</div>
+</div>
+<button aria-label="Remove Stop" class="mt-8 text-error hover:bg-error-container p-2 rounded-full transition-colors flex-shrink-0">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<!-- Wait Time -->
+<div class="relative z-10 flex gap-sm items-center ml-2 border border-surface-variant rounded-lg p-sm bg-surface-container-low border-dashed">
+<span class="material-symbols-outlined text-outline text-[18px]">hourglass_empty</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant flex-grow">Estimated Wait Time</span>
+<select class="bg-surface border border-border-hairline rounded-lg py-1 px-3 font-body-sm text-body-sm text-on-surface focus:ring-2 focus:ring-role-passenger outline-none h-8">
+<option>1 Hour</option>
+<option selected="">2 Hours</option>
+<option>3 Hours</option>
+<option>4+ Hours</option>
+</select>
+</div>
+<!-- Return -->
+<div class="relative z-10 flex gap-sm items-start">
+<div class="w-6 h-6 rounded-full bg-surface border-2 border-outline flex-shrink-0 flex items-center justify-center mt-1 -ml-[25px]">
+<span class="material-symbols-outlined text-[14px] text-outline">flag</span>
+</div>
+<div class="flex-grow flex flex-col gap-xs">
+<label class="font-label-caps text-label-caps text-on-surface-variant">Return To</label>
+<div class="flex gap-sm">
+<div class="relative flex-grow">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[20px]">keyboard_return</span>
+<input class="w-full bg-surface-canvas border border-border-hairline rounded-lg py-2 pl-10 pr-3 font-body-base text-body-base text-on-surface focus:ring-2 focus:ring-role-passenger focus:border-role-passenger focus:bg-on-primary transition-colors h-12" placeholder="Return destination" type="text" value="uab HO"/>
+</div>
+<div class="relative w-32 flex-shrink-0">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[20px]">schedule</span>
+<input class="w-full bg-surface-canvas border border-border-hairline rounded-lg py-2 pl-10 pr-3 font-body-base text-body-base text-on-surface focus:ring-2 focus:ring-role-passenger focus:border-role-passenger focus:bg-on-primary transition-colors h-12" type="time" value="14:00"/>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-xs border-t border-border-hairline pt-sm flex justify-center">
+<button class="flex items-center gap-xs font-title-md text-title-md text-role-passenger hover:bg-surface-container px-4 py-2 rounded-lg transition-colors">
+<span class="material-symbols-outlined">add_circle</span>
+                        Add Another Stop
+                    </button>
+</div>
+</div>
+<!-- Purpose of Travel Card -->
+<div class="bg-on-primary rounded-xl border border-border-hairline shadow-[0_1px_3px_rgba(15,23,42,0.05)] p-lg flex flex-col gap-base">
+<h3 class="font-title-md text-title-md text-on-surface flex items-center gap-xs">
+<span class="material-symbols-outlined text-role-passenger text-[20px]">assignment</span>
+                    Purpose of Travel
+                </h3>
+<div class="flex flex-col gap-md">
+<label class="font-label-caps text-label-caps text-on-surface-variant">Select Purpose</label>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-sm">
+<!-- Option 1 -->
+<label class="relative flex items-center p-3 border rounded-lg cursor-pointer transition-all border-role-passenger bg-surface-container-low ring-1 ring-role-passenger">
+<input checked="" class="peer sr-only" name="purpose" type="radio"/>
+<span class="material-symbols-outlined text-role-passenger mr-sm text-[20px]">handshake</span>
+<span class="font-body-base text-body-base text-on-surface font-semibold">Customer Appointment</span>
+<span class="material-symbols-outlined absolute right-3 text-role-passenger opacity-100">check_circle</span>
+</label>
+<!-- Option 2 -->
+<label class="relative flex items-center p-3 border border-border-hairline rounded-lg cursor-pointer transition-all hover:bg-surface-canvas">
+<input class="peer sr-only" name="purpose" type="radio"/>
+<span class="material-symbols-outlined text-outline mr-sm text-[20px]">account_balance</span>
+<span class="font-body-base text-body-base text-on-surface">Government Meeting</span>
+</label>
+<!-- Option 3 -->
+<label class="relative flex items-center p-3 border border-border-hairline rounded-lg cursor-pointer transition-all hover:bg-surface-canvas">
+<input class="peer sr-only" name="purpose" type="radio"/>
+<span class="material-symbols-outlined text-outline mr-sm text-[20px]">inventory_2</span>
+<span class="font-body-base text-body-base text-on-surface">Document Delivery</span>
+</label>
+<!-- Option 4 -->
+<label class="relative flex items-center p-3 border border-border-hairline rounded-lg cursor-pointer transition-all hover:bg-surface-canvas">
+<input class="peer sr-only" name="purpose" type="radio"/>
+<span class="material-symbols-outlined text-outline mr-sm text-[20px]">more_horiz</span>
+<span class="font-body-base text-body-base text-on-surface">Other</span>
+</label>
+</div>
+</div>
+<div class="flex flex-col gap-xs mt-sm">
+<label class="font-label-caps text-label-caps text-on-surface-variant">Customer / Organization Name</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[20px]">business</span>
+<input class="w-full bg-surface-canvas border border-border-hairline rounded-lg py-2 pl-10 pr-3 font-body-base text-body-base text-on-surface focus:ring-2 focus:ring-role-passenger focus:border-role-passenger focus:bg-on-primary transition-colors h-12" placeholder="e.g. ABC Company" type="text" value="ABC Company"/>
+</div>
+</div>
+<div class="flex flex-col gap-xs">
+<label class="font-label-caps text-label-caps text-on-surface-variant">Additional Notes (Optional)</label>
+<textarea class="w-full bg-surface-canvas border border-border-hairline rounded-lg p-3 font-body-base text-body-base text-on-surface focus:ring-2 focus:ring-role-passenger focus:border-role-passenger focus:bg-on-primary transition-colors h-24 resize-none" placeholder="Any specific instructions for the driver?"></textarea>
+</div>
+</div>
+<!-- Action Buttons -->
+<div class="flex gap-sm mt-md">
+<button class="flex-1 bg-surface-canvas border border-border-hairline text-on-surface font-title-md text-title-md h-12 rounded-lg flex items-center justify-center hover:bg-surface-variant transition-colors active:scale-[0.98]">
+                    Back
+                </button>
+<button class="flex-[2] bg-role-passenger text-on-primary font-title-md text-title-md h-12 rounded-lg flex items-center justify-center gap-xs hover:bg-blue-700 transition-colors shadow-sm active:scale-[0.98]">
+                    Continue to Review
+                    <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+</div>
+</main>
+</body></html>

@@ -1,0 +1,201 @@
+<!DOCTYPE html><html lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>PCCP Vector - My Assignments</title>
+<!-- Fonts & Icons -->
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Theme Configuration -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "secondary": "#006a63",
+                    "on-secondary-fixed-variant": "#00504a",
+                    "secondary-fixed": "#9cf2e8",
+                    "error": "#ba1a1a",
+                    "inverse-surface": "#283044",
+                    "on-secondary-container": "#006f67",
+                    "error-container": "#ffdad6",
+                    "on-error-container": "#93000a",
+                    "surface-bright": "#faf8ff",
+                    "on-tertiary-fixed-variant": "#6c3a00",
+                    "role-driver": "#7C3AED",
+                    "secondary-container": "#99efe5",
+                    "surface-dim": "#d2d9f4",
+                    "inverse-on-surface": "#eef0ff",
+                    "on-primary": "#ffffff",
+                    "on-surface": "#131b2e",
+                    "on-background": "#131b2e",
+                    "tertiary": "#733f00",
+                    "surface-container-low": "#f2f3ff",
+                    "on-surface-variant": "#40474f",
+                    "role-admin": "#059669",
+                    "on-primary-fixed": "#001d32",
+                    "on-error": "#ffffff",
+                    "primary": "#00507d",
+                    "secondary-fixed-dim": "#80d5cb",
+                    "on-tertiary-container": "#ffdbbe",
+                    "on-tertiary-fixed": "#2e1500",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-container": "#eaedff",
+                    "background": "#faf8ff",
+                    "surface-canvas": "#F8FAFC",
+                    "primary-container": "#0369a1",
+                    "on-secondary": "#ffffff",
+                    "surface-variant": "#dae2fc",
+                    "surface-container-high": "#e1e7ff",
+                    "tertiary-container": "#955301",
+                    "tertiary-fixed-dim": "#ffb878",
+                    "primary-fixed-dim": "#94ccff",
+                    "surface": "#faf8ff",
+                    "inverse-primary": "#94ccff",
+                    "surface-tint": "#006399",
+                    "primary-fixed": "#cde5ff",
+                    "on-tertiary": "#ffffff",
+                    "border-hairline": "#E2E8F0",
+                    "on-primary-container": "#cbe4ff",
+                    "tertiary-fixed": "#ffdcc1",
+                    "role-passenger": "#2563EB",
+                    "on-secondary-fixed": "#00201d",
+                    "on-primary-fixed-variant": "#004b74",
+                    "outline": "#707881",
+                    "surface-container-highest": "#dae2fc",
+                    "outline-variant": "#c0c7d1"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "margin-mobile": "16px",
+                    "lg": "20px",
+                    "xs": "4px",
+                    "gutter": "16px",
+                    "xl": "24px",
+                    "base": "16px",
+                    "2xl": "32px",
+                    "sm": "8px",
+                    "margin-desktop": "32px",
+                    "md": "12px"
+            },
+            "fontFamily": {
+                    "display-lg": ["Plus Jakarta Sans"],
+                    "headline-lg": ["Plus Jakarta Sans"],
+                    "body-base": ["Inter"],
+                    "title-lg": ["Plus Jakarta Sans"],
+                    "body-sm": ["Inter"],
+                    "label-caps": ["Plus Jakarta Sans"],
+                    "headline-md": ["Plus Jakarta Sans"],
+                    "title-md": ["Plus Jakarta Sans"]
+            },
+            "fontSize": {
+                    "display-lg": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+                    "headline-lg": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                    "body-base": ["15px", { "lineHeight": "22px", "letterSpacing": "0", "fontWeight": "400" }],
+                    "title-lg": ["18px", { "lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                    "body-sm": ["13px", { "lineHeight": "18px", "letterSpacing": "0", "fontWeight": "400" }],
+                    "label-caps": ["11px", { "lineHeight": "14px", "letterSpacing": "0.06em", "fontWeight": "700" }],
+                    "headline-md": ["22px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                    "title-md": ["16px", { "lineHeight": "22px", "letterSpacing": "0", "fontWeight": "600" }]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface-canvas text-on-surface font-body-base min-h-screen pb-24 selection:bg-role-driver/20">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-surface border-b border-border-hairline shadow-sm"><div class="flex items-center justify-between px-margin-mobile h-16 w-full max-w-screen-xl mx-auto md:px-margin-desktop"><div class="text-title-lg font-title-lg font-extrabold text-primary flex items-center gap-2"><img src="https://lh3.googleusercontent.com/aida-public/AB6AXuBoHrcmSvVARG_T7YlvKttdXHOg2Offa5UDt2XiVIp3rJ5qAgsczVqfMx3P0O7KjaLBzc-7BosM7FvqcVOHPmUYbclfMJ5DMIs6L1sIY1TdhCZk7P3Io6HOLjJEtVrGI1jPR3pQAxG5DZRsmWnFXxSoIjmhw-c6DTnKYPmZjZoqRPOO1EWGLfBljgXRbRkiJbHWHBmXNczDcFtws8mzWstBqu5dILTf7RRkEwuT4KHLrNhGoSAjvsDkjktit288oqWi" alt="PCCP Logo" class="w-8 h-8 object-cover shrink-0">PCCP Vector</div><nav class="hidden md:flex gap-8 items-center h-full"><a class="h-full flex items-center border-b-2 border-role-driver text-role-driver font-title-md font-bold text-title-md" href="#">Home</a><a class="h-full flex items-center text-on-surface-variant hover:text-role-driver transition-colors font-title-md text-title-md" href="#">Assignments</a><a class="h-full flex items-center text-on-surface-variant hover:text-role-driver transition-colors font-title-md text-title-md" href="#">Trips</a><a class="h-full flex items-center text-on-surface-variant hover:text-role-driver transition-colors font-title-md text-title-md" href="#">Performance</a></nav><div class="flex items-center gap-4"><button class="text-on-surface-variant hover:bg-surface-container-low transition-colors p-2 rounded-full flex items-center justify-center relative"><span class="material-symbols-outlined" data-icon="notifications">notifications</span><span class="absolute top-1 right-1 w-2 h-2 bg-error rounded-full"></span></button><div class="w-8 h-8 rounded-full overflow-hidden border border-border-hairline"><img alt="Ko Aung Naing Win" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA1ZIeBGVc3XatoBKHpHfvgNkMdK2o6aTG3gQGIyBrEtGyULq3IT4kfOA993r2zSHblJ_tsZvD50Al6xSYNS3Oji_vNygs38vZ3QGGsdh6VykfcfCJBK4PvHMV3nlV-R0DOQNFMXgO5a1lAa6NaRErtCyBBFYe-KA9-jgEavapaupPuBk3ygBraBYyX66NJB8JqfUd3JFU-uHcLBhaLFQ44sNvC6z8SolvaAvn5NGX2qQG9uV25XCM"></div></div></div></header>
+<!-- Main Content Canvas -->
+<main class="max-w-[440px] mx-auto pt-24 px-margin-mobile flex flex-col gap-xl">
+<!-- Page Header & Identity -->
+<section class="flex flex-col gap-sm">
+<h2 class="font-headline-lg text-headline-lg text-on-surface">My Assignments</h2>
+<div class="flex items-center gap-sm text-on-surface-variant font-body-base text-body-base">
+<span class="material-symbols-outlined text-[18px]">badge</span>
+<span class="">Ko Aung Naing Win (D-8829)</span>
+</div>
+</section>
+<!-- Segmented Control -->
+<nav aria-label="Assignment Status Tabs" class="flex bg-surface-container p-1 rounded-xl w-full border border-border-hairline shadow-sm">
+<button class="flex-1 text-center py-2 text-on-surface-variant font-title-md text-title-md rounded-lg hover:bg-surface-container-high transition-colors">
+                Upcoming
+            </button>
+<button class="flex-1 text-center py-2 bg-surface-container-lowest rounded-lg shadow-sm text-on-surface font-title-md text-title-md border border-border-hairline/50">
+                Active
+            </button>
+<button class="flex-1 text-center py-2 text-on-surface-variant font-title-md text-title-md rounded-lg hover:bg-surface-container-high transition-colors">
+                Completed
+            </button>
+</nav>
+<!-- Active Trip Card -->
+<article class="bg-surface-container-lowest rounded-xl border border-border-hairline shadow-sm p-xl flex flex-col gap-lg">
+<!-- Card Header -->
+
+<!-- Card Body: Timeline -->
+<div class="flex flex-col gap-0 relative pl-sm py-sm">
+<!-- Timeline Vertical Line -->
+<div class="absolute left-[19px] top-8 bottom-8 w-[2px] bg-border-hairline"></div>
+<!-- Pickup -->
+<div class="flex items-start gap-md relative z-10">
+<div class="w-6 h-6 rounded-full bg-surface-container flex items-center justify-center border-2 border-surface-container-lowest mt-0.5 shrink-0">
+<div class="w-2 h-2 rounded-full bg-on-surface-variant"></div>
+</div>
+<div class="flex flex-col pb-xl">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Pickup • 08:30 AM</span>
+<span class="font-title-md text-title-md text-on-surface">uab HO</span>
+</div>
+</div>
+<!-- Dropoff -->
+<div class="flex items-start gap-md relative z-10">
+<div class="w-6 h-6 rounded-full bg-role-driver/10 flex items-center justify-center border-2 border-surface-container-lowest mt-0.5 shrink-0">
+<span class="material-symbols-outlined text-[14px] text-role-driver" style="font-variation-settings: 'FILL' 1;">location_on</span>
+</div>
+<div class="flex flex-col">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Dropoff</span>
+<span class="font-title-md text-title-md text-on-surface">Airport</span>
+</div>
+</div>
+</div>
+<!-- Card Footer -->
+<footer class="pt-sm">
+<button class="w-full bg-role-driver text-on-primary h-12 rounded-lg font-title-md text-title-md flex justify-center items-center gap-2 hover:bg-role-driver/90 active:scale-[0.98] transition-all shadow-sm">
+                    Open Trip
+                    <span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+</button>
+</footer>
+</article>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 w-full z-50 bg-surface border-border-hairline shadow-lg md:hidden rounded-t-xl"><div class="flex justify-around items-center w-full px-4 py-2 pb-safe max-w-[440px] mx-auto"><a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-role-driver transition-all py-1" href="#"><span class="material-symbols-outlined">home</span><span class="text-label-caps font-label-caps mt-1">Home</span></a><a class="flex flex-col items-center justify-center bg-role-driver text-on-primary rounded-xl px-4 py-1.5 transition-all" href="#"><span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">assignment</span><span class="text-label-caps font-label-caps mt-1">Assignments</span></a><a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-role-driver transition-all py-1" href="#"><span class="material-symbols-outlined">directions_car</span><span class="text-label-caps font-label-caps mt-1">Trips</span></a><a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-role-driver transition-all py-1" href="#"><span class="material-symbols-outlined">assessment</span><span class="text-label-caps font-label-caps mt-1">Performance</span></a><a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-role-driver transition-all py-1" href="#"><span class="material-symbols-outlined">person</span><span class="text-label-caps font-label-caps mt-1">Account</span></a></div></nav>
+
+
+
+
+
+
+
+
+
+
+</body></html>

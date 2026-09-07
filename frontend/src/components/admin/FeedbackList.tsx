@@ -1,6 +1,7 @@
 import { Card, Button, StarRating, th } from "../ui";
 import { Download, Star, MessageSquare } from "lucide-react";
 import type { Feedback } from "../../types";
+import { formatRequestId } from "../../types";
 
 export default function FeedbackList({
   feedbacks,
@@ -24,7 +25,7 @@ export default function FeedbackList({
             <div className="flex justify-between items-start">
               <div className="flex-1">
                 <p className={`text-sm font-medium ${th.text}`}>{f.passengerName} → {f.driverName}</p>
-                <p className={`text-xs ${th.textMuted}`}>{f.vehiclePlate} · {f.requestId}</p>
+                <p className={`text-xs ${th.textMuted}`}>{f.vehiclePlate} · {formatRequestId(f.requestId)}</p>
                 <div className="flex items-center gap-2 mt-1">
                   <MessageSquare className="w-3 h-3 text-slate-400" />
                   <p className={`text-xs ${th.textSecondary}`}>{f.comment}</p>

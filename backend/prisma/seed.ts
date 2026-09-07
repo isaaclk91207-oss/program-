@@ -37,6 +37,7 @@ async function main() {
     { plate: "YGN-7742", make: "Honda", model: "Freed", year: 2024, color: "Silver", status: "ACTIVE" },
     { plate: "YGN-5590", make: "Toyota", model: "Alphard", year: 2022, color: "Black", status: "ACTIVE" },
     { plate: "YGN-0043", make: "Toyota", model: "Vellfire", year: 2022, color: "Black", status: "RETIRED" },
+    { plate: "1L-3829", make: "Toyota", model: "Hiace", year: 2023, color: "White", status: "ACTIVE" },
   ];
 
   const vehicles: Record<string, string> = {};
@@ -116,11 +117,18 @@ async function main() {
       assessment: { written: 60, practical: { preTripReadiness: 58, vehicleInspection: 56, safety: 62, behavior: 58, serviceDelivery: 54 }, operational: { accidentRecord: 55, vehicleDamage: 54, attendance: 56, documentation: 52, vehicleUtilization: 58 }, feedbackAvg: 2.6 },
     },
     {
-      id: "DRV-010", email: "soe.moe@pccp.demo", name: "Soe Moe Kyaw", phone: "+95 9 470 8812",
+      id: "DRV-010", email: "soe.moe@pccp.demo", name: "Soe Moe Kyaw", phone: "+54 9 470 8812",
       certLevel: "CD", certStatus: "CERTIFIED", validUntil: "2026-10-27", status: "Active",
       joinedDate: "2024-02-14", accidentFree: "2 yrs", englishLevel: "B1", credits: 380,
       vehicle: "YGN-3387",
-      assessment: { written: 82, practical: { preTripReadiness: 84, vehicleInspection: 82, safety: 88, behavior: 84, serviceDelivery: 86 }, operational: { accidentRecord: 86, vehicleDamage: 84, attendance: 82, documentation: 80, vehicleUtilization: 92 }, feedbackAvg: 4.7 },
+      assessment: { written: 82, practical: { preTripReadiness: 84, vehicleInspection: 83, safety: 88, behavior: 84, serviceDelivery: 82 }, operational: { accidentRecord: 86, vehicleDamage: 84, attendance: 85, documentation: 82, vehicleUtilization: 84 }, feedbackAvg: 4.7 },
+    },
+    {
+      id: "DRV-011", email: "thura.koko@pccp.demo", name: "Thura Ko Ko", phone: "+54 9 111 2222",
+      certLevel: "HO", certStatus: "CERTIFIED", validUntil: "2027-12-31", status: "Active",
+      joinedDate: "2024-01-15", accidentFree: "1 yr", englishLevel: "B1", credits: 500,
+      vehicle: "1L-3829",
+      assessment: { written: 82, practical: { preTripReadiness: 85, vehicleInspection: 83, safety: 88, behavior: 84, serviceDelivery: 82 }, operational: { accidentRecord: 86, vehicleDamage: 84, attendance: 85, documentation: 82, vehicleUtilization: 84 }, feedbackAvg: 4.5 },
     },
   ];
 

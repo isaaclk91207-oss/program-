@@ -136,6 +136,23 @@ router.get("/templates", (_req: Request, res: Response) => {
   });
 });
 
+// GET /api/v1/reports/drivers — List available drivers for report selection
+router.get("/drivers", async (_req: Request, res: Response) => {
+  try {
+    const { PrismaClient } = await import("@prisma/client");
+    const prisma = new PrismaClient();
+    const drivers = await prisma.driver.findMany({
+      select: { id: true, name: true, employeeId: true, status: true },
+      orderBy: { name: "asc" },
+    });
+    res.json(drivers);
+  } catch (err: unknown) {
+    const error = err as { message?: string };
+    console.error(`[Reports] Failed to list drivers:`, error.message);
+    res.status(500).json({ error: { code: "LIST_FAILED", message: "Failed to list drivers" } });
+  }
+});
+
 // GET /api/v1/reports/resources — Discover all Wialon resources and their report templates
 router.get("/resources", async (_req: Request, res: Response) => {
   try {

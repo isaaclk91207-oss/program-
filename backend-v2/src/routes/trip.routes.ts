@@ -5,6 +5,61 @@ import { QRScanDto } from "../types";
 const prisma = new PrismaClient();
 const router = Router();
 
+// GET /api/v1/trips/driver — Get trips for a driver (by driverId query param)
+router.get("/driver", async (req: Request, res: Response) => {
+  try {
+    const { driverId, status } = req.query;
+
+    if (!driverId || typeof driverId !== "string") {
+      res.status(400).json({ error: { code: "VALIDATION_ERROR", message: "driverId query param is required" } });
+      return;
+    }
+
+    const where: Record<string, unknown> = { driverId };
+    if (status && typeof status === "string") {
+      where.status = status;
+    }
+
+    const trips = await prisma.trip.findMany({
+      where,
+      include: {
+        request: true,
+        vehicle: true,
+        driver: true,
+      },
+      orderBy: { createdAt: "desc" },
+    });
+
+    // Format to match frontend TransportRequest type
+    const formatted = trips.map((t) => ({
+      id: t.request.id,
+      requestNumber: t.request.requestNumber || null,
+      passengerId: "",
+      passengerName: t.request.passengerName,
+      department: t.request.department,
+      driverId: t.driverId,
+      driverName: t.driver.name,
+      vehicleId: t.vehicleId,
+      vehiclePlate: t.vehicle.plateNumber,
+      status: t.request.status,
+      pickup: t.request.pickupLocation,
+      destination: t.request.destination,
+      date: t.request.requestDate.toISOString().split("T")[0],
+      time: t.startTime ? t.startTime.toISOString().replace("T", " ").substring(11, 16) : "",
+      qrScanStatus: t.status === "IN_PROGRESS" ? "PICK_UP_SCANNED" : null,
+      feedbackStatus: null,
+      createdAt: t.request.createdAt.toISOString(),
+      tripId: t.id,
+      tripStatus: t.status,
+    }));
+
+    res.json(formatted);
+  } catch (err) {
+    console.error("[Trip] Get driver trips failed:", err);
+    res.status(500).json({ error: { code: "INTERNAL_ERROR", message: "Failed to get driver trips" } });
+  }
+});
+
 // POST /api/v1/trips/qr/scan — Verify QR code and transition trip status
 router.post("/qr/scan", async (req: Request, res: Response) => {
   try {

@@ -87,29 +87,20 @@ describe("GET /api/v1/reports/unit/:unitId", () => {
 // ─── GET /api/v1/reports/driver/:driverId ────────────────────────────────────
 
 describe("GET /api/v1/reports/driver/:driverId", () => {
-  it("auto-logins when sid is omitted (returns 200 or 502)", async () => {
+  it("auto-logins when sid is omitted (returns 200 or 404)", async () => {
     const res = await request(app).get("/api/v1/reports/driver/123");
 
-    // Auto-login uses WIALON_TOKEN from .env — either succeeds (200) or Wialon rejects (502)
-    expect([200, 502]).toContain(res.status);
+    // Driver report queries DB — either finds driver (200) or not found (404)
+    expect([200, 404]).toContain(res.status);
   });
 
-  it("returns 400 when driverId is not a number", async () => {
-    const res = await request(app).get("/api/v1/reports/driver/abc?sid=test");
-
-    expect(res.status).toBe(400);
-    expect(res.body.error.code).toBe("VALIDATION_ERROR");
-    expect(res.body.error.message).toContain("driverId must be a number");
-  });
-
-  it("returns 502 when sid is invalid (Wialon rejects)", async () => {
+  it("returns 404 when driver UUID does not exist", async () => {
     const res = await request(app).get(
-      "/api/v1/reports/driver/123?timeFrom=1787800000&timeTo=1788400000&sid=INVALID_SID"
+      "/api/v1/reports/driver/00000000-0000-0000-0000-000000000000?timeFrom=1787800000&timeTo=1788400000&sid=test"
     );
 
-    expect(res.status).toBe(502);
-    expect(res.body.error.code).toBe("WIALON_API_ERROR");
-    expect(res.body.error.message).toContain("Invalid session");
+    expect(res.status).toBe(404);
+    expect(res.body.error.code).toBe("DRIVER_NOT_FOUND");
   });
 });
 

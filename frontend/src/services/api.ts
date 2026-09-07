@@ -236,6 +236,43 @@ export async function getDriverTrips(status?: string) {
   return res.data;
 }
 
+// ─── V2 Driver API (backend-v2 on port 3002) ────────────────────────────────
+
+const apiV2 = axios.create({ baseURL: "http://localhost:3002/api/v1" });
+
+export async function getDriverTripsV2(driverId: string) {
+  const res = await apiV2.get("/trips/driver", { params: { driverId } });
+  return res.data;
+}
+
+export async function getDriverV2(driverId: string) {
+  const res = await apiV2.get(`/drivers/${driverId}`);
+  return res.data;
+}
+
+export async function getAllDriversV2() {
+  const res = await apiV2.get("/drivers");
+  return res.data;
+}
+
+export async function assignDriverV2(
+  requestId: string,
+  data: { driverId: string; vehicleId: string }
+) {
+  const res = await apiV2.post(`/transport-requests/${requestId}/assign`, data);
+  return res.data;
+}
+
+export async function getAllVehiclesV2() {
+  const res = await apiV2.get("/vehicles");
+  return res.data;
+}
+
+export async function getAllRequestsV2() {
+  const res = await apiV2.get("/transport-requests");
+  return res.data;
+}
+
 export async function getPassengerTrips(status?: string) {
   const res = await api.get("/trips/passenger", { params: { status } });
   return res.data;
@@ -337,7 +374,7 @@ export async function getUnitReport(unitId: number, params: {
   return res.data;
 }
 
-export async function getDriverReport(driverId: number, params: {
+export async function getDriverReport(driverId: string, params: {
   timeFrom: number;
   timeTo: number;
   sid?: string;

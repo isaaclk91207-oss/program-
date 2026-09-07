@@ -1,10 +1,19 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card, Button, LoadingSpinner, th } from "../ui";
+import api from "../../services/api";
 import { getDriverReport } from "../../services/api";
 import { Users, Search, AlertCircle } from "lucide-react";
 import type { DriverReportResponse } from "../../types";
 
+interface DriverOption {
+  id: string;
+  name: string;
+  employeeId: string;
+  status: string;
+}
+
 export default function DriverReportView() {
+  const [drivers, setDrivers] = useState<DriverOption[]>([]);
   const [driverId, setDriverId] = useState("");
   const [timeFrom, setTimeFrom] = useState(() => {
     const d = new Date();
@@ -16,15 +25,21 @@ export default function DriverReportView() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  useEffect(() => {
+    api.get("/reports/drivers")
+      .then((res) => setDrivers(res.data))
+      .catch(() => {});
+  }, []);
+
   const toUnix = (dateStr: string) => Math.floor(new Date(dateStr + "T00:00:00").getTime() / 1000);
 
   const handleFetch = async () => {
-    if (!driverId) { setError("Driver ID is required"); return; }
+    if (!driverId) { setError("Driver is required"); return; }
     setLoading(true);
     setError(null);
     setReport(null);
     try {
-      const result = await getDriverReport(parseInt(driverId, 10), {
+      const result = await getDriverReport(driverId, {
         timeFrom: toUnix(timeFrom),
         timeTo: toUnix(timeTo),
       });
@@ -46,10 +61,14 @@ export default function DriverReportView() {
         </h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           <div>
-            <label className={`block text-sm font-medium ${th.textSecondary} mb-1`}>Driver ID (Wialon)</label>
-            <input type="number" value={driverId} onChange={(e) => setDriverId(e.target.value)}
-              placeholder="e.g. 67890"
-              className={`w-full px-3 py-2 rounded-lg border ${th.border} ${th.bgInput} ${th.text} text-sm`} />
+            <label className={`block text-sm font-medium ${th.textSecondary} mb-1`}>Driver</label>
+            <select value={driverId} onChange={(e) => setDriverId(e.target.value)}
+              className={`w-full px-3 py-2 rounded-lg border ${th.border} ${th.bgInput} ${th.text} text-sm`}>
+              <option value="">Select a driver...</option>
+              {drivers.map((d) => (
+                <option key={d.id} value={d.id}>{d.name} ({d.employeeId})</option>
+              ))}
+            </select>
           </div>
           <div>
             <label className={`block text-sm font-medium ${th.textSecondary} mb-1`}>From Date</label>
@@ -88,7 +107,7 @@ export default function DriverReportView() {
           {/* Summary */}
           <Card className="p-4">
             <div className="flex flex-wrap gap-4 text-sm">
-              <div><span className={`${th.textMuted}`}>Driver:</span> <span className={`font-medium ${th.text}`}>{report.driverId}</span></div>
+              <div><span className={`${th.textMuted}`}>Driver:</span> <span className={`font-medium ${th.text}`}>{String(report.driverId).substring(0, 8)}...</span></div>
               <div><span className={`${th.textMuted}`}>Template:</span> <span className={`font-medium ${th.text}`}>{report.templateName}</span></div>
               <div><span className={`${th.textMuted}`}>Period:</span> <span className={`font-medium ${th.text}`}>{timeFrom} → {timeTo}</span></div>
               <div><span className={`${th.textMuted}`}>Tables:</span> <span className={`font-medium ${th.text}`}>{report.tables.length}</span></div>

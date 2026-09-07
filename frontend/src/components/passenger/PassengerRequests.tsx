@@ -2,6 +2,7 @@ import { Card, Badge, EmptyState, th } from "../ui";
 import StatusStepper from "./StatusStepper";
 import { ArrowLeft, MapPin, ArrowRight, Calendar, Clock, Car, User, QrCode, MessageSquare } from "lucide-react";
 import type { TransportRequest } from "../../types";
+import { formatRequestId } from "../../types";
 
 export default function PassengerRequests({
   requests,
@@ -31,7 +32,7 @@ export default function PassengerRequests({
 
         <Card className="p-4 mb-4">
           <div className="flex justify-between items-start mb-3">
-            <h3 className="font-semibold">{selectedRequest.id}</h3>
+            <h3 className="font-semibold">{formatRequestId(selectedRequest.id, selectedRequest.requestNumber)}</h3>
             <Badge status={selectedRequest.status}>{selectedRequest.status.replace(/_/g, " ")}</Badge>
           </div>
           <div className="mt-3 space-y-3 text-sm">
@@ -118,7 +119,7 @@ export default function PassengerRequests({
             <Card key={r.id} className={`p-3 cursor-pointer ${th.borderHover}`} onClick={() => onSelect(r)}>
               <div className="flex justify-between items-start">
                 <div>
-                  <p className={`text-sm font-medium ${th.text}`}>{r.id}</p>
+                  <p className={`text-sm font-medium ${th.text}`}>{formatRequestId(r.id, r.requestNumber)}</p>
                   <div className="flex items-center gap-1 text-xs text-slate-500">
                     <MapPin className="w-3 h-3" />
                     {r.pickup}

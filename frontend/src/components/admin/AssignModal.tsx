@@ -3,14 +3,22 @@ import { Button, Modal, Select, th } from "../ui";
 import { Star } from "lucide-react";
 import type { Driver, Vehicle } from "../../types";
 
+function getDisplayId(d: Driver): string {
+  if (d.version === "v2" && d.employeeId) return d.employeeId;
+  if (d.id.startsWith("DRV-")) return d.id;
+  return d.id.substring(0, 8);
+}
+
 export default function AssignModal({
   requestId,
+  requestVersion,
   drivers,
   vehicles,
   onAssign,
   onClose,
 }: {
   requestId: string;
+  requestVersion?: "v1" | "v2";
   drivers: Driver[];
   vehicles: Vehicle[];
   onAssign: (requestId: string, data: { driverId: string; vehicleId: string }) => void;
@@ -19,8 +27,12 @@ export default function AssignModal({
   const [selectedDriver, setSelectedDriver] = useState("");
   const [selectedVehicle, setSelectedVehicle] = useState("");
 
-  const activeDrivers = drivers.filter((d) => d.status === "Active");
-  const activeVehicles = vehicles.filter((v) => v.status === "ACTIVE");
+  const activeDrivers = drivers
+    .filter((d) => d.status === "Active" || d.status === "AVAILABLE")
+    .filter((d) => !requestVersion || d.version === requestVersion);
+  const activeVehicles = vehicles
+    .filter((v) => v.status === "ACTIVE")
+    .filter((v) => !requestVersion || v.version === requestVersion);
 
   return (
     <Modal open title="Assign Driver + Vehicle" onClose={onClose}>
@@ -33,7 +45,7 @@ export default function AssignModal({
             { value: "", label: "Select driver" },
             ...activeDrivers.map((d) => ({
               value: d.id,
-              label: `${d.name} (${d.id}) · ${d.certLevel} · ⭐${d.rating}`,
+              label: `${d.name} (${getDisplayId(d)})`,
             })),
           ]}
         />
@@ -45,7 +57,9 @@ export default function AssignModal({
             { value: "", label: "Select vehicle" },
             ...activeVehicles.map((v) => ({
               value: v.id,
-              label: `${v.plate} · ${v.make} ${v.model}`,
+              label: v.version === "v2"
+                ? v.plate
+                : `${v.plate} · ${v.make} ${v.model}`,
             })),
           ]}
         />

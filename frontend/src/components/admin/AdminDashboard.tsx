@@ -1,6 +1,7 @@
 import { Card, Badge, KPICard, ProgressBar, th } from "../ui";
 import { ClipboardList, Clock, Navigation, CheckCircle, Car, Truck, Star, QrCode } from "lucide-react";
 import type { DashboardStats } from "../../types";
+import { formatRequestId } from "../../types";
 
 export default function AdminDashboard({ data }: { data: DashboardStats }) {
   return (
@@ -37,7 +38,7 @@ export default function AdminDashboard({ data }: { data: DashboardStats }) {
           {data.recentRequests.slice(0, 5).map((r) => (
             <div key={r.id} className={`flex justify-between items-center py-2 border-b ${th.border} last:border-0`}>
               <div>
-                <p className={`text-sm ${th.text}`}>{r.id} · {r.passengerName}</p>
+                <p className={`text-sm ${th.text}`}>{formatRequestId(r.id, r.requestNumber)} · {r.passengerName}</p>
                 <p className={`text-xs ${th.textMuted}`}>{r.pickup} → {r.destination}</p>
               </div>
               <Badge status={r.status}>{r.status.replace(/_/g, " ")}</Badge>

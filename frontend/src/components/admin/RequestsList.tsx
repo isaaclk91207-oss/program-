@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Card, Button, Badge, EmptyState, SearchInput, th } from "../ui";
 import AssignModal from "./AssignModal";
 import type { TransportRequest, Driver, Vehicle } from "../../types";
+import { formatRequestId } from "../../types";
 import { ArrowLeft, MapPin, Calendar, Clock, Car, User } from "lucide-react";
 
 export default function RequestsList({
@@ -32,6 +33,7 @@ export default function RequestsList({
     .filter((r) =>
       search === "" ||
       r.id.toLowerCase().includes(search.toLowerCase()) ||
+      (r.requestNumber || "").toLowerCase().includes(search.toLowerCase()) ||
       r.passengerName.toLowerCase().includes(search.toLowerCase()) ||
       r.pickup.toLowerCase().includes(search.toLowerCase()) ||
       r.destination.toLowerCase().includes(search.toLowerCase())
@@ -70,7 +72,7 @@ export default function RequestsList({
       {selectedRequest ? (
         <Card className="p-4">
           <div className="flex justify-between items-start mb-3">
-            <h3 className="font-semibold">{selectedRequest.id}</h3>
+            <h3 className="font-semibold">{formatRequestId(selectedRequest.id, selectedRequest.requestNumber)}</h3>
             <Badge status={selectedRequest.status}>{selectedRequest.status.replace(/_/g, " ")}</Badge>
           </div>
           <div className="grid grid-cols-2 gap-4 text-sm">
@@ -142,7 +144,7 @@ export default function RequestsList({
               <Card key={r.id} className={`p-3 cursor-pointer ${th.borderHover}`} onClick={() => onSelectRequest(r)}>
                 <div className="flex justify-between items-center">
                   <div>
-                    <p className={`text-sm font-medium ${th.text}`}>{r.id} · {r.passengerName}</p>
+                    <p className={`text-sm font-medium ${th.text}`}>{formatRequestId(r.id, r.requestNumber)} · {r.passengerName}</p>
                     <p className={`text-xs ${th.textMuted}`}>{r.pickup} → {r.destination} · {r.date}</p>
                   </div>
                   <Badge status={r.status}>{r.status.replace(/_/g, " ")}</Badge>
@@ -156,6 +158,7 @@ export default function RequestsList({
       {showAssignModal && selectedRequest && (
         <AssignModal
           requestId={selectedRequest.id}
+          requestVersion={selectedRequest.version}
           drivers={drivers}
           vehicles={vehicles}
           onAssign={onAssign}

@@ -49,6 +49,10 @@ router.post("/", async (req: Request, res: Response) => {
       return;
     }
 
+    // Auto-generate sequential request number: TRQ-001, TRQ-002, ...
+    const count = await prisma.transportRequest.count();
+    const requestNumber = `TRQ-${String(count + 1).padStart(3, "0")}`;
+
     const request = await prisma.transportRequest.create({
       data: {
         passengerName,
@@ -57,6 +61,7 @@ router.post("/", async (req: Request, res: Response) => {
         destination,
         requestDate: new Date(requestDate),
         status: "PENDING",
+        requestNumber,
       },
     });
 

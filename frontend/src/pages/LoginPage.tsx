@@ -6,7 +6,7 @@ import { Shield, Car, User, Mail, Lock, LogIn } from "lucide-react";
 
 const DEMO_ACCOUNTS = [
   { role: "ADMIN" as const, email: "admin@pccp.demo", password: "admin123", label: "Admin", icon: Shield },
-  { role: "DRIVER" as const, email: "komaung@pccp.demo", password: "driver123", label: "Driver (Ko Maung)", icon: Car },
+  { role: "DRIVER" as const, email: "thura.koko@pccp.demo", password: "driver123", label: "Driver (Thura Ko Ko)", icon: Car },
   { role: "PASSENGER" as const, email: "thin.thin@company.com", password: "passenger123", label: "Passenger (Daw Thin Thin)", icon: User },
 ];
 

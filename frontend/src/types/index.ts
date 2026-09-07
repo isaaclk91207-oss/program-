@@ -46,6 +46,7 @@ export interface Vehicle {
   status: "ACTIVE" | "MAINTENANCE" | "RETIRED";
   assignedDriverId?: string | null;
   assignedDriverName?: string | null;
+  version?: "v1" | "v2";
 }
 
 export interface Driver {
@@ -65,10 +66,14 @@ export interface Driver {
   currentVehiclePlate: string | null;
   score: number;
   rating: number;
+  employeeId?: string;
+  wialonDriverId?: number;
+  version?: "v1" | "v2";
 }
 
 export interface TransportRequest {
   id: string;
+  requestNumber?: string;
   passengerId: string;
   passengerName: string;
   department: string;
@@ -84,6 +89,13 @@ export interface TransportRequest {
   qrScanStatus: string | null;
   feedbackStatus: string | null;
   createdAt: string;
+  version?: "v1" | "v2";
+}
+
+export function formatRequestId(id: string, requestNumber?: string): string {
+  if (requestNumber) return requestNumber;
+  if (id.startsWith("TRQ-")) return id;
+  return `TRQ-${id.substring(0, 4).toUpperCase()}`;
 }
 
 export type TransportStatus =
@@ -217,7 +229,7 @@ export interface UnitReportResponse {
 }
 
 export interface DriverReportResponse {
-  driverId: number;
+  driverId: string;
   templateId: number;
   templateName: string;
   interval: { from: number; to: number };

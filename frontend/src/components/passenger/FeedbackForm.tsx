@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Button, StarRating, th } from "../ui";
 import { X, MessageSquare } from "lucide-react";
 import type { TransportRequest } from "../../types";
+import { formatRequestId } from "../../types";
 
 const TAG_CATEGORIES = {
   negative: [
@@ -56,7 +57,7 @@ export default function FeedbackForm({
             <X className="w-5 h-5" />
           </button>
         </div>
-        <p className={`text-xs ${th.textMuted} mb-4`}>{request.id} · {request.driverName} · {request.vehiclePlate}</p>
+        <p className={`text-xs ${th.textMuted} mb-4`}>{formatRequestId(request.id, request.requestNumber)} · {request.driverName} · {request.vehiclePlate}</p>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="flex justify-center">
             <StarRating value={rating} onChange={setRating} size="lg" />

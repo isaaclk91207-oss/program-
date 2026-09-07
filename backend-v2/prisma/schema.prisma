@@ -45,6 +45,7 @@ model Driver {
 
 model TransportRequest {
   id              String   @id @default(uuid())
+  requestNumber   String   @unique @map("request_number")
   passengerName   String   @map("passenger_name")
   department      String
   pickupLocation  String   @map("pickup_location")

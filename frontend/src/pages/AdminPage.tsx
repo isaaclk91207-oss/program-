@@ -9,10 +9,11 @@ import {
 import { convertToCSV, downloadCSV } from "../utils/csv";
 import {
   getDashboard, getDrivers, getVehicles, getRequests, getAllFeedback, getNotifications, getUnreadCount,
-  assignDriver, exportData, updateAssessment, updateSettings, getSettings,
+  assignDriver, assignDriverV2, exportData, updateAssessment, updateSettings, getSettings,
   createDriver, createVehicle, deleteDriver, deleteVehicle, updateDriver,
+  getAllDriversV2, getAllVehiclesV2, getAllRequestsV2,
 } from "../services/api";
-import type { DashboardStats, Driver, Vehicle, TransportRequest, Feedback, Notification } from "../types";
+import type { DashboardStats, Driver, Vehicle, TransportRequest, TransportStatus, Feedback, Notification } from "../types";
 import {
   LayoutDashboard, ClipboardList, Car, Truck, Star, Bell, Settings, LogOut,
   Menu, X, History, BarChart3, Users, FileText,
@@ -70,8 +71,120 @@ export default function AdminPage() {
     try {
       switch (page) {
         case "dashboard": setDashboard(await getDashboard()); break;
-        case "requests": setRequests((await getRequests()).requests); break;
-        case "drivers": setDrivers(await getDrivers()); break;
+        case "requests": {
+          const reqs = (await getRequests()).requests.map((r) => ({ ...r, version: "v1" as const })) as TransportRequest[];
+          // Also fetch v2 requests, drivers, and vehicles for the assign modal
+          try {
+            const [v2Raw, v2Drivers, v2Vehicles] = await Promise.all([
+              getAllRequestsV2(),
+              getAllDriversV2(),
+              getAllVehiclesV2(),
+            ]);
+            // Map v2 requests to TransportRequest shape
+            const v2Reqs = (Array.isArray(v2Raw) ? v2Raw : []).map((r: Record<string, unknown>) => {
+              const dateStr = r.requestDate ? new Date(r.requestDate as string) : new Date();
+              const trip = r.trip as Record<string, unknown> | undefined;
+              const tripDriver = trip?.driver as Record<string, unknown> | undefined;
+              const tripVehicle = trip?.vehicle as Record<string, unknown> | undefined;
+              return {
+                id: r.id as string,
+                requestNumber: r.requestNumber as string | undefined,
+                passengerId: "",
+                passengerName: (r.passengerName as string) || "",
+                department: (r.department as string) || "",
+                driverId: (tripDriver?.id as string) || null,
+                driverName: (tripDriver?.name as string) || null,
+                vehicleId: (tripVehicle?.id as string) || null,
+                vehiclePlate: (tripVehicle?.plateNumber as string) || null,
+                status: (r.status as TransportStatus) || "PENDING",
+                pickup: (r.pickupLocation as string) || "",
+                destination: (r.destination as string) || "",
+                date: dateStr.toLocaleDateString(),
+                time: dateStr.toLocaleTimeString(),
+                qrScanStatus: null,
+                feedbackStatus: null,
+                createdAt: (r.createdAt as string) || new Date().toISOString(),
+                version: "v2" as const,
+              };
+            });
+            setRequests([...reqs, ...v2Reqs]);
+            setDrivers((prev) => {
+              const v1Ids = new Set(prev.map((d) => d.id));
+              const newV2 = v2Drivers
+                .filter((d: { id: string }) => !v1Ids.has(d.id))
+                .map((d: { id: string; name: string; status: string; employeeId: string }) => ({
+                  id: d.id,
+                  name: d.name,
+                  email: `${d.employeeId.toLowerCase()}@pccp.demo`,
+                  phone: null,
+                  certLevel: "HO",
+                  certStatus: "CERTIFIED",
+                  validUntil: null,
+                  status: d.status === "AVAILABLE" ? "Active" : d.status === "ON_TRIP" ? "On Trip" : "Inactive",
+                  joinedDate: new Date().toISOString(),
+                  accidentFree: null,
+                  englishLevel: null,
+                  credits: 0,
+                  currentVehicleId: null,
+                  currentVehiclePlate: null,
+                  score: 0,
+                  rating: 0,
+                  employeeId: d.employeeId,
+                  version: "v2" as const,
+                }));
+              return [...prev, ...newV2];
+            });
+            setVehicles((prev) => {
+              const v1Ids = new Set(prev.map((v) => v.id));
+              const newV2 = v2Vehicles
+                .filter((v: { id: string }) => !v1Ids.has(v.id))
+                .map((v: { id: string; plateNumber: string; status: string }) => ({
+                  id: v.id,
+                  plate: v.plateNumber,
+                  qrValue: v.plateNumber,
+                  make: "",
+                  model: "",
+                  year: 0,
+                  color: "",
+                  status: (v.status === "ACTIVE" ? "ACTIVE" : v.status === "MAINTENANCE" ? "MAINTENANCE" : "RETIRED") as "ACTIVE" | "MAINTENANCE" | "RETIRED",
+                  version: "v2" as const,
+                }));
+              return [...prev, ...newV2];
+            });
+          } catch {
+            setRequests(reqs);
+          }
+          break;
+        }
+        case "drivers": {
+          const [v1Drivers, v2Drivers] = await Promise.all([getDrivers(), getAllDriversV2()]);
+          // Merge v2 drivers into v1 format for the admin UI
+          const merged = [
+            ...v1Drivers,
+            ...v2Drivers.map((d: { id: string; name: string; status: string; employeeId: string }) => ({
+              id: d.id,
+              name: d.name,
+              email: `${d.employeeId.toLowerCase()}@pccp.demo`,
+              phone: null,
+              certLevel: "HO",
+              certStatus: "CERTIFIED",
+              validUntil: null,
+              status: d.status === "AVAILABLE" ? "Active" : d.status === "ON_TRIP" ? "On Trip" : "Inactive",
+              joinedDate: new Date().toISOString(),
+              accidentFree: null,
+              englishLevel: null,
+              credits: 0,
+              currentVehicleId: null,
+              currentVehiclePlate: null,
+              score: 0,
+              rating: 0,
+              employeeId: d.employeeId,
+              version: "v2" as const,
+            })),
+          ];
+          setDrivers(merged);
+          break;
+        }
         case "vehicles": setVehicles(await getVehicles()); break;
         case "feedback": setFeedbacks(await getAllFeedback()); break;
         case "notifications": setNotifications(await getNotifications()); break;
@@ -163,7 +276,16 @@ export default function AdminPage() {
                   <RequestsList requests={requests} drivers={drivers} vehicles={vehicles}
                     selectedRequest={selectedRequest} onSelectRequest={setSelectedRequest}
                     showAssignModal={showAssignModal} onShowAssignModal={setShowAssignModal}
-                    onAssign={async (rid, data) => { await assignDriver(rid, data); setShowAssignModal(false); setSelectedRequest(null); loadData(); }}
+                    onAssign={async (rid, data) => {
+                      if (selectedRequest?.version === "v2") {
+                        await assignDriverV2(rid, data);
+                      } else {
+                        await assignDriver(rid, data);
+                      }
+                      setShowAssignModal(false);
+                      setSelectedRequest(null);
+                      loadData();
+                    }}
                     onRefresh={loadData} />
                 )}
                 {page === "drivers" && (

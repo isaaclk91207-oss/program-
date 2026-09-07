@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Card, Badge, SearchInput, th } from "../ui";
 import { getDriverTrips } from "../../services/api";
 import type { TransportRequest, VehicleCheckin } from "../../types";
+import { formatRequestId } from "../../types";
 import { Calendar, MapPin, Clock, Car, User, Filter } from "lucide-react";
 
 export default function OperationalRecords() {
@@ -32,6 +33,7 @@ export default function OperationalRecords() {
       if (search === "") return true;
       return (
         t.id.toLowerCase().includes(search.toLowerCase()) ||
+        (t.requestNumber || "").toLowerCase().includes(search.toLowerCase()) ||
         t.passengerName.toLowerCase().includes(search.toLowerCase()) ||
         (t.vehiclePlate && t.vehiclePlate.toLowerCase().includes(search.toLowerCase()))
       );
@@ -83,7 +85,7 @@ export default function OperationalRecords() {
                 <div className="flex justify-between items-start">
                   <div className="flex-1">
                     <div className="flex items-center gap-2 mb-1">
-                      <p className={`text-sm font-medium ${th.text}`}>{t.id}</p>
+                      <p className={`text-sm font-medium ${th.text}`}>{formatRequestId(t.id, t.requestNumber)}</p>
                       <Badge status={t.status}>{t.status.replace(/_/g, " ")}</Badge>
                     </div>
                     <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">

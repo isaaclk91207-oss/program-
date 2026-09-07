@@ -86,12 +86,34 @@ async function main() {
   });
   console.log(`  ✓ Driver 2: ${driver2.name} (${driver2.employeeId})`);
 
+  // Step 3b: Create test driver Thura Ko Ko (Wialon Driver ID: 54)
+  const driver3 = await prisma.driver.upsert({
+    where: { employeeId: "HO-DRV-003" },
+    update: { name: "Thura Ko Ko", status: "AVAILABLE" },
+    create: {
+      employeeId: "HO-DRV-003",
+      name: "Thura Ko Ko",
+      status: "AVAILABLE",
+    },
+  });
+  console.log(`  ✓ Driver 3: ${driver3.name} (${driver3.employeeId}, ID: ${driver3.id})`);
+
+  // Step 3c: Upsert test vehicle 1L-3829 (Wialon Unit ID: 5731)
+  const testVehicle = await prisma.vehicle.upsert({
+    where: { plateNumber: "1L-3829" },
+    update: { netprosUnitId: "5731", isHeadOffice: true, status: "ACTIVE" },
+    create: { plateNumber: "1L-3829", netprosUnitId: "5731", isHeadOffice: true, status: "ACTIVE" },
+  });
+  vehicles["1L-3829"] = testVehicle.id;
+  console.log(`  ✓ Vehicle: 1L-3829 (Unit ID: 5731, ID: ${testVehicle.id})`);
+
   // Step 4: Create 1 Active Test Transport Request (ASSIGNED status)
   const testRequest = await prisma.transportRequest.upsert({
     where: { id: "TRQ-TEST-001" },
-    update: { status: "ASSIGNED" },
+    update: { status: "ASSIGNED", requestNumber: "TRQ-001" },
     create: {
       id: "TRQ-TEST-001",
+      requestNumber: "TRQ-001",
       passengerName: "Daw Thin Thin",
       department: "Finance",
       pickupLocation: "Head Office",
@@ -100,7 +122,7 @@ async function main() {
       status: "ASSIGNED",
     },
   });
-  console.log(`  ✓ Transport Request: ${testRequest.id} (${testRequest.status})`);
+  console.log(`  ✓ Transport Request: ${testRequest.requestNumber} (${testRequest.status})`);
 
   // Step 5: Create Trip for test request (assigned to Driver 1 + Vehicle 9S-6865)
   const testTrip = await prisma.trip.upsert({
@@ -114,6 +136,52 @@ async function main() {
     },
   });
   console.log(`  ✓ Trip: ${testTrip.id} (Driver: ${driver1.name}, Vehicle: 9S-6865, Status: ${testTrip.status})`);
+
+  // Step 5b: Create Transport Request + Trip for Thura Ko Ko (Wialon Driver ID: 54)
+  const thuraRequest = await prisma.transportRequest.upsert({
+    where: { id: "TRQ-TEST-002" },
+    update: { status: "ASSIGNED", requestNumber: "TRQ-004" },
+    create: {
+      id: "TRQ-TEST-002",
+      requestNumber: "TRQ-004",
+      passengerName: "Daw Thin Thin",
+      department: "Finance",
+      pickupLocation: "Head Office",
+      destination: "Downtown",
+      requestDate: new Date(),
+      status: "ASSIGNED",
+    },
+  });
+  console.log(`  ✓ Transport Request: ${thuraRequest.requestNumber} (assigned to ${driver3.name})`);
+
+  const thuraTrip = await prisma.trip.upsert({
+    where: { requestId: "TRQ-TEST-002" },
+    update: { status: "PENDING" },
+    create: {
+      requestId: "TRQ-TEST-002",
+      driverId: driver3.id,
+      vehicleId: testVehicle.id,
+      status: "PENDING",
+    },
+  });
+  console.log(`  ✓ Trip: ${thuraTrip.id} (Driver: ${driver3.name}, Vehicle: 1L-3829, Status: ${thuraTrip.status})`);
+
+  // Step 5c: Create a PENDING transport request for assignment testing
+  const pendingRequest = await prisma.transportRequest.upsert({
+    where: { id: "TRQ-TEST-003" },
+    update: { status: "PENDING", requestNumber: "TRQ-005" },
+    create: {
+      id: "TRQ-TEST-003",
+      requestNumber: "TRQ-005",
+      passengerName: "U Kyaw Swar",
+      department: "Operations",
+      pickupLocation: "Yangon Airport",
+      destination: "Inya Lake Hotel",
+      requestDate: new Date(),
+      status: "PENDING",
+    },
+  });
+  console.log(`  ✓ Transport Request: ${pendingRequest.requestNumber} (${pendingRequest.status})`);
 
   // Step 6: Summary
   const vehicleCount = await prisma.vehicle.count();

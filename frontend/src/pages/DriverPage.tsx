@@ -4,6 +4,8 @@ import { LoadingSpinner, ThemeToggle, ToastProvider, th } from "../components/ui
 import { DriverHome, TripsList, DriverProfile, DriverNotifications, PassportCard, QRScan, TripCalendar } from "../components/driver";
 import {
   getDriverTrips,
+  getDriverTripsV2,
+  getDriverV2,
   driverCheckIn,
   driverCheckOut,
   getNotifications,
@@ -30,6 +32,8 @@ export default function DriverPage() {
   const [unreadCount, setUnreadCount] = useState(0);
   const [selectedTrip, setSelectedTrip] = useState<TransportRequest | null>(null);
   const [loading, setLoading] = useState(true);
+  // v2 driver ID for Thura Ko Ko (Wialon Driver ID: 54, Unit ID: 5731)
+  const [v2DriverId] = useState<string>("bb81fd7e-1d9c-4cd5-b2c0-d7859a6d82a7");
 
   useEffect(() => {
     loadData();
@@ -38,10 +42,11 @@ export default function DriverPage() {
   async function loadData() {
     setLoading(true);
     try {
+      // Fetch trips from v2, notifications from v1
       const [tripsData, notifData, countData] = await Promise.all([
-        getDriverTrips(),
-        getNotifications(),
-        getUnreadCount(),
+        getDriverTripsV2(v2DriverId).catch(() => getDriverTrips()),
+        getNotifications().catch(() => []),
+        getUnreadCount().catch(() => ({ count: 0 })),
       ]);
       setTrips(tripsData);
       setNotifications(notifData);
@@ -71,8 +76,8 @@ export default function DriverPage() {
     }
   }
 
-  const activeTrips = trips.filter((t) => ["ASSIGNED", "QR_PENDING", "PICK_UP_SCANNED", "IN_PROGRESS"].includes(t.status));
-  const completedTrips = trips.filter((t) => ["DROP_OFF_SCANNED", "FEEDBACK_SUBMITTED"].includes(t.status));
+  const activeTrips = trips.filter((t) => ["ASSIGNED", "QR_PENDING", "PICK_UP_SCANNED", "IN_PROGRESS", "PENDING"].includes(t.status));
+  const completedTrips = trips.filter((t) => ["DROP_OFF_SCANNED", "FEEDBACK_SUBMITTED", "DROPOFF_COMPLETE", "COMPLETED"].includes(t.status));
 
   return (
     <ToastProvider>
@@ -191,15 +196,22 @@ export default function DriverPage() {
 function PassportCardWrapper({ user, onBack }: { user: { id: string; name: string; email: string }; onBack: () => void }) {
   const [driver, setDriver] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const v2DriverId = "bb81fd7e-1d9c-4cd5-b2c0-d7859a6d82a7";
 
   useEffect(() => {
-    import("../services/api").then(({ getDriver }) => {
-      getDriver(user.id).then((d) => {
+    import("../services/api").then(({ getDriverV2, getDriver }) => {
+      getDriverV2(v2DriverId).then((d) => {
         setDriver(d);
         setLoading(false);
-      }).catch(() => setLoading(false));
+      }).catch(() => {
+        // Fallback to v1
+        getDriver(user.id).then((d) => {
+          setDriver(d);
+          setLoading(false);
+        }).catch(() => setLoading(false));
+      });
     });
-  }, [user.id]);
+  }, [user.id, v2DriverId]);
 
   if (loading) return <LoadingSpinner />;
   if (!driver) return <div className="text-center py-8 text-slate-500">Driver profile not found</div>;

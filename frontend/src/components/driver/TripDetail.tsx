@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Card, Button, Badge, th } from "../ui";
 import { ArrowLeft, MapPin, ArrowRight, Calendar, Clock, Car, User, Building, LogIn, LogOut } from "lucide-react";
 import type { TransportRequest } from "../../types";
+import { formatRequestId } from "../../types";
 
 export default function TripDetail({
   trip,
@@ -42,7 +43,7 @@ export default function TripDetail({
       </button>
       <Card className="p-4 mb-4">
         <div className="flex justify-between items-start mb-3">
-          <h3 className="font-semibold">{trip.id}</h3>
+          <h3 className="font-semibold">{formatRequestId(trip.id, trip.requestNumber)}</h3>
           <Badge status={trip.status}>{trip.status.replace(/_/g, " ")}</Badge>
         </div>
         <div className="grid grid-cols-2 gap-3 text-sm">

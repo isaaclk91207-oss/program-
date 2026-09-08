@@ -5,6 +5,12 @@ import DriverForm from "./DriverForm";
 import type { Driver } from "../../types";
 import { ArrowLeft, Plus, Star, Download, Trash2 } from "lucide-react";
 
+function getDisplayId(d: Driver): string {
+  if (d.version === "v2" && d.employeeId) return d.employeeId;
+  if (d.id.startsWith("DRV-")) return d.id;
+  return d.id.substring(0, 8);
+}
+
 export default function DriversList({
   drivers, selectedDriver, onSelectDriver, onUpdateAssessment, onRefresh, onExport,
   onAddDriver, onDeleteDriver, onUpdateDriver,
@@ -61,7 +67,7 @@ export default function DriversList({
           <Card key={d.id} className={`p-3 cursor-pointer ${th.borderHover}`} onClick={() => onSelectDriver(d)}>
             <div className="flex justify-between items-center">
               <div>
-                <p className={`text-sm font-medium ${th.text}`}>{d.name} <span className={`${th.textMuted} font-mono`}>{d.id}</span></p>
+                <p className={`text-sm font-medium ${th.text}`}>{d.name} <span className={`${th.textMuted} font-mono`}>{getDisplayId(d)}</span></p>
                 <p className={`text-xs ${th.textMuted}`}>Score: {d.score} · <Star className="w-3 h-3 inline text-amber-400 fill-amber-400" />{d.rating} · {d.currentVehiclePlate || "No vehicle"}</p>
               </div>
               <div className="flex items-center gap-2">

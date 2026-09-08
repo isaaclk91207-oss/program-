@@ -1,25 +1,27 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.netprosService = exports.NetprosService = void 0;
+const client_1 = require("@prisma/client");
 const config_1 = require("../config");
 const error_middleware_1 = require("../middlewares/error.middleware");
+const prisma = new client_1.PrismaClient();
 let sessionToken = null;
 let lastSyncTime = null;
 let syncStatus = "idle";
 let lastError = null;
+const ACTIVE_TRIP_STATUSES = ["ASSIGNED", "QR_PENDING", "PICK_UP_SCANNED", "IN_PROGRESS"];
 class NetprosService {
     constructor() {
         this.baseUrl = config_1.config.wialonBaseUrl;
     }
     async login(username, password) {
-        const token = username
-            ? await this.fetchToken(username, password || "")
-            : config_1.config.wialonToken;
-        if (!token) {
+        const token = username ?? config_1.config.wialonToken;
+        const eid = await this.fetchToken(token, password || "");
+        if (!eid) {
             throw (0, error_middleware_1.createAppError)(500, "WIALON_AUTH_FAILED", "Failed to authenticate with Wialon");
         }
-        sessionToken = token;
-        return token;
+        sessionToken = eid;
+        return eid;
     }
     async fetchToken(username, password) {
         try {
@@ -51,7 +53,7 @@ class NetprosService {
             };
             const url = `${this.baseUrl}/wialon/ajax.html?svc=core/search_items&params=${encodeURIComponent(JSON.stringify(params))}&sid=${sessionToken}`;
             const response = await fetch(url);
-            const data = await response.json();
+            const data = (await response.json());
             if (data.error) {
                 const errorMsg = this.mapWialonError(data.error);
                 throw (0, error_middleware_1.createAppError)(502, "WIALON_API_ERROR", errorMsg);
@@ -64,6 +66,79 @@ class NetprosService {
             console.error("[Wialon] search_items failed:", err);
             throw (0, error_middleware_1.createAppError)(502, "WIALON_REQUEST_FAILED", "Failed to fetch units from Wialon");
         }
+    }
+    /**
+     * Fetches live positions for all tracked vehicles from Wialon.
+     * Uses core/search_items with flags=1025 (base + last-message position).
+     * Retries once with a fresh login if the session expired (error 1).
+     */
+    async getLiveVehicleLocations() {
+        if (!sessionToken) {
+            await this.login();
+        }
+        const exec = async () => {
+            const params = {
+                spec: { itemsType: "avl_unit", propName: "sys_name", propValueMask: "*", sortType: "sys_name" },
+                force: 1,
+                flags: 0x401,
+                from: 0,
+                to: 1000,
+            };
+            const url = `${this.baseUrl}/wialon/ajax.html?svc=core/search_items&params=${encodeURIComponent(JSON.stringify(params))}&sid=${sessionToken}`;
+            const response = await fetch(url);
+            const data = (await response.json());
+            if (data.error) {
+                const errorMsg = this.mapWialonError(data.error);
+                throw (0, error_middleware_1.createAppError)(502, "WIALON_API_ERROR", errorMsg);
+            }
+            return data.items || [];
+        };
+        let units;
+        try {
+            units = await exec();
+        }
+        catch (err) {
+            // Session expired (Wialon error 1) or invalid — retry once with fresh login
+            if (err instanceof Error && "code" in err && err.code === "WIALON_API_ERROR") {
+                sessionToken = null;
+                await this.login();
+                units = await exec();
+            }
+            else {
+                throw err;
+            }
+        }
+        const vehicles = await prisma.vehicle.findMany({
+            select: { id: true, plate: true, gpsDeviceId: true },
+        });
+        // Vehicles currently on an active trip
+        const activeTripVehicles = new Set((await prisma.transportRequest.findMany({
+            where: { status: { in: ACTIVE_TRIP_STATUSES } },
+            select: { vehicleId: true },
+        })).map((r) => r.vehicleId));
+        const locations = [];
+        for (const vehicle of vehicles) {
+            if (!vehicle.gpsDeviceId)
+                continue;
+            let unit = units.find((u) => u.id === vehicle.gpsDeviceId);
+            if (!unit) {
+                unit = units.find((u) => u.nm === vehicle.plate);
+            }
+            if (!unit || !unit.pos)
+                continue;
+            locations.push({
+                vehicleId: vehicle.id,
+                plate: vehicle.plate,
+                gpsDeviceId: vehicle.gpsDeviceId,
+                latitude: unit.pos.y,
+                longitude: unit.pos.x,
+                speed: unit.pos.s,
+                course: unit.pos.c,
+                timestamp: unit.pos.t,
+                onActiveTrip: activeTripVehicles.has(vehicle.id),
+            });
+        }
+        return locations;
     }
     async getUnitTrips(unitId, timeFrom, timeTo) {
         if (!sessionToken) {
@@ -78,7 +153,7 @@ class NetprosService {
             };
             const url = `${this.baseUrl}/wialon/ajax.html?svc=unit/get_trips&params=${encodeURIComponent(JSON.stringify(params))}&sid=${sessionToken}`;
             const response = await fetch(url);
-            const data = await response.json();
+            const data = (await response.json());
             if (data.error) {
                 const errorMsg = this.mapWialonError(data.error);
                 throw (0, error_middleware_1.createAppError)(502, "WIALON_API_ERROR", errorMsg);

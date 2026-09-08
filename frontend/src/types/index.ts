@@ -185,6 +185,18 @@ export interface Assessment {
   certLevel: string;
 }
 
+export interface LiveVehicleLocation {
+  vehicleId: string;
+  plate: string;
+  gpsDeviceId: number;
+  latitude: number;
+  longitude: number;
+  speed: number;
+  course: number;
+  timestamp: number;
+  onActiveTrip: boolean;
+}
+
 export interface QRVerificationResult {
   valid: boolean;
   vehiclePlate?: string;

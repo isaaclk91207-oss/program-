@@ -55,90 +55,42 @@ export declare class TripService {
         checkOutTime: Date | null;
         checkOutRemark: string | null;
     }>;
-    getDriverTrips(driverId: string, status?: string): Promise<({
-        passenger: {
-            user: {
-                email: string;
-                name: string;
-                phone: string | null;
-            };
-        } & {
-            userId: string;
-            department: string;
-        };
-        vehicle: {
-            year: number;
-            id: string;
-            status: string;
-            plate: string;
-            qrValue: string;
-            make: string;
-            model: string;
-            color: string;
-        } | null;
-        feedback: {
-            id: string;
-            rating: number;
-        } | null;
-    } & {
+    getDriverTrips(driverId: string, status?: string): Promise<{
         id: string;
-        createdAt: Date;
-        updatedAt: Date;
-        status: string;
         passengerId: string;
+        passengerName: string;
+        department: string;
         driverId: string | null;
+        driverName: string | null;
         vehicleId: string | null;
+        vehiclePlate: string | null;
+        status: string;
         pickup: string;
         destination: string;
-        date: Date;
+        date: string;
         time: string;
-    })[]>;
-    getPassengerTrips(passengerId: string, status?: string): Promise<({
-        driver: ({
-            user: {
-                name: string;
-                phone: string | null;
-            };
-        } & {
-            userId: string;
-            certLevel: string;
-            certStatus: string;
-            validUntil: Date | null;
-            licenseNo: string | null;
-            joinedDate: Date;
-            accidentFree: string | null;
-            englishLevel: string | null;
-            credits: number;
-            currentVehicleId: string | null;
-            status: string;
-        }) | null;
-        vehicle: {
-            year: number;
-            id: string;
-            status: string;
-            plate: string;
-            qrValue: string;
-            make: string;
-            model: string;
-            color: string;
-        } | null;
-        feedback: {
-            id: string;
-            rating: number;
-        } | null;
-    } & {
+        qrScanStatus: string | null;
+        feedbackStatus: string | null;
+        createdAt: string;
+    }[]>;
+    getPassengerTrips(passengerId: string, status?: string): Promise<{
         id: string;
-        createdAt: Date;
-        updatedAt: Date;
-        status: string;
         passengerId: string;
+        passengerName: string;
+        department: string;
         driverId: string | null;
+        driverName: string | null;
         vehicleId: string | null;
+        vehiclePlate: string | null;
+        status: string;
         pickup: string;
         destination: string;
-        date: Date;
+        date: string;
         time: string;
-    })[]>;
+        qrScanStatus: string | null;
+        feedbackStatus: string | null;
+        createdAt: string;
+    }[]>;
     getTripDetail(requestId: string): Promise<{
         vehicleCheckins: {
             id: string;
@@ -170,6 +122,7 @@ export declare class TripService {
                 make: string;
                 model: string;
                 color: string;
+                gpsDeviceId: number | null;
             } | null;
         } & {
             userId: string;
@@ -204,6 +157,7 @@ export declare class TripService {
             make: string;
             model: string;
             color: string;
+            gpsDeviceId: number | null;
         } | null;
         feedback: {
             id: string;
@@ -239,6 +193,7 @@ export declare class TripService {
         date: Date;
         time: string;
     }>;
+    private formatTripResponse;
 }
 export declare const tripService: TripService;
 //# sourceMappingURL=trip.service.d.ts.map

@@ -1,8 +1,15 @@
 
-  [32m[1mVITE[22m v5.4.21[39m  [2mready in [0m[1m309[22m[2m[0m ms[22m
+> pccp-frontend@1.0.0 dev
+> vite --host 0.0.0.0
+
+Re-optimizing dependencies because lockfile has changed
+
+  [32m[1mVITE[22m v5.4.21[39m  [2mready in [0m[1m1208[22m[2m[0m ms[22m
 
   [32m➜[39m  [1mLocal[22m:   [36mhttp://localhost:[1m4173[22m/[39m
-  [32m➜[39m  [1mNetwork[22m: [36mhttp://192.168.40.83:[1m4173[22m/[39m
+  [32m➜[39m  [1mNetwork[22m: [36mhttp://192.168.40.89:[1m4173[22m/[39m
   [32m➜[39m  [1mNetwork[22m: [36mhttp://172.18.16.1:[1m4173[22m/[39m
 [2m[32m  ➜[39m[22m[2m  press [22m[1mh + enter[22m[2m to show help[22m
-^C
+[2m3:41:11 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/LoginPage.tsx, /src/index.css[22m
+[2m3:41:11 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/LoginPage.tsx, /src/index.css[22m
+[2m3:41:37 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/LoginPage.tsx, /src/index.css[22m

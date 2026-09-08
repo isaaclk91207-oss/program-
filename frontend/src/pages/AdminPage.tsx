@@ -4,14 +4,14 @@ import { LoadingSpinner, ThemeToggle, ToastProvider, th } from "../components/ui
 import {
   AdminDashboard, DashboardCharts, RequestsList, DriversList, VehiclesList,
   FeedbackList, NotificationsList, SettingsPanel, OperationalRecords,
-  AssessmentsOverview, PassengersList, ReportsPage,
+  AssessmentsOverview, PassengersList, ReportsPage, LiveVehicleMap,
 } from "../components/admin";
 import { convertToCSV, downloadCSV } from "../utils/csv";
 import {
   getDashboard, getDrivers, getVehicles, getRequests, getAllFeedback, getNotifications, getUnreadCount,
   assignDriver, assignDriverV2, exportData, updateAssessment, updateSettings, getSettings,
   createDriver, createVehicle, deleteDriver, deleteVehicle, updateDriver,
-  getAllDriversV2, getAllVehiclesV2, getAllRequestsV2,
+  getAllDriversV2, getAllVehiclesV2, getAllRequestsV2, getMe, createNotification,
 } from "../services/api";
 import type { DashboardStats, Driver, Vehicle, TransportRequest, TransportStatus, Feedback, Notification } from "../types";
 import {
@@ -50,9 +50,23 @@ export default function AdminPage() {
   const [selectedRequest, setSelectedRequest] = useState<TransportRequest | null>(null);
   const [showAssignModal, setShowAssignModal] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [assignError, setAssignError] = useState<string | null>(null);
   const [unreadCount, setUnreadCount] = useState(0);
 
   useEffect(() => { loadData(); }, [page]);
+
+  // Validate JWT token matches expected role on mount
+  useEffect(() => {
+    getMe().then((me) => {
+      if (me.role !== "ADMIN") {
+        logout();
+        window.location.href = "/";
+      }
+    }).catch(() => {
+      logout();
+      window.location.href = "/";
+    });
+  }, []);
 
   useEffect(() => {
     const poll = async () => {
@@ -75,9 +89,11 @@ export default function AdminPage() {
           const reqs = (await getRequests()).requests.map((r) => ({ ...r, version: "v1" as const })) as TransportRequest[];
           // Also fetch v2 requests, drivers, and vehicles for the assign modal
           try {
-            const [v2Raw, v2Drivers, v2Vehicles] = await Promise.all([
+            const [v2Raw, v1Drivers, v2Drivers, v1Vehicles, v2Vehicles] = await Promise.all([
               getAllRequestsV2(),
+              getDrivers(),
               getAllDriversV2(),
+              getVehicles(),
               getAllVehiclesV2(),
             ]);
             // Map v2 requests to TransportRequest shape
@@ -108,49 +124,49 @@ export default function AdminPage() {
               };
             });
             setRequests([...reqs, ...v2Reqs]);
-            setDrivers((prev) => {
-              const v1Ids = new Set(prev.map((d) => d.id));
-              const newV2 = v2Drivers
-                .filter((d: { id: string }) => !v1Ids.has(d.id))
-                .map((d: { id: string; name: string; status: string; employeeId: string }) => ({
-                  id: d.id,
-                  name: d.name,
-                  email: `${d.employeeId.toLowerCase()}@pccp.demo`,
-                  phone: null,
-                  certLevel: "HO",
-                  certStatus: "CERTIFIED",
-                  validUntil: null,
-                  status: d.status === "AVAILABLE" ? "Active" : d.status === "ON_TRIP" ? "On Trip" : "Inactive",
-                  joinedDate: new Date().toISOString(),
-                  accidentFree: null,
-                  englishLevel: null,
-                  credits: 0,
-                  currentVehicleId: null,
-                  currentVehiclePlate: null,
-                  score: 0,
-                  rating: 0,
-                  employeeId: d.employeeId,
-                  version: "v2" as const,
-                }));
-              return [...prev, ...newV2];
-            });
-            setVehicles((prev) => {
-              const v1Ids = new Set(prev.map((v) => v.id));
-              const newV2 = v2Vehicles
-                .filter((v: { id: string }) => !v1Ids.has(v.id))
-                .map((v: { id: string; plateNumber: string; status: string }) => ({
-                  id: v.id,
-                  plate: v.plateNumber,
-                  qrValue: v.plateNumber,
-                  make: "",
-                  model: "",
-                  year: 0,
-                  color: "",
-                  status: (v.status === "ACTIVE" ? "ACTIVE" : v.status === "MAINTENANCE" ? "MAINTENANCE" : "RETIRED") as "ACTIVE" | "MAINTENANCE" | "RETIRED",
-                  version: "v2" as const,
-                }));
-              return [...prev, ...newV2];
-            });
+            // Stamp version on v1 drivers, rebuild merge with v2 using ID-based dedup (fresh data each load)
+            const v1DriversTagged = v1Drivers.map((d: Driver) => ({ ...d, version: "v1" as const }));
+            const v1DriverIds = new Set(v1DriversTagged.map((d: Driver) => d.id));
+            const mergedV2Drivers = v2Drivers
+              .filter((d: { id: string }) => !v1DriverIds.has(d.id))
+              .map((d: { id: string; name: string; status: string; employeeId: string; phone?: string }) => ({
+                id: d.id,
+                name: d.name,
+                email: `${d.employeeId.toLowerCase()}@pccp.demo`,
+                phone: d.phone || null,
+                certLevel: "HO",
+                certStatus: "CERTIFIED",
+                validUntil: null,
+                status: d.status === "AVAILABLE" ? "Active" : d.status === "ON_TRIP" ? "On Trip" : "Inactive",
+                joinedDate: new Date().toISOString(),
+                accidentFree: null,
+                englishLevel: null,
+                credits: 0,
+                currentVehicleId: null,
+                currentVehiclePlate: null,
+                score: 0,
+                rating: 0,
+                employeeId: d.employeeId,
+                version: "v2" as const,
+              }));
+            setDrivers([...v1DriversTagged, ...mergedV2Drivers]);
+            // Stamp version on v1 vehicles, rebuild merge with v2 using ID-based dedup
+            const v1VehiclesTagged = v1Vehicles.map((v: Vehicle) => ({ ...v, version: "v1" as const }));
+            const v1VehicleIds = new Set(v1VehiclesTagged.map((v: Vehicle) => v.id));
+            const mergedV2Vehicles = v2Vehicles
+              .filter((v: { id: string }) => !v1VehicleIds.has(v.id))
+              .map((v: { id: string; plateNumber: string; status: string }) => ({
+                id: v.id,
+                plate: v.plateNumber,
+                qrValue: v.plateNumber,
+                make: "",
+                model: "",
+                year: 0,
+                color: "",
+                status: (v.status === "ACTIVE" ? "ACTIVE" : v.status === "MAINTENANCE" ? "MAINTENANCE" : "RETIRED") as "ACTIVE" | "MAINTENANCE" | "RETIRED",
+                version: "v2" as const,
+              }));
+            setVehicles([...v1VehiclesTagged, ...mergedV2Vehicles]);
           } catch {
             setRequests(reqs);
           }
@@ -158,14 +174,15 @@ export default function AdminPage() {
         }
         case "drivers": {
           const [v1Drivers, v2Drivers] = await Promise.all([getDrivers(), getAllDriversV2()]);
-          // Merge v2 drivers into v1 format for the admin UI
-          const merged = [
-            ...v1Drivers,
-            ...v2Drivers.map((d: { id: string; name: string; status: string; employeeId: string }) => ({
+          // Deduplicate by name: v1 drivers have clean IDs (DRV-XXX) and vehicle plates
+          const v1Names = new Set(v1Drivers.map((d: Driver) => d.name));
+          const v2Only = v2Drivers
+            .filter((d: { name: string }) => !v1Names.has(d.name))
+            .map((d: { id: string; name: string; status: string; employeeId: string; phone?: string }) => ({
               id: d.id,
               name: d.name,
               email: `${d.employeeId.toLowerCase()}@pccp.demo`,
-              phone: null,
+              phone: d.phone || null,
               certLevel: "HO",
               certStatus: "CERTIFIED",
               validUntil: null,
@@ -180,9 +197,9 @@ export default function AdminPage() {
               rating: 0,
               employeeId: d.employeeId,
               version: "v2" as const,
-            })),
-          ];
-          setDrivers(merged);
+            }));
+          const v1DriversTagged = v1Drivers.map((d: Driver) => ({ ...d, version: "v1" as const }));
+          setDrivers([...v1DriversTagged, ...v2Only]);
           break;
         }
         case "vehicles": setVehicles(await getVehicles()); break;
@@ -270,23 +287,74 @@ export default function AdminPage() {
             {loading ? <LoadingSpinner /> : (
               <>
                 {page === "dashboard" && dashboard && (
-                  <><AdminDashboard data={dashboard} /><DashboardCharts data={dashboard} /></>
+                  <>
+                    <AdminDashboard data={dashboard} />
+                    <LiveVehicleMap />
+                    <DashboardCharts data={dashboard} />
+                  </>
                 )}
                 {page === "requests" && (
-                  <RequestsList requests={requests} drivers={drivers} vehicles={vehicles}
-                    selectedRequest={selectedRequest} onSelectRequest={setSelectedRequest}
-                    showAssignModal={showAssignModal} onShowAssignModal={setShowAssignModal}
-                    onAssign={async (rid, data) => {
-                      if (selectedRequest?.version === "v2") {
-                        await assignDriverV2(rid, data);
-                      } else {
-                        await assignDriver(rid, data);
-                      }
-                      setShowAssignModal(false);
-                      setSelectedRequest(null);
-                      loadData();
-                    }}
-                    onRefresh={loadData} />
+                  <>
+                    <RequestsList requests={requests} drivers={drivers} vehicles={vehicles}
+                      selectedRequest={selectedRequest} onSelectRequest={setSelectedRequest}
+                      showAssignModal={showAssignModal} onShowAssignModal={setShowAssignModal}
+                      onAssign={async (rid, data) => {
+                        setAssignError(null);
+                        try {
+                          const isV2 = selectedRequest?.version === "v2";
+                          if (isV2) {
+                            await assignDriverV2(rid, data);
+                          } else {
+                            await assignDriver(rid, data);
+                          }
+
+                          if (isV2 && selectedRequest) {
+                            const driver = drivers.find(d => d.id === data.driverId);
+                            const vehicle = vehicles.find(v => v.id === data.vehicleId);
+                            const driverName = driver?.name || "a driver";
+                            const plate = vehicle?.plate || "N/A";
+                            const passengerName = selectedRequest.passengerName || "a passenger";
+                            const pickup = selectedRequest.pickup || "";
+                            const destination = selectedRequest.destination || "";
+
+                            await Promise.all([
+                              createNotification({
+                                recipientId: selectedRequest.passengerId,
+                                recipientRole: "PASSENGER",
+                                title: "Transport Request Assigned",
+                                message: `Your transport request ${rid} has been assigned to Driver ${driverName} with vehicle ${plate}.`,
+                                relatedRequestId: rid,
+                              }),
+                              createNotification({
+                                recipientId: data.driverId,
+                                recipientRole: "DRIVER",
+                                title: "New Transport Assigned",
+                                message: `You have been assigned transport request ${rid} for ${passengerName} from ${pickup} to ${destination}.`,
+                                relatedRequestId: rid,
+                              }),
+                            ]);
+                          }
+
+                          setShowAssignModal(false);
+                          setSelectedRequest(null);
+                          loadData();
+                        } catch (err: unknown) {
+                          const axiosErr = err as { response?: { status?: number; data?: { error?: { message?: string } } } };
+                          if (axiosErr.response?.status === 403) {
+                            setAssignError("You need admin access. Please log in as admin.");
+                          } else {
+                            setAssignError(axiosErr.response?.data?.error?.message || "Assignment failed. Please try again.");
+                          }
+                        }
+                      }}
+                      onRefresh={loadData} />
+                    {assignError && (
+                      <div className="mt-3 p-3 bg-rose-50 dark:bg-rose-500/10 border border-rose-200 dark:border-rose-500/30 rounded-lg text-sm text-rose-600 dark:text-rose-400">
+                        {assignError}
+                        <button onClick={() => setAssignError(null)} className="ml-2 underline hover:no-underline">Dismiss</button>
+                      </div>
+                    )}
+                  </>
                 )}
                 {page === "drivers" && (
                   <DriversList drivers={drivers} selectedDriver={selectedDriver} onSelectDriver={setSelectedDriver}

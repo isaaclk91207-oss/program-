@@ -9,6 +9,7 @@ router.use(authenticate);
 router.use(requireRole("ADMIN"));
 
 router.get("/dashboard", adminController.getDashboard);
+router.get("/gps/live", adminController.getLiveLocations);
 router.get("/settings", adminController.getSettings);
 router.put("/settings", adminController.updateSettings);
 router.get("/export/:type", adminController.exportData);

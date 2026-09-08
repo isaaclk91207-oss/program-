@@ -3,12 +3,22 @@ import { AuthenticatedRequest } from "../types";
 import { adminService } from "../services/admin.service";
 import { cronService } from "../services/cron.service";
 import { netprosService } from "../services/netpros.service";
+import { gpsService } from "../services/gps.service";
 
 export class AdminController {
   async getDashboard(_req: AuthenticatedRequest, res: Response, next: NextFunction) {
     try {
       const stats = await adminService.getDashboard();
       res.json(stats);
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  async getLiveLocations(_req: AuthenticatedRequest, res: Response, next: NextFunction) {
+    try {
+      const locations = await netprosService.getLiveVehicleLocations();
+      res.json(locations);
     } catch (err) {
       next(err);
     }

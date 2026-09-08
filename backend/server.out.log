@@ -1,0 +1,6 @@
+[PCCP] Server running on port 3001
+[PCCP] Health check: http://localhost:3001/api/health
+[PCCP] API base: http://localhost:3001/api/v1
+[PCCP] Socket.io: ws://localhost:3001
+[Cron] Scheduled Netpros sync with pattern: 0 */6 * * *
+[GPS] Live location poller started (every 10s)

@@ -287,6 +287,34 @@ export interface WialonTrip {
   dis: number;
 }
 
+export interface WialonPosition {
+  t: number;
+  f: number;
+  y: number;
+  x: number;
+  c: number;
+  z: number;
+  s: number;
+  sc: number;
+}
+
+export interface WialonUnitPos extends WialonUnit {
+  pos?: WialonPosition;
+  lmsg?: Record<string, unknown>;
+}
+
+export interface LiveVehicleLocation {
+  vehicleId: string;
+  plate: string;
+  gpsDeviceId: number;
+  latitude: number;
+  longitude: number;
+  speed: number;
+  course: number;
+  timestamp: number;
+  onActiveTrip: boolean;
+}
+
 // ─── Error Types ─────────────────────────────────────────────────────────────
 
 export interface AppError extends Error {

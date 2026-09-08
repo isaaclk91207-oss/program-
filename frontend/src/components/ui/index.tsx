@@ -28,6 +28,7 @@ export const th = {
   text: "text-slate-900 dark:text-white",
   textSecondary: "text-slate-600 dark:text-slate-400",
   textMuted: "text-slate-400 dark:text-slate-500",
+  dangerText: "text-red-600 dark:text-red-400",
   sidebar: "bg-white dark:bg-navy-900 border-r border-slate-200 dark:border-slate-800",
   header: "bg-white dark:bg-navy-900 border-b border-slate-200 dark:border-slate-800",
   bottomNav: "bg-white dark:bg-navy-900 border-t border-slate-200 dark:border-slate-800",

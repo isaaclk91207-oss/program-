@@ -29,6 +29,7 @@ model Driver {
   id           String    @id @default(uuid())
   employeeId   String    @unique @map("employee_id")
   name         String
+  phone        String?
   status       String    @default("AVAILABLE") // AVAILABLE | ON_TRIP | OFF_DUTY
   ecoScore     Float?    @map("eco_score")
   ecoPenalties Float?    @map("eco_penalties")

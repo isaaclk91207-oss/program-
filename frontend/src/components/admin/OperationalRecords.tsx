@@ -1,9 +1,19 @@
 import { useState, useEffect } from "react";
 import { Card, Badge, SearchInput, th } from "../ui";
-import { getDriverTrips } from "../../services/api";
-import type { TransportRequest, VehicleCheckin } from "../../types";
+import { getRequests, getAllRequestsV2 } from "../../services/api";
+import type { TransportRequest, TransportStatus } from "../../types";
 import { formatRequestId } from "../../types";
-import { Calendar, MapPin, Clock, Car, User, Filter } from "lucide-react";
+import { Calendar, MapPin, Car, User, Filter } from "lucide-react";
+
+const V1_RECORD_STATUSES: TransportStatus[] = ["FEEDBACK_SUBMITTED", "DROP_OFF_SCANNED"];
+
+function isRecord(t: TransportRequest): boolean {
+  const st = t.status as string;
+  if (t.version === "v2") {
+    return st === "DROPOFF_COMPLETE" || st === "COMPLETED";
+  }
+  return V1_RECORD_STATUSES.includes(t.status);
+}
 
 export default function OperationalRecords() {
   const [trips, setTrips] = useState<TransportRequest[]>([]);
@@ -19,10 +29,48 @@ export default function OperationalRecords() {
   async function loadTrips() {
     setLoading(true);
     try {
-      const data = await getDriverTrips();
-      setTrips(data);
+      const [v1Data, v2Raw] = await Promise.all([
+        getRequests(),
+        getAllRequestsV2(),
+      ]);
+
+      const v1Reqs: TransportRequest[] = (v1Data.requests || []).map((r) => ({
+        ...r,
+        version: "v1" as const,
+      }));
+
+      const v2Reqs: TransportRequest[] = (Array.isArray(v2Raw) ? v2Raw : []).map((r: Record<string, unknown>) => {
+        const dateStr = r.requestDate ? new Date(r.requestDate as string) : new Date();
+        const trip = r.trip as Record<string, unknown> | undefined;
+        const tripDriver = trip?.driver as Record<string, unknown> | undefined;
+        const tripVehicle = trip?.vehicle as Record<string, unknown> | undefined;
+        return {
+          id: r.id as string,
+          requestNumber: r.requestNumber as string | undefined,
+          passengerId: "",
+          passengerName: (r.passengerName as string) || "",
+          department: (r.department as string) || "",
+          driverId: (tripDriver?.id as string) || null,
+          driverName: (tripDriver?.name as string) || null,
+          vehicleId: (tripVehicle?.id as string) || null,
+          vehiclePlate: (tripVehicle?.plateNumber as string) || null,
+          status: (r.status as TransportStatus) || "PENDING",
+          pickup: (r.pickupLocation as string) || "",
+          destination: (r.destination as string) || "",
+          date: dateStr.toLocaleDateString(),
+          time: dateStr.toLocaleTimeString(),
+          qrScanStatus: null,
+          feedbackStatus: null,
+          createdAt: (r.createdAt as string) || new Date().toISOString(),
+          version: "v2" as const,
+        } as TransportRequest;
+      });
+
+      const all = [...v1Reqs, ...v2Reqs].filter((t) => isRecord(t));
+      setTrips(all);
     } catch (err) {
       console.error(err);
+      setTrips([]);
     } finally {
       setLoading(false);
     }
@@ -35,6 +83,7 @@ export default function OperationalRecords() {
         t.id.toLowerCase().includes(search.toLowerCase()) ||
         (t.requestNumber || "").toLowerCase().includes(search.toLowerCase()) ||
         t.passengerName.toLowerCase().includes(search.toLowerCase()) ||
+        (t.driverName || "").toLowerCase().includes(search.toLowerCase()) ||
         (t.vehiclePlate && t.vehiclePlate.toLowerCase().includes(search.toLowerCase()))
       );
     })
@@ -81,7 +130,7 @@ export default function OperationalRecords() {
             </Card>
           ) : (
             filtered.map((t) => (
-              <Card key={t.id} className="p-3">
+              <Card key={`${t.version}-${t.id}`} className="p-3">
                 <div className="flex justify-between items-start">
                   <div className="flex-1">
                     <div className="flex items-center gap-2 mb-1">
@@ -92,6 +141,10 @@ export default function OperationalRecords() {
                       <div className="flex items-center gap-1">
                         <User className="w-3 h-3 text-slate-400" />
                         <span className={th.textSecondary}>{t.passengerName}</span>
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <User className="w-3 h-3 text-slate-400" />
+                        <span className={`${th.textSecondary} font-mono`}>{t.driverName || "—"}</span>
                       </div>
                       <div className="flex items-center gap-1">
                         <Car className="w-3 h-3 text-slate-400" />

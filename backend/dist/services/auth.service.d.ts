@@ -24,6 +24,7 @@ export declare class AuthService {
                 make: string;
                 model: string;
                 color: string;
+                gpsDeviceId: number | null;
             } | null;
             assessments: {
                 id: string;

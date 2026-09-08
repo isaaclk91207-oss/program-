@@ -108,6 +108,7 @@ export declare class VehicleService {
         make: string;
         model: string;
         color: string;
+        gpsDeviceId: number | null;
     }>;
     getByPlate(plate: string): Promise<{
         driverProfiles: ({
@@ -137,6 +138,7 @@ export declare class VehicleService {
         make: string;
         model: string;
         color: string;
+        gpsDeviceId: number | null;
     }>;
     create(data: CreateVehicleDto): Promise<VehicleResponse>;
     update(id: string, data: UpdateVehicleDto): Promise<VehicleResponse>;
@@ -163,6 +165,7 @@ export declare class VehicleService {
         make: string;
         model: string;
         color: string;
+        gpsDeviceId: number | null;
     }) | null>;
     delete(id: string): Promise<void>;
     private formatResponse;

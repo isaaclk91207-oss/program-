@@ -14,6 +14,15 @@ class AdminController {
             next(err);
         }
     }
+    async getLiveLocations(_req, res, next) {
+        try {
+            const locations = await netpros_service_1.netprosService.getLiveVehicleLocations();
+            res.json(locations);
+        }
+        catch (err) {
+            next(err);
+        }
+    }
     async getSettings(_req, res, next) {
         try {
             const settings = await admin_service_1.adminService.getSettings();

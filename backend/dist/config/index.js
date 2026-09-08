@@ -15,7 +15,7 @@ exports.config = {
     wialonBaseUrl: process.env.WIALON_BASE_URL || "https://wh101.wialon.com",
     wialonToken: process.env.WIALON_TOKEN || "",
     cronSchedule: process.env.CRON_SCHEDULE || "0 */6 * * *",
-    corsOrigin: process.env.CORS_ORIGIN || "http://localhost:5173",
+    corsOrigin: process.env.CORS_ORIGIN || "http://localhost:4173",
 };
 exports.DEPARTMENTS = [
     "Executive",

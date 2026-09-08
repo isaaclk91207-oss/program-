@@ -8,6 +8,7 @@ const router = (0, express_1.Router)();
 router.use(auth_middleware_1.authenticate);
 router.use((0, rbac_middleware_1.requireRole)("ADMIN"));
 router.get("/dashboard", admin_controller_1.adminController.getDashboard);
+router.get("/gps/live", admin_controller_1.adminController.getLiveLocations);
 router.get("/settings", admin_controller_1.adminController.getSettings);
 router.put("/settings", admin_controller_1.adminController.updateSettings);
 router.get("/export/:type", admin_controller_1.adminController.exportData);

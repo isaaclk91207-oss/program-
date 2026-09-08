@@ -188,7 +188,7 @@ class TripService {
             },
             orderBy: { date: "desc" },
         });
-        return trips;
+        return trips.map(this.formatTripResponse);
     }
     async getPassengerTrips(passengerId, status) {
         const where = { passengerId };
@@ -199,12 +199,13 @@ class TripService {
             where,
             include: {
                 driver: { include: { user: { select: { name: true, phone: true } } } },
+                passenger: { include: { user: { select: { name: true } } } },
                 vehicle: true,
                 feedback: { select: { id: true, rating: true } },
             },
             orderBy: { date: "desc" },
         });
-        return trips;
+        return trips.map(this.formatTripResponse);
     }
     async getTripDetail(requestId) {
         const request = await prisma.transportRequest.findUnique({
@@ -233,6 +234,28 @@ class TripService {
             throw (0, error_middleware_1.createAppError)(404, "REQUEST_NOT_FOUND", "Transport request not found");
         }
         return request;
+    }
+    formatTripResponse(t) {
+        return {
+            id: t.id,
+            passengerId: t.passengerId,
+            passengerName: t.passenger?.user?.name || "",
+            department: "",
+            driverId: t.driverId,
+            driverName: t.driver?.user?.name || null,
+            vehicleId: t.vehicleId,
+            vehiclePlate: t.vehicle?.plate || null,
+            status: t.status,
+            pickup: t.pickup,
+            destination: t.destination,
+            date: t.date.toISOString().split("T")[0],
+            time: t.time,
+            qrScanStatus: ["QR_PENDING", "PICK_UP_SCANNED", "IN_PROGRESS", "DROP_OFF_SCANNED"].includes(t.status)
+                ? t.status
+                : null,
+            feedbackStatus: t.feedback ? "SUBMITTED" : null,
+            createdAt: t.createdAt.toISOString(),
+        };
     }
 }
 exports.TripService = TripService;

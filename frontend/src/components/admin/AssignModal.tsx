@@ -29,10 +29,10 @@ export default function AssignModal({
 
   const activeDrivers = drivers
     .filter((d) => d.status === "Active" || d.status === "AVAILABLE")
-    .filter((d) => !requestVersion || d.version === requestVersion);
+    .filter((d) => !requestVersion || (d.version ?? "v1") === requestVersion);
   const activeVehicles = vehicles
     .filter((v) => v.status === "ACTIVE")
-    .filter((v) => !requestVersion || v.version === requestVersion);
+    .filter((v) => !requestVersion || (v.version ?? "v1") === requestVersion);
 
   return (
     <Modal open title="Assign Driver + Vehicle" onClose={onClose}>

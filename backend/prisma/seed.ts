@@ -5,6 +5,71 @@ const prisma = new PrismaClient();
 
 const SALT_ROUNDS = 10;
 
+// ─── Driver Master List (20 drivers from Book 5.xlsx) ──────────────────────
+// Duplicate resolution:
+//   3R-5160: Ko Htet Myat Tun keeps 3R-5160, Ko Min Khant Ko gets 1L-5160
+//   9S-9038: Ko Pyae Phyo Aung keeps 9S-9038 per issues table,
+//            Ko Yan Myo Aung → 9S-9032, Ko Salai → 4R-2132,
+//            Ko Htet Lwin → 2R-4244, Ko Ye Win Tun → 4R-5052
+
+interface DriverSeed {
+  id: string;
+  email: string;
+  name: string;
+  phone: string;
+  vehiclePlate: string;
+}
+
+const DRIVERS: DriverSeed[] = [
+  { id: "DRV-001", email: "drv001@pccp.demo", name: "Ko Htet Aung Zaw",   phone: "09-268255686", vehiclePlate: "3R-5121" },
+  { id: "DRV-002", email: "drv002@pccp.demo", name: "Ko San Min Latt",    phone: "09-785150311", vehiclePlate: "9S-6964" },
+  { id: "DRV-003", email: "drv003@pccp.demo", name: "Ko Tun Lin",          phone: "09-750171714", vehiclePlate: "9S-6864" },
+  { id: "DRV-004", email: "drv004@pccp.demo", name: "Ko Nyi Zin",          phone: "09-785379600", vehiclePlate: "9S-6975" },
+  { id: "DRV-005", email: "drv005@pccp.demo", name: "Ko Than Zaw Oo",      phone: "09-787343446", vehiclePlate: "1L-3947" },
+  { id: "DRV-006", email: "drv006@pccp.demo", name: "Ko Win Myint Tun",    phone: "09-898968983", vehiclePlate: "4Q-3897" },
+  { id: "DRV-007", email: "drv007@pccp.demo", name: "Ko Zaw Thu Aung",     phone: "09-755909331", vehiclePlate: "4Q-3959" },
+  { id: "DRV-008", email: "drv008@pccp.demo", name: "Ko Min Khant Ko",     phone: "09-456003099", vehiclePlate: "1L-5160" },
+  { id: "DRV-009", email: "drv009@pccp.demo", name: "Ko Htein Lin",        phone: "09-761755062", vehiclePlate: "2S-2273" },
+  { id: "DRV-010", email: "drv010@pccp.demo", name: "Ko Aung Naing Win",   phone: "09-666662332", vehiclePlate: "4D-1200" },
+  { id: "DRV-011", email: "drv011@pccp.demo", name: "Ko Ye Win Tun",       phone: "09-770760899", vehiclePlate: "4R-5052" },
+  { id: "DRV-012", email: "drv012@pccp.demo", name: "Ko Htet Myat Tun",    phone: "09-941571084", vehiclePlate: "3R-5160" },
+  { id: "DRV-013", email: "drv013@pccp.demo", name: "Ko Aung Thu Hein",    phone: "09-420097656", vehiclePlate: "9S-8931" },
+  { id: "DRV-014", email: "drv014@pccp.demo", name: "Ko Zarni Paing Htoo", phone: "09-764600327", vehiclePlate: "7Q-8284" },
+  { id: "DRV-015", email: "drv015@pccp.demo", name: "Ko Yan Myo Aung",     phone: "09-795549545", vehiclePlate: "9S-9032" },
+  { id: "DRV-016", email: "drv016@pccp.demo", name: "Ko Salai",            phone: "09-403659503", vehiclePlate: "4R-2132" },
+  { id: "DRV-017", email: "drv017@pccp.demo", name: "Ko Htet Lwin",        phone: "09-763778376", vehiclePlate: "2R-4244" },
+  { id: "DRV-018", email: "drv018@pccp.demo", name: "Ko Pyae Phyo Aung",   phone: "09-977301674", vehiclePlate: "9S-9038" },
+  { id: "DRV-019", email: "drv019@pccp.demo", name: "Ko Min Hlaig Soe",   phone: "09-664674483", vehiclePlate: "4Q-3955" },
+  { id: "DRV-020", email: "drv020@pccp.demo", name: "Ko Aung Kyaw Hein",  phone: "09-662888515", vehiclePlate: "4Q-3879" },
+];
+
+// ─── Vehicle Master List (20 unique vehicles from Book 5.xlsx) ──────────────
+// gpsDeviceId = verified Wialon avl_unit id (from live S7 NetPros query).
+// 1L-5160 and 4R-5052 have no matching Wialon unit → gpsDeviceId: null.
+// 4Q-3955 and 4Q-3879 are new vehicles awaiting Wialon unit IDs → gpsDeviceId: null.
+const VEHICLES = [
+  { plate: "3R-5121", make: "Toyota", model: "Hiace", year: 2023, color: "White", status: "ACTIVE", gpsDeviceId: 3366 },
+  { plate: "9S-6964", make: "Toyota", model: "Hiace", year: 2023, color: "White", status: "ACTIVE", gpsDeviceId: 6147 },
+  { plate: "9S-6864", make: "Toyota", model: "Hiace", year: 2023, color: "White", status: "ACTIVE", gpsDeviceId: 6423 },
+  { plate: "9S-6975", make: "Toyota", model: "Hiace", year: 2023, color: "Silver", status: "ACTIVE", gpsDeviceId: 6151 },
+  { plate: "1L-3947", make: "Toyota", model: "Hiace", year: 2022, color: "White", status: "ACTIVE", gpsDeviceId: 6704 },
+  { plate: "4Q-3897", make: "Toyota", model: "Hiace", year: 2023, color: "White", status: "ACTIVE", gpsDeviceId: 1000 },
+  { plate: "4Q-3959", make: "Toyota", model: "Hiace", year: 2023, color: "Silver", status: "ACTIVE", gpsDeviceId: 1003 },
+  { plate: "1L-5160", make: "Toyota", model: "Hiace", year: 2022, color: "White", status: "ACTIVE", gpsDeviceId: null },
+  { plate: "2S-2273", make: "Toyota", model: "Hiace", year: 2023, color: "White", status: "ACTIVE", gpsDeviceId: 4925 },
+  { plate: "4D-1200", make: "Toyota", model: "Hiace", year: 2023, color: "Silver", status: "ACTIVE", gpsDeviceId: 6471 },
+  { plate: "4R-5052", make: "Toyota", model: "Hiace", year: 2023, color: "White", status: "ACTIVE", gpsDeviceId: null },
+  { plate: "3R-5160", make: "Toyota", model: "Hiace", year: 2023, color: "White", status: "ACTIVE", gpsDeviceId: 3348 },
+  { plate: "9S-8931", make: "Toyota", model: "Hiace", year: 2023, color: "White", status: "ACTIVE", gpsDeviceId: 6430 },
+  { plate: "7Q-8284", make: "Toyota", model: "Hiace", year: 2023, color: "Silver", status: "ACTIVE", gpsDeviceId: 6072 },
+  { plate: "9S-9032", make: "Toyota", model: "Hiace", year: 2023, color: "White", status: "ACTIVE", gpsDeviceId: 6460 },
+  { plate: "4R-2132", make: "Toyota", model: "Hiace", year: 2023, color: "White", status: "ACTIVE", gpsDeviceId: 4928 },
+  { plate: "2R-4244", make: "Toyota", model: "Hiace", year: 2023, color: "Silver", status: "ACTIVE", gpsDeviceId: 4926 },
+  { plate: "9S-9038", make: "Toyota", model: "Hiace", year: 2023, color: "White", status: "ACTIVE", gpsDeviceId: 6632 },
+  { plate: "4Q-3955", make: "Toyota", model: "Hiace", year: 2023, color: "Silver", status: "ACTIVE", gpsDeviceId: null },
+  { plate: "4Q-3879", make: "Toyota", model: "Hiace", year: 2023, color: "White", status: "ACTIVE", gpsDeviceId: null },
+];
+
 async function main() {
   console.log("Seeding database...");
 
@@ -27,113 +92,20 @@ async function main() {
   console.log(`  ✓ Admin: ${adminUser.id}`);
 
   // ─── Vehicles ────────────────────────────────────────────────────────────
-  const vehiclesData = [
-    { plate: "YGN-3312", make: "Toyota", model: "Alphard", year: 2023, color: "White", status: "ACTIVE" },
-    { plate: "YGN-1187", make: "Toyota", model: "Vellfire", year: 2022, color: "Black", status: "ACTIVE" },
-    { plate: "YGN-4420", make: "Honda", model: "Odyssey", year: 2023, color: "Silver", status: "ACTIVE" },
-    { plate: "YGN-2260", make: "Toyota", model: "Estima", year: 2022, color: "White", status: "ACTIVE" },
-    { plate: "YGN-9021", make: "Toyota", model: "Wish", year: 2024, color: "Grey", status: "ACTIVE" },
-    { plate: "YGN-6631", make: "Toyota", model: "Noah", year: 2023, color: "White", status: "MAINTENANCE" },
-    { plate: "YGN-7742", make: "Honda", model: "Freed", year: 2024, color: "Silver", status: "ACTIVE" },
-    { plate: "YGN-5590", make: "Toyota", model: "Alphard", year: 2022, color: "Black", status: "ACTIVE" },
-    { plate: "YGN-0043", make: "Toyota", model: "Vellfire", year: 2022, color: "Black", status: "RETIRED" },
-    { plate: "1L-3829", make: "Toyota", model: "Hiace", year: 2023, color: "White", status: "ACTIVE" },
-  ];
-
   const vehicles: Record<string, string> = {};
-  for (const v of vehiclesData) {
+  for (const v of VEHICLES) {
     const vehicle = await prisma.vehicle.upsert({
       where: { plate: v.plate },
-      update: { status: v.status },
+      update: { status: v.status, gpsDeviceId: v.gpsDeviceId ?? null },
       create: { ...v, qrValue: v.plate },
     });
     vehicles[v.plate] = vehicle.id;
   }
-  console.log(`  ✓ ${vehiclesData.length} vehicles`);
+  console.log(`  ✓ ${VEHICLES.length} vehicles`);
 
-  // ─── Drivers ─────────────────────────────────────────────────────────────
-  const driversData = [
-    {
-      id: "DRV-001", email: "komaung@pccp.demo", name: "Ko Maung", phone: "+95 9 214 6683",
-      certLevel: "CPC", certStatus: "CERTIFIED", validUntil: "2026-12-31", status: "Active",
-      joinedDate: "2023-03-12", accidentFree: "3 yrs", englishLevel: "B2", credits: 1250,
-      vehicle: "YGN-3312",
-      assessment: { written: 88, practical: { preTripReadiness: 92, vehicleInspection: 90, safety: 95, behavior: 90, serviceDelivery: 88 }, operational: { accidentRecord: 95, vehicleDamage: 90, attendance: 88, documentation: 85, vehicleUtilization: 87 }, feedbackAvg: 4.9 },
-    },
-    {
-      id: "DRV-002", email: "koaung@pccp.demo", name: "Ko Aung", phone: "+95 9 254 1120",
-      certLevel: "CPC", certStatus: "CERTIFIED", validUntil: "2026-11-18", status: "Active",
-      joinedDate: "2023-06-02", accidentFree: "2 yrs", englishLevel: "B1", credits: 980,
-      vehicle: "YGN-1187",
-      assessment: { written: 85, practical: { preTripReadiness: 88, vehicleInspection: 86, safety: 92, behavior: 88, serviceDelivery: 90 }, operational: { accidentRecord: 90, vehicleDamage: 88, attendance: 85, documentation: 82, vehicleUtilization: 90 }, feedbackAvg: 4.8 },
-    },
-    {
-      id: "DRV-003", email: "komin@pccp.demo", name: "Ko Min", phone: "+95 9 442 9931",
-      certLevel: "CC", certStatus: "CERTIFIED", validUntil: "2027-02-05", status: "Active",
-      joinedDate: "2023-09-21", accidentFree: "2 yrs", englishLevel: "B1", credits: 760,
-      vehicle: "YGN-4420",
-      assessment: { written: 80, practical: { preTripReadiness: 84, vehicleInspection: 82, safety: 88, behavior: 82, serviceDelivery: 84 }, operational: { accidentRecord: 85, vehicleDamage: 82, attendance: 80, documentation: 78, vehicleUtilization: 84 }, feedbackAvg: 4.7 },
-    },
-    {
-      id: "DRV-004", email: "komyo@pccp.demo", name: "Ko Myo", phone: "+95 9 761 0021",
-      certLevel: "CC", certStatus: "CERTIFIED", validUntil: "2027-01-14", status: "Active",
-      joinedDate: "2024-01-30", accidentFree: "1 yr", englishLevel: "A2", credits: 540,
-      vehicle: "YGN-2260",
-      assessment: { written: 78, practical: { preTripReadiness: 80, vehicleInspection: 78, safety: 84, behavior: 80, serviceDelivery: 82 }, operational: { accidentRecord: 82, vehicleDamage: 80, attendance: 78, documentation: 80, vehicleUtilization: 92 }, feedbackAvg: 4.6 },
-    },
-    {
-      id: "DRV-005", email: "kaung.htet@pccp.demo", name: "Kaung Htet", phone: "+95 9 555 2214",
-      certLevel: "CD", certStatus: "CERTIFIED", validUntil: "2026-08-09", status: "Active",
-      joinedDate: "2024-04-17", accidentFree: "1 yr", englishLevel: "A2", credits: 410,
-      vehicle: "YGN-9021",
-      assessment: { written: 76, practical: { preTripReadiness: 78, vehicleInspection: 76, safety: 82, behavior: 76, serviceDelivery: 78 }, operational: { accidentRecord: 80, vehicleDamage: 78, attendance: 76, documentation: 74, vehicleUtilization: 86 }, feedbackAvg: 4.4 },
-    },
-    {
-      id: "DRV-006", email: "zin.min@pccp.demo", name: "Zin Min Latt", phone: "+95 9 887 4402",
-      certLevel: "CD", certStatus: "PENDING", validUntil: null, status: "Active",
-      joinedDate: "2024-07-03", accidentFree: null, englishLevel: "A2", credits: 210,
-      vehicle: "YGN-6631",
-      assessment: { written: 70, practical: { preTripReadiness: 72, vehicleInspection: 70, safety: 78, behavior: 72, serviceDelivery: 76 }, operational: { accidentRecord: 74, vehicleDamage: 72, attendance: 70, documentation: 68, vehicleUtilization: 76 }, feedbackAvg: 4.1 },
-    },
-    {
-      id: "DRV-007", email: "thura.aung@pccp.demo", name: "Thura Aung", phone: "+95 9 320 7754",
-      certLevel: "CD", certStatus: "PENDING", validUntil: null, status: "Active",
-      joinedDate: "2024-08-22", accidentFree: null, englishLevel: "A2", credits: 150,
-      vehicle: "YGN-7742",
-      assessment: { written: 65, practical: { preTripReadiness: 66, vehicleInspection: 64, safety: 72, behavior: 68, serviceDelivery: 70 }, operational: { accidentRecord: 70, vehicleDamage: 68, attendance: 66, documentation: 64, vehicleUtilization: 78 }, feedbackAvg: 3.8 },
-    },
-    {
-      id: "DRV-008", email: "nay.lin@pccp.demo", name: "Nay Lin Oo", phone: "+95 9 611 0087",
-      certLevel: "CC", certStatus: "SUSPENDED", validUntil: null, status: "Inactive",
-      joinedDate: "2023-11-11", accidentFree: null, englishLevel: "B1", credits: 620,
-      vehicle: "YGN-5590",
-      assessment: { written: 74, practical: { preTripReadiness: 72, vehicleInspection: 70, safety: 74, behavior: 68, serviceDelivery: 66 }, operational: { accidentRecord: 68, vehicleDamage: 66, attendance: 70, documentation: 68, vehicleUtilization: 72 }, feedbackAvg: 3.2 },
-    },
-    {
-      id: "DRV-009", email: "htet.wai@pccp.demo", name: "Htet Wai Yan", phone: "+95 9 992 3345",
-      certLevel: "CPC", certStatus: "REVOKED", validUntil: null, status: "Inactive",
-      joinedDate: "2022-12-05", accidentFree: null, englishLevel: "B2", credits: 900,
-      vehicle: "YGN-0043",
-      assessment: { written: 60, practical: { preTripReadiness: 58, vehicleInspection: 56, safety: 62, behavior: 58, serviceDelivery: 54 }, operational: { accidentRecord: 55, vehicleDamage: 54, attendance: 56, documentation: 52, vehicleUtilization: 58 }, feedbackAvg: 2.6 },
-    },
-    {
-      id: "DRV-010", email: "soe.moe@pccp.demo", name: "Soe Moe Kyaw", phone: "+54 9 470 8812",
-      certLevel: "CD", certStatus: "CERTIFIED", validUntil: "2026-10-27", status: "Active",
-      joinedDate: "2024-02-14", accidentFree: "2 yrs", englishLevel: "B1", credits: 380,
-      vehicle: "YGN-3387",
-      assessment: { written: 82, practical: { preTripReadiness: 84, vehicleInspection: 83, safety: 88, behavior: 84, serviceDelivery: 82 }, operational: { accidentRecord: 86, vehicleDamage: 84, attendance: 85, documentation: 82, vehicleUtilization: 84 }, feedbackAvg: 4.7 },
-    },
-    {
-      id: "DRV-011", email: "thura.koko@pccp.demo", name: "Thura Ko Ko", phone: "+54 9 111 2222",
-      certLevel: "HO", certStatus: "CERTIFIED", validUntil: "2027-12-31", status: "Active",
-      joinedDate: "2024-01-15", accidentFree: "1 yr", englishLevel: "B1", credits: 500,
-      vehicle: "1L-3829",
-      assessment: { written: 82, practical: { preTripReadiness: 85, vehicleInspection: 83, safety: 88, behavior: 84, serviceDelivery: 82 }, operational: { accidentRecord: 86, vehicleDamage: 84, attendance: 85, documentation: 82, vehicleUtilization: 84 }, feedbackAvg: 4.5 },
-    },
-  ];
-
+  // ─── Drivers (20 from Book 5.xlsx) ──────────────────────────────────────
   const driverUserIds: Record<string, string> = {};
-  for (const d of driversData) {
+  for (const d of DRIVERS) {
     const user = await prisma.user.upsert({
       where: { email: d.email },
       update: { name: d.name, phone: d.phone },
@@ -148,66 +120,41 @@ async function main() {
     });
     driverUserIds[d.id] = user.id;
 
-    const vehicleId = vehicles[d.vehicle];
+    const vehicleId = vehicles[d.vehiclePlate];
 
     await prisma.driverProfile.upsert({
       where: { userId: user.id },
-      update: {
-        certLevel: d.certLevel,
-        certStatus: d.certStatus,
-        validUntil: d.validUntil ? new Date(d.validUntil) : null,
-        status: d.status,
-        joinedDate: new Date(d.joinedDate),
-        accidentFree: d.accidentFree,
-        englishLevel: d.englishLevel,
-        credits: d.credits,
-        currentVehicleId: vehicleId,
-      },
+      update: { status: "Active", currentVehicleId: vehicleId },
       create: {
         userId: user.id,
-        certLevel: d.certLevel,
-        certStatus: d.certStatus,
-        validUntil: d.validUntil ? new Date(d.validUntil) : null,
-        status: d.status,
-        joinedDate: new Date(d.joinedDate),
-        accidentFree: d.accidentFree,
-        englishLevel: d.englishLevel,
-        credits: d.credits,
+        certLevel: "HO",
+        certStatus: "CERTIFIED",
+        validUntil: new Date("2027-12-31"),
+        status: "Active",
+        joinedDate: new Date("2024-01-15"),
+        accidentFree: "1 yr",
+        englishLevel: "B1",
+        credits: 500,
         currentVehicleId: vehicleId,
       },
     });
 
-    const feedbackAvg = d.assessment.feedbackAvg;
-    const practicalScore =
-      d.assessment.practical.preTripReadiness * 0.2 +
-      d.assessment.practical.vehicleInspection * 0.2 +
-      d.assessment.practical.safety * 0.3 +
-      d.assessment.practical.behavior * 0.15 +
-      d.assessment.practical.serviceDelivery * 0.15;
-    const operationalScore =
-      d.assessment.operational.accidentRecord * 0.2 +
-      d.assessment.operational.vehicleDamage * 0.2 +
-      d.assessment.operational.attendance * 0.2 +
-      d.assessment.operational.documentation * 0.1 +
-      d.assessment.operational.vehicleUtilization * 0.3;
-    const feedback100 = feedbackAvg * 20;
-    const overallScore = Math.round(
-      (d.assessment.written * 0.2 + practicalScore * 0.3 + operationalScore * 0.3 + feedback100 * 0.2) * 100
-    ) / 100;
-
-    await prisma.assessment.create({
-      data: {
-        driverId: user.id,
-        written: d.assessment.written,
-        practical: JSON.stringify(d.assessment.practical),
-        operational: JSON.stringify(d.assessment.operational),
-        feedbackAvg,
-        overallScore,
-        certLevel: d.certLevel,
-      },
-    });
+    const existingAssessment = await prisma.assessment.findFirst({ where: { driverId: user.id } });
+    if (!existingAssessment) {
+      await prisma.assessment.create({
+        data: {
+          driverId: user.id,
+          written: 80,
+          practical: JSON.stringify({ preTripReadiness: 80, vehicleInspection: 80, safety: 85, behavior: 80, serviceDelivery: 80 }),
+          operational: JSON.stringify({ accidentRecord: 85, vehicleDamage: 80, attendance: 80, documentation: 78, vehicleUtilization: 80 }),
+          feedbackAvg: 4.5,
+          overallScore: 80,
+          certLevel: "HO",
+        },
+      });
+    }
   }
-  console.log(`  ✓ ${driversData.length} drivers with assessments`);
+  console.log(`  ✓ ${DRIVERS.length} drivers with assessments`);
 
   // ─── Passengers ──────────────────────────────────────────────────────────
   const passengersData = [
@@ -243,7 +190,7 @@ async function main() {
   }
   console.log(`  ✓ ${passengersData.length} passengers`);
 
-  // ─── Transport Requests ──────────────────────────────────────────────────
+  // ─── Transport Requests (using Book 5.xlsx drivers) ─────────────────────
   const requestsData = [
     {
       id: "TRQ-001", passengerId: "PAS-00128", pickup: "Yangon International Airport", destination: "Junction City",
@@ -253,32 +200,32 @@ async function main() {
     {
       id: "TRQ-002", passengerId: "PAS-00118", pickup: "Head Office", destination: "Downtown",
       date: "2026-08-14", time: "02:00 PM", status: "ASSIGNED",
-      driverId: "DRV-002", vehiclePlate: "YGN-1187",
+      driverId: "DRV-002", vehiclePlate: "9S-6964",
     },
     {
       id: "TRQ-003", passengerId: "PAS-00102", pickup: "Junction City", destination: "Yangon International Airport",
       date: "2026-08-13", time: "08:00 AM", status: "QR_PENDING",
-      driverId: "DRV-001", vehiclePlate: "YGN-3312",
+      driverId: "DRV-001", vehiclePlate: "3R-5121",
     },
     {
       id: "TRQ-004", passengerId: "PAS-00094", pickup: "Sule", destination: "Yangon Central Station",
       date: "2026-08-13", time: "11:00 AM", status: "PICK_UP_SCANNED",
-      driverId: "DRV-004", vehiclePlate: "YGN-2260",
+      driverId: "DRV-004", vehiclePlate: "9S-6975",
     },
     {
       id: "TRQ-005", passengerId: "PAS-00071", pickup: "Downtown", destination: "Head Office",
       date: "2026-08-12", time: "09:00 AM", status: "DROP_OFF_SCANNED",
-      driverId: "DRV-003", vehiclePlate: "YGN-4420",
+      driverId: "DRV-003", vehiclePlate: "9S-6864",
     },
     {
       id: "TRQ-006", passengerId: "PAS-00061", pickup: "Head Office", destination: "Junction City",
       date: "2026-08-12", time: "03:00 PM", status: "FEEDBACK_SUBMITTED",
-      driverId: "DRV-001", vehiclePlate: "YGN-3312",
+      driverId: "DRV-001", vehiclePlate: "3R-5121",
     },
     {
       id: "TRQ-007", passengerId: "PAS-00128", pickup: "Yangon International Airport", destination: "Head Office",
       date: "2026-08-11", time: "07:00 AM", status: "FEEDBACK_SUBMITTED",
-      driverId: "DRV-002", vehiclePlate: "YGN-1187",
+      driverId: "DRV-002", vehiclePlate: "9S-6964",
     },
     {
       id: "TRQ-008", passengerId: "PAS-00118", pickup: "Downtown", destination: "Yangon International Airport",
@@ -288,10 +235,6 @@ async function main() {
   ];
 
   for (const r of requestsData) {
-    const passengerProfile = await prisma.passengerProfile.findUnique({
-      where: { userId: passengerUserIds[r.passengerId] },
-    });
-
     await prisma.transportRequest.upsert({
       where: { id: r.id },
       update: { status: r.status },
@@ -312,22 +255,10 @@ async function main() {
 
   // ─── Feedback Records ────────────────────────────────────────────────────
   const feedbacksData = [
-    {
-      requestId: "TRQ-006", passengerId: "PAS-00061", driverId: "DRV-001", vehiclePlate: "YGN-3312",
-      rating: 5, comment: "Extremely punctual and courteous. Car was spotless.", tags: ["service", "safety"],
-    },
-    {
-      requestId: "TRQ-007", passengerId: "PAS-00128", driverId: "DRV-002", vehiclePlate: "YGN-1187",
-      rating: 4, comment: "Smooth and safe journey. Arrived on time.", tags: ["cleanliness"],
-    },
-    {
-      requestId: "TRQ-005", passengerId: "PAS-00071", driverId: "DRV-003", vehiclePlate: "YGN-4420",
-      rating: 5, comment: "Very professional and friendly driver.", tags: ["behavior"],
-    },
-    {
-      requestId: "TRQ-004", passengerId: "PAS-00094", driverId: "DRV-004", vehiclePlate: "YGN-2260",
-      rating: 3, comment: "Good service but the vehicle cleanliness needs improvement.", tags: ["cleanliness"],
-    },
+    { requestId: "TRQ-006", passengerId: "PAS-00061", driverId: "DRV-001", vehiclePlate: "3R-5121", rating: 5, comment: "Extremely punctual and courteous. Car was spotless.", tags: ["service", "safety"] },
+    { requestId: "TRQ-007", passengerId: "PAS-00128", driverId: "DRV-002", vehiclePlate: "9S-6964", rating: 4, comment: "Smooth and safe journey. Arrived on time.", tags: ["cleanliness"] },
+    { requestId: "TRQ-005", passengerId: "PAS-00071", driverId: "DRV-003", vehiclePlate: "9S-6864", rating: 5, comment: "Very professional and friendly driver.", tags: ["behavior"] },
+    { requestId: "TRQ-004", passengerId: "PAS-00094", driverId: "DRV-004", vehiclePlate: "9S-6975", rating: 3, comment: "Good service but the vehicle cleanliness needs improvement.", tags: ["cleanliness"] },
   ];
 
   for (const f of feedbacksData) {
@@ -350,40 +281,16 @@ async function main() {
 
   // ─── Vehicle Check-ins ───────────────────────────────────────────────────
   const checkinsData = [
-    {
-      vehiclePlate: "YGN-3312", driverId: "DRV-001", requestId: "TRQ-006",
-      checkInLocation: "Head Office", checkInRemark: "Vehicle clean, no damage",
-      checkOutLocation: "Junction City", checkOutRemark: "No new damage, vehicle clean",
-      status: "CHECKED_OUT",
-    },
-    {
-      vehiclePlate: "YGN-1187", driverId: "DRV-002", requestId: "TRQ-007",
-      checkInLocation: "Yangon International Airport", checkInRemark: "Minor scratch on rear bumper",
-      checkOutLocation: "Head Office", checkOutRemark: "No new damage",
-      status: "CHECKED_OUT",
-    },
-    {
-      vehiclePlate: "YGN-4420", driverId: "DRV-003", requestId: "TRQ-005",
-      checkInLocation: "Downtown", checkInRemark: "Vehicle clean",
-      checkOutLocation: "Head Office", checkOutRemark: "Clean, no damage",
-      status: "CHECKED_OUT",
-    },
-    {
-      vehiclePlate: "YGN-2260", driverId: "DRV-004", requestId: "TRQ-004",
-      checkInLocation: "Sule", checkInRemark: "Vehicle clean, no damage",
-      checkOutLocation: null, checkOutRemark: null,
-      status: "CHECKED_IN",
-    },
+    { vehiclePlate: "3R-5121", driverId: "DRV-001", requestId: "TRQ-006", checkInLocation: "Head Office", checkInRemark: "Vehicle clean, no damage", checkOutLocation: "Junction City", checkOutRemark: "No new damage, vehicle clean", status: "CHECKED_OUT" },
+    { vehiclePlate: "9S-6964", driverId: "DRV-002", requestId: "TRQ-007", checkInLocation: "Yangon International Airport", checkInRemark: "Minor scratch on rear bumper", checkOutLocation: "Head Office", checkOutRemark: "No new damage", status: "CHECKED_OUT" },
+    { vehiclePlate: "9S-6864", driverId: "DRV-003", requestId: "TRQ-005", checkInLocation: "Downtown", checkInRemark: "Vehicle clean", checkOutLocation: "Head Office", checkOutRemark: "Clean, no damage", status: "CHECKED_OUT" },
+    { vehiclePlate: "9S-6975", driverId: "DRV-004", requestId: "TRQ-004", checkInLocation: "Sule", checkInRemark: "Vehicle clean, no damage", checkOutLocation: null, checkOutRemark: null, status: "CHECKED_IN" },
   ];
 
   for (const c of checkinsData) {
     const vehicleId = vehicles[c.vehiclePlate];
     const driverUserId = driverUserIds[c.driverId];
-
-    const existing = await prisma.vehicleCheckin.findFirst({
-      where: { driverId: driverUserId, requestId: c.requestId },
-    });
-
+    const existing = await prisma.vehicleCheckin.findFirst({ where: { driverId: driverUserId, requestId: c.requestId } });
     if (!existing) {
       await prisma.vehicleCheckin.create({
         data: {
@@ -405,67 +312,19 @@ async function main() {
 
   // ─── Notifications ───────────────────────────────────────────────────────
   const notificationsData = [
-    {
-      recipientId: passengerUserIds["PAS-00118"], recipientRole: "PASSENGER", read: false,
-      title: "Transport Request Assigned",
-      message: "Your transport request TRQ-002 has been assigned to Driver Ko Aung with vehicle YGN-1187.",
-      relatedRequestId: "TRQ-002",
-    },
-    {
-      recipientId: driverUserIds["DRV-002"], recipientRole: "DRIVER", read: false,
-      title: "New Transport Assigned",
-      message: "You have been assigned transport request TRQ-002 for Daw Thin Thin from Head Office to Downtown.",
-      relatedRequestId: "TRQ-002",
-    },
-    {
-      recipientId: passengerUserIds["PAS-00102"], recipientRole: "PASSENGER", read: false,
-      title: "Reminder: Scan Vehicle QR",
-      message: "Please scan the vehicle QR code for your transport request TRQ-003.",
-      relatedRequestId: "TRQ-003",
-    },
-    {
-      recipientId: driverUserIds["DRV-001"], recipientRole: "DRIVER", read: true,
-      title: "New Transport Assigned",
-      message: "You have been assigned transport request TRQ-003 for U Kyaw Zin from Junction City to Yangon International Airport.",
-      relatedRequestId: "TRQ-003",
-    },
-    {
-      recipientId: passengerUserIds["PAS-00094"], recipientRole: "PASSENGER", read: true,
-      title: "Trip Completed",
-      message: "Your trip TRQ-004 to Yangon Central Station has been completed. Please submit your feedback.",
-      relatedRequestId: "TRQ-004",
-    },
-    {
-      recipientId: driverUserIds["DRV-004"], recipientRole: "DRIVER", read: true,
-      title: "Check Out Recorded",
-      message: "Your check-out for vehicle YGN-2260 has been recorded successfully.",
-      relatedRequestId: "TRQ-004",
-    },
-    {
-      recipientId: passengerUserIds["PAS-00128"], recipientRole: "PASSENGER", read: false,
-      title: "Trip Completed",
-      message: "Your trip TRQ-007 to Head Office has been completed. Thank you for riding with us.",
-      relatedRequestId: "TRQ-007",
-    },
-    {
-      recipientId: driverUserIds["DRV-001"], recipientRole: "DRIVER", read: false,
-      title: "Reminder: QR Verification",
-      message: "Transport request TRQ-003 is awaiting pick-up. Complete QR verification when the passenger arrives.",
-      relatedRequestId: "TRQ-003",
-    },
-    {
-      recipientId: adminUser.id, recipientRole: "ADMIN", read: false,
-      title: "New Transport Request",
-      message: "Daw Thin Thin (PAS-00118) requested transport from Head Office to Downtown on 14 Aug 2026 at 10:00 AM.",
-      relatedRequestId: "TRQ-002",
-    },
+    { recipientId: passengerUserIds["PAS-00118"], recipientRole: "PASSENGER", read: false, title: "Transport Request Assigned", message: "Your transport request TRQ-002 has been assigned to Ko San Min Latt with vehicle 9S-6964.", relatedRequestId: "TRQ-002" },
+    { recipientId: driverUserIds["DRV-002"], recipientRole: "DRIVER", read: false, title: "New Transport Assigned", message: "You have been assigned transport request TRQ-002 for Daw Thin Thin from Head Office to Downtown.", relatedRequestId: "TRQ-002" },
+    { recipientId: passengerUserIds["PAS-00102"], recipientRole: "PASSENGER", read: false, title: "Reminder: Scan Vehicle QR", message: "Please scan the vehicle QR code for your transport request TRQ-003.", relatedRequestId: "TRQ-003" },
+    { recipientId: driverUserIds["DRV-001"], recipientRole: "DRIVER", read: true, title: "New Transport Assigned", message: "You have been assigned transport request TRQ-003 for U Kyaw Zin from Junction City to Yangon International Airport.", relatedRequestId: "TRQ-003" },
+    { recipientId: passengerUserIds["PAS-00094"], recipientRole: "PASSENGER", read: true, title: "Trip Completed", message: "Your trip TRQ-004 to Yangon Central Station has been completed. Please submit your feedback.", relatedRequestId: "TRQ-004" },
+    { recipientId: driverUserIds["DRV-004"], recipientRole: "DRIVER", read: true, title: "Check Out Recorded", message: "Your check-out for vehicle 9S-6975 has been recorded successfully.", relatedRequestId: "TRQ-004" },
+    { recipientId: passengerUserIds["PAS-00128"], recipientRole: "PASSENGER", read: false, title: "Trip Completed", message: "Your trip TRQ-007 to Head Office has been completed. Thank you for riding with us.", relatedRequestId: "TRQ-007" },
+    { recipientId: driverUserIds["DRV-001"], recipientRole: "DRIVER", read: false, title: "Reminder: QR Verification", message: "Transport request TRQ-003 is awaiting pick-up. Complete QR verification when the passenger arrives.", relatedRequestId: "TRQ-003" },
+    { recipientId: adminUser.id, recipientRole: "ADMIN", read: false, title: "New Transport Request", message: "Daw Thin Thin (PAS-00118) requested transport from Head Office to Downtown on 14 Aug 2026 at 10:00 AM.", relatedRequestId: "TRQ-002" },
   ];
 
   for (const n of notificationsData) {
-    const existing = await prisma.notification.findFirst({
-      where: { recipientId: n.recipientId, title: n.title, relatedRequestId: n.relatedRequestId },
-    });
-
+    const existing = await prisma.notification.findFirst({ where: { recipientId: n.recipientId, title: n.title, relatedRequestId: n.relatedRequestId } });
     if (!existing) {
       await prisma.notification.create({ data: n });
     }
@@ -473,13 +332,13 @@ async function main() {
   console.log(`  ✓ ${notificationsData.length} notifications`);
 
   // ─── System Settings ─────────────────────────────────────────────────────
-  await prisma.systemSettings.upsert({
-    where: { id: "singleton" },
-    update: {},
-    create: {},
-  });
+  await prisma.systemSettings.upsert({ where: { id: "singleton" }, update: {}, create: {} });
   console.log("  ✓ System settings (defaults)");
 
+  console.log("\n── Summary ──────────────────────────────────────────────");
+  console.log(`  Drivers:   ${DRIVERS.length}`);
+  console.log(`  Vehicles:  ${VEHICLES.length}`);
+  console.log(`  Requests:  ${requestsData.length}`);
   console.log("\nSeeding complete!");
 }
 

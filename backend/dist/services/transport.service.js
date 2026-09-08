@@ -92,9 +92,10 @@ class TransportService {
                 passenger: { include: { user: { select: { name: true } } } },
             },
         });
+        const admin = await prisma.user.findFirst({ where: { role: "ADMIN" } });
         await notification_service_1.notificationService.create({
-            recipientId: "ADMIN",
-            recipientRole: "admin",
+            recipientId: admin?.id ?? "admin-system",
+            recipientRole: "ADMIN",
             title: "New Transport Request",
             message: `${passenger.user.name} (${passenger.userId}) requested transport from ${data.pickup} to ${data.destination} on ${data.date} at ${data.time}.`,
             relatedRequestId: request.id,
@@ -145,14 +146,14 @@ class TransportService {
         await Promise.all([
             notification_service_1.notificationService.create({
                 recipientId: request.passengerId,
-                recipientRole: "passenger",
+                recipientRole: "PASSENGER",
                 title: "Transport Request Assigned",
                 message: `Your transport request ${requestId} has been assigned to Driver ${driver.user.name} with vehicle ${vehicle.plate}.`,
                 relatedRequestId: requestId,
             }),
             notification_service_1.notificationService.create({
                 recipientId: data.driverId,
-                recipientRole: "driver",
+                recipientRole: "DRIVER",
                 title: "New Transport Assigned",
                 message: `You have been assigned transport request ${requestId} for ${passenger?.user?.name || "a passenger"} from ${request.pickup} to ${request.destination}.`,
                 relatedRequestId: requestId,

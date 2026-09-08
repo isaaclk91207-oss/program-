@@ -105,7 +105,7 @@ class DriverService {
         if (!driver) {
             throw (0, error_middleware_1.createAppError)(404, "DRIVER_NOT_FOUND", "Driver not found");
         }
-        return driver;
+        return this.formatResponse(driver);
     }
     async create(data) {
         const existing = await prisma.user.findUnique({ where: { email: data.email } });

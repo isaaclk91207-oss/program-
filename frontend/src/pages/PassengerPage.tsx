@@ -39,6 +39,18 @@ export default function PassengerPage() {
     loadData();
   }, [tab]);
 
+  useEffect(() => {
+    const poll = async () => {
+      try {
+        setNotifications(await getNotifications());
+        setUnreadCount((await getUnreadCount()).count);
+      } catch {}
+    };
+    poll();
+    const interval = setInterval(poll, 15000);
+    return () => clearInterval(interval);
+  }, []);
+
   async function loadData() {
     setLoading(true);
     try {

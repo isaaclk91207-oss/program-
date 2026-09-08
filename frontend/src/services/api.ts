@@ -13,6 +13,7 @@ import type {
   QRVerificationResult,
   Assessment,
   VehicleCheckin,
+  LiveVehicleLocation,
 } from "../types";
 
 const api = axios.create({
@@ -325,6 +326,17 @@ export async function getUnreadCount(): Promise<{ count: number }> {
   return res.data;
 }
 
+export async function createNotification(data: {
+  recipientId: string;
+  recipientRole: string;
+  title: string;
+  message: string;
+  relatedRequestId?: string;
+}): Promise<Notification> {
+  const res = await api.post<Notification>("/notifications", data);
+  return res.data;
+}
+
 // ─── Admin ─────────────────────────────────────────────────────────────────
 
 export async function getDashboard(): Promise<DashboardStats> {
@@ -354,6 +366,11 @@ export async function getNetprosStatus() {
 
 export async function triggerNetprosSync() {
   const res = await api.post("/admin/netpros/sync");
+  return res.data;
+}
+
+export async function getLiveVehicleLocations(): Promise<LiveVehicleLocation[]> {
+  const res = await api.get<LiveVehicleLocation[]>("/admin/gps/live");
   return res.data;
 }
 

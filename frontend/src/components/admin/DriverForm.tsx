@@ -46,7 +46,7 @@ export default function DriverForm({
           label="Full Name"
           value={name}
           onChange={(e) => setName(e.target.value)}
-          placeholder="e.g. Ko Maung"
+          placeholder="e.g. Ko Htet Aung Zaw"
           error={errors.name}
           required
         />

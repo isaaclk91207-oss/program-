@@ -52,6 +52,7 @@ export declare class TransportService {
             make: string;
             model: string;
             color: string;
+            gpsDeviceId: number | null;
         } | null;
         feedback: {
             id: string;
@@ -124,6 +125,7 @@ export declare class TransportService {
             make: string;
             model: string;
             color: string;
+            gpsDeviceId: number | null;
         } | null;
     } & {
         id: string;

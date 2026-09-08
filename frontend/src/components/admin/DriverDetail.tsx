@@ -8,6 +8,12 @@ import {
 import { getDriverFeedback } from "../../services/api";
 import type { Driver, Feedback, Assessment } from "../../types";
 
+function getDisplayId(d: Driver): string {
+  if (d.version === "v2" && d.employeeId) return d.employeeId;
+  if (d.id.startsWith("DRV-")) return d.id;
+  return d.id.substring(0, 8);
+}
+
 const PRACTICAL_CRITERIA = ["preTripReadiness", "vehicleInspection", "safety", "behavior", "serviceDelivery"];
 const OPERATIONAL_CRITERIA = ["accidentRecord", "vehicleDamage", "attendance", "documentation", "vehicleUtilization"];
 
@@ -104,7 +110,7 @@ export default function DriverDetail({
             </div>
             <div>
               <h3 className="text-lg font-semibold text-white">{driver.name}</h3>
-              <p className="text-sm text-slate-400 font-mono">{driver.id}</p>
+              <p className="text-sm text-slate-400 font-mono">{getDisplayId(driver)}</p>
             </div>
           </div>
           <div className="flex items-center gap-2">
@@ -251,7 +257,7 @@ export default function DriverDetail({
             </div>
             <div>
               <h3 className="text-xl font-bold">{driver.name}</h3>
-              <p className="text-sm opacity-80 font-mono">{driver.id}</p>
+              <p className="text-sm opacity-80 font-mono">{getDisplayId(driver)}</p>
             </div>
           </div>
           <div className="grid grid-cols-3 gap-3 mb-6">

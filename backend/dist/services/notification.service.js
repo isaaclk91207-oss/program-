@@ -20,7 +20,7 @@ class NotificationService {
     async getByRecipient(recipientId, recipientRole, unreadOnly = false) {
         const where = {
             recipientId,
-            recipientRole,
+            recipientRole: recipientRole.toUpperCase(),
         };
         if (unreadOnly) {
             where.read = false;
@@ -48,7 +48,7 @@ class NotificationService {
         await prisma.notification.updateMany({
             where: {
                 recipientId,
-                recipientRole,
+                recipientRole: recipientRole.toUpperCase(),
                 read: false,
             },
             data: { read: true },
@@ -58,7 +58,7 @@ class NotificationService {
         return prisma.notification.count({
             where: {
                 recipientId,
-                recipientRole,
+                recipientRole: recipientRole.toUpperCase(),
                 read: false,
             },
         });

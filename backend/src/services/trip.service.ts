@@ -235,6 +235,7 @@ export class TripService {
     const trips = await prisma.transportRequest.findMany({
       where,
       include: {
+        driver: { include: { user: { select: { name: true } } } },
         passenger: { include: { user: { select: { name: true, phone: true, email: true } } } },
         vehicle: true,
         feedback: { select: { id: true, rating: true } },

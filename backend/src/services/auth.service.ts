@@ -26,7 +26,7 @@ export class AuthService {
     const token = generateToken({
       id: user.id,
       email: user.email,
-      role: user.role,
+      role: user.role as "ADMIN" | "DRIVER" | "PASSENGER",
     });
 
     return {
@@ -70,7 +70,7 @@ export class AuthService {
     const token = generateToken({
       id: user.id,
       email: user.email,
-      role: user.role,
+      role: user.role as "ADMIN" | "DRIVER" | "PASSENGER",
     });
 
     return {

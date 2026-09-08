@@ -169,6 +169,7 @@ export class TransportService {
         passenger: { include: { user: { select: { name: true } } } },
         driver: { include: { user: { select: { name: true } } } },
         vehicle: true,
+        feedback: { select: { id: true, rating: true } },
       },
     });
 

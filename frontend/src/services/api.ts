@@ -17,8 +17,12 @@ import type {
 } from "../types";
 
 const api = axios.create({
-  baseURL: "/api/v1",
+  baseURL: import.meta.env.VITE_API_BASE_URL ?? "/api/v1",
   headers: { "Content-Type": "application/json" },
+});
+
+const apiV2 = axios.create({
+  baseURL: import.meta.env.VITE_API_V2_BASE_URL ?? "http://localhost:3002/api/v1",
 });
 
 api.interceptors.request.use((config: InternalAxiosRequestConfig) => {
@@ -239,8 +243,6 @@ export async function getDriverTrips(status?: string) {
 
 // ─── V2 Driver API (backend-v2 on port 3002) ────────────────────────────────
 
-const apiV2 = axios.create({ baseURL: "http://localhost:3002/api/v1" });
-
 export async function getDriverTripsV2(driverId: string) {
   const res = await apiV2.get("/trips/driver", { params: { driverId } });
   return res.data;
@@ -377,7 +379,7 @@ export async function getLiveVehicleLocations(): Promise<LiveVehicleLocation[]> 
 // ─── Reports ─────────────────────────────────────────────────────────────────
 
 export async function getReportTemplates() {
-  const res = await api.get("/reports/templates");
+  const res = await apiV2.get("/reports/templates");
   return res.data;
 }
 
@@ -387,7 +389,7 @@ export async function getUnitReport(unitId: number, params: {
   timeTo: number;
   sid?: string;
 }) {
-  const res = await api.get(`/reports/unit/${unitId}`, { params });
+  const res = await apiV2.get(`/reports/unit/${unitId}`, { params });
   return res.data;
 }
 
@@ -396,7 +398,7 @@ export async function getDriverReport(driverId: string, params: {
   timeTo: number;
   sid?: string;
 }) {
-  const res = await api.get(`/reports/driver/${driverId}`, { params });
+  const res = await apiV2.get(`/reports/driver/${driverId}`, { params });
   return res.data;
 }
 

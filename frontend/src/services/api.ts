@@ -22,7 +22,7 @@ const api = axios.create({
 });
 
 const apiV2 = axios.create({
-  baseURL: import.meta.env.VITE_API_V2_BASE_URL ?? "http://localhost:3002/api/v1",
+  baseURL: import.meta.env.VITE_API_V2_BASE_URL ?? "/api/v1",
 });
 
 api.interceptors.request.use((config: InternalAxiosRequestConfig) => {

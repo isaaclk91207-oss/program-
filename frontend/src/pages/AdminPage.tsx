@@ -105,7 +105,7 @@ export default function AdminPage() {
           break;
         }
         case "drivers": {
-          const [v1Drivers, v2Drivers] = await Promise.all([getDrivers(), getAllDriversV2()]);
+          const [v1Drivers, v2Drivers] = await Promise.all([getDrivers(), getAllDriversV2().catch(() => [])]);
           const v1Names = new Set(v1Drivers.map((d: Driver) => d.name));
           const v2Only = v2Drivers.filter((d: { name: string }) => !v1Names.has(d.name)).map((d: { id: string; name: string; status: string; employeeId: string; phone?: string }) => ({
             id: d.id, name: d.name, email: `${d.employeeId.toLowerCase()}@pccp.demo`, phone: d.phone || null,
@@ -140,9 +140,7 @@ export default function AdminPage() {
         <aside className={`fixed lg:static inset-y-0 left-0 z-50 w-64 ${th.sidebar} p-4 flex flex-col shrink-0 transform transition-transform lg:translate-x-0 ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}`}>
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center gap-2">
-              <div className="w-8 h-8 bg-emerald-600 rounded-lg flex items-center justify-center">
-                <span className="text-sm font-bold text-white">P</span>
-              </div>
+              <img src="/pccp-logo.png" alt="PCCP" className="w-8 h-8 rounded-lg object-contain" />
               <h1 className="text-lg font-bold text-emerald-600 dark:text-emerald-400">PCCP Admin</h1>
             </div>
             <button onClick={() => setSidebarOpen(false)} className="lg:hidden text-on-surface-variant">

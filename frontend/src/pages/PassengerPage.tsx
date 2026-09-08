@@ -73,9 +73,7 @@ export default function PassengerPage() {
       <div className={`min-h-screen ${th.bg}`}>
         <div className={`${th.header} px-4 py-3 flex items-center justify-between sticky top-0 z-30`}>
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-role-passenger rounded-lg flex items-center justify-center">
-              <span className="text-sm font-bold text-white">P</span>
-            </div>
+            <img src="/pccp-logo.png" alt="PCCP" className="w-8 h-8 rounded-lg object-contain" />
             <h1 className="text-lg font-semibold text-on-surface dark:text-white">PCCP</h1>
           </div>
           <div className="flex items-center gap-2">

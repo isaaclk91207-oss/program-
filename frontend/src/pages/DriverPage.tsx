@@ -67,7 +67,7 @@ export default function DriverPage() {
     try {
       // Fetch trips from v2, notifications from v1
       const [tripsData, notifData, countData] = await Promise.all([
-        getDriverTrips(),
+        getDriverTrips().catch(() => []),
         getNotifications().catch(() => []),
         getUnreadCount().catch(() => ({ count: 0 })),
       ]);
@@ -108,7 +108,7 @@ export default function DriverPage() {
         {/* Mobile Top App Bar */}
         <header className="md:hidden fixed top-0 left-0 right-0 z-50 h-14 bg-surface dark:bg-inverse-surface border-b border-border-hairline dark:border-outline-variant flex items-center justify-between px-4">
           <div className="flex items-center gap-2">
-            <Icon name="directions_car" size={24} className="text-role-driver" />
+            <img src="/pccp-logo.png" alt="PCCP" className="w-7 h-7 rounded object-contain" />
             <h1 className="font-title-lg text-title-lg font-bold text-role-driver">PCCP Driver</h1>
           </div>
           <div className="flex items-center gap-1">
@@ -143,7 +143,7 @@ export default function DriverPage() {
         <aside className="hidden md:flex flex-col w-[260px] h-screen fixed left-0 top-0 bg-surface dark:bg-inverse-surface border-r border-border-hairline dark:border-outline-variant z-40">
           <div className="px-8 py-8 border-b border-border-hairline dark:border-outline-variant">
             <div className="flex items-center gap-2">
-              <Icon name="directions_car" size={28} className="text-role-driver" />
+              <img src="/pccp-logo.png" alt="PCCP" className="w-8 h-8 rounded object-contain" />
               <h1 className="font-headline-md text-headline-md font-bold text-role-driver">PCCP Vector</h1>
             </div>
           </div>

@@ -1,8 +1,21 @@
 import { useState } from "react";
-import { Card, Button, Badge, th } from "../ui";
-import { ArrowLeft, MapPin, ArrowRight, Calendar, Clock, Car, User, Building, LogIn, LogOut } from "lucide-react";
+import { Button, Icon, TripStatusPill } from "../ui";
 import type { TransportRequest } from "../../types";
 import { formatRequestId } from "../../types";
+
+function InfoRow({ icon, label, value, valueClass = "" }: { icon: string; label: string; value: string; valueClass?: string }) {
+  return (
+    <div className="flex items-start gap-3">
+      <span className="w-8 h-8 rounded-lg bg-role-driver-container dark:bg-purple-500/20 text-role-driver dark:text-purple-400 flex items-center justify-center shrink-0">
+        <Icon name={icon} size={18} />
+      </span>
+      <div className="min-w-0">
+        <p className="font-label-caps text-label-caps uppercase text-on-surface-variant dark:text-outline-variant">{label}</p>
+        <p className={`font-body-base text-body-base text-on-surface dark:text-white ${valueClass}`}>{value}</p>
+      </div>
+    </div>
+  );
+}
 
 export default function TripDetail({
   trip,
@@ -36,116 +49,113 @@ export default function TripDetail({
     setRemark("");
   };
 
-  return (
-    <div>
-      <button onClick={onBack} className="flex items-center gap-1 text-amber-500 dark:text-amber-400 text-sm mb-3">
-        <ArrowLeft className="w-4 h-4" /> Back
-      </button>
-      <Card className="p-4 mb-4">
-        <div className="flex justify-between items-start mb-3">
-          <h3 className="font-semibold">{formatRequestId(trip.id, trip.requestNumber)}</h3>
-          <Badge status={trip.status}>{trip.status.replace(/_/g, " ")}</Badge>
-        </div>
-        <div className="grid grid-cols-2 gap-3 text-sm">
-          <div className="flex items-center gap-2">
-            <User className="w-4 h-4 text-slate-400" />
-            <div>
-              <p className={th.textSecondary}>Passenger</p>
-              <p className={th.text}>{trip.passengerName}</p>
-            </div>
-          </div>
-          <div className="flex items-center gap-2">
-            <Building className="w-4 h-4 text-slate-400" />
-            <div>
-              <p className={th.textSecondary}>Department</p>
-              <p className={th.text}>{trip.department}</p>
-            </div>
-          </div>
-          <div className="flex items-center gap-2">
-            <MapPin className="w-4 h-4 text-slate-400" />
-            <div>
-              <p className={th.textSecondary}>Pickup</p>
-              <p className={th.text}>{trip.pickup}</p>
-            </div>
-          </div>
-          <div className="flex items-center gap-2">
-            <MapPin className="w-4 h-4 text-emerald-400" />
-            <div>
-              <p className={th.textSecondary}>Destination</p>
-              <p className={th.text}>{trip.destination}</p>
-            </div>
-          </div>
-          <div className="flex items-center gap-2">
-            <Calendar className="w-4 h-4 text-slate-400" />
-            <div>
-              <p className={th.textSecondary}>Date</p>
-              <p className={th.text}>{trip.date}</p>
-            </div>
-          </div>
-          <div className="flex items-center gap-2">
-            <Clock className="w-4 h-4 text-slate-400" />
-            <div>
-              <p className={th.textSecondary}>Time</p>
-              <p className={th.text}>{trip.time}</p>
-            </div>
-          </div>
-          <div className="flex items-center gap-2">
-            <Car className="w-4 h-4 text-slate-400" />
-            <div>
-              <p className={th.textSecondary}>Vehicle</p>
-              <p className={`${th.text} font-mono`}>{trip.vehiclePlate}</p>
-            </div>
-          </div>
-        </div>
-      </Card>
+  const inputClass =
+    "w-full mt-1 px-3 py-2 text-sm rounded-lg border bg-surface-container-low dark:bg-navy-900 border-border-hairline dark:border-outline-variant text-on-surface dark:text-white focus:outline-none focus:border-role-driver dark:focus:border-purple-400 placeholder:text-on-surface-variant/60";
 
+  return (
+    <div className="max-w-[440px] mx-auto space-y-4">
+      {/* Header */}
+      <div className="flex items-center gap-2">
+        <button
+          onClick={onBack}
+          className="p-2 rounded-full text-role-driver dark:text-purple-400 hover:bg-role-driver-container dark:hover:bg-purple-500/20 transition-colors"
+        >
+          <Icon name="arrow_back" size={24} />
+        </button>
+        <div className="flex-1">
+          <h3 className="font-title-lg text-title-lg font-bold text-on-surface dark:text-white">
+            {formatRequestId(trip.id, trip.requestNumber)}
+          </h3>
+          <p className="font-body-sm text-body-sm text-on-surface-variant dark:text-outline-variant">
+            {trip.date} · {trip.time}
+          </p>
+        </div>
+        <TripStatusPill status={trip.status} />
+      </div>
+
+      {/* Route card */}
+      <div className="bg-surface dark:bg-navy-900 rounded-2xl border border-border-hairline dark:border-outline-variant p-5">
+        <div className="space-y-4">
+          <div>
+            <p className="font-label-caps text-label-caps uppercase text-on-surface-variant dark:text-outline-variant mb-1">Pickup</p>
+            <div className="flex items-start gap-3">
+              <span className="mt-0.5 w-3 h-3 rounded-full bg-role-admin dark:bg-emerald-400 shrink-0" />
+              <p className="font-body-base text-body-base font-medium text-on-surface dark:text-white">{trip.pickup}</p>
+            </div>
+          </div>
+          <div className="w-px h-5 ml-[5px] bg-border-hairline dark:bg-outline-variant" />
+          <div>
+            <p className="font-label-caps text-label-caps uppercase text-on-surface-variant dark:text-outline-variant mb-1">
+              Destination
+            </p>
+            <div className="flex items-start gap-3">
+              <span className="mt-0.5 w-3 h-3 rounded-full bg-role-driver dark:bg-purple-400 shrink-0" />
+              <p className="font-body-base text-body-base font-medium text-on-surface dark:text-white">{trip.destination}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Details */}
+      <div className="bg-surface dark:bg-navy-900 rounded-2xl border border-border-hairline dark:border-outline-variant p-5 space-y-4">
+        <InfoRow icon="person" label="Passenger" value={trip.passengerName} />
+        <InfoRow icon="business" label="Department" value={trip.department} />
+        <InfoRow icon="calendar_month" label="Date" value={trip.date} />
+        <InfoRow icon="schedule" label="Time" value={trip.time} />
+        <InfoRow icon="directions_car" label="Vehicle" value={trip.vehiclePlate || "—"} valueClass="font-mono" />
+      </div>
+
+      {/* Actions */}
       <div className="space-y-2">
         {["ASSIGNED", "QR_PENDING"].includes(trip.status) && (
-          <Button onClick={() => setShowCheckIn(true)} className="w-full">
-            <LogIn className="w-4 h-4 mr-2" />
+          <Button accent="driver" onClick={() => setShowCheckIn(true)} className="w-full">
+            <Icon name="login" size={18} className="mr-2" />
             Check In
           </Button>
         )}
         {trip.status === "PICK_UP_SCANNED" && (
           <Button onClick={() => setShowCheckOut(true)} className="w-full" variant="secondary">
-            <LogOut className="w-4 h-4 mr-2" />
+            <Icon name="logout" size={18} className="mr-2" />
             Check Out
           </Button>
         )}
       </div>
 
+      {/* Check in / out form */}
       {(showCheckIn || showCheckOut) && (
-        <Card className="p-4 mt-4">
-          <h4 className="font-medium mb-3">{showCheckIn ? "Check In" : "Check Out"}</h4>
-          <div className="space-y-3">
-            <div>
-              <label className={`text-sm ${th.textSecondary}`}>Location</label>
-              <input
-                type="text"
-                value={location}
-                onChange={(e) => setLocation(e.target.value)}
-                className={`w-full mt-1 px-3 py-2 text-sm rounded-lg border ${th.bgInput} ${th.border} ${th.text} focus:outline-none focus:border-amber-500`}
-                placeholder="Enter location"
-              />
-            </div>
-            <div>
-              <label className={`text-sm ${th.textSecondary}`}>Remark (optional)</label>
-              <input
-                type="text"
-                value={remark}
-                onChange={(e) => setRemark(e.target.value)}
-                className={`w-full mt-1 px-3 py-2 text-sm rounded-lg border ${th.bgInput} ${th.border} ${th.text} focus:outline-none focus:border-amber-500`}
-                placeholder="Any notes..."
-              />
-            </div>
-            <div className="flex gap-3">
-              <Button onClick={showCheckIn ? handleCheckIn : handleCheckOut} disabled={!location} className="flex-1">
-                Submit {showCheckIn ? "Check In" : "Check Out"}
-              </Button>
-              <Button variant="secondary" onClick={() => { setShowCheckIn(false); setShowCheckOut(false); }}>Cancel</Button>
-            </div>
+        <div className="bg-surface dark:bg-navy-900 rounded-2xl border border-border-hairline dark:border-outline-variant p-5 space-y-3">
+          <h4 className="font-title-md text-title-md text-on-surface dark:text-white">
+            {showCheckIn ? "Check In" : "Check Out"} Vehicle
+          </h4>
+          <div>
+            <label className={`font-body-sm text-body-sm text-on-surface-variant dark:text-outline-variant`}>Location</label>
+            <input
+              type="text"
+              value={location}
+              onChange={(e) => setLocation(e.target.value)}
+              className={inputClass}
+              placeholder="Enter location"
+            />
           </div>
-        </Card>
+          <div>
+            <label className={`font-body-sm text-body-sm text-on-surface-variant dark:text-outline-variant`}>Remark (optional)</label>
+            <input
+              type="text"
+              value={remark}
+              onChange={(e) => setRemark(e.target.value)}
+              className={inputClass}
+              placeholder="Any notes..."
+            />
+          </div>
+          <div className="flex gap-3">
+            <Button accent="driver" onClick={showCheckIn ? handleCheckIn : handleCheckOut} disabled={!location} className="flex-1">
+              Submit {showCheckIn ? "Check In" : "Check Out"}
+            </Button>
+            <Button variant="secondary" onClick={() => { setShowCheckIn(false); setShowCheckOut(false); }}>
+              Cancel
+            </Button>
+          </div>
+        </div>
       )}
     </div>
   );

@@ -1,8 +1,7 @@
 import { useState } from "react";
-import { Card, Button, Badge, SearchInput, th, ConfirmDialog } from "../ui";
+import { Card, Button, Badge, SearchInput, th, ConfirmDialog, Icon } from "../ui";
 import VehicleDetail from "./VehicleDetail";
 import VehicleForm from "./VehicleForm";
-import { Download, Truck, User, Plus, QrCode, Trash2 } from "lucide-react";
 import type { Vehicle } from "../../types";
 
 export default function VehiclesList({
@@ -36,8 +35,8 @@ export default function VehiclesList({
         </div>
         <div className="flex items-center gap-2">
           <SearchInput value={search} onChange={setSearch} placeholder="Search vehicles..." className="w-full sm:w-64" />
-          <Button variant="secondary" size="sm" onClick={onExport}><Download className="w-4 h-4 mr-1" />Export</Button>
-          <Button size="sm" onClick={() => setShowForm(true)}><Plus className="w-4 h-4 mr-1" />Add</Button>
+          <Button variant="secondary" size="sm" onClick={onExport}><Icon name="download" size={16} className="mr-1" />Export</Button>
+          <Button size="sm" accent="admin" onClick={() => setShowForm(true)}><Icon name="add" size={16} className="mr-1" />Add</Button>
         </div>
       </div>
       <div className="space-y-2">
@@ -46,7 +45,7 @@ export default function VehiclesList({
             <div className="flex justify-between items-center">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 bg-slate-100 dark:bg-slate-800 rounded-lg flex items-center justify-center">
-                  <Truck className="w-5 h-5 text-slate-400" />
+                  <Icon name="local_shipping" size={20} className="text-slate-400" />
                 </div>
                 <div>
                   <p className={`text-sm font-medium font-mono ${th.text}`}>{v.plate}</p>
@@ -56,14 +55,14 @@ export default function VehiclesList({
               <div className="flex items-center gap-3">
                 {v.assignedDriverName && (
                   <div className="flex items-center gap-1">
-                    <User className="w-3 h-3 text-slate-400" />
+                    <Icon name="person" size={12} className="text-slate-400" />
                     <span className={`text-xs ${th.textMuted}`}>{v.assignedDriverName}</span>
                   </div>
                 )}
-                <QrCode className="w-4 h-4 text-slate-400" />
+                <Icon name="qr_code" size={16} className="text-slate-400" />
                 <Badge status={v.status}>{v.status}</Badge>
                 <button onClick={(e) => { e.stopPropagation(); setDeleteTarget(v); }} className="text-slate-400 hover:text-rose-500 p-1">
-                  <Trash2 className="w-4 h-4" />
+                  <Icon name="delete" size={16} />
                 </button>
               </div>
             </div>

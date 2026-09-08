@@ -1,9 +1,8 @@
 import { useState } from "react";
-import { Card, Button, Badge, EmptyState, SearchInput, th } from "../ui";
+import { Card, Button, Badge, EmptyState, SearchInput, th, Icon, DataTable, TableRow, TableCell } from "../ui";
 import AssignModal from "./AssignModal";
 import type { TransportRequest, Driver, Vehicle } from "../../types";
 import { formatRequestId } from "../../types";
-import { ArrowLeft, MapPin, Calendar, Clock, Car, User } from "lucide-react";
 
 export default function RequestsList({
   requests,
@@ -44,8 +43,8 @@ export default function RequestsList({
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
         <div className="flex items-center gap-3">
           {selectedRequest && (
-            <button onClick={() => onSelectRequest(null)} className="text-amber-500 dark:text-amber-400">
-              <ArrowLeft className="w-5 h-5" />
+            <button onClick={() => onSelectRequest(null)} className="text-role-admin dark:text-emerald-400">
+              <Icon name="arrow_back" size={20} />
             </button>
           )}
           <h2 className="text-2xl font-bold">Transport Requests</h2>
@@ -60,7 +59,7 @@ export default function RequestsList({
             onClick={() => setFilter(s)}
             className={`px-3 py-1 rounded-full text-xs font-medium transition-colors ${
               filter === s
-                ? "bg-amber-500 text-navy-950"
+                ? "bg-emerald-600 text-white"
                 : `${th.bgInput} ${th.textSecondary} hover:${th.text}`
             }`}
           >
@@ -77,7 +76,7 @@ export default function RequestsList({
           </div>
           <div className="grid grid-cols-2 gap-4 text-sm">
             <div className="flex items-center gap-2">
-              <User className="w-4 h-4 text-slate-400" />
+              <Icon name="person" size={16} />
               <div>
                 <p className={th.textSecondary}>Passenger</p>
                 <p className={th.text}>{selectedRequest.passengerName}</p>
@@ -88,28 +87,28 @@ export default function RequestsList({
               <p className={th.text}>{selectedRequest.department}</p>
             </div>
             <div className="flex items-center gap-2">
-              <MapPin className="w-4 h-4 text-slate-400" />
+              <Icon name="location_on" size={16} />
               <div>
                 <p className={th.textSecondary}>Pickup</p>
                 <p className={th.text}>{selectedRequest.pickup}</p>
               </div>
             </div>
             <div className="flex items-center gap-2">
-              <MapPin className="w-4 h-4 text-emerald-400" />
+              <Icon name="location_on" size={16} />
               <div>
                 <p className={th.textSecondary}>Destination</p>
                 <p className={th.text}>{selectedRequest.destination}</p>
               </div>
             </div>
             <div className="flex items-center gap-2">
-              <Calendar className="w-4 h-4 text-slate-400" />
+              <Icon name="calendar_today" size={16} />
               <div>
                 <p className={th.textSecondary}>Date</p>
                 <p className={th.text}>{selectedRequest.date}</p>
               </div>
             </div>
             <div className="flex items-center gap-2">
-              <Clock className="w-4 h-4 text-slate-400" />
+              <Icon name="schedule" size={16} />
               <div>
                 <p className={th.textSecondary}>Time</p>
                 <p className={th.text}>{selectedRequest.time}</p>
@@ -117,7 +116,7 @@ export default function RequestsList({
             </div>
             {selectedRequest.driverName && (
               <div className="flex items-center gap-2">
-                <Car className="w-4 h-4 text-slate-400" />
+                <Icon name="directions_car" size={16} />
                 <div>
                   <p className={th.textSecondary}>Driver</p>
                   <p className={th.text}>{selectedRequest.driverName}</p>
@@ -132,27 +131,43 @@ export default function RequestsList({
             )}
           </div>
           {selectedRequest.status === "PENDING" && (
-            <Button onClick={() => onShowAssignModal(true)} className="mt-4">Assign Driver + Vehicle</Button>
+            <Button accent="admin" onClick={() => onShowAssignModal(true)} className="mt-4">Assign Driver + Vehicle</Button>
           )}
         </Card>
       ) : (
-        <div className="space-y-2">
+        <>
           {filtered.length === 0 ? (
             <EmptyState message="No requests found" />
           ) : (
-            filtered.map((r) => (
-              <Card key={r.id} className={`p-3 cursor-pointer ${th.borderHover}`} onClick={() => onSelectRequest(r)}>
-                <div className="flex justify-between items-center">
-                  <div>
-                    <p className={`text-sm font-medium ${th.text}`}>{formatRequestId(r.id, r.requestNumber)} · {r.passengerName}</p>
-                    <p className={`text-xs ${th.textMuted}`}>{r.pickup} → {r.destination} · {r.date}</p>
-                  </div>
-                  <Badge status={r.status}>{r.status.replace(/_/g, " ")}</Badge>
-                </div>
-              </Card>
-            ))
+            <DataTable
+              headers={["Request ID", "Passenger", "Dept", "Pickup", "Destination", "Departs", "Driver", "Vehicle", "Status", ""]}
+            >
+              {filtered.map((r) => (
+                <TableRow key={r.id} onClick={() => onSelectRequest(r)}>
+                  <TableCell className="font-medium whitespace-nowrap">{formatRequestId(r.id, r.requestNumber)}</TableCell>
+                  <TableCell className="whitespace-nowrap">{r.passengerName || "—"}</TableCell>
+                  <TableCell className="whitespace-nowrap">{r.department || "—"}</TableCell>
+                  <TableCell className="whitespace-nowrap">{r.pickup}</TableCell>
+                  <TableCell className="whitespace-nowrap">{r.destination}</TableCell>
+                  <TableCell className="whitespace-nowrap text-muted">{r.date} · {r.time}</TableCell>
+                  <TableCell className="whitespace-nowrap">{r.driverName || <span className={th.textMuted}>Unassigned</span>}</TableCell>
+                  <TableCell className="font-mono whitespace-nowrap">{r.vehiclePlate || <span className={th.textMuted}>—</span>}</TableCell>
+                  <TableCell><Badge status={r.status}>{r.status.replace(/_/g, " ")}</Badge></TableCell>
+                  <TableCell className="text-right">
+                    <Icon name="chevron_right" size={18} className="text-on-surface-variant" />
+                  </TableCell>
+                </TableRow>
+              ))}
+            </DataTable>
           )}
-        </div>
+          {requests.length > 0 && (
+            <div className="flex justify-end mt-3">
+              <Button variant="ghost" onClick={onRefresh} size="sm">
+                <Icon name="refresh" size={16} className="mr-1" /> Refresh
+              </Button>
+            </div>
+          )}
+        </>
       )}
 
       {showAssignModal && selectedRequest && (

@@ -1,6 +1,6 @@
-import { Card, Badge, EmptyState, th } from "../ui";
+import { Card, Badge, EmptyState, th, Icon } from "../ui";
 import StatusStepper from "./StatusStepper";
-import { ArrowLeft, MapPin, ArrowRight, Calendar, Clock, Car, User, QrCode, MessageSquare } from "lucide-react";
+import { Button } from "../ui";
 import type { TransportRequest } from "../../types";
 import { formatRequestId } from "../../types";
 
@@ -14,7 +14,7 @@ export default function PassengerRequests({
   onFeedback,
 }: {
   requests: TransportRequest[];
-  onSelect: (r: TransportRequest) => void;
+  onSelect: (r: TransportRequest | null) => void;
   onBack: () => void;
   selectedRequest: TransportRequest | null;
   onPickupScan: (id: string) => void;
@@ -24,12 +24,10 @@ export default function PassengerRequests({
   if (selectedRequest) {
     return (
       <div>
-        <button onClick={() => onSelect(null as unknown as TransportRequest)} className="flex items-center gap-1 text-amber-500 dark:text-amber-400 text-sm mb-3">
-          <ArrowLeft className="w-4 h-4" /> Back
+        <button onClick={() => onSelect(null)} className="flex items-center gap-1 text-role-passenger text-sm mb-3">
+          <Icon name="arrow_back" size={16} /> Back
         </button>
-
         <StatusStepper currentStatus={selectedRequest.status} />
-
         <Card className="p-4 mb-4">
           <div className="flex justify-between items-start mb-3">
             <h3 className="font-semibold">{formatRequestId(selectedRequest.id, selectedRequest.requestNumber)}</h3>
@@ -37,28 +35,28 @@ export default function PassengerRequests({
           </div>
           <div className="mt-3 space-y-3 text-sm">
             <div className="flex items-center gap-2">
-              <MapPin className="w-4 h-4 text-slate-400" />
+              <Icon name="location_on" size={16} className="text-on-surface-variant" />
               <div className="flex-1 flex justify-between">
                 <span className={th.textSecondary}>Pickup</span>
                 <span className={th.text}>{selectedRequest.pickup}</span>
               </div>
             </div>
             <div className="flex items-center gap-2">
-              <MapPin className="w-4 h-4 text-emerald-400" />
+              <Icon name="flag" size={16} className="text-emerald-500" />
               <div className="flex-1 flex justify-between">
                 <span className={th.textSecondary}>Destination</span>
                 <span className={th.text}>{selectedRequest.destination}</span>
               </div>
             </div>
             <div className="flex items-center gap-2">
-              <Calendar className="w-4 h-4 text-slate-400" />
+              <Icon name="calendar_today" size={16} className="text-on-surface-variant" />
               <div className="flex-1 flex justify-between">
                 <span className={th.textSecondary}>Date</span>
                 <span className={th.text}>{selectedRequest.date}</span>
               </div>
             </div>
             <div className="flex items-center gap-2">
-              <Clock className="w-4 h-4 text-slate-400" />
+              <Icon name="schedule" size={16} className="text-on-surface-variant" />
               <div className="flex-1 flex justify-between">
                 <span className={th.textSecondary}>Time</span>
                 <span className={th.text}>{selectedRequest.time}</span>
@@ -66,7 +64,7 @@ export default function PassengerRequests({
             </div>
             {selectedRequest.driverName && (
               <div className="flex items-center gap-2">
-                <User className="w-4 h-4 text-slate-400" />
+                <Icon name="person" size={16} className="text-on-surface-variant" />
                 <div className="flex-1 flex justify-between">
                   <span className={th.textSecondary}>Driver</span>
                   <span className={th.text}>{selectedRequest.driverName}</span>
@@ -75,7 +73,7 @@ export default function PassengerRequests({
             )}
             {selectedRequest.vehiclePlate && (
               <div className="flex items-center gap-2">
-                <Car className="w-4 h-4 text-slate-400" />
+                <Icon name="local_shipping" size={16} className="text-on-surface-variant" />
                 <div className="flex-1 flex justify-between">
                   <span className={th.textSecondary}>Vehicle</span>
                   <span className={`${th.text} font-mono`}>{selectedRequest.vehiclePlate}</span>
@@ -86,22 +84,22 @@ export default function PassengerRequests({
         </Card>
         <div className="space-y-2">
           {(selectedRequest.status === "QR_PENDING" || selectedRequest.status === "ASSIGNED") && (
-            <button onClick={() => onPickupScan(selectedRequest.id)} className="w-full bg-amber-500 hover:bg-amber-600 text-navy-950 font-medium rounded-lg px-4 py-2 text-sm flex items-center justify-center gap-2">
-              <QrCode className="w-4 h-4" />
+            <Button accent="passenger" onClick={() => onPickupScan(selectedRequest.id)} className="w-full">
+              <Icon name="qr_code_scanner" size={16} className="mr-2" />
               Scan QR (Pickup)
-            </button>
+            </Button>
           )}
           {(selectedRequest.status === "PICK_UP_SCANNED" || selectedRequest.status === "IN_PROGRESS") && (
-            <button onClick={() => onDropoffScan(selectedRequest.id)} className="w-full bg-slate-200 hover:bg-slate-300 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-100 font-medium rounded-lg px-4 py-2 text-sm flex items-center justify-center gap-2">
-              <QrCode className="w-4 h-4" />
+            <Button variant="secondary" onClick={() => onDropoffScan(selectedRequest.id)} className="w-full">
+              <Icon name="qr_code_scanner" size={16} className="mr-2" />
               Scan QR (Dropoff)
-            </button>
+            </Button>
           )}
           {selectedRequest.status === "DROP_OFF_SCANNED" && (
-            <button onClick={() => onFeedback(selectedRequest)} className="w-full bg-amber-500 hover:bg-amber-600 text-navy-950 font-medium rounded-lg px-4 py-2 text-sm flex items-center justify-center gap-2">
-              <MessageSquare className="w-4 h-4" />
+            <Button accent="passenger" onClick={() => onFeedback(selectedRequest)} className="w-full">
+              <Icon name="rate_review" size={16} className="mr-2" />
               Submit Feedback
-            </button>
+            </Button>
           )}
         </div>
       </div>
@@ -120,10 +118,10 @@ export default function PassengerRequests({
               <div className="flex justify-between items-start">
                 <div>
                   <p className={`text-sm font-medium ${th.text}`}>{formatRequestId(r.id, r.requestNumber)}</p>
-                  <div className="flex items-center gap-1 text-xs text-slate-500">
-                    <MapPin className="w-3 h-3" />
+                  <div className="flex items-center gap-1 text-xs text-on-surface-variant">
+                    <Icon name="location_on" size={12} />
                     {r.pickup}
-                    <ArrowRight className="w-3 h-3" />
+                    <Icon name="arrow_forward" size={12} />
                     {r.destination}
                   </div>
                   <p className={`text-xs ${th.textMuted} mt-1`}>{r.date} · {r.time}</p>

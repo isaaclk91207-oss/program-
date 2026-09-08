@@ -1,7 +1,36 @@
-import { Card, Badge, EmptyState, th } from "../ui";
+import { useState } from "react";
+import { EmptyState, Icon, TripStatusPill } from "../ui";
 import TripDetail from "./TripDetail";
-import { ArrowLeft, MapPin, ArrowRight, Calendar } from "lucide-react";
 import type { TransportRequest } from "../../types";
+import { formatRequestId } from "../../types";
+
+const ACTIVE_SET = ["ASSIGNED", "PENDING", "QR_PENDING", "PICK_UP_SCANNED", "IN_PROGRESS", "DROP_OFF_SCANNED"];
+const DONE_SET = ["FEEDBACK_SUBMITTED", "COMPLETED", "DROPOFF_COMPLETE"];
+
+type Filter = "all" | "completed" | "cancelled";
+
+const FILTERS: { key: Filter; label: string }[] = [
+  { key: "all", label: "All" },
+  { key: "completed", label: "Completed" },
+  { key: "cancelled", label: "Cancelled" },
+];
+
+function Field({ label, value }: { label: string; value: string }) {
+  return (
+    <div>
+      <span className="font-label-caps text-label-caps uppercase text-on-surface-variant dark:text-outline-variant block mb-0.5">
+        {label}
+      </span>
+      <span className="font-body-base text-body-base text-on-surface dark:text-white">{value}</span>
+    </div>
+  );
+}
+
+function filterTrips(trips: TransportRequest[], filter: Filter): TransportRequest[] {
+  if (filter === "completed") return trips.filter((t) => DONE_SET.includes(t.status));
+  if (filter === "cancelled") return trips.filter((t) => !ACTIVE_SET.includes(t.status) && !DONE_SET.includes(t.status));
+  return trips;
+}
 
 export default function TripsList({
   trips,
@@ -18,39 +47,83 @@ export default function TripsList({
   onCheckOut: (vehiclePlate: string, location: string, remark?: string) => void;
   onBack: () => void;
 }) {
+  const [filter, setFilter] = useState<Filter>("all");
+
   if (selectedTrip) {
     return <TripDetail trip={selectedTrip} onBack={() => onSelectTrip(null)} onCheckIn={onCheckIn} onCheckOut={onCheckOut} />;
   }
 
+  const visible = filterTrips(trips, filter);
+
   return (
-    <div>
-      <button onClick={onBack} className="flex items-center gap-1 text-amber-500 dark:text-amber-400 text-sm mb-3">
-        <ArrowLeft className="w-4 h-4" /> Back
-      </button>
-      <h2 className="text-lg font-semibold mb-4">My Trips</h2>
-      {trips.length === 0 ? (
-        <EmptyState message="No trips assigned" />
+    <div className="max-w-3xl">
+      {/* Header */}
+      <div className="flex items-center gap-2 mb-5">
+        <button
+          onClick={onBack}
+          className="p-2 rounded-full text-role-driver dark:text-purple-400 hover:bg-role-driver-container dark:hover:bg-purple-500/20 transition-colors"
+        >
+          <Icon name="arrow_back" size={24} />
+        </button>
+        <div>
+          <h2 className="font-headline-md text-headline-md font-bold text-on-surface dark:text-white">My Trips</h2>
+          <p className="font-body-sm text-body-sm text-on-surface-variant dark:text-outline-variant">View and manage your trip records.</p>
+        </div>
+      </div>
+
+      {/* Filter tabs */}
+      <div className="flex items-center justify-between gap-3 border-b border-border-hairline dark:border-outline-variant mb-5 overflow-x-auto">
+        <div className="flex gap-3">
+          {FILTERS.map((f) => (
+            <button
+              key={f.key}
+              onClick={() => setFilter(f.key)}
+              className={`px-3 py-2 border-b-2 font-title-md text-title-md whitespace-nowrap transition-colors ${
+                filter === f.key
+                  ? "border-role-driver text-role-driver dark:border-purple-400 dark:text-purple-400"
+                  : "border-transparent text-on-surface-variant dark:text-outline-variant hover:text-on-surface dark:hover:text-white"
+              }`}
+            >
+              {f.label}
+            </button>
+          ))}
+        </div>
+        <span className="hidden sm:flex items-center justify-center p-1 text-on-surface-variant dark:text-outline-variant">
+          <Icon name="calendar_month" size={20} />
+        </span>
+      </div>
+
+      {/* Trip cards */}
+      {visible.length === 0 ? (
+        <EmptyState message="No trips in this category" />
       ) : (
-        <div className="space-y-2">
-          {trips.map((t) => (
-            <Card key={t.id} className={`p-3 cursor-pointer ${th.borderHover}`} onClick={() => onSelectTrip(t)}>
-              <div className="flex justify-between items-start">
+        <div className="space-y-4">
+          {visible.map((t) => (
+            <button
+              key={t.id}
+              onClick={() => onSelectTrip(t)}
+              className="w-full text-left bg-surface dark:bg-navy-900 rounded-xl border border-border-hairline dark:border-outline-variant shadow-[0px_1px_3px_0px_rgba(15,23,42,0.05)] p-4 transition-colors hover:border-role-driver/60 dark:hover:border-purple-500/50"
+            >
+              <div className="flex justify-between items-center border-b border-border-hairline dark:border-outline-variant pb-2 mb-3">
                 <div>
-                  <p className={`text-sm font-medium ${th.text}`}>{t.passengerName}</p>
-                  <div className="flex items-center gap-1 text-xs text-slate-500">
-                    <MapPin className="w-3 h-3" />
-                    {t.pickup}
-                    <ArrowRight className="w-3 h-3" />
-                    {t.destination}
-                  </div>
-                  <div className="flex items-center gap-1 text-xs text-slate-500 mt-1">
-                    <Calendar className="w-3 h-3" />
+                  <span className="font-title-md text-title-md text-on-surface dark:text-white block">
+                    {formatRequestId(t.id, t.requestNumber)}
+                  </span>
+                  <span className="font-body-sm text-body-sm text-on-surface-variant dark:text-outline-variant block">
                     {t.date} · {t.time}
-                  </div>
+                  </span>
                 </div>
-                <Badge status={t.status}>{t.status.replace(/_/g, " ")}</Badge>
+                <TripStatusPill status={t.status} />
               </div>
-            </Card>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                <div className="col-span-2 md:col-span-1">
+                  <Field label="Route" value={`${t.pickup} → ${t.destination}`} />
+                </div>
+                <Field label="Passengers" value={t.passengerName} />
+                <Field label="Vehicle" value={t.vehiclePlate || "—"} />
+                <Field label="Department" value={t.department} />
+              </div>
+            </button>
           ))}
         </div>
       )}

@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { Button, StarRating, th } from "../ui";
-import { X, MessageSquare } from "lucide-react";
+import { Button, StarRating, th, Icon } from "../ui";
 import type { TransportRequest } from "../../types";
 import { formatRequestId } from "../../types";
 
@@ -54,7 +53,7 @@ export default function FeedbackForm({
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-lg font-semibold">Rate Your Ride</h2>
           <button onClick={onClose} className={th.textMuted}>
-            <X className="w-5 h-5" />
+            <Icon name="close" size={20} />
           </button>
         </div>
         <p className={`text-xs ${th.textMuted} mb-4`}>{formatRequestId(request.id, request.requestNumber)} · {request.driverName} · {request.vehiclePlate}</p>
@@ -67,7 +66,7 @@ export default function FeedbackForm({
             <textarea
               value={comment}
               onChange={(e) => setComment(e.target.value)}
-              className={`w-full px-3 py-2 text-sm rounded-lg border ${th.bgInput} ${th.border} ${th.text} h-24 focus:outline-none focus:border-amber-500`}
+              className={`w-full px-3 py-2 text-sm rounded-lg border ${th.bgInput} ${th.border} ${th.text} h-24 focus:outline-none focus:border-role-passenger`}
               placeholder="Share your experience..."
               required
             />
@@ -83,7 +82,7 @@ export default function FeedbackForm({
                     onClick={() => toggleTag(tag.id)}
                     className={`px-3 py-1 rounded-full text-xs border transition-colors ${
                       tags.includes(tag.id)
-                        ? "bg-amber-500/20 border-amber-500 text-amber-600 dark:text-amber-400"
+                        ? "bg-blue-500/20 border-blue-500 text-blue-600 dark:text-blue-400"
                         : `${th.bgInput} ${th.border} ${th.textSecondary}`
                     }`}
                   >
@@ -94,8 +93,7 @@ export default function FeedbackForm({
             </div>
           )}
           <div className="flex gap-3">
-            <Button type="submit" className="flex-1" disabled={rating === 0 || !comment.trim() || tags.length === 0}>
-              <MessageSquare className="w-4 h-4 mr-2" />
+            <Button type="submit" className="flex-1" accent="passenger" disabled={rating === 0 || !comment.trim() || tags.length === 0}>
               Submit Feedback
             </Button>
             <Button type="button" variant="secondary" onClick={onClose}>Cancel</Button>

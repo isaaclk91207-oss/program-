@@ -1,7 +1,6 @@
 import { useState } from "react";
-import { Card, Button, LoadingSpinner, th } from "../ui";
+import { Card, Button, LoadingSpinner, th, Icon } from "../ui";
 import { getUnitReport } from "../../services/api";
-import { Car, Search, AlertCircle } from "lucide-react";
 import type { UnitReportResponse } from "../../types";
 
 export default function UnitReportView() {
@@ -44,7 +43,7 @@ export default function UnitReportView() {
       {/* Controls */}
       <Card className="p-6">
         <h3 className={`text-lg font-semibold ${th.text} mb-4 flex items-center gap-2`}>
-          <Car className="w-5 h-5 text-amber-500" /> Unit Report
+          <Icon name="directions_car" size={20} className="text-role-admin dark:text-emerald-400" /> Unit Report
         </h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           <div>
@@ -72,8 +71,8 @@ export default function UnitReportView() {
               className={`w-full px-3 py-2 rounded-lg border ${th.border} ${th.bgInput} ${th.text} text-sm`} />
           </div>
           <div className="flex items-end">
-            <Button onClick={handleFetch} loading={loading} className="w-full">
-              <Search className="w-4 h-4 mr-1" /> Fetch Report
+            <Button onClick={handleFetch} loading={loading} accent="admin" className="w-full">
+              <Icon name="search" size={16} className="mr-1" /> Fetch Report
             </Button>
           </div>
         </div>
@@ -83,7 +82,7 @@ export default function UnitReportView() {
       {error && (
         <Card className="p-4 border-rose-200 dark:border-rose-500/30 bg-rose-50 dark:bg-rose-500/10">
           <div className="flex items-center gap-2 text-rose-600 dark:text-rose-400">
-            <AlertCircle className="w-5 h-5" />
+            <Icon name="error" size={20} />
             <p className="text-sm">{error}</p>
           </div>
         </Card>
@@ -125,7 +124,7 @@ export default function UnitReportView() {
                   </thead>
                   <tbody>
                     {table.rows.map((row, idx) => (
-                      <tr key={idx} className={`border-b ${th.border} hover:bg-amber-500/5`}>
+                      <tr key={idx} className={`border-b ${th.border} hover:bg-emerald-500/5`}>
                         {table.header.map((col) => (
                           <td key={col} className={`px-4 py-2 ${th.text}`}>
                             {String(row[col] ?? "-")}

@@ -1,10 +1,5 @@
 import { useState, useEffect } from "react";
-import { Card, Button, Badge, CertBadge, ProgressBar, Tabs, th, ConfirmDialog, StarRating } from "../ui";
-import {
-  ArrowLeft, Star, Phone, Mail, Car, Calendar, Shield, Award, CreditCard,
-  CheckCircle, XCircle, AlertTriangle, History, MessageSquare, Loader2,
-  Settings, TrendingUp,
-} from "lucide-react";
+import { Card, Button, Badge, CertBadge, ProgressBar, Tabs, th, ConfirmDialog, StarRating, Icon } from "../ui";
 import { getDriverFeedback } from "../../services/api";
 import type { Driver, Feedback, Assessment } from "../../types";
 
@@ -85,26 +80,26 @@ export default function DriverDetail({
     .map(([level]) => level);
 
   const tabItems = [
-    { key: "overview", label: "Overview", icon: <Shield className="w-4 h-4" /> },
-    { key: "info", label: "Info", icon: <Settings className="w-4 h-4" /> },
-    { key: "passport", label: "Passport", icon: <CreditCard className="w-4 h-4" /> },
-    { key: "assessment", label: "Assessment", icon: <TrendingUp className="w-4 h-4" /> },
-    { key: "feedback", label: "Feedback", icon: <MessageSquare className="w-4 h-4" /> },
-    { key: "records", label: "Records", icon: <History className="w-4 h-4" /> },
+    { key: "overview", label: "Overview", icon: <Icon name="shield" size={16} /> },
+    { key: "info", label: "Info", icon: <Icon name="settings" size={16} /> },
+    { key: "passport", label: "Passport", icon: <Icon name="credit_card" size={16} /> },
+    { key: "assessment", label: "Assessment", icon: <Icon name="trending_up" size={16} /> },
+    { key: "feedback", label: "Feedback", icon: <Icon name="chat" size={16} /> },
+    { key: "records", label: "Records", icon: <Icon name="history" size={16} /> },
   ];
 
   return (
     <div>
-      <button onClick={onBack} className="flex items-center gap-1 text-amber-500 dark:text-amber-400 text-sm mb-3">
-        <ArrowLeft className="w-4 h-4" /> Back to drivers
+      <button onClick={onBack} className="flex items-center gap-1 text-role-admin dark:text-emerald-400 text-sm mb-3">
+        <Icon name="arrow_back" size={16} /> Back to drivers
       </button>
 
       {/* Header Card */}
       <Card className="p-4 mb-4 bg-gradient-to-r from-slate-800 to-slate-900 dark:from-slate-800 dark:to-navy-900 border-slate-700">
         <div className="flex justify-between items-start">
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 bg-amber-500/20 rounded-full flex items-center justify-center">
-              <span className="text-lg font-bold text-amber-400">
+            <div className="w-12 h-12 bg-emerald-500/20 rounded-full flex items-center justify-center">
+              <span className="text-lg font-bold text-emerald-400">
                 {(driver.name || "").split(" ").map((n) => n[0]).join("").slice(0, 2)}
               </span>
             </div>
@@ -130,31 +125,31 @@ export default function DriverDetail({
             <div className="grid grid-cols-2 gap-4 text-sm">
               <div>
                 <p className={th.textSecondary}>Score</p>
-                <p className="text-xl font-bold text-amber-500 dark:text-amber-400">{driver.score}</p>
+                <p className="text-xl font-bold text-role-admin dark:text-emerald-400">{driver.score}</p>
               </div>
               <div>
                 <p className={th.textSecondary}>Rating</p>
                 <div className="flex items-center gap-1">
-                  <Star className="w-5 h-5 text-amber-400 fill-amber-400" />
-                  <p className="text-xl font-bold text-amber-500 dark:text-amber-400">{driver.rating}</p>
+                  <Icon name="star" size={20} />
+                  <p className="text-xl font-bold text-role-admin dark:text-emerald-400">{driver.rating}</p>
                 </div>
               </div>
               <div className="flex items-center gap-2">
-                <Phone className="w-4 h-4 text-slate-400" />
+                <Icon name="phone" size={16} />
                 <div>
                   <p className={th.textSecondary}>Phone</p>
                   <p className={th.text}>{driver.phone || "—"}</p>
                 </div>
               </div>
               <div className="flex items-center gap-2">
-                <Mail className="w-4 h-4 text-slate-400" />
+                <Icon name="mail" size={16} />
                 <div>
                   <p className={th.textSecondary}>Email</p>
                   <p className={th.text}>{driver.email}</p>
                 </div>
               </div>
               <div className="flex items-center gap-2">
-                <Car className="w-4 h-4 text-slate-400" />
+                <Icon name="directions_car" size={16} />
                 <div>
                   <p className={th.textSecondary}>Vehicle</p>
                   <p className={`${th.text} font-mono`}>{driver.currentVehiclePlate || "—"}</p>
@@ -165,7 +160,7 @@ export default function DriverDetail({
                 <p className={th.text}>{driver.status}</p>
               </div>
               <div className="flex items-center gap-2">
-                <Calendar className="w-4 h-4 text-slate-400" />
+                <Icon name="calendar_today" size={16} />
                 <div>
                   <p className={th.textSecondary}>Joined</p>
                   <p className={th.text}>{driver.joinedDate}</p>
@@ -183,26 +178,26 @@ export default function DriverDetail({
             <h3 className="font-semibold mb-3">Certificate Actions</h3>
             <div className="flex flex-wrap gap-2">
               {driver.certStatus !== "CERTIFIED" && (
-                <Button size="sm" onClick={() => setConfirmAction("issue")}>
-                  <CheckCircle className="w-4 h-4 mr-1" /> Issue Certificate
+                <Button accent="admin" size="sm" onClick={() => setConfirmAction("issue")}>
+                  <Icon name="check_circle" size={16} /> Issue Certificate
                 </Button>
               )}
               {driver.certStatus === "CERTIFIED" && (
                 <Button size="sm" variant="danger" onClick={() => setConfirmAction("revoke")}>
-                  <XCircle className="w-4 h-4 mr-1" /> Revoke Certificate
+                  <Icon name="cancel" size={16} /> Revoke Certificate
                 </Button>
               )}
               {driver.status !== "Suspended" ? (
                 <Button size="sm" variant="ghost" onClick={() => setConfirmAction("suspend")}>
-                  <AlertTriangle className="w-4 h-4 mr-1" /> Suspend Driver
+                  <Icon name="warning" size={16} /> Suspend Driver
                 </Button>
               ) : (
-                <Button size="sm" onClick={() => onUnsuspendDriver()}>
-                  <CheckCircle className="w-4 h-4 mr-1" /> Unsuspend Driver
+                <Button accent="admin" size="sm" onClick={() => onUnsuspendDriver()}>
+                  <Icon name="check_circle" size={16} /> Unsuspend Driver
                 </Button>
               )}
               <Button size="sm" variant="danger" onClick={() => setConfirmAction("delete")}>
-                <XCircle className="w-4 h-4 mr-1" /> Delete Driver
+                <Icon name="cancel" size={16} /> Delete Driver
               </Button>
             </div>
           </Card>
@@ -244,7 +239,7 @@ export default function DriverDetail({
         <div className={`bg-gradient-to-br from-slate-700 to-slate-800 rounded-2xl p-6 text-white shadow-xl`}>
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center gap-2">
-              <Shield className="w-6 h-6 text-white/80" />
+              <Icon name="shield" size={24} />
               <span className="text-sm font-medium opacity-80">PCCP Driver Passport</span>
             </div>
             <CertBadge level={driver.certLevel} />
@@ -262,17 +257,17 @@ export default function DriverDetail({
           </div>
           <div className="grid grid-cols-3 gap-3 mb-6">
             <div className="bg-white/10 rounded-lg p-3 text-center">
-              <CreditCard className="w-4 h-4 mx-auto mb-1 opacity-80" />
+              <Icon name="credit_card" size={16} />
               <p className="text-lg font-bold">{driver.score}</p>
               <p className="text-xs opacity-70">Score</p>
             </div>
             <div className="bg-white/10 rounded-lg p-3 text-center">
-              <Award className="w-4 h-4 mx-auto mb-1 opacity-80" />
+              <Icon name="emoji_events" size={16} />
               <p className="text-lg font-bold">{driver.rating}</p>
               <p className="text-xs opacity-70">Rating</p>
             </div>
             <div className="bg-white/10 rounded-lg p-3 text-center">
-              <Calendar className="w-4 h-4 mx-auto mb-1 opacity-80" />
+              <Icon name="calendar_today" size={16} />
               <p className="text-lg font-bold">{driver.credits}</p>
               <p className="text-xs opacity-70">Credits</p>
             </div>
@@ -302,9 +297,9 @@ export default function DriverDetail({
             <input
               type="number" min={0} max={100} value={written}
               onChange={(e) => setWritten(Number(e.target.value))}
-              className={`w-full mt-1 px-3 py-2 text-sm rounded-lg border ${th.bgInput} ${th.border} ${th.text} focus:outline-none focus:border-amber-500`}
+              className={`w-full mt-1 px-3 py-2 text-sm rounded-lg border ${th.bgInput} ${th.border} ${th.text} focus:outline-none focus:border-role-admin`}
             />
-            <ProgressBar value={written} color="amber" />
+            <ProgressBar value={written} color="emerald" />
           </div>
 
           <div>
@@ -363,7 +358,7 @@ export default function DriverDetail({
             </div>
             <div className={`border-t ${th.border} pt-2 flex justify-between font-bold`}>
               <span>Overall Score</span>
-              <span className="text-amber-500 dark:text-amber-400">{overallScore}</span>
+              <span className="text-role-admin dark:text-emerald-400">{overallScore}</span>
             </div>
           </div>
 
@@ -381,7 +376,7 @@ export default function DriverDetail({
             </div>
           </div>
 
-          <Button onClick={() => onUpdateAssessment({ written, practical, operational })}>
+          <Button accent="admin" onClick={() => onUpdateAssessment({ written, practical, operational })}>
             Save Assessment
           </Button>
         </Card>
@@ -391,7 +386,7 @@ export default function DriverDetail({
       {tab === "feedback" && (
         <div className="space-y-2">
           {loadingFeedback ? (
-            <div className="flex justify-center py-8"><Loader2 className="w-6 h-6 animate-spin text-amber-500" /></div>
+            <div className="flex justify-center py-8"><Icon name="progress_activity" size={24} /></div>
           ) : feedbacks.length === 0 ? (
             <Card className="p-8 text-center"><p className={th.textSecondary}>No feedback yet</p></Card>
           ) : (

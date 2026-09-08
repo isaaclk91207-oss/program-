@@ -1,6 +1,5 @@
 import { useMemo } from "react";
-import { Card, Badge, th } from "../ui";
-import { ArrowLeft, ChevronLeft, ChevronRight } from "lucide-react";
+import { Icon } from "../ui";
 import type { TransportRequest } from "../../types";
 
 export default function TripCalendar({
@@ -32,7 +31,7 @@ export default function TripCalendar({
 
   const days = [];
   for (let i = 0; i < firstDay; i++) {
-    days.push(<div key={`empty-${i}`} className="h-20" />);
+    days.push(<div key={`empty-${i}`} className="h-16 sm:h-20" />);
   }
   for (let d = 1; d <= daysInMonth; d++) {
     const dateStr = `${year}-${String(month + 1).padStart(2, "0")}-${String(d).padStart(2, "0")}`;
@@ -42,11 +41,13 @@ export default function TripCalendar({
     days.push(
       <div
         key={d}
-        className={`h-20 border rounded-lg p-1 overflow-hidden ${
-          isToday ? "border-amber-500 bg-amber-500/5" : th.border
+        className={`h-16 sm:h-20 border rounded-lg p-1 overflow-hidden transition-colors ${
+          isToday
+            ? "border-role-driver bg-role-driver-container dark:border-purple-400 dark:bg-purple-500/10"
+            : "border-border-hairline dark:border-outline-variant"
         }`}
       >
-        <p className={`text-xs font-medium mb-1 ${isToday ? "text-amber-500 dark:text-amber-400" : th.text}`}>
+        <p className={`font-body-sm text-body-sm font-medium mb-1 ${isToday ? "text-role-driver dark:text-purple-400" : "text-on-surface dark:text-white"}`}>
           {d}
         </p>
         <div className="space-y-0.5">
@@ -54,13 +55,13 @@ export default function TripCalendar({
             <button
               key={t.id}
               onClick={() => onSelectTrip(t)}
-              className="w-full text-left text-[10px] bg-amber-100 dark:bg-amber-500/20 text-amber-700 dark:text-amber-400 rounded px-1 py-0.5 truncate"
+              className="w-full text-left text-[10px] bg-role-driver-container dark:bg-purple-500/20 text-role-driver dark:text-purple-400 rounded px-1 py-0.5 truncate"
             >
               {t.time} {t.passengerName}
             </button>
           ))}
           {dayTrips.length > 2 && (
-            <p className={`text-[10px] ${th.textMuted}`}>+{dayTrips.length - 2} more</p>
+            <p className="text-[10px] text-on-surface-variant dark:text-outline-variant">+{dayTrips.length - 2} more</p>
           )}
         </div>
       </div>
@@ -68,26 +69,30 @@ export default function TripCalendar({
   }
 
   return (
-    <div>
-      <button onClick={onBack} className="flex items-center gap-1 text-amber-500 dark:text-amber-400 text-sm mb-3">
-        <ArrowLeft className="w-4 h-4" /> Back
-      </button>
-      <h2 className="text-lg font-semibold mb-4">Trip Calendar</h2>
-      <Card className="p-4">
-        <div className="flex items-center justify-between mb-4">
-          <h3 className={`font-medium ${th.text}`}>{monthName}</h3>
+    <div className="max-w-3xl">
+      <div className="flex items-center gap-2 mb-5">
+        <button
+          onClick={onBack}
+          className="p-2 rounded-full text-role-driver dark:text-purple-400 hover:bg-role-driver-container dark:hover:bg-purple-500/20 transition-colors"
+        >
+          <Icon name="arrow_back" size={24} />
+        </button>
+        <div>
+          <h2 className="font-headline-md text-headline-md font-bold text-on-surface dark:text-white">Trip Calendar</h2>
+          <p className="font-body-sm text-body-sm text-on-surface-variant dark:text-outline-variant">{monthName}</p>
         </div>
+      </div>
+
+      <div className="bg-surface dark:bg-navy-900 rounded-2xl border border-border-hairline dark:border-outline-variant p-4 sm:p-6">
         <div className="grid grid-cols-7 gap-1 mb-2">
-          {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((d) => (
-            <div key={d} className={`text-center text-xs font-medium ${th.textMuted} py-1`}>
-              {d}
+          {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((dw) => (
+            <div key={dw} className="text-center font-label-caps text-label-caps uppercase text-on-surface-variant dark:text-outline-variant py-1">
+              {dw}
             </div>
           ))}
         </div>
-        <div className="grid grid-cols-7 gap-1">
-          {days}
-        </div>
-      </Card>
+        <div className="grid grid-cols-7 gap-1">{days}</div>
+      </div>
     </div>
   );
 }

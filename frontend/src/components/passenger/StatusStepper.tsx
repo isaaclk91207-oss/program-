@@ -1,5 +1,4 @@
-import { Check } from "lucide-react";
-import { th } from "../ui";
+import { Icon, th } from "../ui";
 
 const STEPS = [
   { key: "PENDING", label: "Requested" },
@@ -20,7 +19,6 @@ export default function StatusStepper({ currentStatus }: { currentStatus: string
         {STEPS.map((step, idx) => {
           const isCompleted = idx < currentIndex;
           const isCurrent = idx === currentIndex;
-          const isPending = idx > currentIndex;
 
           return (
             <div key={step.key} className="flex flex-col items-center flex-1">
@@ -29,22 +27,17 @@ export default function StatusStepper({ currentStatus }: { currentStatus: string
                   isCompleted
                     ? "bg-emerald-500 border-emerald-500 text-white"
                     : isCurrent
-                    ? "bg-amber-500 border-amber-500 text-navy-950"
+                    ? "bg-role-passenger border-role-passenger text-white"
                     : `${th.bgInput} ${th.border} ${th.textMuted}`
                 }`}
               >
-                {isCompleted ? <Check className="w-4 h-4" /> : idx + 1}
+                {isCompleted ? <Icon name="check" size={16} className="text-white" /> : idx + 1}
               </div>
               <p className={`text-[10px] mt-1 text-center ${
-                isCurrent ? "text-amber-600 dark:text-amber-400 font-medium" : isCompleted ? "text-emerald-600 dark:text-emerald-400" : th.textMuted
+                isCurrent ? "text-role-passenger font-medium" : isCompleted ? "text-emerald-600 dark:text-emerald-400" : th.textMuted
               }`}>
                 {step.label}
               </p>
-              {idx < STEPS.length - 1 && (
-                <div className={`absolute w-full h-0.5 top-4 ${
-                  idx < currentIndex ? "bg-emerald-500" : `${th.bgInput}`
-                }`} style={{ zIndex: -1 }} />
-              )}
             </div>
           );
         })}

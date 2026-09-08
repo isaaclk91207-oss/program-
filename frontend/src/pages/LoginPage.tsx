@@ -1,22 +1,39 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
-import { Button, Card } from "../components/ui";
-import { Shield, Car, User, Mail, Lock, LogIn } from "lucide-react";
+import { Button, Icon } from "../components/ui";
 
 const DEMO_ACCOUNTS = [
-  { role: "ADMIN" as const, email: "admin@pccp.demo", password: "admin123", label: "Admin", icon: Shield },
-  { role: "DRIVER" as const, email: "drv017@pccp.demo", password: "driver123", label: "Driver (Ko Htet Lwin)", icon: Car },
-  { role: "PASSENGER" as const, email: "thin.thin@company.com", password: "passenger123", label: "Passenger (Daw Thin Thin)", icon: User },
+  { role: "ADMIN" as const, email: "admin@pccp.demo", password: "admin123", label: "Admin", icon: "admin_panel_settings" as const },
+  { role: "DRIVER" as const, email: "drv017@pccp.demo", password: "driver123", label: "Driver", icon: "local_shipping" as const },
+  { role: "PASSENGER" as const, email: "thin.thin@company.com", password: "passenger123", label: "Passenger", icon: "person" as const },
 ];
 
 export default function LoginPage() {
   const { login } = useAuth();
   const navigate = useNavigate();
+  const [activeTab, setActiveTab] = useState<"admin" | "passenger" | "driver">("passenger");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+
+  const handleTabLogin = async (role: "admin" | "passenger" | "driver") => {
+    const account = DEMO_ACCOUNTS.find((a) => a.role.toLowerCase() === role);
+    if (!account) return;
+    setLoading(true);
+    setError("");
+    setEmail(account.email);
+    setPassword(account.password);
+    try {
+      const user = await login(account.email, account.password);
+      navigate(`/${user.role.toLowerCase()}`);
+    } catch {
+      setError("Login failed");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -33,90 +50,114 @@ export default function LoginPage() {
     }
   };
 
-  const handleDemoLogin = async (account: typeof DEMO_ACCOUNTS[0]) => {
-    setLoading(true);
-    setError("");
-    setEmail(account.email);
-    setPassword(account.password);
-    try {
-      const user = await login(account.email, account.password);
-      navigate(`/${user.role.toLowerCase()}`);
-    } catch {
-      setError("Demo login failed");
-    } finally {
-      setLoading(false);
-    }
+  const tabRoleColors: Record<string, string> = {
+    admin: "bg-emerald-600 hover:bg-emerald-700 text-white",
+    passenger: "bg-blue-600 hover:bg-blue-700 text-white",
+    driver: "bg-purple-600 hover:bg-purple-700 text-white",
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-navy-950 px-4">
+    <div className="min-h-screen flex items-center justify-center px-4" style={{ background: "linear-gradient(135deg, #00507d 0%, #00796B 100%)" }}>
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
-          <div className="w-16 h-16 bg-amber-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
-            <span className="text-2xl font-bold text-navy-950">P</span>
+          <div className="w-20 h-20 bg-white rounded-2xl shadow-lg flex items-center justify-center mx-auto mb-4">
+            <span className="text-3xl font-bold text-primary">P</span>
           </div>
-          <h1 className="text-3xl font-bold text-slate-900 dark:text-white mb-2">PCCP</h1>
-          <p className="text-slate-500 dark:text-slate-400 text-sm">Professional Chauffeur Certification Program</p>
+          <h1 className="text-3xl font-bold text-white mb-1">PCCP</h1>
+          <p className="text-white/80 text-sm">Professional Chauffeur Certification Program</p>
         </div>
 
-        <Card className="p-6 mb-6">
-          <h2 className="text-lg font-semibold mb-4">Sign In</h2>
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div>
-              <label className="block text-sm text-slate-600 dark:text-slate-400 mb-1">Email</label>
-              <div className="relative">
-                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+        <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
+          {/* Role tabs */}
+          <div className="flex">
+            {(["admin", "passenger", "driver"] as const).map((role) => (
+              <button
+                key={role}
+                onClick={() => setActiveTab(role)}
+                className={`flex-1 py-3 px-2 text-sm font-semibold capitalize flex items-center justify-center gap-1.5 transition-colors ${
+                  activeTab === role
+                    ? `${tabRoleColors[role]}`
+                    : "bg-slate-50 text-slate-500 hover:bg-slate-100"
+                }`}
+              >
+                <Icon name={DEMO_ACCOUNTS.find((a) => a.role.toLowerCase() === role)!.icon} size={18} fill={activeTab === role} />
+                {role}
+              </button>
+            ))}
+          </div>
+
+          {/* Hero (hidden per plan) */}
+          <div className="hidden">
+            <img src="/hero-login.png" alt="" />
+            <img src="/pccp-logo.png" alt="" />
+          </div>
+
+          {/* Form card */}
+          <div className="px-8 py-10">
+            <h2 className="text-xl font-bold text-slate-900 text-center mb-1">Sign In</h2>
+            <p className="text-sm text-slate-500 text-center mb-6">
+              {activeTab === "admin" && "Admin Portal — System Management"}
+              {activeTab === "passenger" && "Passenger Portal — Ride & Booking"}
+              {activeTab === "driver" && "Driver Portal — Trips & Assessments"}
+            </p>
+
+            {error && (
+              <div className="bg-red-50 border border-red-200 text-red-700 text-sm rounded-lg p-3 mb-4 text-center">
+                {error}
+              </div>
+            )}
+
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-slate-700 mb-1.5">Email address</label>
                 <input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full pl-10 pr-3 py-2 text-sm rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:border-amber-500"
+                  className="w-full px-4 py-2.5 text-sm rounded-lg border border-slate-200 bg-slate-50 text-slate-900 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
+                  placeholder="Enter your email"
                   required
                 />
               </div>
-            </div>
-            <div>
-              <label className="block text-sm text-slate-600 dark:text-slate-400 mb-1">Password</label>
-              <div className="relative">
-                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+              <div>
+                <label className="block text-sm font-medium text-slate-700 mb-1.5">Password</label>
                 <input
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full pl-10 pr-3 py-2 text-sm rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:border-amber-500"
+                  className="w-full px-4 py-2.5 text-sm rounded-lg border border-slate-200 bg-slate-50 text-slate-900 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
+                  placeholder="Enter your password"
                   required
                 />
               </div>
-            </div>
-            {error && <p className="text-rose-500 text-sm">{error}</p>}
-            <Button type="submit" loading={loading} className="w-full">
-              <LogIn className="w-4 h-4 mr-2" />
-              Sign In
-            </Button>
-          </form>
-        </Card>
+              <Button type="submit" loading={loading} className="w-full" accent="system">
+                Sign In
+              </Button>
+            </form>
 
-        <div className="space-y-3">
-          <p className="text-center text-xs text-slate-400 uppercase tracking-wider">Quick Demo Login</p>
-          {DEMO_ACCOUNTS.map((account) => {
-            const Icon = account.icon;
-            return (
-              <button
-                key={account.role}
-                onClick={() => handleDemoLogin(account)}
-                disabled={loading}
-                className="w-full bg-white dark:bg-navy-900 border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 rounded-lg p-3 flex items-center gap-3 transition-colors disabled:opacity-50"
-              >
-                <div className="w-10 h-10 bg-amber-100 dark:bg-amber-500/20 rounded-lg flex items-center justify-center">
-                  <Icon className="w-5 h-5 text-amber-600 dark:text-amber-400" />
-                </div>
-                <div className="text-left">
-                  <p className="text-sm font-medium text-slate-900 dark:text-white">{account.label}</p>
-                  <p className="text-xs text-slate-500">{account.email}</p>
-                </div>
+            <div className="mt-4 text-center text-xs text-slate-400">
+              By signing in, you agree to the platform's Terms and Privacy Policy.
+            </div>
+          </div>
+
+          {/* Quick demo buttons (hidden per plan) */}
+          <div className="hidden">
+            {DEMO_ACCOUNTS.map((account) => (
+              <button key={account.role} onClick={() => handleTabLogin(account.role.toLowerCase() as "admin" | "passenger" | "driver")}>
+                {account.label}
               </button>
-            );
-          })}
+            ))}
+          </div>
+        </div>
+
+        {/* Bottom links */}
+        <div className="mt-6 text-center space-y-2">
+          <p className="text-white/60 text-xs">
+            Questions? Contact your system administrator.
+          </p>
+          <p className="text-white/40 text-xs">
+            PCCP &copy; {new Date().getFullYear()} — Professional Chauffeur Certification Platform
+          </p>
         </div>
       </div>
     </div>

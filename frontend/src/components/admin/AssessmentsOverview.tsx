@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
-import { Card, Badge, CertBadge, SearchInput, th, ProgressBar } from "../ui";
+import { Card, Badge, CertBadge, SearchInput, th, ProgressBar, Icon } from "../ui";
 import { getAssessments } from "../../services/api";
-import { TrendingUp, Award, Users, BarChart3 } from "lucide-react";
 
 interface AssessmentRecord {
   id: string;
@@ -59,17 +58,17 @@ export default function AssessmentsOverview() {
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
         <Card className="p-4 text-center">
-          <BarChart3 className="w-6 h-6 text-amber-500 dark:text-amber-400 mx-auto mb-1" />
-          <p className="text-2xl font-bold text-amber-500 dark:text-amber-400">{assessments.length}</p>
+          <Icon name="bar_chart" size={24} className="text-role-admin dark:text-emerald-400 mx-auto mb-1" />
+          <p className="text-2xl font-bold text-role-admin dark:text-emerald-400">{assessments.length}</p>
           <p className={`text-xs ${th.textSecondary}`}>Total Assessments</p>
         </Card>
         <Card className="p-4 text-center">
-          <TrendingUp className="w-6 h-6 text-blue-500 dark:text-blue-400 mx-auto mb-1" />
+          <Icon name="trending_up" size={24} className="text-blue-500 dark:text-blue-400 mx-auto mb-1" />
           <p className="text-2xl font-bold text-blue-500 dark:text-blue-400">{avgScore}</p>
           <p className={`text-xs ${th.textSecondary}`}>Average Score</p>
         </Card>
         <Card className="p-4 text-center">
-          <Award className="w-6 h-6 text-emerald-500 dark:text-emerald-400 mx-auto mb-1" />
+          <Icon name="emoji_events" size={24} className="text-emerald-500 dark:text-emerald-400 mx-auto mb-1" />
           <p className="text-2xl font-bold text-emerald-500 dark:text-emerald-400">{topPerformers[0]?.overallScore || 0}</p>
           <p className={`text-xs ${th.textSecondary}`}>Top Score</p>
         </Card>
@@ -104,7 +103,7 @@ export default function AssessmentsOverview() {
                 </div>
                 <div className="flex items-center gap-2">
                   <CertBadge level={a.certLevel} />
-                  <span className={`text-lg font-bold ${a.overallScore >= 80 ? "text-emerald-500" : a.overallScore >= 75 ? "text-amber-500" : "text-rose-500"}`}>
+                  <span className={`text-lg font-bold ${a.overallScore >= 80 ? "text-emerald-500" : a.overallScore >= 75 ? "text-emerald-500" : "text-rose-500"}`}>
                     {a.overallScore}
                   </span>
                 </div>

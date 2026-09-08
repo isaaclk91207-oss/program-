@@ -1,5 +1,4 @@
-import { Card, th } from "../ui";
-import { Bell, Check } from "lucide-react";
+import { Card, th, Icon } from "../ui";
 import type { Notification } from "../../types";
 
 export default function NotificationsList({ notifications }: { notifications: Notification[] }) {
@@ -8,15 +7,15 @@ export default function NotificationsList({ notifications }: { notifications: No
       <h2 className="text-2xl font-bold mb-6">Notifications</h2>
       <div className="space-y-2">
         {notifications.map((n) => (
-          <Card key={n.id} className={`p-3 ${!n.read ? "border-l-4 border-l-amber-500" : ""}`}>
+          <Card key={n.id} className={`p-3 ${!n.read ? "border-l-4 border-l-emerald-500" : ""}`}>
             <div className="flex items-start gap-3">
               <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 ${
-                n.read ? "bg-slate-100 dark:bg-slate-800" : "bg-amber-100 dark:bg-amber-500/20"
+                n.read ? "bg-slate-100 dark:bg-slate-800" : "bg-emerald-50 dark:bg-emerald-500/20"
               }`}>
                 {n.read ? (
-                  <Check className="w-4 h-4 text-slate-400" />
+                  <Icon name="check" size={16} className="text-slate-400" />
                 ) : (
-                  <Bell className="w-4 h-4 text-amber-500 dark:text-amber-400" />
+                  <Icon name="notifications" size={16} className="text-emerald-500 dark:text-emerald-400" />
                 )}
               </div>
               <div className="flex-1">

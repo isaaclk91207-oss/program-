@@ -1,9 +1,8 @@
 import { useState } from "react";
-import { Card, Button, Badge, CertBadge, SearchInput, th, ConfirmDialog } from "../ui";
+import { Card, Button, Badge, CertBadge, SearchInput, th, ConfirmDialog, Icon } from "../ui";
 import DriverDetail from "./DriverDetail";
 import DriverForm from "./DriverForm";
 import type { Driver } from "../../types";
-import { ArrowLeft, Plus, Star, Download, Trash2 } from "lucide-react";
 
 function getDisplayId(d: Driver): string {
   if (d.version === "v2" && d.employeeId) return d.employeeId;
@@ -58,8 +57,8 @@ export default function DriversList({
         </div>
         <div className="flex items-center gap-2">
           <SearchInput value={search} onChange={setSearch} placeholder="Search drivers..." className="w-full sm:w-64" />
-          <Button variant="secondary" size="sm" onClick={onExport}><Download className="w-4 h-4 mr-1" />Export</Button>
-          <Button size="sm" onClick={() => setShowForm(true)}><Plus className="w-4 h-4 mr-1" />Add</Button>
+          <Button variant="secondary" size="sm" onClick={onExport}><Icon name="download" size={16} />Export</Button>
+          <Button accent="admin" size="sm" onClick={() => setShowForm(true)}><Icon name="add" size={16} />Add</Button>
         </div>
       </div>
       <div className="space-y-2">
@@ -68,14 +67,14 @@ export default function DriversList({
             <div className="flex justify-between items-center">
               <div>
                 <p className={`text-sm font-medium ${th.text}`}>{d.name} <span className={`${th.textMuted} font-mono`}>{getDisplayId(d)}</span></p>
-                <p className={`text-xs ${th.textMuted}`}>Score: {d.score} · <Star className="w-3 h-3 inline text-amber-400 fill-amber-400" />{d.rating} · {d.currentVehiclePlate || "No vehicle"}</p>
+                <p className={`text-xs ${th.textMuted}`}>Score: {d.score} · <Icon name="star" size={12} />{d.rating} · {d.currentVehiclePlate || "No vehicle"}</p>
               </div>
               <div className="flex items-center gap-2">
                 <CertBadge level={d.certLevel} />
                 <Badge status={d.certStatus}>{d.certStatus}</Badge>
                 <Badge status={d.status}>{d.status}</Badge>
                 <button onClick={(e) => { e.stopPropagation(); setDeleteTarget(d); }} className="text-slate-400 hover:text-rose-500 p-1">
-                  <Trash2 className="w-4 h-4" />
+                  <Icon name="delete" size={16} />
                 </button>
               </div>
             </div>

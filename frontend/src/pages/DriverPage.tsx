@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "../hooks/useAuth";
-import { LoadingSpinner, ThemeToggle, ToastProvider, th } from "../components/ui";
+import { LoadingSpinner, ThemeToggle, ToastProvider, Icon } from "../components/ui";
 import { DriverHome, TripsList, DriverProfile, DriverNotifications, PassportCard, QRScan, TripCalendar } from "../components/driver";
 import {
   getDriverTrips,
@@ -12,16 +12,30 @@ import {
   getUnreadCount,
 } from "../services/api";
 import type { TransportRequest, Notification } from "../types";
-import { Home, Map, User, Bell, LogOut, ShieldCheck, QrCode, Calendar } from "lucide-react";
 
 type Tab = "home" | "trips" | "profile" | "notifications" | "passport" | "qr" | "calendar";
 
-const NAV_ITEMS = [
-  { key: "home" as const, label: "Home", icon: Home },
-  { key: "trips" as const, label: "Trips", icon: Map },
-  { key: "profile" as const, label: "Profile", icon: User },
-  { key: "notifications" as const, label: "Alerts", icon: Bell },
+const MOBILE_NAV = [
+  { key: "home" as const, label: "Home", icon: "home" },
+  { key: "trips" as const, label: "Trips", icon: "local_shipping" },
+  { key: "profile" as const, label: "Profile", icon: "person" },
+  { key: "notifications" as const, label: "Alerts", icon: "notifications" },
 ];
+
+const SIDE_NAV = [
+  { key: "home" as const, label: "Home", icon: "home" },
+  { key: "trips" as const, label: "My Trips", icon: "route" },
+  { key: "notifications" as const, label: "Alerts", icon: "notifications" },
+];
+
+function initials(name: string) {
+  return (name || "")
+    .split(" ")
+    .map((n) => n[0])
+    .join("")
+    .slice(0, 2)
+    .toUpperCase();
+}
 
 export default function DriverPage() {
   const { user, logout } = useAuth();
@@ -90,117 +104,172 @@ export default function DriverPage() {
 
   return (
     <ToastProvider>
-      <div className={`min-h-screen ${th.bg}`}>
-        <div className={`${th.header} px-4 py-3 flex items-center justify-between sticky top-0 z-30`}>
+      <div className={thCanvas}>
+        {/* Mobile Top App Bar */}
+        <header className="md:hidden fixed top-0 left-0 right-0 z-50 h-14 bg-surface dark:bg-inverse-surface border-b border-border-hairline dark:border-outline-variant flex items-center justify-between px-4">
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-amber-500 rounded-lg flex items-center justify-center">
-              <span className="text-sm font-bold text-navy-950">P</span>
-            </div>
-            <h1 className="text-lg font-semibold text-slate-900 dark:text-white">PCCP Driver</h1>
+            <Icon name="directions_car" size={24} className="text-role-driver" />
+            <h1 className="font-title-lg text-title-lg font-bold text-role-driver">PCCP Driver</h1>
           </div>
-          <div className="flex items-center gap-2">
-            <ThemeToggle />
-            <button onClick={() => setTab("notifications")} className="relative p-2">
-              <Bell className="w-5 h-5 text-slate-400" />
+          <div className="flex items-center gap-1">
+            <div className="p-2 text-on-surface-variant dark:text-outline-variant">
+              <ThemeToggle />
+            </div>
+            <button
+              onClick={() => setTab("notifications")}
+              className="relative p-2 text-on-surface-variant dark:text-outline-variant hover:bg-surface-container-low dark:hover:bg-navy-900 rounded-full transition-colors"
+            >
+              <Icon name="notifications" size={24} />
               {unreadCount > 0 && (
-                <span className="absolute top-0 right-0 bg-rose-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">
+                <span className="absolute top-1 right-1 bg-error text-on-error text-[10px] rounded-full min-w-4 h-4 px-1 flex items-center justify-center">
                   {unreadCount}
                 </span>
               )}
             </button>
-            <span className="text-sm text-slate-500 dark:text-slate-400 hidden sm:inline">{user?.name}</span>
-            <button onClick={logout} className="text-slate-400 hover:text-rose-500 transition-colors">
-              <LogOut className="w-4 h-4" />
+            <div className="w-8 h-8 rounded-full bg-role-driver-container text-role-driver flex items-center justify-center text-xs font-bold">
+              {initials(user?.name || "D")}
+            </div>
+            <button
+              onClick={logout}
+              className="p-2 text-on-surface-variant dark:text-outline-variant hover:text-error transition-colors"
+              title="Logout"
+            >
+              <Icon name="logout" size={22} />
             </button>
           </div>
-        </div>
+        </header>
 
-        <div className="max-w-lg mx-auto p-4 pb-20">
-          {loading ? (
-            <LoadingSpinner />
-          ) : (
-            <>
-              {tab === "home" && user && (
-                <DriverHome
-                  user={user}
-                  activeTrips={activeTrips}
-                  completedTrips={completedTrips}
-                  onViewTrips={() => setTab("trips")}
-                  onSelectTrip={(t) => { setSelectedTrip(t); setTab("trips"); }}
-                  onPassport={() => setTab("passport")}
-                  onCalendar={() => setTab("calendar")}
-                />
-              )}
-              {tab === "trips" && (
-                <TripsList
-                  trips={trips}
-                  selectedTrip={selectedTrip}
-                  onSelectTrip={setSelectedTrip}
-                  onCheckIn={handleCheckIn}
-                  onCheckOut={handleCheckOut}
-                  onBack={() => { setSelectedTrip(null); setTab("home"); }}
-                />
-              )}
-              {tab === "notifications" && (
-                <DriverNotifications
-                  notifications={notifications}
-                  onBack={() => setTab("home")}
-                  onMarkAllRead={async () => {
-                    await markAllNotificationsRead();
-                    loadData();
-                  }}
-                />
-              )}
-              {tab === "profile" && user && (
-                <DriverProfile user={user} trips={trips} onBack={() => setTab("home")} />
-              )}
-              {tab === "passport" && user && (
-                <PassportCardWrapper user={user} onBack={() => setTab("profile")} />
-              )}
-              {tab === "qr" && selectedTrip?.vehiclePlate && (
-                <QRScan
-                  vehiclePlate={selectedTrip.vehiclePlate}
-                  onScanComplete={(verified) => {
-                    if (verified) {
-                      loadData();
-                    }
-                    setTab("trips");
-                  }}
-                  onBack={() => setTab("trips")}
-                />
-              )}
-              {tab === "calendar" && (
-                <TripCalendar
-                  trips={trips}
-                  onSelectTrip={(t) => { setSelectedTrip(t); setTab("trips"); }}
-                  onBack={() => setTab("home")}
-                />
-              )}
-            </>
-          )}
-        </div>
-
-        <div className={`fixed bottom-0 left-0 right-0 ${th.bottomNav} flex justify-around py-2 z-30`}>
-          {NAV_ITEMS.map((item) => {
-            const Icon = item.icon;
-            return (
+        {/* Desktop Side Navigation */}
+        <aside className="hidden md:flex flex-col w-[260px] h-screen fixed left-0 top-0 bg-surface dark:bg-inverse-surface border-r border-border-hairline dark:border-outline-variant z-40">
+          <div className="px-8 py-8 border-b border-border-hairline dark:border-outline-variant">
+            <div className="flex items-center gap-2">
+              <Icon name="directions_car" size={28} className="text-role-driver" />
+              <h1 className="font-headline-md text-headline-md font-bold text-role-driver">PCCP Vector</h1>
+            </div>
+          </div>
+          <nav className="flex-1 overflow-y-auto py-4 px-3 space-y-2">
+            {SIDE_NAV.map((item) => (
               <button
                 key={item.key}
                 onClick={() => setTab(item.key)}
-                className={`flex flex-col items-center gap-1 px-3 py-1 ${
-                  tab === item.key ? "text-amber-500 dark:text-amber-400" : "text-slate-400"
+                className={`w-full flex items-center gap-3 px-4 py-2 rounded-lg transition-colors font-title-md text-title-md ${
+                  tab === item.key
+                    ? "bg-role-driver-container text-role-driver dark:bg-purple-500/20 dark:text-purple-400 font-bold"
+                    : "text-on-surface-variant dark:text-outline-variant hover:bg-surface-container-low dark:hover:bg-navy-900"
                 }`}
               >
-                <Icon className="w-5 h-5" />
-                <span className="text-xs">{item.label}</span>
+                <Icon name={item.icon} size={24} fill={tab === item.key} />
+                <span>{item.label}</span>
               </button>
-            );
-          })}
-        </div>
+            ))}
+          </nav>
+          <div className="p-4 border-t border-border-hairline dark:border-outline-variant">
+            <button
+              onClick={() => setTab("profile")}
+              className={`w-full flex items-center gap-3 px-4 py-2 rounded-lg transition-colors font-title-md text-title-md ${
+                tab === "profile"
+                  ? "bg-role-driver-container text-role-driver dark:bg-purple-500/20 dark:text-purple-400 font-bold"
+                  : "text-on-surface-variant dark:text-outline-variant hover:bg-surface-container-low dark:hover:bg-navy-900"
+              }`}
+            >
+              <Icon name="person" size={24} fill={tab === "profile"} />
+              <span>Account</span>
+            </button>
+          </div>
+        </aside>
+
+        {/* Main Content Canvas */}
+        <main className="md:ml-[260px] mt-14 md:mt-0 min-h-screen">
+          <div className="p-4 md:p-8 max-w-[1200px] mx-auto w-full pb-28 md:pb-10">
+            {loading ? (
+              <LoadingSpinner />
+            ) : (
+              <>
+                {tab === "home" && user && (
+                  <DriverHome
+                    user={user}
+                    activeTrips={activeTrips}
+                    completedTrips={completedTrips}
+                    onViewTrips={() => setTab("trips")}
+                    onSelectTrip={(t) => { setSelectedTrip(t); setTab("trips"); }}
+                    onPassport={() => setTab("passport")}
+                    onCalendar={() => setTab("calendar")}
+                  />
+                )}
+                {tab === "trips" && (
+                  <TripsList
+                    trips={trips}
+                    selectedTrip={selectedTrip}
+                    onSelectTrip={setSelectedTrip}
+                    onCheckIn={handleCheckIn}
+                    onCheckOut={handleCheckOut}
+                    onBack={() => { setSelectedTrip(null); setTab("home"); }}
+                  />
+                )}
+                {tab === "notifications" && (
+                  <DriverNotifications
+                    notifications={notifications}
+                    onBack={() => setTab("home")}
+                    onMarkAllRead={async () => {
+                      await markAllNotificationsRead();
+                      loadData();
+                    }}
+                  />
+                )}
+                {tab === "profile" && user && (
+                  <DriverProfile user={user} trips={trips} onBack={() => setTab("home")} />
+                )}
+                {tab === "passport" && user && (
+                  <PassportCardWrapper user={user} onBack={() => setTab("profile")} />
+                )}
+                {tab === "qr" && selectedTrip?.vehiclePlate && (
+                  <QRScan
+                    vehiclePlate={selectedTrip.vehiclePlate}
+                    onScanComplete={(verified) => {
+                      if (verified) {
+                        loadData();
+                      }
+                      setTab("trips");
+                    }}
+                    onBack={() => setTab("trips")}
+                  />
+                )}
+                {tab === "calendar" && (
+                  <TripCalendar
+                    trips={trips}
+                    onSelectTrip={(t) => { setSelectedTrip(t); setTab("trips"); }}
+                    onBack={() => setTab("home")}
+                  />
+                )}
+              </>
+            )}
+          </div>
+        </main>
+
+        {/* Bottom Navigation Bar (Mobile) */}
+        <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-surface dark:bg-inverse-surface border-t border-border-hairline dark:border-outline-variant rounded-t-xl shadow-md flex justify-around items-center h-16">
+          {MOBILE_NAV.map((item) => (
+            <button
+              key={item.key}
+              onClick={() => setTab(item.key)}
+              className={`flex flex-col items-center justify-center px-3 py-1 rounded-xl transition-colors ${
+                tab === item.key
+                  ? "bg-role-driver text-white"
+                  : "text-on-surface-variant dark:text-outline-variant hover:bg-surface-container-high dark:hover:bg-surface-variant"
+              }`}
+            >
+              <Icon name={item.icon} size={24} fill={tab === item.key} className="mb-0.5" />
+              <span className="font-body-sm text-body-sm">{item.label}</span>
+            </button>
+          ))}
+        </nav>
       </div>
     </ToastProvider>
   );
 }
+
+const thCanvas =
+  "min-h-screen bg-surface-canvas dark:bg-navy-950 text-on-surface dark:text-white antialiased";
 
 function PassportCardWrapper({ user, onBack }: { user: { id: string; name: string; email: string }; onBack: () => void }) {
   const [driver, setDriver] = useState<any>(null);
@@ -214,6 +283,6 @@ function PassportCardWrapper({ user, onBack }: { user: { id: string; name: strin
   }, [user.id]);
 
   if (loading) return <LoadingSpinner />;
-  if (!driver) return <div className="text-center py-8 text-slate-500">Driver profile not found</div>;
+  if (!driver) return <div className="text-center py-8 text-on-surface-variant dark:text-white">Driver profile not found</div>;
   return <PassportCard driver={driver} />;
 }

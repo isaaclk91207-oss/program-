@@ -1,9 +1,8 @@
 import { useState, useEffect } from "react";
-import { Card, Badge, SearchInput, th } from "../ui";
+import { Card, Badge, SearchInput, th, Icon } from "../ui";
 import { getRequests, getAllRequestsV2 } from "../../services/api";
 import type { TransportRequest, TransportStatus } from "../../types";
 import { formatRequestId } from "../../types";
-import { Calendar, MapPin, Car, User, Filter } from "lucide-react";
 
 const V1_RECORD_STATUSES: TransportStatus[] = ["FEEDBACK_SUBMITTED", "DROP_OFF_SCANNED"];
 
@@ -102,7 +101,7 @@ export default function OperationalRecords() {
       <div className="flex flex-col sm:flex-row gap-3 mb-4">
         <SearchInput value={search} onChange={setSearch} placeholder="Search records..." className="w-full sm:w-64" />
         <div className="flex items-center gap-2">
-          <Calendar className="w-4 h-4 text-slate-400" />
+          <Icon name="calendar_today" size={16} className="text-slate-400" />
           <input
             type="date"
             value={dateFrom}
@@ -125,7 +124,7 @@ export default function OperationalRecords() {
         <div className="space-y-2">
           {filtered.length === 0 ? (
             <Card className="p-8 text-center">
-              <Filter className="w-8 h-8 text-slate-400 mx-auto mb-2" />
+              <Icon name="filter_list" size={32} className="text-slate-400 mx-auto mb-2" />
               <p className={th.textSecondary}>No records found</p>
             </Card>
           ) : (
@@ -139,23 +138,23 @@ export default function OperationalRecords() {
                     </div>
                     <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
                       <div className="flex items-center gap-1">
-                        <User className="w-3 h-3 text-slate-400" />
+                        <Icon name="person" size={12} className="text-slate-400" />
                         <span className={th.textSecondary}>{t.passengerName}</span>
                       </div>
                       <div className="flex items-center gap-1">
-                        <User className="w-3 h-3 text-slate-400" />
+                        <Icon name="person" size={12} className="text-slate-400" />
                         <span className={`${th.textSecondary} font-mono`}>{t.driverName || "—"}</span>
                       </div>
                       <div className="flex items-center gap-1">
-                        <Car className="w-3 h-3 text-slate-400" />
+                        <Icon name="directions_car" size={12} className="text-slate-400" />
                         <span className={`${th.textSecondary} font-mono`}>{t.vehiclePlate || "—"}</span>
                       </div>
                       <div className="flex items-center gap-1">
-                        <MapPin className="w-3 h-3 text-slate-400" />
+                        <Icon name="location_on" size={12} className="text-slate-400" />
                         <span className={th.textSecondary}>{t.pickup} → {t.destination}</span>
                       </div>
                       <div className="flex items-center gap-1">
-                        <Calendar className="w-3 h-3 text-slate-400" />
+                        <Icon name="calendar_today" size={12} className="text-slate-400" />
                         <span className={th.textSecondary}>{t.date} {t.time}</span>
                       </div>
                     </div>

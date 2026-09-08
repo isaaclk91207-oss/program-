@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { Button, Input, Modal } from "../ui";
-import { Truck } from "lucide-react";
+import { Button, Input, Modal, Icon } from "../ui";
 
 export default function VehicleForm({
   open,
@@ -91,8 +90,8 @@ export default function VehicleForm({
           />
         </div>
         <div className="flex gap-3 pt-2">
-          <Button type="submit" className="flex-1">
-            <Truck className="w-4 h-4 mr-2" />
+          <Button type="submit" accent="admin" className="flex-1">
+            <Icon name="directions_car" size={16} className="mr-2" />
             Create Vehicle
           </Button>
           <Button type="button" variant="secondary" onClick={onClose}>Cancel</Button>

@@ -1,6 +1,14 @@
-import { Card, Badge, th } from "../ui";
-import { Car, MapPin, ArrowRight, ClipboardCheck, ShieldCheck, Calendar, Star } from "lucide-react";
+import { Icon, TripStatusPill } from "../ui";
 import type { TransportRequest } from "../../types";
+
+function initials(name: string) {
+  return (name || "")
+    .split(" ")
+    .map((n) => n[0])
+    .join("")
+    .slice(0, 2)
+    .toUpperCase();
+}
 
 export default function DriverHome({
   user,
@@ -19,68 +27,120 @@ export default function DriverHome({
   onPassport: () => void;
   onCalendar: () => void;
 }) {
+  const lead = activeTrips[0];
+
   return (
-    <div className="space-y-4">
-      <div className="bg-gradient-to-r from-amber-500 to-amber-600 rounded-xl p-5 text-navy-950">
-        <p className="text-sm opacity-80">Welcome back,</p>
-        <h2 className="text-xl font-bold">{user.name}</h2>
+    <div className="space-y-6 max-w-2xl">
+      {/* Greeting */}
+      <div className="flex items-center justify-between">
+        <div>
+          <p className="font-body-sm text-body-sm text-on-surface-variant dark:text-outline-variant">Welcome back</p>
+          <h2 className="font-headline-md text-headline-md font-bold text-on-surface dark:text-white">{user.name}</h2>
+        </div>
+        <div className="w-12 h-12 rounded-full bg-role-driver-container text-role-driver dark:bg-purple-500/20 dark:text-purple-400 flex items-center justify-center text-lg font-bold">
+          {initials(user.name)}
+        </div>
       </div>
 
+      {/* Active assignment highlight */}
+      {lead ? (
+        <button
+          onClick={() => onSelectTrip(lead)}
+          className="w-full text-left bg-gradient-to-br from-role-driver to-[#4c1d95] rounded-2xl p-5 text-white shadow-lg transition-transform active:scale-[0.99]"
+        >
+          <div className="flex items-center justify-between mb-4">
+            <span className="font-label-caps text-label-caps uppercase tracking-wider text-white/70">Current Assignment</span>
+            <span className="bg-white/20 rounded-full px-3 py-1 font-label-caps text-label-caps uppercase">{lead.status.replace(/_/g, " ")}</span>
+          </div>
+          <div className="flex items-center gap-3">
+            <span className="w-10 h-10 rounded-xl bg-white/15 flex items-center justify-center shrink-0">
+              <Icon name="route" size={22} fill />
+            </span>
+            <div className="min-w-0">
+              <p className="font-title-md text-title-md text-white font-semibold truncate">
+                {lead.pickup} <Icon name="arrow_forward" size={16} className="inline align-middle" /> {lead.destination}
+              </p>
+              <p className="font-body-sm text-body-sm text-white/75 mt-0.5">
+                {lead.passengerName} · {lead.date} {lead.time}
+              </p>
+            </div>
+          </div>
+        </button>
+      ) : (
+        <div className="bg-surface dark:bg-navy-900 rounded-2xl border border-border-hairline dark:border-outline-variant p-5">
+          <p className="font-body-base text-body-base text-on-surface-variant dark:text-outline-variant">
+            No active assignments. New trips will appear here.
+          </p>
+        </div>
+      )}
+
+      {/* Stats */}
       <div className="grid grid-cols-2 gap-3">
-        <Card className="p-4 text-center">
-          <ClipboardCheck className="w-6 h-6 text-amber-500 dark:text-amber-400 mx-auto mb-1" />
-          <p className="text-2xl font-bold text-amber-500 dark:text-amber-400">{activeTrips.length}</p>
-          <p className={`text-xs ${th.textSecondary}`}>Active Trips</p>
-        </Card>
-        <Card className="p-4 text-center">
-          <Car className="w-6 h-6 text-emerald-500 dark:text-emerald-400 mx-auto mb-1" />
-          <p className="text-2xl font-bold text-emerald-500 dark:text-emerald-400">{completedTrips.length}</p>
-          <p className={`text-xs ${th.textSecondary}`}>Completed</p>
-        </Card>
+        <div className="bg-surface dark:bg-navy-900 rounded-xl border border-border-hairline dark:border-outline-variant p-4">
+          <Icon name="assignment" size={24} className="text-role-driver dark:text-purple-400" />
+          <p className="font-stat-lg text-stat-lg text-on-surface dark:text-white mt-1">{activeTrips.length}</p>
+          <p className="font-label-caps text-label-caps uppercase text-on-surface-variant dark:text-outline-variant">Active Trips</p>
+        </div>
+        <div className="bg-surface dark:bg-navy-900 rounded-xl border border-border-hairline dark:border-outline-variant p-4">
+          <Icon name="task_alt" size={24} className="text-role-admin dark:text-emerald-400" />
+          <p className="font-stat-lg text-stat-lg text-on-surface dark:text-white mt-1">{completedTrips.length}</p>
+          <p className="font-label-caps text-label-caps uppercase text-on-surface-variant dark:text-outline-variant">Completed</p>
+        </div>
       </div>
 
+      {/* Quick actions */}
       <div className="grid grid-cols-2 gap-3">
         <button
           onClick={onPassport}
-          className={`${th.bgCard} border ${th.border} rounded-xl p-4 text-left hover:border-amber-500/50 transition-colors`}
+          className="bg-surface dark:bg-navy-900 rounded-xl border border-border-hairline dark:border-outline-variant p-4 text-left transition-colors hover:border-role-driver/60 dark:hover:border-purple-500/50"
         >
-          <ShieldCheck className="w-6 h-6 text-amber-500 dark:text-amber-400 mb-2" />
-          <p className={`text-sm font-medium ${th.text}`}>My Passport</p>
-          <p className={`text-xs ${th.textMuted}`}>View certification & QR</p>
+          <Icon name="badge" size={24} className="text-role-driver dark:text-purple-400 mb-2" />
+          <p className="font-title-md text-title-md text-on-surface dark:text-white">My Passport</p>
+          <p className="font-body-sm text-body-sm text-on-surface-variant dark:text-outline-variant">Certification & QR</p>
         </button>
         <button
           onClick={onCalendar}
-          className={`${th.bgCard} border ${th.border} rounded-xl p-4 text-left hover:border-amber-500/50 transition-colors`}
+          className="bg-surface dark:bg-navy-900 rounded-xl border border-border-hairline dark:border-outline-variant p-4 text-left transition-colors hover:border-role-driver/60 dark:hover:border-purple-500/50"
         >
-          <Calendar className="w-6 h-6 text-blue-500 dark:text-blue-400 mb-2" />
-          <p className={`text-sm font-medium ${th.text}`}>Calendar</p>
-          <p className={`text-xs ${th.textMuted}`}>View trip schedule</p>
+          <Icon name="calendar_month" size={24} className="text-role-driver dark:text-purple-400 mb-2" />
+          <p className="font-title-md text-title-md text-on-surface dark:text-white">Calendar</p>
+          <p className="font-body-sm text-body-sm text-on-surface-variant dark:text-outline-variant">View trip schedule</p>
         </button>
       </div>
 
-      {activeTrips.length > 0 && (
+      {/* Active trips list */}
+      {activeTrips.length > 1 && (
         <div>
-          <h3 className={`text-sm font-medium ${th.textSecondary} mb-2`}>Active Trips</h3>
+          <h3 className="font-label-caps text-label-caps uppercase text-on-surface-variant dark:text-outline-variant mb-2">
+            All Active Trips
+          </h3>
           <div className="space-y-2">
-            {activeTrips.slice(0, 3).map((t) => (
-              <Card key={t.id} className={`p-3 cursor-pointer ${th.borderHover}`} onClick={() => onSelectTrip(t)}>
+            {activeTrips.slice(1, 4).map((t) => (
+              <button
+                key={t.id}
+                onClick={() => onSelectTrip(t)}
+                className="w-full bg-surface dark:bg-navy-900 rounded-xl border border-border-hairline dark:border-outline-variant p-4 text-left transition-colors hover:border-role-driver/60 dark:hover:border-purple-500/50"
+              >
                 <div className="flex justify-between items-start">
-                  <div>
-                    <p className={`text-sm font-medium ${th.text}`}>{t.passengerName}</p>
-                    <div className="flex items-center gap-1 text-xs text-slate-500">
-                      <MapPin className="w-3 h-3" />
+                  <div className="min-w-0">
+                    <p className="font-title-md text-title-md text-on-surface dark:text-white">{t.passengerName}</p>
+                    <div className="flex items-center gap-1 font-body-sm text-body-sm text-on-surface-variant dark:text-outline-variant mt-0.5 truncate">
+                      <Icon name="location_on" size={14} />
                       {t.pickup}
-                      <ArrowRight className="w-3 h-3" />
+                      <Icon name="arrow_forward" size={14} />
                       {t.destination}
                     </div>
                   </div>
-                  <Badge status={t.status}>{t.status.replace(/_/g, " ")}</Badge>
+                  <TripStatusPill status={t.status} />
                 </div>
-              </Card>
+              </button>
             ))}
           </div>
-          <button onClick={onViewTrips} className="text-amber-500 dark:text-amber-400 text-sm mt-2 hover:underline">
-            View All →
+          <button
+            onClick={onViewTrips}
+            className="mt-3 font-title-md text-title-md text-role-driver dark:text-purple-400 hover:underline flex items-center gap-1"
+          >
+            View All <Icon name="arrow_forward" size={18} />
           </button>
         </div>
       )}

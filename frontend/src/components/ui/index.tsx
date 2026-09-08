@@ -1,38 +1,136 @@
 import React, { useState, useEffect, useCallback, createContext, useContext } from "react";
-import {
-  Star,
-  Loader2,
-  Inbox,
-  X,
-  ChevronDown,
-  Search,
-  Sun,
-  Moon,
-  Check,
-  AlertCircle,
-  Info,
-  Bell,
-  Trash2,
-} from "lucide-react";
 import { useTheme as useAppTheme } from "../../context/ThemeContext";
 
 // ─── Theme-aware class helpers ──────────────────────────────────────────────
 
 export const th = {
-  bg: "bg-white dark:bg-navy-950",
-  bgCard: "bg-white dark:bg-navy-900",
-  bgElevated: "bg-slate-50 dark:bg-navy-900",
-  bgInput: "bg-slate-100 dark:bg-slate-800",
-  border: "border-slate-200 dark:border-slate-800",
-  borderHover: "hover:border-slate-300 dark:hover:border-slate-700",
-  text: "text-slate-900 dark:text-white",
-  textSecondary: "text-slate-600 dark:text-slate-400",
-  textMuted: "text-slate-400 dark:text-slate-500",
-  dangerText: "text-red-600 dark:text-red-400",
-  sidebar: "bg-white dark:bg-navy-900 border-r border-slate-200 dark:border-slate-800",
-  header: "bg-white dark:bg-navy-900 border-b border-slate-200 dark:border-slate-800",
-  bottomNav: "bg-white dark:bg-navy-900 border-t border-slate-200 dark:border-slate-800",
+  bg: "bg-surface-canvas dark:bg-navy-950",
+  bgCard: "bg-surface dark:bg-navy-900",
+  bgElevated: "bg-surface-container-low dark:bg-navy-900",
+  bgInput: "bg-surface-container-low dark:bg-navy-900",
+  border: "border-border-hairline dark:border-outline-variant",
+  borderHover: "hover:border-outline dark:hover:border-outline-variant",
+  text: "text-on-surface dark:text-white",
+  textSecondary: "text-on-surface-variant dark:text-outline-variant",
+  textMuted: "text-outline dark:text-outline-variant",
+  dangerText: "text-error dark:text-rose-400",
+  sidebar: "bg-surface dark:bg-inverse-surface border-r border-border-hairline dark:border-outline-variant",
+  header: "bg-surface dark:bg-inverse-surface border-b border-border-hairline dark:border-outline-variant",
+  bottomNav: "bg-surface dark:bg-inverse-surface border-t border-border-hairline dark:border-outline-variant",
+  canvas: "bg-surface-canvas dark:bg-navy-950 text-on-surface dark:text-white",
+  cardSurface: "bg-surface dark:bg-navy-900 border border-border-hairline dark:border-outline-variant",
+  roleDriver: "text-role-driver dark:text-purple-400",
+  roleDriverContainer: "bg-role-driver-container text-role-driver dark:bg-purple-500/20 dark:text-purple-400",
+  rolePassenger: "text-role-passenger dark:text-blue-400",
+  rolePassengerContainer: "bg-role-passenger-container text-role-passenger dark:bg-blue-500/20 dark:text-blue-400",
+  roleAdmin: "text-role-admin dark:text-emerald-400",
+  roleAdminContainer: "bg-role-admin-container text-role-admin dark:bg-emerald-500/20 dark:text-emerald-400",
+  hairline: "border-border-hairline dark:border-outline-variant",
+  tableHeader: "bg-surface-container-low dark:bg-navy-900 text-on-surface-variant dark:text-outline-variant text-xs font-semibold uppercase tracking-wider",
+  tableRow: "border-b border-border-hairline dark:border-outline-variant",
+  tableRowHover: "bg-surface-container-low/50 dark:bg-navy-800/40",
 };
+
+// ─── DataTable ─────────────────────────────────────────────────────────────
+
+export function DataTable({
+  headers,
+  children,
+}: {
+  headers: React.ReactNode[] | string[];
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="overflow-x-auto rounded-xl border border-border-hairline dark:border-outline-variant">
+      <table className="w-full text-sm">
+        <thead className={th.tableHeader}>
+          <tr>
+            {headers.map((h, i) => (
+              <th key={i} className="px-4 py-3 text-left font-semibold whitespace-nowrap">{h}</th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>{children}</tbody>
+      </table>
+    </div>
+  );
+}
+
+export function TableRow({ children, onClick, hover = true }: { children: React.ReactNode; onClick?: () => void; hover?: boolean }) {
+  return (
+    <tr
+      onClick={onClick}
+      className={`${th.tableRow} ${onClick && hover ? `cursor-pointer transition-colors hover:${th.tableRowHover}` : ""}`}
+    >
+      {children}
+    </tr>
+  );
+}
+
+export function TableCell({ children, className = "" }: { children: React.ReactNode; className?: string }) {
+  return <td className={`px-4 py-3 align-middle ${th.text} ${className}`}>{children}</td>;
+}
+
+// ─── Icon (Material Symbols) ─────────────────────────────────────────────────
+
+interface IconProps {
+  name: string;
+  fill?: boolean;
+  size?: number;
+  weight?: number;
+  className?: string;
+}
+
+export function Icon({ name, fill = false, size = 24, weight = 400, className = "" }: IconProps) {
+  return (
+    <span
+      className={`material-symbols-outlined ${className}`}
+      aria-hidden
+      style={{
+        fontFamily: "'Material Symbols Outlined'",
+        fontWeight: "normal",
+        fontStyle: "normal",
+        fontSize: size,
+        lineHeight: 1,
+        letterSpacing: "normal",
+        textTransform: "none",
+        display: "inline-block",
+        whiteSpace: "nowrap",
+        wordWrap: "normal",
+        direction: "ltr",
+        fontFeatureSettings: "'liga'",
+        WebkitFontSmoothing: "antialiased",
+        fontVariationSettings: `'FILL' ${fill ? 1 : 0}, 'wght' ${weight}, 'GRAD' 0, 'opsz' 24`,
+      } as React.CSSProperties}
+    >
+      {name}
+    </span>
+  );
+}
+
+// ─── TripStatusPill (driver trip status) ────────────────────────────────────
+
+const DONE_STATUSES = ["FEEDBACK_SUBMITTED", "COMPLETED", "DROPOFF_COMPLETE", "DROP_OFF_SCANNED"];
+const CANCELLED_STATUSES = ["CANCELLED", "CANCELED", "REJECTED", "EXPIRED"];
+
+export function tripStatusMeta(status: string): { pillClass: string; label: string } {
+  let pillClass = "bg-role-driver-container text-role-driver dark:bg-purple-500/20 dark:text-purple-400";
+  if (DONE_STATUSES.includes(status)) {
+    pillClass = "bg-role-admin-container text-role-admin dark:bg-emerald-500/20 dark:text-emerald-400";
+  } else if (CANCELLED_STATUSES.includes(status)) {
+    pillClass = "bg-error-container text-error dark:bg-rose-500/20 dark:text-rose-400";
+  }
+  return { pillClass, label: status.replace(/_/g, " ") };
+}
+
+export function TripStatusPill({ status }: { status: string }) {
+  const { pillClass, label } = tripStatusMeta(status);
+  return (
+    <span className={`px-3 py-1 rounded-full font-label-caps text-label-caps uppercase ${pillClass}`}>
+      {label}
+    </span>
+  );
+}
 
 // ─── Badge ──────────────────────────────────────────────────────────────────
 
@@ -94,12 +192,21 @@ export function CertBadge({ level }: { level: string }) {
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: "primary" | "secondary" | "danger" | "ghost";
   size?: "sm" | "md" | "lg";
+  accent?: "system" | "driver" | "passenger" | "admin";
   loading?: boolean;
 }
+
+const BUTTON_ACCENT: Record<string, string> = {
+  system: "bg-primary hover:bg-primary-container text-white",
+  driver: "bg-role-driver hover:bg-[#6d28d9] text-white",
+  passenger: "bg-role-passenger hover:bg-blue-700 text-white",
+  admin: "bg-role-admin hover:bg-emerald-600 text-white",
+};
 
 export function Button({
   variant = "primary",
   size = "md",
+  accent = "system",
   loading = false,
   children,
   className = "",
@@ -109,10 +216,10 @@ export function Button({
   const base =
     "inline-flex items-center justify-center font-medium rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed";
   const variants = {
-    primary: "bg-amber-500 hover:bg-amber-600 text-navy-950",
-    secondary: "bg-slate-200 hover:bg-slate-300 text-slate-700 dark:bg-slate-700 dark:hover:bg-slate-600 dark:text-slate-100",
-    danger: "bg-rose-600 hover:bg-rose-700 text-white",
-    ghost: "bg-transparent hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300",
+    primary: BUTTON_ACCENT[accent],
+    secondary: "bg-surface-container-low hover:bg-surface-container text-on-surface border border-border-hairline dark:border-outline-variant dark:text-slate-100",
+    danger: "bg-error hover:bg-rose-700 text-on-error",
+    ghost: "bg-transparent hover:bg-surface-container-low text-on-surface-variant dark:text-slate-300",
   };
   const sizes = {
     sm: "px-3 py-1.5 text-sm",
@@ -126,7 +233,7 @@ export function Button({
       disabled={disabled || loading}
       {...props}
     >
-      {loading && <Loader2 className="animate-spin -ml-1 mr-2 h-4 w-4" />}
+      {loading && <Icon name="progress_activity" size={16} className="animate-spin -ml-1 mr-2" />}
       {children}
     </button>
   );
@@ -169,7 +276,7 @@ export function Modal({ open, onClose, title, children }: ModalProps) {
           <div className={`flex items-center justify-between px-6 py-4 border-b ${th.border}`}>
             <h2 className="text-lg font-semibold">{title}</h2>
             <button onClick={onClose} className={`${th.textSecondary} hover:${th.text}`}>
-              <X className="w-5 h-5" />
+              <Icon name="close" size={20} />
             </button>
           </div>
         )}
@@ -192,8 +299,6 @@ export function StarRating({
   readonly?: boolean;
   size?: "sm" | "md" | "lg";
 }) {
-  const sizes = { sm: "w-4 h-4", md: "w-6 h-6", lg: "w-8 h-8" };
-
   return (
     <div className="flex gap-1">
       {[1, 2, 3, 4, 5].map((star) => (
@@ -204,9 +309,12 @@ export function StarRating({
           onClick={() => onChange?.(star)}
           className={`${readonly ? "cursor-default" : "cursor-pointer"}`}
         >
-          <Star
-            className={`${sizes[size]} ${
-              star <= value ? "text-amber-400 fill-amber-400" : "text-slate-300 dark:text-slate-600"
+          <Icon
+            name="star"
+            fill={star <= value}
+            size={size === "sm" ? 16 : size === "md" ? 24 : 32}
+            className={`${
+              star <= value ? "text-amber-400" : "text-slate-300 dark:text-slate-600"
             } transition-colors`}
           />
         </button>
@@ -218,10 +326,10 @@ export function StarRating({
 // ─── LoadingSpinner ─────────────────────────────────────────────────────────
 
 export function LoadingSpinner({ size = "md" }: { size?: "sm" | "md" | "lg" }) {
-  const sizes = { sm: "w-4 h-4", md: "w-8 h-8", lg: "w-12 h-12" };
+  const sizes = { sm: "16", md: "32", lg: "48" };
   return (
     <div className="flex items-center justify-center p-8">
-      <Loader2 className={`animate-spin ${sizes[size]} text-amber-500`} />
+      <Icon name="progress_activity" size={Number(sizes[size])} className="animate-spin text-primary" />
     </div>
   );
 }
@@ -231,7 +339,7 @@ export function LoadingSpinner({ size = "md" }: { size?: "sm" | "md" | "lg" }) {
 export function EmptyState({ message, icon }: { message: string; icon?: React.ReactNode }) {
   return (
     <div className={`flex flex-col items-center justify-center py-12 ${th.textMuted}`}>
-      {icon || <Inbox className="w-12 h-12 mb-3" />}
+      {icon || <Icon name="inbox" size={40} className="mb-3" />}
       <p className="text-sm">{message}</p>
     </div>
   );
@@ -327,7 +435,7 @@ export function Avatar({
 
   return (
     <div
-      className={`${sizes[size]} bg-amber-100 dark:bg-amber-500/20 text-amber-700 dark:text-amber-400 rounded-full flex items-center justify-center font-bold ${className}`}
+      className={`${sizes[size]} bg-surface-container-high text-on-surface rounded-full flex items-center justify-center font-bold ${className}`}
     >
       {initials}
     </div>
@@ -366,9 +474,9 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
   };
 
   const icons = {
-    success: <Check className="w-5 h-5 text-emerald-500" />,
-    error: <AlertCircle className="w-5 h-5 text-rose-500" />,
-    info: <Info className="w-5 h-5 text-blue-500" />,
+    success: <Icon name="check_circle" size={20} className="text-emerald-500" />,
+    error: <Icon name="error" size={20} className="text-rose-500" />,
+    info: <Icon name="info" size={20} className="text-blue-500" />,
   };
 
   return (
@@ -383,7 +491,7 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
             {icons[t.type]}
             <p className={`text-sm flex-1 ${th.text}`}>{t.message}</p>
             <button onClick={() => removeToast(t.id)} className={th.textMuted}>
-              <X className="w-4 h-4" />
+              <Icon name="close" size={16} />
             </button>
           </div>
         ))}
@@ -411,7 +519,7 @@ export function Tabs({
           onClick={() => onChange(tab.key)}
           className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors flex items-center gap-2 ${
             active === tab.key
-              ? "border-amber-500 text-amber-600 dark:text-amber-400"
+              ? "border-primary text-primary"
               : `border-transparent ${th.textSecondary} hover:${th.text}`
           }`}
         >
@@ -438,13 +546,13 @@ export function SearchInput({
 }) {
   return (
     <div className={`relative ${className}`}>
-      <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+      <Icon name="search" size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-outline dark:text-outline-variant" />
       <input
         type="text"
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
-        className={`w-full pl-10 pr-4 py-2 text-sm rounded-lg border ${th.bgInput} ${th.border} ${th.text} placeholder:text-slate-400 focus:outline-none focus:border-amber-500`}
+        className={`w-full pl-10 pr-4 py-2 text-sm rounded-lg border ${th.bgInput} ${th.border} ${th.text} placeholder:text-outline dark:placeholder:text-outline-variant focus:outline-none focus:border-primary`}
       />
     </div>
   );
@@ -455,20 +563,23 @@ export function SearchInput({
 export function Input({
   label,
   error,
+  helpText,
   className = "",
   ...props
 }: {
   label?: string;
   error?: string;
+  helpText?: string;
 } & React.InputHTMLAttributes<HTMLInputElement>) {
   return (
     <div className={className}>
       {label && <label className={`block text-sm ${th.textSecondary} mb-1`}>{label}</label>}
       <input
-        className={`w-full px-3 py-2 text-sm rounded-lg border ${th.bgInput} ${th.border} ${th.text} focus:outline-none focus:border-amber-500 ${error ? "border-rose-500" : ""}`}
+        className={`w-full px-3 py-2 text-sm rounded-lg border ${th.bgInput} ${th.border} ${th.text} focus:outline-none focus:border-primary ${error ? "border-error" : ""}`}
         {...props}
       />
-      {error && <p className="text-xs text-rose-500 mt-1">{error}</p>}
+      {helpText && <p className={`text-xs ${th.textMuted} mt-1`}>{helpText}</p>}
+      {error && <p className="text-xs text-error mt-1">{error}</p>}
     </div>
   );
 }
@@ -489,16 +600,16 @@ export function Select({
       {label && <label className={`block text-sm ${th.textSecondary} mb-1`}>{label}</label>}
       <div className="relative">
         <select
-          className={`w-full px-3 py-2 text-sm rounded-lg border appearance-none ${th.bgInput} ${th.border} ${th.text} focus:outline-none focus:border-amber-500 ${error ? "border-rose-500" : ""}`}
+          className={`w-full px-3 py-2 text-sm rounded-lg border appearance-none ${th.bgInput} ${th.border} ${th.text} focus:outline-none focus:border-primary ${error ? "border-error" : ""}`}
           {...props}
         >
           {options.map((o) => (
             <option key={o.value} value={o.value}>{o.label}</option>
           ))}
         </select>
-        <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
+        <Icon name="expand_more" size={16} className="absolute right-3 top-1/2 -translate-y-1/2 text-outline dark:text-outline-variant pointer-events-none" />
       </div>
-      {error && <p className="text-xs text-rose-500 mt-1">{error}</p>}
+      {error && <p className="text-xs text-error mt-1">{error}</p>}
     </div>
   );
 }
@@ -516,10 +627,10 @@ export function Textarea({
     <div className={className}>
       {label && <label className={`block text-sm ${th.textSecondary} mb-1`}>{label}</label>}
       <textarea
-        className={`w-full px-3 py-2 text-sm rounded-lg border ${th.bgInput} ${th.border} ${th.text} focus:outline-none focus:border-amber-500 ${error ? "border-rose-500" : ""}`}
+        className={`w-full px-3 py-2 text-sm rounded-lg border ${th.bgInput} ${th.border} ${th.text} focus:outline-none focus:border-primary ${error ? "border-error" : ""}`}
         {...props}
       />
-      {error && <p className="text-xs text-rose-500 mt-1">{error}</p>}
+      {error && <p className="text-xs text-error mt-1">{error}</p>}
     </div>
   );
 }
@@ -570,7 +681,7 @@ export function ThemeToggle({ className = "" }: { className?: string }) {
       className={`p-2 rounded-lg ${th.textSecondary} hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors ${className}`}
       title={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
     >
-      {theme === "dark" ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+      {theme === "dark" ? <Icon name="light_mode" size={20} /> : <Icon name="dark_mode" size={20} />}
     </button>
   );
 }

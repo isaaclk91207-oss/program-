@@ -1,5 +1,4 @@
-import { Card, Button, StarRating, th } from "../ui";
-import { Download, Star, MessageSquare } from "lucide-react";
+import { Card, Button, StarRating, th, Icon } from "../ui";
 import type { Feedback } from "../../types";
 import { formatRequestId } from "../../types";
 
@@ -15,7 +14,7 @@ export default function FeedbackList({
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
         <h2 className="text-2xl font-bold">Feedback</h2>
         <Button variant="secondary" size="sm" onClick={onExport}>
-          <Download className="w-4 h-4 mr-1" />
+          <Icon name="download" size={16} className="mr-1" />
           Export
         </Button>
       </div>
@@ -27,7 +26,7 @@ export default function FeedbackList({
                 <p className={`text-sm font-medium ${th.text}`}>{f.passengerName} → {f.driverName}</p>
                 <p className={`text-xs ${th.textMuted}`}>{f.vehiclePlate} · {formatRequestId(f.requestId)}</p>
                 <div className="flex items-center gap-2 mt-1">
-                  <MessageSquare className="w-3 h-3 text-slate-400" />
+                  <Icon name="chat" size={12} className="text-slate-400" />
                   <p className={`text-xs ${th.textSecondary}`}>{f.comment}</p>
                 </div>
                 <div className="flex gap-1 mt-2">
@@ -38,8 +37,8 @@ export default function FeedbackList({
               </div>
               <div className="text-right ml-4">
                 <div className="flex items-center gap-1">
-                  <Star className="w-4 h-4 text-amber-400 fill-amber-400" />
-                  <p className="text-lg font-bold text-amber-500 dark:text-amber-400">{f.rating}</p>
+                  <Icon name="star" size={16} className="text-emerald-400 fill-emerald-400" />
+                  <p className="text-lg font-bold text-emerald-600 dark:text-emerald-400">{f.rating}</p>
                 </div>
                 <p className={`text-xs ${th.textMuted}`}>{f.date}</p>
               </div>

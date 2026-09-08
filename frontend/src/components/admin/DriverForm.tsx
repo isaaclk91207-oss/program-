@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { Button, Input, Modal, th } from "../ui";
-import { UserPlus } from "lucide-react";
+import { Button, Input, Modal, th, Icon } from "../ui";
 
 export default function DriverForm({
   open,
@@ -75,8 +74,8 @@ export default function DriverForm({
           required
         />
         <div className="flex gap-3 pt-2">
-          <Button type="submit" className="flex-1">
-            <UserPlus className="w-4 h-4 mr-2" />
+          <Button type="submit" accent="admin" className="flex-1">
+            <Icon name="person_add" size={16} />
             Create Driver
           </Button>
           <Button type="button" variant="secondary" onClick={onClose}>Cancel</Button>

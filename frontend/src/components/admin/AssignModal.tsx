@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { Button, Modal, Select, th } from "../ui";
-import { Star } from "lucide-react";
+import { Button, Modal, Select, th, Icon } from "../ui";
 import type { Driver, Vehicle } from "../../types";
 
 function getDisplayId(d: Driver): string {
@@ -65,6 +64,7 @@ export default function AssignModal({
         />
         <div className="flex gap-3 pt-2">
           <Button
+            accent="admin"
             onClick={() => onAssign(requestId, { driverId: selectedDriver, vehicleId: selectedVehicle })}
             disabled={!selectedDriver || !selectedVehicle}
             className="flex-1"

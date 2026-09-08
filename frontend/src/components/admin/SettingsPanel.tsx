@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { Card, Button, ProgressBar, th } from "../ui";
-import { Save, RotateCcw } from "lucide-react";
+import { Card, Button, ProgressBar, th, Icon } from "../ui";
 
 export default function SettingsPanel({
   settings,
@@ -39,7 +38,7 @@ export default function SettingsPanel({
                 step={0.05}
                 value={value}
                 onChange={(e) => setWeights({ ...weights, [key]: Number(e.target.value) })}
-                className="w-full accent-amber-500"
+                className="w-full accent-emerald-500"
               />
             </div>
           ))}
@@ -55,8 +54,8 @@ export default function SettingsPanel({
         </div>
       </Card>
       <div className="flex gap-3">
-        <Button onClick={() => onSave(weights)}>
-          <Save className="w-4 h-4 mr-2" />
+        <Button onClick={() => onSave(weights)} accent="admin">
+          <Icon name="save" size={16} className="mr-2" />
           Save Settings
         </Button>
         <Button variant="ghost" onClick={() => setWeights({
@@ -65,7 +64,7 @@ export default function SettingsPanel({
           operationalWeight: 0.3,
           feedbackWeight: 0.2,
         })}>
-          <RotateCcw className="w-4 h-4 mr-2" />
+          <Icon name="refresh" size={16} className="mr-2" />
           Reset Defaults
         </Button>
       </div>

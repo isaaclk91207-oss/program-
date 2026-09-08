@@ -1,5 +1,4 @@
-import { Card, Badge, KPICard, ProgressBar, th } from "../ui";
-import { ClipboardList, Clock, Navigation, CheckCircle, Car, Truck, Star, QrCode } from "lucide-react";
+import { Card, Badge, KPICard, ProgressBar, th, Icon } from "../ui";
 import type { DashboardStats } from "../../types";
 import { formatRequestId } from "../../types";
 
@@ -7,14 +6,14 @@ export default function AdminDashboard({ data }: { data: DashboardStats }) {
   return (
     <div>
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-        <KPICard label="Total Requests" value={data.totalRequests} icon={<ClipboardList className="w-5 h-5" />} color="amber" />
-        <KPICard label="Pending" value={data.pendingRequests} icon={<Clock className="w-5 h-5" />} color="blue" />
-        <KPICard label="In Progress" value={data.inProgressRequests} icon={<Navigation className="w-5 h-5" />} color="purple" />
-        <KPICard label="Completed" value={data.completedRequests} icon={<CheckCircle className="w-5 h-5" />} color="emerald" />
-        <KPICard label="Active Drivers" value={data.activeDrivers} icon={<Car className="w-5 h-5" />} color="cyan" />
-        <KPICard label="Total Vehicles" value={data.totalVehicles} icon={<Truck className="w-5 h-5" />} color="amber" />
-        <KPICard label="Feedback" value={data.feedbackSubmittedRequests} icon={<Star className="w-5 h-5" />} color="emerald" />
-        <KPICard label="QR Pending" value={data.qrPendingRequests} icon={<QrCode className="w-5 h-5" />} color="purple" />
+        <KPICard label="Total Requests" value={data.totalRequests} icon={<Icon name="assignment" size={20} />} color="emerald" />
+        <KPICard label="Pending" value={data.pendingRequests} icon={<Icon name="schedule" size={20} />} color="blue" />
+        <KPICard label="In Progress" value={data.inProgressRequests} icon={<Icon name="navigation" size={20} />} color="purple" />
+        <KPICard label="Completed" value={data.completedRequests} icon={<Icon name="check_circle" size={20} />} color="emerald" />
+        <KPICard label="Active Drivers" value={data.activeDrivers} icon={<Icon name="directions_car" size={20} />} color="cyan" />
+        <KPICard label="Total Vehicles" value={data.totalVehicles} icon={<Icon name="local_shipping" size={20} />} color="emerald" />
+        <KPICard label="Feedback" value={data.feedbackSubmittedRequests} icon={<Icon name="star" size={20} />} color="emerald" />
+        <KPICard label="QR Pending" value={data.qrPendingRequests} icon={<Icon name="qr_code" size={20} />} color="purple" />
       </div>
 
       <Card className="p-4 mb-6">

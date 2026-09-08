@@ -1,0 +1,27 @@
+services:
+  - type: web
+    name: pccp-program
+    runtime: node
+    rootDir: backend
+    plan: free
+    region: singapore
+    buildCommand: npm install && npm run build && npx prisma migrate deploy
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        value: file:./dev.db
+      - key: CORS_ORIGIN
+        value: https://pccp-program.vercel.app
+      - key: JWT_EXPIRES_IN
+        value: 24h
+      - key: WIALON_BASE_URL
+        value: https://s7.netprogps.net
+      - key: CRON_SCHEDULE
+        value: 0 */6 * * *
+      - key: JWT_SECRET
+        sync: false
+      - key: WIALON_TOKEN
+        sync: false

@@ -11,7 +11,10 @@ export const config = {
   wialonBaseUrl: process.env.WIALON_BASE_URL || "https://wh101.wialon.com",
   wialonToken: process.env.WIALON_TOKEN || "",
   cronSchedule: process.env.CRON_SCHEDULE || "0 */6 * * *",
-  corsOrigin: process.env.CORS_ORIGIN || "http://localhost:4173",
+  corsOrigin: (process.env.CORS_ORIGIN || "https://pccp-program.vercel.app,https://pccp-program-isaaclk91207-oss-projects.vercel.app")
+    .split(",")
+    .map((o) => o.trim())
+    .filter(Boolean),
 };
 
 export const DEPARTMENTS = [

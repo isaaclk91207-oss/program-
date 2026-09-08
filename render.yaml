@@ -14,7 +14,7 @@ services:
       - key: DATABASE_URL
         value: file:./dev.db
       - key: CORS_ORIGIN
-        value: https://pccp-program.vercel.app
+        value: https://pccp-program.vercel.app,https://pccp-program-isaaclk91207-oss-projects.vercel.app
       - key: JWT_EXPIRES_IN
         value: 24h
       - key: WIALON_BASE_URL

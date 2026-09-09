@@ -16,6 +16,8 @@ export async function ensureSchema(): Promise<void> {
   const prisma = new PrismaClient();
   try {
     console.log("[PCCP] ensureSchema: checking database columns...");
+    console.log("[PCCP] ensureSchema: DATABASE_URL =", process.env.DATABASE_URL);
+    console.log("[PCCP] ensureSchema: cwd =", process.cwd());
     const existing = await prisma.$queryRawUnsafe<{ name: string }[]>(
       "PRAGMA table_info(transport_requests)"
     );

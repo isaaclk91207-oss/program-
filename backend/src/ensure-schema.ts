@@ -1,7 +1,5 @@
 import { PrismaClient } from "@prisma/client";
 
-const prisma = new PrismaClient();
-
 const COLUMNS_TO_ENSURE: { table: string; column: string; definition: string }[] = [
   { table: "transport_requests", column: "pickedUpAt", definition: "TEXT" },
   { table: "transport_requests", column: "droppedOffAt", definition: "TEXT" },
@@ -15,19 +13,30 @@ const COLUMNS_TO_ENSURE: { table: string; column: string; definition: string }[]
 ];
 
 export async function ensureSchema(): Promise<void> {
-  for (const { table, column, definition } of COLUMNS_TO_ENSURE) {
-    try {
-      await prisma.$executeRawUnsafe(
-        `ALTER TABLE "${table}" ADD COLUMN "${column}" ${definition}`
-      );
-      console.log(`[PCCP] Added column ${table}.${column}`);
-    } catch (err: any) {
-      if (err?.code === "SQLITE_ERROR" && err?.message?.includes("duplicate column")) {
-        // column already exists, ignore
-      } else {
-        console.error(`[PCCP] Failed to add column ${table}.${column}:`, err.message);
+  const prisma = new PrismaClient();
+  try {
+    console.log("[PCCP] ensureSchema: checking database columns...");
+    const existing = await prisma.$queryRawUnsafe<{ name: string }[]>(
+      "PRAGMA table_info(transport_requests)"
+    );
+    const existingCols = new Set(existing.map((c) => c.name));
+    console.log("[PCCP] ensureSchema: existing columns:", [...existingCols].join(", "));
+
+    for (const { table, column, definition } of COLUMNS_TO_ENSURE) {
+      if (existingCols.has(column)) {
+        continue;
+      }
+      try {
+        await prisma.$executeRawUnsafe(
+          `ALTER TABLE "${table}" ADD COLUMN "${column}" ${definition}`
+        );
+        console.log(`[PCCP] ensureSchema: added ${table}.${column}`);
+      } catch (err: any) {
+        console.error(`[PCCP] ensureSchema: FAILED to add ${table}.${column}:`, err.code, err.message);
       }
     }
+    console.log("[PCCP] ensureSchema: done");
+  } finally {
+    await prisma.$disconnect();
   }
-  await prisma.$disconnect();
 }

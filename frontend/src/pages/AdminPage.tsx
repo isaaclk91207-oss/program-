@@ -13,6 +13,7 @@ import {
   createDriver, createVehicle, deleteDriver, deleteVehicle, updateDriver,
   getAllDriversV2, getAllVehiclesV2, getAllRequestsV2, getMe, createNotification, markNotificationRead,
 } from "../services/api";
+import { onNotificationNew, onRequestNew } from "../services/socket";
 import type { DashboardStats, Driver, Vehicle, TransportRequest, TransportStatus, Feedback, Notification } from "../types";
 
 type Page = "dashboard" | "requests" | "drivers" | "vehicles" | "feedback" | "notifications" | "settings" | "records" | "assessments" | "passengers" | "reports";
@@ -56,6 +57,17 @@ export default function AdminPage() {
   useEffect(() => {
     const poll = async () => { try { setNotifications(await getNotifications()); setUnreadCount((await getUnreadCount()).count); } catch {} };
     poll(); const interval = setInterval(poll, 15000); return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    const unsubNotification = onNotificationNew((n) => {
+      setNotifications((prev) => [n, ...prev]);
+      setUnreadCount((c) => c + 1);
+    });
+    const unsubRequest = onRequestNew(() => {
+      loadData();
+    });
+    return () => { unsubNotification(); unsubRequest(); };
   }, []);
 
   async function loadData() {

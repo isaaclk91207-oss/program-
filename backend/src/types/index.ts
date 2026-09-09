@@ -266,6 +266,9 @@ export interface DashboardStats {
   requestsByStatus: { status: string; count: number }[];
   requestsByDepartment: { department: string; count: number }[];
   recentRequests: TransportRequestResponse[];
+  driverHours: { driverId: string; driverName: string; tripHours: number; actualHours: number }[];
+  totalTripHours: number;
+  totalActualHours: number;
 }
 
 // ─── Settings Types ──────────────────────────────────────────────────────────

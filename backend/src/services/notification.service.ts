@@ -1,6 +1,7 @@
 import { prisma } from "../lib/prisma";
 import { createAppError } from "../middlewares/error.middleware";
 import { NotificationResponse } from "../types";
+import { socketService } from "./socket.service";
 
 export class NotificationService {
   async create(data: {
@@ -20,7 +21,9 @@ export class NotificationService {
       },
     });
 
-    return this.formatResponse(notification);
+    const formatted = this.formatResponse(notification);
+    socketService.emit("notification:new", formatted);
+    return formatted;
   }
 
   async getByRecipient(

@@ -1,5 +1,5 @@
 import { io, Socket } from "socket.io-client";
-import type { LiveVehicleLocation } from "../types";
+import type { LiveVehicleLocation, Notification, TransportRequest } from "../types";
 
 const SOCKET_URL = import.meta.env.VITE_SOCKET_URL ?? "http://localhost:3001";
 
@@ -50,5 +50,25 @@ export function onTripStatusChanged(
   s.on("trip:statusChanged", cb);
   return () => {
     s.off("trip:statusChanged", cb);
+  };
+}
+
+export function onNotificationNew(
+  cb: (notification: Notification) => void
+): () => void {
+  const s = getGpsSocket();
+  s.on("notification:new", cb);
+  return () => {
+    s.off("notification:new", cb);
+  };
+}
+
+export function onRequestNew(
+  cb: (request: TransportRequest) => void
+): () => void {
+  const s = getGpsSocket();
+  s.on("request:new", cb);
+  return () => {
+    s.off("request:new", cb);
   };
 }

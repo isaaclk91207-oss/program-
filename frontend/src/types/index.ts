@@ -164,6 +164,9 @@ export interface DashboardStats {
   requestsByStatus: { status: string; count: number }[];
   requestsByDepartment: { department: string; count: number }[];
   recentRequests: TransportRequest[];
+  driverHours: { driverId: string; driverName: string; tripHours: number; actualHours: number }[];
+  totalTripHours: number;
+  totalActualHours: number;
 }
 
 export interface VehicleCheckin {

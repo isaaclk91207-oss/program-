@@ -12,6 +12,7 @@ import {
   markAllNotificationsRead,
   getUnreadCount,
 } from "../services/api";
+import { onNotificationNew, onTripStatusChanged } from "../services/socket";
 import type { TransportRequest, Notification } from "../types";
 
 type Tab = "home" | "requests" | "new" | "profile" | "notifications";
@@ -46,6 +47,17 @@ export default function PassengerPage() {
     poll();
     const interval = setInterval(poll, 15000);
     return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    const unsubNotification = onNotificationNew((n) => {
+      setNotifications((prev) => [n, ...prev]);
+      setUnreadCount((c) => c + 1);
+    });
+    const unsubTrip = onTripStatusChanged(() => {
+      loadData();
+    });
+    return () => { unsubNotification(); unsubTrip(); };
   }, []);
 
   async function loadData() {

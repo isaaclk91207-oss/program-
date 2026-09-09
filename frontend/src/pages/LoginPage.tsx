@@ -60,8 +60,8 @@ export default function LoginPage() {
     <div className="min-h-screen flex items-center justify-center px-4" style={{ background: "linear-gradient(135deg, #00507d 0%, #00796B 100%)" }}>
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
-          <div className="w-20 h-20 bg-white rounded-2xl shadow-lg flex items-center justify-center mx-auto mb-4">
-            <span className="text-3xl font-bold text-primary">P</span>
+          <div className="w-20 h-20 bg-white rounded-2xl shadow-lg flex items-center justify-center mx-auto mb-4 overflow-hidden">
+            <img src="/pccp-logo.png" alt="PCCP Logo" className="w-full h-full object-contain p-1" />
           </div>
           <h1 className="text-3xl font-bold text-white mb-1">PCCP</h1>
           <p className="text-white/80 text-sm">Professional Chauffeur Certification Program</p>
@@ -84,12 +84,6 @@ export default function LoginPage() {
                 {role}
               </button>
             ))}
-          </div>
-
-          {/* Hero (hidden per plan) */}
-          <div className="hidden">
-            <img src="/hero-login.png" alt="" />
-            <img src="/pccp-logo.png" alt="" />
           </div>
 
           {/* Form card */}

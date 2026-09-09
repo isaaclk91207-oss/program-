@@ -2,6 +2,7 @@ import { prisma } from "../lib/prisma";
 import { createAppError } from "../middlewares/error.middleware";
 import { CreateTransportRequestDto, AssignDriverDto, TransportRequestResponse } from "../types";
 import { notificationService } from "./notification.service";
+import { socketService } from "./socket.service";
 
 const VALID_TRANSITIONS: Record<string, string[]> = {
   PENDING: ["ASSIGNED"],
@@ -125,12 +126,14 @@ export class TransportService {
       relatedRequestId: request.id,
     });
 
-    return this.formatResponse({
+    const formatted = this.formatResponse({
       ...request,
       driver: null,
       vehicle: null,
       feedback: null,
     });
+    socketService.emit("request:new", formatted);
+    return formatted;
   }
 
   async assignDriver(requestId: string, data: AssignDriverDto) {

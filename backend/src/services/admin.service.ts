@@ -17,6 +17,9 @@ export class AdminService {
       activeVehicles,
       requestsByStatus,
       recentRequests,
+      checkins,
+      driveRequests,
+      drivers,
     ] = await Promise.all([
       prisma.transportRequest.count(),
       prisma.transportRequest.count({ where: { status: "PENDING" } }),
@@ -39,7 +42,43 @@ export class AdminService {
           vehicle: { select: { id: true, plate: true } },
         },
       }),
+      prisma.vehicleCheckin.findMany({
+        select: { driverId: true, checkInTime: true, checkOutTime: true },
+      }),
+      prisma.transportRequest.findMany({
+        where: { pickedUpAt: { not: null } },
+        select: { driverId: true, pickedUpAt: true, droppedOffAt: true },
+      }),
+      prisma.driverProfile.findMany({
+        select: { userId: true, user: { select: { name: true } } },
+      }),
     ]);
+
+    const driverNameMap = new Map(drivers.map((d) => [d.userId, d.user.name]));
+    const tripHoursMap: Record<string, number> = {};
+    for (const c of checkins) {
+      if (!c.checkInTime || !c.checkOutTime || !c.driverId) continue;
+      const ms = c.checkOutTime.getTime() - c.checkInTime.getTime();
+      if (ms <= 0) continue;
+      tripHoursMap[c.driverId] = (tripHoursMap[c.driverId] || 0) + ms;
+    }
+    const actualHoursMap: Record<string, number> = {};
+    for (const r of driveRequests) {
+      if (!r.pickedUpAt || !r.driverId) continue;
+      const end = r.droppedOffAt || new Date();
+      const ms = end.getTime() - r.pickedUpAt.getTime();
+      if (ms <= 0) continue;
+      actualHoursMap[r.driverId] = (actualHoursMap[r.driverId] || 0) + ms;
+    }
+    const allDriverIds = new Set([...Object.keys(tripHoursMap), ...Object.keys(actualHoursMap)]);
+    const driverHours = Array.from(allDriverIds).map((id) => ({
+      driverId: id,
+      driverName: driverNameMap.get(id) || "Unknown",
+      tripHours: Math.round((tripHoursMap[id] / 3600000) * 10) / 10,
+      actualHours: Math.round((actualHoursMap[id] / 3600000) * 10) / 10,
+    }));
+    const totalTripHours = Math.round(driverHours.reduce((s, d) => s + d.tripHours, 0) * 10) / 10;
+    const totalActualHours = Math.round(driverHours.reduce((s, d) => s + d.actualHours, 0) * 10) / 10;
 
     return {
       totalRequests,
@@ -80,6 +119,9 @@ export class AdminService {
         feedbackStatus: null,
         createdAt: r.createdAt.toISOString(),
       })),
+      driverHours,
+      totalTripHours,
+      totalActualHours,
     };
   }
 

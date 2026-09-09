@@ -1,9 +1,7 @@
-import { PrismaClient } from "@prisma/client";
+import { prisma } from "../lib/prisma";
 import { config } from "../config";
 import { createAppError } from "../middlewares/error.middleware";
 import { WialonLoginResponse, WialonUnit, WialonUnitPos, WialonTrip, LiveVehicleLocation } from "../types";
-
-const prisma = new PrismaClient();
 
 let sessionToken: string | null = null;
 let lastSyncTime: Date | null = null;

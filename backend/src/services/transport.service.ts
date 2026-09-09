@@ -1,9 +1,7 @@
-import { PrismaClient } from "@prisma/client";
+import { prisma } from "../lib/prisma";
 import { createAppError } from "../middlewares/error.middleware";
 import { CreateTransportRequestDto, AssignDriverDto, TransportRequestResponse } from "../types";
 import { notificationService } from "./notification.service";
-
-const prisma = new PrismaClient();
 
 const VALID_TRANSITIONS: Record<string, string[]> = {
   PENDING: ["ASSIGNED"],

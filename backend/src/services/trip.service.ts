@@ -1,12 +1,10 @@
-import { PrismaClient } from "@prisma/client";
+import { prisma } from "../lib/prisma";
 import { createAppError } from "../middlewares/error.middleware";
 import { QRScanPayload, QRVerificationResult, CheckInDto, CheckOutDto } from "../types";
 import { transportService } from "./transport.service";
 import { vehicleService } from "./vehicle.service";
 import { notificationService } from "./notification.service";
 import { socketService } from "./socket.service";
-
-const prisma = new PrismaClient();
 
 const VALID_TRANSITIONS: Record<string, string[]> = {
   PENDING: ["ASSIGNED"],

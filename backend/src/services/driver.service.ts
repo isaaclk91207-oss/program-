@@ -1,10 +1,8 @@
-import { PrismaClient } from "@prisma/client";
+import { prisma } from "../lib/prisma";
 import bcrypt from "bcrypt";
 import { config, DEFAULT_WEIGHTS, PRACTICAL_CRITERIA, OPERATIONAL_CRITERIA, PASS_MARKS } from "../config";
 import { createAppError } from "../middlewares/error.middleware";
 import { CreateDriverDto, UpdateDriverDto, DriverResponse } from "../types";
-
-const prisma = new PrismaClient();
 
 function computeSectionScore(section: Record<string, number>, criteria: { key: string; weight: number }[]): number {
   if (!section || typeof section !== "object") return 0;

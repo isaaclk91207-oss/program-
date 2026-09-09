@@ -1,11 +1,9 @@
-import { PrismaClient } from "@prisma/client";
+import { prisma } from "../lib/prisma";
 import bcrypt from "bcrypt";
 import { config } from "../config";
 import { generateToken } from "../middlewares/auth.middleware";
 import { createAppError } from "../middlewares/error.middleware";
 import { LoginRequest, LoginResponse } from "../types";
-
-const prisma = new PrismaClient();
 
 export class AuthService {
   async login(data: LoginRequest): Promise<LoginResponse> {

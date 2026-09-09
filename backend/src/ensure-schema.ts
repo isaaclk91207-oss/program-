@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { prisma } from "./lib/prisma";
 
 const COLUMNS_TO_ENSURE: { table: string; column: string; definition: string }[] = [
   { table: "transport_requests", column: "pickedUpAt", definition: "TEXT" },
@@ -13,11 +13,8 @@ const COLUMNS_TO_ENSURE: { table: string; column: string; definition: string }[]
 ];
 
 export async function ensureSchema(): Promise<void> {
-  const prisma = new PrismaClient();
   try {
     console.log("[PCCP] ensureSchema: checking database columns...");
-    console.log("[PCCP] ensureSchema: DATABASE_URL =", process.env.DATABASE_URL);
-    console.log("[PCCP] ensureSchema: cwd =", process.cwd());
     const existing = await prisma.$queryRawUnsafe<{ name: string }[]>(
       "PRAGMA table_info(transport_requests)"
     );
@@ -38,7 +35,7 @@ export async function ensureSchema(): Promise<void> {
       }
     }
     console.log("[PCCP] ensureSchema: done");
-  } finally {
-    await prisma.$disconnect();
+  } catch (err: any) {
+    console.error("[PCCP] ensureSchema: FATAL:", err.message);
   }
 }

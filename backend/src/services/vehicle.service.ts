@@ -1,8 +1,6 @@
-import { PrismaClient } from "@prisma/client";
+import { prisma } from "../lib/prisma";
 import { createAppError } from "../middlewares/error.middleware";
 import { CreateVehicleDto, UpdateVehicleDto, VehicleResponse } from "../types";
-
-const prisma = new PrismaClient();
 
 export class VehicleService {
   async getAll(filters?: { status?: string; search?: string }): Promise<VehicleResponse[]> {

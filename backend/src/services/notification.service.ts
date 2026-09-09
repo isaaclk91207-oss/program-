@@ -1,8 +1,6 @@
-import { PrismaClient } from "@prisma/client";
+import { prisma } from "../lib/prisma";
 import { createAppError } from "../middlewares/error.middleware";
 import { NotificationResponse } from "../types";
-
-const prisma = new PrismaClient();
 
 export class NotificationService {
   async create(data: {

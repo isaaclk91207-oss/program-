@@ -1,9 +1,7 @@
-import { PrismaClient } from "@prisma/client";
+import { prisma } from "../lib/prisma";
 import { createAppError } from "../middlewares/error.middleware";
 import { CreateFeedbackDto, FeedbackResponse } from "../types";
 import { notificationService } from "./notification.service";
-
-const prisma = new PrismaClient();
 
 export class FeedbackService {
   async submit(requestId: string, passengerId: string, data: CreateFeedbackDto) {

@@ -1,7 +1,5 @@
-import { PrismaClient } from "@prisma/client";
+import { prisma } from "../lib/prisma";
 import { DashboardStats, TransportRequestResponse } from "../types";
-
-const prisma = new PrismaClient();
 
 export class AdminService {
   async getDashboard(): Promise<DashboardStats> {

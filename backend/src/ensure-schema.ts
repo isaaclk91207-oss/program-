@@ -10,18 +10,18 @@ const COLUMNS_TO_ENSURE: { table: string; column: string; definition: string }[]
   { table: "transport_requests", column: "purpose", definition: "TEXT" },
   { table: "transport_requests", column: "returnTime", definition: "TEXT" },
   { table: "transport_requests", column: "note", definition: "TEXT" },
+  { table: "vehicles", column: "gpsDeviceId", definition: "INTEGER" },
 ];
 
 export async function ensureSchema(): Promise<void> {
   try {
     console.log("[PCCP] ensureSchema: checking database columns...");
-    const existing = await prisma.$queryRawUnsafe<{ name: string }[]>(
-      "PRAGMA table_info(transport_requests)"
-    );
-    const existingCols = new Set(existing.map((c) => c.name));
-    console.log("[PCCP] ensureSchema: existing columns:", [...existingCols].join(", "));
 
     for (const { table, column, definition } of COLUMNS_TO_ENSURE) {
+      const existing = await prisma.$queryRawUnsafe<{ name: string }[]>(
+        `PRAGMA table_info(${table})`
+      );
+      const existingCols = new Set(existing.map((c) => c.name));
       if (existingCols.has(column)) {
         continue;
       }

@@ -1,3 +1,18 @@
 {
-  "rootDirectory": "frontend"
+  "rootDirectory": "frontend",
+  "services": {
+    "pccp-program": {
+      "root": "backend",
+      "entrypoint": "dist/app.js"
+    }
+  },
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": {
+        "type": "service",
+        "service": "pccp-program"
+      }
+    }
+  ]
 }

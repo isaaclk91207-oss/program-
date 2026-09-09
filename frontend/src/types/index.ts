@@ -97,6 +97,7 @@ export interface TransportRequest {
   feedbackStatus: string | null;
   createdAt: string;
   version?: "v1" | "v2";
+  hasActiveCheckin?: boolean;
 }
 
 export function formatRequestId(id: string, requestNumber?: string): string {

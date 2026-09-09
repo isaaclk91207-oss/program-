@@ -128,6 +128,7 @@ export class AdminService {
         qrScanStatus: null,
         feedbackStatus: null,
         createdAt: r.createdAt.toISOString(),
+        hasActiveCheckin: false,
       })),
       driverHours,
       totalTripHours,

@@ -304,6 +304,7 @@ export class TransportService {
         : null,
       feedbackStatus: r.feedback ? "SUBMITTED" : null,
       createdAt: r.createdAt.toISOString(),
+      hasActiveCheckin: false,
     };
   }
 }

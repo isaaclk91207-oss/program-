@@ -74,6 +74,7 @@ export interface TransportRequestResponse {
   qrScanStatus: string | null;
   feedbackStatus: string | null;
   createdAt: string;
+  hasActiveCheckin: boolean;
 }
 
 // ─── QR Verification Types ───────────────────────────────────────────────────

@@ -107,13 +107,13 @@ export default function TripDetail({
 
       {/* Actions */}
       <div className="space-y-2">
-        {["ASSIGNED", "QR_PENDING"].includes(trip.status) && (
+        {!trip.hasActiveCheckin && ["ASSIGNED", "QR_PENDING"].includes(trip.status) && (
           <Button accent="driver" onClick={() => setShowCheckIn(true)} className="w-full">
             <Icon name="login" size={18} className="mr-2" />
             Check In
           </Button>
         )}
-        {trip.status === "PICK_UP_SCANNED" && (
+        {trip.hasActiveCheckin && (
           <Button onClick={() => setShowCheckOut(true)} className="w-full" variant="secondary">
             <Icon name="logout" size={18} className="mr-2" />
             Check Out

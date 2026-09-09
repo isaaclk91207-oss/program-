@@ -251,7 +251,18 @@ export class TripService {
       orderBy: { date: "desc" },
     });
 
-    return trips.map(this.formatTripResponse);
+    // Check for active check-ins for these trips
+    const tripIds = trips.map((t) => t.id);
+    const activeCheckins = await prisma.vehicleCheckin.findMany({
+      where: {
+        requestId: { in: tripIds },
+        status: "CHECKED_IN",
+      },
+      select: { requestId: true },
+    });
+    const activeCheckinSet = new Set(activeCheckins.map((c) => c.requestId));
+
+    return trips.map((t) => this.formatTripResponse(t, activeCheckinSet.has(t.id)));
   }
 
   async getPassengerTrips(passengerId: string, status?: string) {
@@ -272,7 +283,7 @@ export class TripService {
       orderBy: { date: "desc" },
     });
 
-    return trips.map(this.formatTripResponse);
+    return trips.map((t) => this.formatTripResponse(t, false));
   }
 
   async getTripDetail(requestId: string) {
@@ -328,7 +339,7 @@ export class TripService {
     note?: string | null;
     feedback: { id: string; rating: number } | null;
     createdAt: Date;
-  }) {
+  }, hasActiveCheckin: boolean) {
     return {
       id: t.id,
       passengerId: t.passengerId,
@@ -355,6 +366,7 @@ export class TripService {
         : null,
       feedbackStatus: t.feedback ? "SUBMITTED" : null,
       createdAt: t.createdAt.toISOString(),
+      hasActiveCheckin,
     };
   }
 }

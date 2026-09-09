@@ -4,6 +4,7 @@ import { QRScanPayload, QRVerificationResult, CheckInDto, CheckOutDto } from "..
 import { transportService } from "./transport.service";
 import { vehicleService } from "./vehicle.service";
 import { notificationService } from "./notification.service";
+import { socketService } from "./socket.service";
 
 const prisma = new PrismaClient();
 
@@ -88,8 +89,10 @@ export class TripService {
 
     const updated = await prisma.transportRequest.update({
       where: { id: requestId },
-      data: { status: "PICK_UP_SCANNED" },
+      data: { status: "PICK_UP_SCANNED", pickedUpAt: new Date() },
     });
+
+    socketService.emit("trip:statusChanged", { requestId, status: "PICK_UP_SCANNED", driverId: request.driverId, pickedUpAt: updated.pickedUpAt });
 
     return updated;
   }
@@ -118,8 +121,10 @@ export class TripService {
 
     const updated = await prisma.transportRequest.update({
       where: { id: requestId },
-      data: { status: "DROP_OFF_SCANNED" },
+      data: { status: "DROP_OFF_SCANNED", droppedOffAt: new Date() },
     });
+
+    socketService.emit("trip:statusChanged", { requestId, status: "DROP_OFF_SCANNED", driverId: request.driverId, droppedOffAt: updated.droppedOffAt });
 
     return updated;
   }
@@ -167,6 +172,8 @@ export class TripService {
       },
     });
 
+    socketService.emit("trip:statusChanged", { requestId: activeRequest.id, status: "CHECKED_IN", driverId, checkInTime: checkin.checkInTime });
+
     await notificationService.create({
       recipientId: driverId,
       recipientRole: "driver",
@@ -204,6 +211,8 @@ export class TripService {
       },
     });
 
+    socketService.emit("trip:statusChanged", { requestId: checkin.requestId, status: "CHECKED_OUT", driverId, checkOutTime: updated.checkOutTime });
+
     if (checkin.transportRequest) {
       const currentStatus = checkin.transportRequest.status;
       if (currentStatus === "PICK_UP_SCANNED" || currentStatus === "QR_PENDING" || currentStatus === "ASSIGNED") {
@@ -211,6 +220,7 @@ export class TripService {
           where: { id: checkin.transportRequest.id },
           data: { status: "IN_PROGRESS" },
         });
+        socketService.emit("trip:statusChanged", { requestId: checkin.transportRequest.id, status: "IN_PROGRESS", driverId });
       }
     }
 

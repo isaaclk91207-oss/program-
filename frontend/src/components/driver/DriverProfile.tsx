@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Icon } from "../ui";
 import { getDrivingHours } from "../../services/api";
+import { onTripStatusChanged } from "../../services/socket";
 import type { TransportRequest } from "../../types";
 
 function initials(name: string) {
@@ -21,15 +22,28 @@ export default function DriverProfile({
   trips: TransportRequest[];
   onBack: () => void;
 }) {
-  const [hours, setHours] = useState<number | null>(null);
+  const [tripHours, setTripHours] = useState<number | null>(null);
+  const [actualHours, setActualHours] = useState<number | null>(null);
   const completed = trips.filter((t) => t.status === "FEEDBACK_SUBMITTED").length;
 
-  useEffect(() => {
+  function loadHours() {
     if (user.id) {
       getDrivingHours(user.id).then((data) => {
-        if (data.length > 0) setHours(data[0].totalHours);
+        if (data.length > 0) {
+          setTripHours(data[0].tripHours);
+          setActualHours(data[0].actualHours);
+        }
       }).catch(() => {});
     }
+  }
+
+  useEffect(() => { loadHours(); }, [user.id]);
+
+  useEffect(() => {
+    const unsub = onTripStatusChanged((event) => {
+      if (event.driverId === user.id) loadHours();
+    });
+    return unsub;
   }, [user.id]);
 
   return (
@@ -72,8 +86,15 @@ export default function DriverProfile({
           </div>
           <div className="bg-surface-container-low dark:bg-navy-900 rounded-xl p-3 border border-border-hairline dark:border-outline-variant">
             <Icon name="schedule" size={20} className="text-blue-500 dark:text-blue-400 mx-auto mb-1" />
-            <p className="font-stat-lg text-stat-lg text-on-surface dark:text-white">{hours !== null ? hours : "—"}</p>
-            <p className="font-label-caps text-label-caps uppercase text-on-surface-variant dark:text-outline-variant">Driving Hrs</p>
+            <p className="font-stat-lg text-stat-lg text-on-surface dark:text-white">{tripHours !== null ? tripHours : "—"}</p>
+            <p className="font-label-caps text-label-caps uppercase text-on-surface-variant dark:text-outline-variant">Trip Hrs</p>
+          </div>
+        </div>
+        <div className="grid grid-cols-1 gap-3 mt-3">
+          <div className="bg-surface-container-low dark:bg-navy-900 rounded-xl p-3 border border-border-hairline dark:border-outline-variant">
+            <Icon name="play_arrow" size={20} className="text-emerald-500 dark:text-emerald-400 mx-auto mb-1" />
+            <p className="font-stat-lg text-stat-lg text-on-surface dark:text-white">{actualHours !== null ? actualHours : "—"}</p>
+            <p className="font-label-caps text-label-caps uppercase text-on-surface-variant dark:text-outline-variant">Actual Driving Hrs</p>
           </div>
         </div>
       </div>

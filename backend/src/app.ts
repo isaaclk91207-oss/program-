@@ -7,6 +7,7 @@ import routes from "./routes";
 import { errorHandler, notFoundHandler } from "./middlewares/error.middleware";
 import { cronService } from "./services/cron.service";
 import { gpsService } from "./services/gps.service";
+import { socketService } from "./services/socket.service";
 
 const app = express();
 
@@ -44,6 +45,7 @@ server.listen(config.port, () => {
   console.log(`[PCCP] Socket.io: ws://localhost:${config.port}`);
   cronService.start();
   gpsService.start(io);
+  socketService.start(io);
 });
 
 export default app;

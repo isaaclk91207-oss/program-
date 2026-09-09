@@ -80,23 +80,25 @@ model Vehicle {
 }
 
 model TransportRequest {
-  id          String @id @default(uuid())
-  passengerId String
-  driverId    String?
-  vehicleId   String?
-  status      String @default("PENDING") // PENDING | ASSIGNED | QR_PENDING | PICK_UP_SCANNED | IN_PROGRESS | DROP_OFF_SCANNED | FEEDBACK_SUBMITTED
-  pickup      String
-  destination String
-  date        DateTime
-  time        String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id             String    @id @default(uuid())
+  passengerId    String
+  driverId       String?
+  vehicleId      String?
+  status         String    @default("PENDING") // PENDING | ASSIGNED | QR_PENDING | PICK_UP_SCANNED | IN_PROGRESS | DROP_OFF_SCANNED | FEEDBACK_SUBMITTED
+  pickup         String
+  destination    String
+  date           DateTime
+  time           String
+  pickedUpAt     DateTime?
+  droppedOffAt   DateTime?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
 
-  passenger     PassengerProfile @relation(fields: [passengerId], references: [userId])
-  driver        DriverProfile?   @relation(fields: [driverId], references: [userId])
-  vehicle       Vehicle?         @relation(fields: [vehicleId], references: [id])
-  feedback      Feedback?
-  notifications Notification[]
+  passenger      PassengerProfile @relation(fields: [passengerId], references: [userId])
+  driver         DriverProfile?   @relation(fields: [driverId], references: [userId])
+  vehicle        Vehicle?         @relation(fields: [vehicleId], references: [id])
+  feedback       Feedback?
+  notifications  Notification[]
   vehicleCheckins VehicleCheckin[]
 
   @@map("transport_requests")

@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Card, Button, Badge, CertBadge, ProgressBar, Tabs, th, ConfirmDialog, StarRating, Icon } from "../ui";
 import { getDriverFeedback, getDrivingHours } from "../../services/api";
+import { onTripStatusChanged } from "../../services/socket";
 import type { Driver, Feedback, Assessment } from "../../types";
 
 function getDisplayId(d: Driver): string {
@@ -38,7 +39,7 @@ export default function DriverDetail({
   const [tab, setTab] = useState("overview");
   const [feedbacks, setFeedbacks] = useState<Feedback[]>([]);
   const [loadingFeedback, setLoadingFeedback] = useState(false);
-  const [drivingHours, setDrivingHours] = useState<{ totalHours: number; tripCount: number } | null>(null);
+  const [drivingHours, setDrivingHours] = useState<{ tripHours: number; tripCount: number; actualHours: number; actualTripCount: number } | null>(null);
 
   // Assessment state
   const [written, setWritten] = useState(80);
@@ -58,10 +59,19 @@ export default function DriverDetail({
     if (tab === "feedback") loadFeedback();
   }, [tab]);
 
-  useEffect(() => {
+  function loadHours() {
     getDrivingHours(driver.id).then((data) => {
       if (data.length > 0) setDrivingHours(data[0]);
     }).catch(() => {});
+  }
+
+  useEffect(() => { loadHours(); }, [driver.id]);
+
+  useEffect(() => {
+    const unsub = onTripStatusChanged((event) => {
+      if (event.driverId === driver.id) loadHours();
+    });
+    return unsub;
   }, [driver.id]);
 
   async function loadFeedback() {
@@ -180,8 +190,15 @@ export default function DriverDetail({
               <div className="flex items-center gap-2">
                 <Icon name="schedule" size={16} />
                 <div>
-                  <p className={th.textSecondary}>Driving Hours</p>
-                  <p className={`${th.text} font-bold`}>{drivingHours ? `${drivingHours.totalHours}h (${drivingHours.tripCount} trips)` : "—"}</p>
+                  <p className={th.textSecondary}>Trip Hours</p>
+                  <p className={th.text}>{drivingHours ? `${drivingHours.tripHours}h (${drivingHours.tripCount} trips)` : "—"}</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-2">
+                <Icon name="play_arrow" size={16} />
+                <div>
+                  <p className={th.textSecondary}>Actual Driving Hours</p>
+                  <p className={`${th.text} font-bold`}>{drivingHours ? `${drivingHours.actualHours}h (${drivingHours.actualTripCount} trips)` : "—"}</p>
                 </div>
               </div>
             </div>

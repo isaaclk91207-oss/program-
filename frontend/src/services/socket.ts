@@ -32,3 +32,23 @@ export function onGpsUpdate(
     s.off("gps:update", cb);
   };
 }
+
+export interface TripStatusEvent {
+  requestId: string;
+  status: string;
+  driverId?: string | null;
+  pickedUpAt?: string;
+  droppedOffAt?: string;
+  checkInTime?: string;
+  checkOutTime?: string;
+}
+
+export function onTripStatusChanged(
+  cb: (event: TripStatusEvent) => void
+): () => void {
+  const s = getGpsSocket();
+  s.on("trip:statusChanged", cb);
+  return () => {
+    s.off("trip:statusChanged", cb);
+  };
+}

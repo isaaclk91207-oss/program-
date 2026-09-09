@@ -423,26 +423,50 @@ async getDrivingHours(driverId?: string) {
     const where: Record<string, unknown> = {};
     if (driverId) where.driverId = driverId;
 
-    const checkins = await prisma.vehicleCheckin.findMany({
-      where,
-      select: { driverId: true, checkInTime: true, checkOutTime: true },
-    });
+    const [checkins, requests] = await Promise.all([
+      prisma.vehicleCheckin.findMany({
+        where,
+        select: { driverId: true, checkInTime: true, checkOutTime: true },
+      }),
+      prisma.transportRequest.findMany({
+        where: { ...where, pickedUpAt: { not: null } },
+        select: { driverId: true, pickedUpAt: true, droppedOffAt: true },
+      }),
+    ]);
 
-    const hoursMap: Record<string, { totalMs: number; tripCount: number }> = {};
+    const tripHoursMap: Record<string, { totalMs: number; tripCount: number }> = {};
     for (const c of checkins) {
       if (!c.checkInTime || !c.checkOutTime) continue;
       const ms = c.checkOutTime.getTime() - c.checkInTime.getTime();
       if (ms <= 0) continue;
-      if (!hoursMap[c.driverId]) hoursMap[c.driverId] = { totalMs: 0, tripCount: 0 };
-      hoursMap[c.driverId].totalMs += ms;
-      hoursMap[c.driverId].tripCount += 1;
+      if (!tripHoursMap[c.driverId]) tripHoursMap[c.driverId] = { totalMs: 0, tripCount: 0 };
+      tripHoursMap[c.driverId].totalMs += ms;
+      tripHoursMap[c.driverId].tripCount += 1;
     }
 
-    return Object.entries(hoursMap).map(([id, { totalMs, tripCount }]) => ({
-      driverId: id,
-      totalHours: Math.round((totalMs / 3600000) * 10) / 10,
-      tripCount,
-    }));
+    const actualHoursMap: Record<string, { totalMs: number; tripCount: number }> = {};
+    for (const r of requests) {
+      if (!r.pickedUpAt || !r.driverId) continue;
+      const end = r.droppedOffAt || new Date();
+      const ms = end.getTime() - r.pickedUpAt.getTime();
+      if (ms <= 0) continue;
+      if (!actualHoursMap[r.driverId]) actualHoursMap[r.driverId] = { totalMs: 0, tripCount: 0 };
+      actualHoursMap[r.driverId].totalMs += ms;
+      actualHoursMap[r.driverId].tripCount += 1;
+    }
+
+    const allDriverIds = new Set([...Object.keys(tripHoursMap), ...Object.keys(actualHoursMap)]);
+    return Array.from(allDriverIds).map((id) => {
+      const trip = tripHoursMap[id] || { totalMs: 0, tripCount: 0 };
+      const actual = actualHoursMap[id] || { totalMs: 0, tripCount: 0 };
+      return {
+        driverId: id,
+        tripHours: Math.round((trip.totalMs / 3600000) * 10) / 10,
+        tripCount: trip.tripCount,
+        actualHours: Math.round((actual.totalMs / 3600000) * 10) / 10,
+        actualTripCount: actual.tripCount,
+      };
+    });
   }
 }
 

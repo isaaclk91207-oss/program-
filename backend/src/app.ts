@@ -8,6 +8,7 @@ import { errorHandler, notFoundHandler } from "./middlewares/error.middleware";
 import { cronService } from "./services/cron.service";
 import { gpsService } from "./services/gps.service";
 import { socketService } from "./services/socket.service";
+import { ensureSchema } from "./ensure-schema";
 
 const app = express();
 
@@ -38,14 +39,19 @@ io.on("connection", (socket) => {
   });
 });
 
-server.listen(config.port, () => {
-  console.log(`[PCCP] Server running on port ${config.port}`);
-  console.log(`[PCCP] Health check: http://localhost:${config.port}/api/health`);
-  console.log(`[PCCP] API base: http://localhost:${config.port}/api/v1`);
-  console.log(`[PCCP] Socket.io: ws://localhost:${config.port}`);
-  cronService.start();
-  gpsService.start(io);
-  socketService.start(io);
+ensureSchema().then(() => {
+  server.listen(config.port, () => {
+    console.log(`[PCCP] Server running on port ${config.port}`);
+    console.log(`[PCCP] Health check: http://localhost:${config.port}/api/health`);
+    console.log(`[PCCP] API base: http://localhost:${config.port}/api/v1`);
+    console.log(`[PCCP] Socket.io: ws://localhost:${config.port}`);
+    cronService.start();
+    gpsService.start(io);
+    socketService.start(io);
+  });
+}).catch((err) => {
+  console.error("[PCCP] Failed to ensure schema:", err);
+  process.exit(1);
 });
 
 export default app;

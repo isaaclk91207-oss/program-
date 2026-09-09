@@ -5,8 +5,8 @@ services:
     rootDir: backend
     plan: free
     region: singapore
-    buildCommand: yarn prisma generate && yarn tsc
-    startCommand: yarn prisma db push --skip-generate && node dist/app.js
+    buildCommand: yarn build
+    startCommand: node dist/app.js
     healthCheckPath: /api/health
     envVars:
       - key: NODE_ENV

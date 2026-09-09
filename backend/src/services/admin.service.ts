@@ -1,5 +1,6 @@
 import { prisma } from "../lib/prisma";
 import { DashboardStats, TransportRequestResponse } from "../types";
+import { gpsHoursService } from "./gps-hours.service";
 
 export class AdminService {
   async getDashboard(): Promise<DashboardStats> {
@@ -80,6 +81,15 @@ export class AdminService {
     const totalTripHours = Math.round(driverHours.reduce((s, d) => s + d.tripHours, 0) * 10) / 10;
     const totalActualHours = Math.round(driverHours.reduce((s, d) => s + d.actualHours, 0) * 10) / 10;
 
+    const gpsDriverHoursRaw = await gpsHoursService.getGpsHoursByDriver();
+    const gpsDriverHours = gpsDriverHoursRaw.map((d) => ({
+      driverId: d.driverId,
+      driverName: d.driverName,
+      gpsHours: d.gpsHours,
+      tripCount: d.tripCount,
+    }));
+    const totalGpsHours = Math.round(gpsDriverHours.reduce((s, d) => s + d.gpsHours, 0) * 10) / 10;
+
     return {
       totalRequests,
       pendingRequests,
@@ -122,6 +132,8 @@ export class AdminService {
       driverHours,
       totalTripHours,
       totalActualHours,
+      gpsDriverHours,
+      totalGpsHours,
     };
   }
 

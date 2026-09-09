@@ -24,6 +24,7 @@ export default function DriverProfile({
 }) {
   const [tripHours, setTripHours] = useState<number | null>(null);
   const [actualHours, setActualHours] = useState<number | null>(null);
+  const [gpsHours, setGpsHours] = useState<number | null>(null);
   const completed = trips.filter((t) => t.status === "FEEDBACK_SUBMITTED").length;
 
   function loadHours() {
@@ -32,6 +33,7 @@ export default function DriverProfile({
         if (data.length > 0) {
           setTripHours(data[0].tripHours);
           setActualHours(data[0].actualHours);
+          setGpsHours(data[0].gpsHours ?? null);
         }
       }).catch(() => {});
     }
@@ -90,11 +92,16 @@ export default function DriverProfile({
             <p className="font-label-caps text-label-caps uppercase text-on-surface-variant dark:text-outline-variant">Trip Hrs</p>
           </div>
         </div>
-        <div className="grid grid-cols-1 gap-3 mt-3">
+        <div className="grid grid-cols-2 gap-3 mt-3">
           <div className="bg-surface-container-low dark:bg-navy-900 rounded-xl p-3 border border-border-hairline dark:border-outline-variant">
             <Icon name="play_arrow" size={20} className="text-emerald-500 dark:text-emerald-400 mx-auto mb-1" />
             <p className="font-stat-lg text-stat-lg text-on-surface dark:text-white">{actualHours !== null ? actualHours : "—"}</p>
             <p className="font-label-caps text-label-caps uppercase text-on-surface-variant dark:text-outline-variant">Actual Driving Hrs</p>
+          </div>
+          <div className="bg-surface-container-low dark:bg-navy-900 rounded-xl p-3 border border-border-hairline dark:border-outline-variant">
+            <Icon name="gps_fixed" size={20} className="text-cyan-500 dark:text-cyan-400 mx-auto mb-1" />
+            <p className="font-stat-lg text-stat-lg text-on-surface dark:text-white">{gpsHours !== null ? gpsHours : "—"}</p>
+            <p className="font-label-caps text-label-caps uppercase text-on-surface-variant dark:text-outline-variant">GPS Hours</p>
           </div>
         </div>
       </div>

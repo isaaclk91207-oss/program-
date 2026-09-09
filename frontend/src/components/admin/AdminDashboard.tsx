@@ -1,6 +1,7 @@
 import { Card, Badge, KPICard, ProgressBar, th, Icon } from "../ui";
 import type { DashboardStats } from "../../types";
 import { formatRequestId } from "../../types";
+import { getStatusLabel } from "../../lib/status";
 
 export default function AdminDashboard({ data }: { data: DashboardStats }) {
   return (
@@ -49,7 +50,7 @@ export default function AdminDashboard({ data }: { data: DashboardStats }) {
           <div className="space-y-2">
             {data.requestsByStatus.map((s) => (
               <div key={s.status} className="flex items-center gap-3">
-                <span className={`text-sm ${th.textSecondary} w-40`}>{s.status.replace(/_/g, " ")}</span>
+                <span className={`text-sm ${th.textSecondary} w-40`}>{getStatusLabel(s.status as any, "admin")}</span>
                 <div className="flex-1">
                   <ProgressBar value={s.count} max={data.totalRequests || 1} />
                 </div>
@@ -95,7 +96,7 @@ export default function AdminDashboard({ data }: { data: DashboardStats }) {
                 <p className={`text-sm ${th.text}`}>{formatRequestId(r.id, r.requestNumber)} · {r.passengerName}</p>
                 <p className={`text-xs ${th.textMuted}`}>{r.pickup} → {r.destination}</p>
               </div>
-              <Badge status={r.status}>{r.status.replace(/_/g, " ")}</Badge>
+              <Badge status={r.status}>{getStatusLabel(r.status as any, "admin")}</Badge>
             </div>
           ))}
         </div>

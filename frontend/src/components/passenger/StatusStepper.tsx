@@ -1,6 +1,7 @@
 import { Icon, th } from "../ui";
+import { getStatusLabel, getStatusProgress, TransportStatus } from "../../lib/status";
 
-const STEPS = [
+const STEPS: { key: TransportStatus; label: string }[] = [
   { key: "PENDING", label: "Requested" },
   { key: "ASSIGNED", label: "Assigned" },
   { key: "QR_PENDING", label: "QR Ready" },
@@ -11,7 +12,8 @@ const STEPS = [
 ];
 
 export default function StatusStepper({ currentStatus }: { currentStatus: string }) {
-  const currentIndex = STEPS.findIndex((s) => s.key === currentStatus);
+  const status = currentStatus as TransportStatus;
+  const currentIndex = STEPS.findIndex((s) => s.key === status);
 
   return (
     <div className="mb-6">
@@ -28,7 +30,7 @@ export default function StatusStepper({ currentStatus }: { currentStatus: string
                     ? "bg-emerald-500 border-emerald-500 text-white"
                     : isCurrent
                     ? "bg-role-passenger border-role-passenger text-white"
-                    : `${th.bgInput} ${th.border} ${th.textMuted}`
+                    : `${th.bgInput} ${th.border} ${th.textMuted}`}
                 }`}
               >
                 {isCompleted ? <Icon name="check" size={16} className="text-white" /> : idx + 1}
@@ -41,6 +43,12 @@ export default function StatusStepper({ currentStatus }: { currentStatus: string
             </div>
           );
         })}
+      </div>
+      <div className="mt-2 h-1 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+        <div
+          className="h-full bg-role-passenger transition-all duration-300"
+          style={{ width: `${getStatusProgress(status)}%` }}
+        />
       </div>
     </div>
   );

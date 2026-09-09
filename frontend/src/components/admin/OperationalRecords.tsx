@@ -3,6 +3,7 @@ import { Card, Badge, SearchInput, th, Icon } from "../ui";
 import { getRequests, getAllRequestsV2 } from "../../services/api";
 import type { TransportRequest, TransportStatus } from "../../types";
 import { formatRequestId } from "../../types";
+import { getStatusLabel } from "../../lib/status";
 
 const V1_RECORD_STATUSES: TransportStatus[] = ["FEEDBACK_SUBMITTED", "DROP_OFF_SCANNED", "COMPLETED"];
 
@@ -135,7 +136,7 @@ export default function OperationalRecords() {
                   <div className="flex-1">
                     <div className="flex items-center gap-2 mb-1">
                       <p className={`text-sm font-medium ${th.text}`}>{formatRequestId(t.id, t.requestNumber)}</p>
-                      <Badge status={t.status}>{t.status.replace(/_/g, " ")}</Badge>
+                      <Badge status={t.status}>{getStatusLabel(t.status as any, "admin")}</Badge>
                     </div>
                     <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
                       <div className="flex items-center gap-1">

@@ -13,6 +13,7 @@ import {
   Legend,
 } from "recharts";
 import type { DashboardStats } from "../../types";
+import { getStatusLabel } from "../../lib/status";
 
 const STATUS_COLORS: Record<string, string> = {
   PENDING: "#f59e0b",
@@ -28,7 +29,7 @@ const DEPT_COLORS = ["#f59e0b", "#3b82f6", "#a855f7", "#10b981", "#ef4444", "#06
 
 export default function DashboardCharts({ data }: { data: DashboardStats }) {
   const statusData = data.requestsByStatus.map((s) => ({
-    name: s.status.replace(/_/g, " "),
+    name: getStatusLabel(s.status as any, "admin"),
     value: s.count,
     color: STATUS_COLORS[s.status] || "#64748b",
   }));

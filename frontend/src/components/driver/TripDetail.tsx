@@ -70,7 +70,7 @@ export default function TripDetail({
             {trip.date} · {trip.time}
           </p>
         </div>
-        <TripStatusPill status={trip.status} />
+        <TripStatusPill status={trip.status} perspective="driver" />
       </div>
 
       {/* Route card */}

@@ -113,7 +113,7 @@ export default function TripsList({
                     {t.date} · {t.time}
                   </span>
                 </div>
-                <TripStatusPill status={t.status} />
+                <TripStatusPill status={t.status} perspective="driver" />
               </div>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                 <div className="col-span-2 md:col-span-1">

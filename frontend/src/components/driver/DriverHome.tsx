@@ -131,7 +131,7 @@ export default function DriverHome({
                       {t.destination}
                     </div>
                   </div>
-                  <TripStatusPill status={t.status} />
+                  <TripStatusPill status={t.status} perspective="driver" />
                 </div>
               </button>
             ))}

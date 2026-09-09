@@ -3,6 +3,7 @@ import { Card, Button, Badge, EmptyState, SearchInput, th, Icon, DataTable, Tabl
 import AssignModal from "./AssignModal";
 import type { TransportRequest, Driver, Vehicle } from "../../types";
 import { formatRequestId } from "../../types";
+import { getStatusLabel } from "../../lib/status";
 
 export default function RequestsList({
   requests,
@@ -72,7 +73,7 @@ export default function RequestsList({
         <Card className="p-4">
           <div className="flex justify-between items-start mb-3">
             <h3 className="font-semibold">{formatRequestId(selectedRequest.id, selectedRequest.requestNumber)}</h3>
-            <Badge status={selectedRequest.status}>{selectedRequest.status.replace(/_/g, " ")}</Badge>
+            <Badge status={selectedRequest.status}>{getStatusLabel(selectedRequest.status as any, "admin")}</Badge>
           </div>
           <div className="grid grid-cols-2 gap-4 text-sm">
             <div className="flex items-center gap-2">
@@ -191,7 +192,7 @@ export default function RequestsList({
                   <TableCell className="whitespace-nowrap text-muted">{r.date} · {r.time}</TableCell>
                   <TableCell className="whitespace-nowrap">{r.driverName || <span className={th.textMuted}>Unassigned</span>}</TableCell>
                   <TableCell className="font-mono whitespace-nowrap">{r.vehiclePlate || <span className={th.textMuted}>—</span>}</TableCell>
-                  <TableCell><Badge status={r.status}>{r.status.replace(/_/g, " ")}</Badge></TableCell>
+                  <TableCell><Badge status={r.status}>{getStatusLabel(r.status as any, "admin")}</Badge></TableCell>
                   <TableCell className="text-right">
                     <Icon name="chevron_right" size={18} className="text-on-surface-variant" />
                   </TableCell>

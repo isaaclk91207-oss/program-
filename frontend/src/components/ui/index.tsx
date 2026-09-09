@@ -109,22 +109,24 @@ export function Icon({ name, fill = false, size = 24, weight = 400, className = 
 }
 
 // ─── TripStatusPill (driver trip status) ────────────────────────────────────
+import { getStatusLabel, getStatusColor, TransportStatus, StatusPerspective } from "../../lib/status";
 
 const DONE_STATUSES = ["FEEDBACK_SUBMITTED", "COMPLETED", "DROPOFF_COMPLETE", "DROP_OFF_SCANNED"];
 const CANCELLED_STATUSES = ["CANCELLED", "CANCELED", "REJECTED", "EXPIRED"];
 
-export function tripStatusMeta(status: string): { pillClass: string; label: string } {
-  let pillClass = "bg-role-driver-container text-role-driver dark:bg-purple-500/20 dark:text-purple-400";
+export function tripStatusMeta(status: string, perspective: StatusPerspective = "driver"): { pillClass: string; label: string } {
+  const st = status as TransportStatus;
+  let pillClass = getStatusColor(st);
   if (DONE_STATUSES.includes(status)) {
-    pillClass = "bg-role-admin-container text-role-admin dark:bg-emerald-500/20 dark:text-emerald-400";
+    pillClass = "bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-400";
   } else if (CANCELLED_STATUSES.includes(status)) {
-    pillClass = "bg-error-container text-error dark:bg-rose-500/20 dark:text-rose-400";
+    pillClass = "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400";
   }
-  return { pillClass, label: status.replace(/_/g, " ") };
+  return { pillClass, label: getStatusLabel(st, perspective) };
 }
 
-export function TripStatusPill({ status }: { status: string }) {
-  const { pillClass, label } = tripStatusMeta(status);
+export function TripStatusPill({ status, perspective = "driver" }: { status: string; perspective?: StatusPerspective }) {
+  const { pillClass, label } = tripStatusMeta(status, perspective);
   return (
     <span className={`px-3 py-1 rounded-full font-label-caps text-label-caps uppercase ${pillClass}`}>
       {label}

@@ -30,7 +30,7 @@ export default function OperationalRecords() {
     try {
       const [v1Data, v2Raw] = await Promise.all([
         getRequests(),
-        getAllRequestsV2(),
+        getAllRequestsV2().catch(() => []),
       ]);
 
       const v1Reqs: TransportRequest[] = (v1Data.requests || []).map((r) => ({

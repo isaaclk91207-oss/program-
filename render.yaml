@@ -5,8 +5,8 @@ services:
     rootDir: backend
     plan: free
     region: singapore
-    buildCommand: npx prisma generate && npx tsc
-    startCommand: npx prisma migrate deploy && node dist/app.js
+    buildCommand: yarn prisma generate && yarn tsc
+    startCommand: yarn prisma migrate deploy && node dist/app.js
     healthCheckPath: /api/health
     envVars:
       - key: NODE_ENV

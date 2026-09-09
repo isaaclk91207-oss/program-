@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Card, Button, Badge, CertBadge, ProgressBar, Tabs, th, ConfirmDialog, StarRating, Icon } from "../ui";
-import { getDriverFeedback } from "../../services/api";
+import { getDriverFeedback, getDrivingHours } from "../../services/api";
 import type { Driver, Feedback, Assessment } from "../../types";
 
 function getDisplayId(d: Driver): string {
@@ -38,6 +38,7 @@ export default function DriverDetail({
   const [tab, setTab] = useState("overview");
   const [feedbacks, setFeedbacks] = useState<Feedback[]>([]);
   const [loadingFeedback, setLoadingFeedback] = useState(false);
+  const [drivingHours, setDrivingHours] = useState<{ totalHours: number; tripCount: number } | null>(null);
 
   // Assessment state
   const [written, setWritten] = useState(80);
@@ -56,6 +57,12 @@ export default function DriverDetail({
   useEffect(() => {
     if (tab === "feedback") loadFeedback();
   }, [tab]);
+
+  useEffect(() => {
+    getDrivingHours(driver.id).then((data) => {
+      if (data.length > 0) setDrivingHours(data[0]);
+    }).catch(() => {});
+  }, [driver.id]);
 
   async function loadFeedback() {
     setLoadingFeedback(true);
@@ -169,6 +176,13 @@ export default function DriverDetail({
               <div>
                 <p className={th.textSecondary}>Accident Free</p>
                 <p className={th.text}>{driver.accidentFree || "—"}</p>
+              </div>
+              <div className="flex items-center gap-2">
+                <Icon name="schedule" size={16} />
+                <div>
+                  <p className={th.textSecondary}>Driving Hours</p>
+                  <p className={`${th.text} font-bold`}>{drivingHours ? `${drivingHours.totalHours}h (${drivingHours.tripCount} trips)` : "—"}</p>
+                </div>
               </div>
             </div>
           </Card>

@@ -419,6 +419,31 @@ export class DriverService {
       rating: avgRating,
     };
   }
+async getDrivingHours(driverId?: string) {
+    const where: Record<string, unknown> = {};
+    if (driverId) where.driverId = driverId;
+
+    const checkins = await prisma.vehicleCheckin.findMany({
+      where,
+      select: { driverId: true, checkInTime: true, checkOutTime: true },
+    });
+
+    const hoursMap: Record<string, { totalMs: number; tripCount: number }> = {};
+    for (const c of checkins) {
+      if (!c.checkInTime || !c.checkOutTime) continue;
+      const ms = c.checkOutTime.getTime() - c.checkInTime.getTime();
+      if (ms <= 0) continue;
+      if (!hoursMap[c.driverId]) hoursMap[c.driverId] = { totalMs: 0, tripCount: 0 };
+      hoursMap[c.driverId].totalMs += ms;
+      hoursMap[c.driverId].tripCount += 1;
+    }
+
+    return Object.entries(hoursMap).map(([id, { totalMs, tripCount }]) => ({
+      driverId: id,
+      totalHours: Math.round((totalMs / 3600000) * 10) / 10,
+      tripCount,
+    }));
+  }
 }
 
 export const driverService = new DriverService();

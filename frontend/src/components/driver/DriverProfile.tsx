@@ -1,4 +1,6 @@
+import { useState, useEffect } from "react";
 import { Icon } from "../ui";
+import { getDrivingHours } from "../../services/api";
 import type { TransportRequest } from "../../types";
 
 function initials(name: string) {
@@ -15,11 +17,20 @@ export default function DriverProfile({
   trips,
   onBack,
 }: {
-  user: { name: string; email: string };
+  user: { name: string; email: string; id?: string };
   trips: TransportRequest[];
   onBack: () => void;
 }) {
+  const [hours, setHours] = useState<number | null>(null);
   const completed = trips.filter((t) => t.status === "FEEDBACK_SUBMITTED").length;
+
+  useEffect(() => {
+    if (user.id) {
+      getDrivingHours(user.id).then((data) => {
+        if (data.length > 0) setHours(data[0].totalHours);
+      }).catch(() => {});
+    }
+  }, [user.id]);
 
   return (
     <div className="max-w-[440px] mx-auto">
@@ -48,7 +59,7 @@ export default function DriverProfile({
           {user.email}
         </div>
 
-        <div className="grid grid-cols-2 gap-3 mt-5">
+        <div className="grid grid-cols-3 gap-3 mt-5">
           <div className="bg-surface-container-low dark:bg-navy-900 rounded-xl p-3 border border-border-hairline dark:border-outline-variant">
             <Icon name="directions_car" size={20} className="text-role-driver dark:text-purple-400 mx-auto mb-1" />
             <p className="font-stat-lg text-stat-lg text-on-surface dark:text-white">{trips.length}</p>
@@ -58,6 +69,11 @@ export default function DriverProfile({
             <Icon name="task_alt" size={20} className="text-role-admin dark:text-emerald-400 mx-auto mb-1" />
             <p className="font-stat-lg text-stat-lg text-on-surface dark:text-white">{completed}</p>
             <p className="font-label-caps text-label-caps uppercase text-on-surface-variant dark:text-outline-variant">Completed</p>
+          </div>
+          <div className="bg-surface-container-low dark:bg-navy-900 rounded-xl p-3 border border-border-hairline dark:border-outline-variant">
+            <Icon name="schedule" size={20} className="text-blue-500 dark:text-blue-400 mx-auto mb-1" />
+            <p className="font-stat-lg text-stat-lg text-on-surface dark:text-white">{hours !== null ? hours : "—"}</p>
+            <p className="font-label-caps text-label-caps uppercase text-on-surface-variant dark:text-outline-variant">Driving Hrs</p>
           </div>
         </div>
       </div>

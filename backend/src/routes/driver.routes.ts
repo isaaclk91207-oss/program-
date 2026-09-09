@@ -10,6 +10,7 @@ router.use(authenticate);
 router.get("/cert-summary", requireRole("ADMIN"), driverController.getCertSummary);
 router.get("/assessments", requireRole("ADMIN"), driverController.getAllAssessments);
 router.get("/passengers", requireRole("ADMIN"), driverController.getPassengers);
+router.get("/hours", requireRole("ADMIN"), driverController.getDrivingHours);
 router.get("/", requireRole("ADMIN"), driverController.getAll);
 router.get("/:id", driverController.getById);
 router.post("/", requireRole("ADMIN"), driverController.create);

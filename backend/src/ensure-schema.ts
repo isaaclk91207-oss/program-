@@ -1,41 +1,42 @@
 import { prisma } from "./lib/prisma";
 
-const COLUMNS_TO_ENSURE: { table: string; column: string; definition: string }[] = [
-  { table: "transport_requests", column: "pickedUpAt", definition: "TEXT" },
-  { table: "transport_requests", column: "droppedOffAt", definition: "TEXT" },
-  { table: "transport_requests", column: "noOfPeople", definition: "INTEGER" },
-  { table: "transport_requests", column: "wayUsers", definition: "TEXT" },
-  { table: "transport_requests", column: "section", definition: "TEXT" },
-  { table: "transport_requests", column: "serviceType", definition: "TEXT" },
-  { table: "transport_requests", column: "purpose", definition: "TEXT" },
-  { table: "transport_requests", column: "returnTime", definition: "TEXT" },
-  { table: "transport_requests", column: "note", definition: "TEXT" },
-  { table: "vehicles", column: "gpsDeviceId", definition: "INTEGER" },
-];
-
 export async function ensureSchema(): Promise<void> {
   try {
-    console.log("[PCCP] ensureSchema: checking database columns...");
+    const url = process.env.DATABASE_URL;
+    console.log(`[PCCP] ensureSchema: DATABASE_URL=${url}`);
 
-    for (const { table, column, definition } of COLUMNS_TO_ENSURE) {
-      const existing = await prisma.$queryRawUnsafe<{ name: string }[]>(
-        `PRAGMA table_info(${table})`
-      );
-      const existingCols = new Set(existing.map((c) => c.name));
-      if (existingCols.has(column)) {
-        continue;
-      }
+    const tables = await prisma.$queryRawUnsafe<{ name: string }[]>(
+      "SELECT name FROM sqlite_master WHERE type='table' AND name='transport_requests'"
+    );
+    console.log(`[PCCP] ensureSchema: transport_requests exists: ${tables.length > 0}`);
+
+    if (tables.length === 0) {
+      console.log("[PCCP] ensureSchema: table missing, prisma migrate deploy should have created it");
+      return;
+    }
+
+    const cols = await prisma.$queryRawUnsafe<{ name: string }[]>(
+      "PRAGMA table_info(transport_requests)"
+    );
+    const colNames = cols.map((c) => c.name);
+    console.log(`[PCCP] ensureSchema: columns=${colNames.join(",")}`);
+
+    const needed = ["pickedUpAt", "droppedOffAt", "noOfPeople", "wayUsers", "section", "serviceType", "purpose", "returnTime", "note"];
+    const missing = needed.filter((c) => !colNames.includes(c));
+    console.log(`[PCCP] ensureSchema: missing=${missing.join(",") || "none"}`);
+
+    for (const column of missing) {
+      let def = "TEXT";
+      if (column === "noOfPeople") def = "INTEGER";
       try {
-        await prisma.$executeRawUnsafe(
-          `ALTER TABLE "${table}" ADD COLUMN "${column}" ${definition}`
-        );
-        console.log(`[PCCP] ensureSchema: added ${table}.${column}`);
+        await prisma.$executeRawUnsafe(`ALTER TABLE "transport_requests" ADD COLUMN "${column}" ${def}`);
+        console.log(`[PCCP] ensureSchema: added ${column}`);
       } catch (err: any) {
-        console.error(`[PCCP] ensureSchema: FAILED to add ${table}.${column}:`, err.code, err.message);
+        console.error(`[PCCP] ensureSchema: FAILED ${column}: ${err.message}`);
       }
     }
     console.log("[PCCP] ensureSchema: done");
   } catch (err: any) {
-    console.error("[PCCP] ensureSchema: FATAL:", err.message);
+    console.error("[PCCP] ensureSchema: ERROR:", err.message);
   }
 }

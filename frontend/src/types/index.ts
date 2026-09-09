@@ -105,7 +105,8 @@ export type TransportStatus =
   | "PICK_UP_SCANNED"
   | "IN_PROGRESS"
   | "DROP_OFF_SCANNED"
-  | "FEEDBACK_SUBMITTED";
+  | "FEEDBACK_SUBMITTED"
+  | "COMPLETED";
 
 export interface TransportRequestListResponse {
   requests: TransportRequest[];

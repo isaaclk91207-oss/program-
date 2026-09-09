@@ -4,7 +4,7 @@ import { getRequests, getAllRequestsV2 } from "../../services/api";
 import type { TransportRequest, TransportStatus } from "../../types";
 import { formatRequestId } from "../../types";
 
-const V1_RECORD_STATUSES: TransportStatus[] = ["FEEDBACK_SUBMITTED", "DROP_OFF_SCANNED"];
+const V1_RECORD_STATUSES: TransportStatus[] = ["FEEDBACK_SUBMITTED", "DROP_OFF_SCANNED", "COMPLETED"];
 
 function isRecord(t: TransportRequest): boolean {
   const st = t.status as string;

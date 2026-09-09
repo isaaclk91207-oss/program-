@@ -6,7 +6,7 @@ services:
     plan: free
     region: singapore
     buildCommand: yarn prisma generate && yarn tsc
-    startCommand: yarn prisma migrate deploy && node dist/app.js
+    startCommand: yarn prisma db push --skip-generate && node dist/app.js
     healthCheckPath: /api/health
     envVars:
       - key: NODE_ENV

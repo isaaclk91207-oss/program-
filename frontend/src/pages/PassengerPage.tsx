@@ -58,7 +58,7 @@ export default function PassengerPage() {
     } catch (err) { console.error(err); } finally { setLoading(false); }
   }
 
-  async function handleCreateRequest(data: { department: string; pickup: string; destination: string; date: string; time: string }) {
+  async function handleCreateRequest(data: { department: string; pickup: string; destination: string; date: string; time: string; noOfPeople: number; wayUsers: string; section: string; serviceType: string; purpose: string; returnTime: string; note: string }) {
     try { await createRequest(data); setTab("requests"); loadData(); } catch (err) { console.error(err); }
   }
 

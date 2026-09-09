@@ -36,6 +36,13 @@ export interface CreateTransportRequestDto {
   destination: string;
   date: string;
   time: string;
+  noOfPeople?: number;
+  wayUsers?: string;
+  section?: string;
+  serviceType?: string;
+  purpose?: string;
+  returnTime?: string;
+  note?: string;
 }
 
 export interface AssignDriverDto {
@@ -57,6 +64,13 @@ export interface TransportRequestResponse {
   destination: string;
   date: string;
   time: string;
+  noOfPeople: number;
+  wayUsers: string | null;
+  section: string | null;
+  serviceType: string | null;
+  purpose: string | null;
+  returnTime: string | null;
+  note: string | null;
   qrScanStatus: string | null;
   feedbackStatus: string | null;
   createdAt: string;

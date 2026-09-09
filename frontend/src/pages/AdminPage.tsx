@@ -11,7 +11,7 @@ import {
   getDashboard, getDrivers, getVehicles, getRequests, getAllFeedback, getNotifications, getUnreadCount,
   assignDriver, assignDriverV2, exportData, updateAssessment, updateSettings, getSettings,
   createDriver, createVehicle, deleteDriver, deleteVehicle, updateDriver,
-  getAllDriversV2, getAllVehiclesV2, getAllRequestsV2, getMe, createNotification,
+  getAllDriversV2, getAllVehiclesV2, getAllRequestsV2, getMe, createNotification, markNotificationRead,
 } from "../services/api";
 import type { DashboardStats, Driver, Vehicle, TransportRequest, TransportStatus, Feedback, Notification } from "../types";
 
@@ -62,7 +62,11 @@ export default function AdminPage() {
     setLoading(true);
     try {
       switch (page) {
-        case "dashboard": setDashboard(await getDashboard()); break;
+        case "dashboard": {
+          const d = await getDashboard();
+          setDashboard(d);
+          break;
+        }
         case "requests": {
           const reqs = (await getRequests()).requests.map((r) => ({ ...r, version: "v1" as const })) as TransportRequest[];
           try {
@@ -79,6 +83,7 @@ export default function AdminPage() {
                 vehicleId: (tripVehicle?.id as string) || null, vehiclePlate: (tripVehicle?.plateNumber as string) || null,
                 status: (r.status as TransportStatus) || "PENDING", pickup: (r.pickupLocation as string) || "",
                 destination: (r.destination as string) || "", date: dateStr.toLocaleDateString(), time: dateStr.toLocaleTimeString(),
+                noOfPeople: 1, wayUsers: null, section: null, serviceType: null, purpose: null, returnTime: null, note: null,
                 qrScanStatus: null, feedbackStatus: null, createdAt: (r.createdAt as string) || new Date().toISOString(), version: "v2" as const,
               };
             });
@@ -181,7 +186,17 @@ export default function AdminPage() {
           <main className="flex-1 p-6 overflow-y-auto">
             {loading ? <LoadingSpinner /> : (
               <>
-                {page === "dashboard" && dashboard && (<><AdminDashboard data={dashboard} /><LiveVehicleMap /><DashboardCharts data={dashboard} /></>)}
+                {page === "dashboard" && (<>
+                  {dashboard ? (
+                    <><AdminDashboard data={dashboard} /><LiveVehicleMap /><DashboardCharts data={dashboard} /></>
+                  ) : !loading ? (
+                    <div className="text-center py-12">
+                      <Icon name="info" size={48} className="text-on-surface-variant mx-auto mb-3" />
+                      <p className="text-on-surface-variant">Dashboard data unavailable. Check connection.</p>
+                      <button onClick={loadData} className="mt-3 text-emerald-500 underline text-sm">Retry</button>
+                    </div>
+                  ) : null}
+                </>)}
                 {page === "requests" && (<>
                   <RequestsList requests={requests} drivers={drivers} vehicles={vehicles} selectedRequest={selectedRequest} onSelectRequest={setSelectedRequest}
                     showAssignModal={showAssignModal} onShowAssignModal={setShowAssignModal}
@@ -218,7 +233,7 @@ export default function AdminPage() {
                 {page === "drivers" && <DriversList drivers={drivers} selectedDriver={selectedDriver} onSelectDriver={setSelectedDriver} onUpdateAssessment={async (did, data) => { await updateAssessment(did, data); loadData(); }} onRefresh={loadData} onExport={() => handleExport("drivers")} onAddDriver={handleAddDriver} onDeleteDriver={handleDeleteDriver} onUpdateDriver={handleUpdateDriver} />}
                 {page === "vehicles" && <VehiclesList vehicles={vehicles} onRefresh={loadData} onExport={() => handleExport("vehicles")} onAddVehicle={handleAddVehicle} onDeleteVehicle={handleDeleteVehicle} />}
                 {page === "feedback" && <FeedbackList feedbacks={feedbacks} onExport={() => handleExport("feedback")} />}
-                {page === "notifications" && <NotificationsList notifications={notifications} />}
+                {page === "notifications" && <NotificationsList notifications={notifications} requests={requests} onSelectRequest={(r) => { setSelectedRequest(requests.find((req) => req.id === r.id) || null); setPage("requests"); }} onNavigateToRequests={() => setPage("requests")} onMarkRead={async (id) => { try { await markNotificationRead(id); setNotifications((prev) => prev.map((n) => n.id === id ? { ...n, read: true } : n)); setUnreadCount((c) => Math.max(0, c - 1)); } catch {} }} />}
                 {page === "records" && <OperationalRecords />}
                 {page === "assessments" && <AssessmentsOverview />}
                 {page === "passengers" && <PassengersList />}

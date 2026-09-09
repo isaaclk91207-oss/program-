@@ -194,6 +194,13 @@ export async function createRequest(data: {
   destination: string;
   date: string;
   time: string;
+  noOfPeople?: number;
+  wayUsers?: string;
+  section?: string;
+  serviceType?: string;
+  purpose?: string;
+  returnTime?: string;
+  note?: string;
 }): Promise<TransportRequest> {
   const res = await api.post<TransportRequest>("/requests", data);
   return res.data;

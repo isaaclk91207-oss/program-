@@ -104,6 +104,13 @@ export class TransportService {
         date: new Date(data.date),
         time: data.time,
         status: "PENDING",
+        noOfPeople: data.noOfPeople || 1,
+        wayUsers: data.wayUsers || null,
+        section: data.section || null,
+        serviceType: data.serviceType || null,
+        purpose: data.purpose || null,
+        returnTime: data.returnTime || null,
+        note: data.note || null,
       },
       include: {
         passenger: { include: { user: { select: { name: true } } } },
@@ -260,6 +267,13 @@ export class TransportService {
     destination: string;
     date: Date;
     time: string;
+    noOfPeople?: number;
+    wayUsers?: string | null;
+    section?: string | null;
+    serviceType?: string | null;
+    purpose?: string | null;
+    returnTime?: string | null;
+    note?: string | null;
     feedback: { id: string; rating: number } | null;
     createdAt: Date;
   }): TransportRequestResponse {
@@ -277,6 +291,13 @@ export class TransportService {
       destination: r.destination,
       date: r.date.toISOString().split("T")[0],
       time: r.time,
+      noOfPeople: r.noOfPeople || 1,
+      wayUsers: r.wayUsers || null,
+      section: r.section || null,
+      serviceType: r.serviceType || null,
+      purpose: r.purpose || null,
+      returnTime: r.returnTime || null,
+      note: r.note || null,
       qrScanStatus: ["QR_PENDING", "PICK_UP_SCANNED", "IN_PROGRESS", "DROP_OFF_SCANNED"].includes(r.status)
         ? r.status
         : null,

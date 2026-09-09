@@ -91,6 +91,13 @@ model TransportRequest {
   time           String
   pickedUpAt     DateTime?
   droppedOffAt   DateTime?
+  noOfPeople     Int       @default(1)
+  wayUsers       String?
+  section        String?
+  serviceType    String?
+  purpose        String?
+  returnTime     String?
+  note           String?
   createdAt      DateTime  @default(now())
   updatedAt      DateTime  @updatedAt
 

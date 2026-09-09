@@ -12,7 +12,7 @@ export default function CreateRequestForm({
   onCancel,
 }: {
   user: { name: string };
-  onSubmit: (data: { department: string; pickup: string; destination: string; date: string; time: string }) => void;
+  onSubmit: (data: { department: string; pickup: string; destination: string; date: string; time: string; noOfPeople: number; wayUsers: string; section: string; serviceType: string; purpose: string; returnTime: string; note: string }) => void;
   onCancel: () => void;
 }) {
   const [wayUsers, setWayUsers] = useState("");
@@ -30,7 +30,7 @@ export default function CreateRequestForm({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSubmit({ department, pickup, destination, date, time });
+    onSubmit({ department, pickup, destination, date, time, noOfPeople, wayUsers, section, serviceType, purpose, returnTime, note });
   };
 
   return (

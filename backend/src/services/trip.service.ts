@@ -321,6 +321,13 @@ export class TripService {
     destination: string;
     date: Date;
     time: string;
+    noOfPeople?: number;
+    wayUsers?: string | null;
+    section?: string | null;
+    serviceType?: string | null;
+    purpose?: string | null;
+    returnTime?: string | null;
+    note?: string | null;
     feedback: { id: string; rating: number } | null;
     createdAt: Date;
   }) {
@@ -338,6 +345,13 @@ export class TripService {
       destination: t.destination,
       date: t.date.toISOString().split("T")[0],
       time: t.time,
+      noOfPeople: t.noOfPeople || 1,
+      wayUsers: t.wayUsers || null,
+      section: t.section || null,
+      serviceType: t.serviceType || null,
+      purpose: t.purpose || null,
+      returnTime: t.returnTime || null,
+      note: t.note || null,
       qrScanStatus: ["QR_PENDING", "PICK_UP_SCANNED", "IN_PROGRESS", "DROP_OFF_SCANNED"].includes(t.status)
         ? t.status
         : null,

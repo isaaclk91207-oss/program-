@@ -86,6 +86,13 @@ export interface TransportRequest {
   destination: string;
   date: string;
   time: string;
+  noOfPeople: number;
+  wayUsers: string | null;
+  section: string | null;
+  serviceType: string | null;
+  purpose: string | null;
+  returnTime: string | null;
+  note: string | null;
   qrScanStatus: string | null;
   feedbackStatus: string | null;
   createdAt: string;

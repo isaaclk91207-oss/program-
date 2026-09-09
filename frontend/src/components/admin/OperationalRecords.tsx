@@ -58,6 +58,7 @@ export default function OperationalRecords() {
           destination: (r.destination as string) || "",
           date: dateStr.toLocaleDateString(),
           time: dateStr.toLocaleTimeString(),
+          noOfPeople: 1, wayUsers: null, section: null, serviceType: null, purpose: null, returnTime: null, note: null,
           qrScanStatus: null,
           feedbackStatus: null,
           createdAt: (r.createdAt as string) || new Date().toISOString(),

@@ -83,9 +83,33 @@ export default function RequestsList({
               </div>
             </div>
             <div>
-              <p className={th.textSecondary}>Department</p>
-              <p className={th.text}>{selectedRequest.department}</p>
+              <p className={th.textSecondary}>No. of People</p>
+              <p className={th.text}>{selectedRequest.noOfPeople || 1}</p>
             </div>
+            {selectedRequest.wayUsers && (
+              <div className="col-span-2">
+                <p className={th.textSecondary}>Way Users</p>
+                <p className={th.text}>{selectedRequest.wayUsers}</p>
+              </div>
+            )}
+            {selectedRequest.section && (
+              <div>
+                <p className={th.textSecondary}>Section</p>
+                <p className={th.text}>{selectedRequest.section}</p>
+              </div>
+            )}
+            {selectedRequest.serviceType && (
+              <div>
+                <p className={th.textSecondary}>Service Type</p>
+                <p className={th.text}>{selectedRequest.serviceType}</p>
+              </div>
+            )}
+            {selectedRequest.purpose && (
+              <div className="col-span-2">
+                <p className={th.textSecondary}>Purpose</p>
+                <p className={th.text}>{selectedRequest.purpose}</p>
+              </div>
+            )}
             <div className="flex items-center gap-2">
               <Icon name="location_on" size={16} />
               <div>
@@ -110,10 +134,19 @@ export default function RequestsList({
             <div className="flex items-center gap-2">
               <Icon name="schedule" size={16} />
               <div>
-                <p className={th.textSecondary}>Time</p>
+                <p className={th.textSecondary}>Departure Time</p>
                 <p className={th.text}>{selectedRequest.time}</p>
               </div>
             </div>
+            {selectedRequest.returnTime && (
+              <div className="flex items-center gap-2">
+                <Icon name="schedule" size={16} />
+                <div>
+                  <p className={th.textSecondary}>Return Time</p>
+                  <p className={th.text}>{selectedRequest.returnTime}</p>
+                </div>
+              </div>
+            )}
             {selectedRequest.driverName && (
               <div className="flex items-center gap-2">
                 <Icon name="directions_car" size={16} />
@@ -127,6 +160,12 @@ export default function RequestsList({
               <div>
                 <p className={th.textSecondary}>Vehicle</p>
                 <p className={`${th.text} font-mono`}>{selectedRequest.vehiclePlate}</p>
+              </div>
+            )}
+            {selectedRequest.note && (
+              <div className="col-span-2">
+                <p className={th.textSecondary}>Note to Transport</p>
+                <p className={th.text}>{selectedRequest.note}</p>
               </div>
             )}
           </div>

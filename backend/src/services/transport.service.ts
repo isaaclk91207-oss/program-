@@ -145,7 +145,7 @@ export class TransportService {
 
     const driver = await prisma.driverProfile.findUnique({
       where: { userId: data.driverId },
-      include: { user: { select: { name: true } } },
+      include: { user: { select: { name: true, phone: true } } },
     });
 
     if (!driver) {
@@ -167,7 +167,7 @@ export class TransportService {
       },
       include: {
         passenger: { include: { user: { select: { name: true } } } },
-        driver: { include: { user: { select: { name: true } } } },
+        driver: { include: { user: { select: { name: true, phone: true } } } },
         vehicle: true,
         feedback: { select: { id: true, rating: true } },
       },
@@ -183,7 +183,7 @@ export class TransportService {
         recipientId: request.passengerId,
         recipientRole: "PASSENGER",
         title: "Transport Request Assigned",
-        message: `Your transport request ${requestId} has been assigned to Driver ${driver.user.name} with vehicle ${vehicle.plate}.`,
+        message: `Your transport request ${requestId} has been assigned to Driver ${driver.user.name} (${driver.user.phone || "N/A"}) with vehicle ${vehicle.plate}.`,
         relatedRequestId: requestId,
       }),
       notificationService.create({

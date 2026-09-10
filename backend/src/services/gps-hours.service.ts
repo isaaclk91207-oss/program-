@@ -40,7 +40,6 @@ export class GpsHoursService {
       select: {
         vehicleId: true,
         plate: true,
-        speed: true,
         timestamp: true,
       },
     });
@@ -63,12 +62,12 @@ export class GpsHoursService {
       for (const ts of timestamps) {
         if (lastTime) {
           const gapMs = ts.getTime() - lastTime.getTime();
-          if (gapMs > 0) {
-            totalMs += Math.min(gapMs, CAPPED_GAP_MS);
-            if (gapMs > CAPPED_GAP_MS) {
-              tripCount++;
-            }
+          if (gapMs <= 0) continue;
+
+          if (gapMs > CAPPED_GAP_MS) {
+            tripCount++;
           }
+          totalMs += Math.min(gapMs, CAPPED_GAP_MS);
         }
         lastTime = ts;
       }
@@ -102,13 +101,19 @@ export class GpsHoursService {
       },
     });
 
-    const driverVehicleMap: Record<string, { name: string; vehicles: Set<string> }> = {};
+    const driverVehicleMap: Record<string, { name: string; vehicles: Map<string, { checkIn: Date; checkOut: Date | null }> }> = {};
     for (const c of checkins) {
-      if (!c.driverId || !c.vehicleId || !c.driver) continue;
+      if (!c.driverId || !c.vehicleId || !c.checkInTime) continue;
       if (!driverVehicleMap[c.driverId]) {
-        driverVehicleMap[c.driverId] = { name: c.driver.user.name, vehicles: new Set() };
+        driverVehicleMap[c.driverId] = { name: c.driver.user.name, vehicles: new Map() };
       }
-      driverVehicleMap[c.driverId].vehicles.add(c.vehicleId);
+      const existing = driverVehicleMap[c.driverId].vehicles.get(c.vehicleId);
+      if (!existing || c.checkInTime > existing.checkIn) {
+        driverVehicleMap[c.driverId].vehicles.set(c.vehicleId, {
+          checkIn: c.checkInTime,
+          checkOut: c.checkOutTime,
+        });
+      }
     }
 
     const vehicleHoursMap: Record<string, GpsHoursResult> = {};
@@ -122,7 +127,7 @@ export class GpsHoursService {
       let totalTrips = 0;
       const vehicles: { plate: string; gpsHours: number; tripCount: number }[] = [];
 
-      for (const vehicleId of data.vehicles) {
+      for (const [vehicleId] of data.vehicles) {
         const vh = vehicleHoursMap[vehicleId];
         if (vh) {
           totalHours += vh.gpsHours;

@@ -454,12 +454,19 @@ async getDrivingHours(driverId?: string) {
       actualHoursMap[r.driverId].tripCount += 1;
     }
 
-    const gpsHoursRaw = driverId
-      ? await gpsHoursService.getDriverGpsHours(driverId)
-      : { gpsHours: 0, tripCount: 0, vehicles: [] };
     const gpsHoursMap: Record<string, { gpsHours: number; tripCount: number }> = {};
-    if (driverId && gpsHoursRaw.gpsHours > 0) {
-      gpsHoursMap[driverId] = { gpsHours: gpsHoursRaw.gpsHours, tripCount: gpsHoursRaw.tripCount };
+    if (driverId) {
+      const gpsHoursRaw = await gpsHoursService.getDriverGpsHours(driverId);
+      if (gpsHoursRaw.gpsHours > 0) {
+        gpsHoursMap[driverId] = { gpsHours: gpsHoursRaw.gpsHours, tripCount: gpsHoursRaw.tripCount };
+      }
+    } else {
+      const allGpsHours = await gpsHoursService.getGpsHoursByDriver();
+      for (const d of allGpsHours) {
+        if (d.gpsHours > 0) {
+          gpsHoursMap[d.driverId] = { gpsHours: d.gpsHours, tripCount: d.tripCount };
+        }
+      }
     }
 
     const allDriverIds = new Set([

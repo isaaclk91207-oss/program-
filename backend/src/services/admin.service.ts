@@ -75,8 +75,8 @@ export class AdminService {
     const driverHours = Array.from(allDriverIds).map((id) => ({
       driverId: id,
       driverName: driverNameMap.get(id) || "Unknown",
-      tripHours: Math.round((tripHoursMap[id] / 3600000) * 10) / 10,
-      actualHours: Math.round((actualHoursMap[id] / 3600000) * 10) / 10,
+      tripHours: Math.round(((tripHoursMap[id] || 0) / 3600000) * 10) / 10,
+      actualHours: Math.round(((actualHoursMap[id] || 0) / 3600000) * 10) / 10,
     }));
     const totalTripHours = Math.round(driverHours.reduce((s, d) => s + d.tripHours, 0) * 10) / 10;
     const totalActualHours = Math.round(driverHours.reduce((s, d) => s + d.actualHours, 0) * 10) / 10;

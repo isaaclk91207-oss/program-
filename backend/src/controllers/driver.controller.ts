@@ -105,7 +105,7 @@ export class DriverController {
 
   async getDrivingHours(req: AuthenticatedRequest, res: Response, next: NextFunction) {
     try {
-      const hours = await driverService.getDrivingHours(req.params.id);
+      const hours = await driverService.getDrivingHours((req.query.driverId as string) || undefined);
       res.json(hours);
     } catch (err) {
       next(err);

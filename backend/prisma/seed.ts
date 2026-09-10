@@ -5,12 +5,11 @@ const prisma = new PrismaClient();
 
 const SALT_ROUNDS = 10;
 
-// ─── Driver Master List (20 drivers from Book 5.xlsx) ──────────────────────
-// Duplicate resolution:
-//   3R-5160: Ko Htet Myat Tun keeps 3R-5160, Ko Min Khant Ko gets 1L-5160
-//   9S-9038: Ko Pyae Phyo Aung keeps 9S-9038 per issues table,
-//            Ko Yan Myo Aung → 9S-9032, Ko Salai → 4R-2132,
-//            Ko Htet Lwin → 2R-4244, Ko Ye Win Tun → 4R-5052
+// ─── Driver Master List (16 drivers from Excel) ──────────────────────────────
+// Source: Excel file with Staff IDs, names, phones, vehicles, and vehicle types.
+// Removed: Htein Lin (DRV-009), Min Hlaig Soe (DRV-019) — not in Excel.
+// Removed: Htet Myat Tun (DRV-012), Yan Myo Aung (DRV-015), Salai (DRV-016),
+//          Aung Kyaw Hein (DRV-020) — not in Excel.
 
 interface DriverSeed {
   id: string;
@@ -21,53 +20,45 @@ interface DriverSeed {
 }
 
 const DRIVERS: DriverSeed[] = [
-  { id: "DRV-001", email: "drv001@pccp.demo", name: "Ko Htet Aung Zaw",   phone: "09-268255686", vehiclePlate: "3R-5121" },
-  { id: "DRV-002", email: "drv002@pccp.demo", name: "Ko San Min Latt",    phone: "09-785150311", vehiclePlate: "9S-6964" },
-  { id: "DRV-003", email: "drv003@pccp.demo", name: "Ko Tun Lin",          phone: "09-750171714", vehiclePlate: "9S-6864" },
-  { id: "DRV-004", email: "drv004@pccp.demo", name: "Ko Nyi Zin",          phone: "09-785379600", vehiclePlate: "9S-6975" },
-  { id: "DRV-005", email: "drv005@pccp.demo", name: "Ko Than Zaw Oo",      phone: "09-787343446", vehiclePlate: "1L-3947" },
-  { id: "DRV-006", email: "drv006@pccp.demo", name: "Ko Win Myint Tun",    phone: "09-898968983", vehiclePlate: "4Q-3897" },
-  { id: "DRV-007", email: "drv007@pccp.demo", name: "Ko Zaw Thu Aung",     phone: "09-755909331", vehiclePlate: "4Q-3959" },
-  { id: "DRV-008", email: "drv008@pccp.demo", name: "Ko Min Khant Ko",     phone: "09-456003099", vehiclePlate: "1L-5160" },
-  { id: "DRV-009", email: "drv009@pccp.demo", name: "Ko Htein Lin",        phone: "09-761755062", vehiclePlate: "2S-2273" },
-  { id: "DRV-010", email: "drv010@pccp.demo", name: "Ko Aung Naing Win",   phone: "09-666662332", vehiclePlate: "4D-1200" },
-  { id: "DRV-011", email: "drv011@pccp.demo", name: "Ko Ye Win Tun",       phone: "09-770760899", vehiclePlate: "4R-5052" },
-  { id: "DRV-012", email: "drv012@pccp.demo", name: "Ko Htet Myat Tun",    phone: "09-941571084", vehiclePlate: "3R-5160" },
-  { id: "DRV-013", email: "drv013@pccp.demo", name: "Ko Aung Thu Hein",    phone: "09-420097656", vehiclePlate: "9S-8931" },
-  { id: "DRV-014", email: "drv014@pccp.demo", name: "Ko Zarni Paing Htoo", phone: "09-764600327", vehiclePlate: "7Q-8284" },
-  { id: "DRV-015", email: "drv015@pccp.demo", name: "Ko Yan Myo Aung",     phone: "09-795549545", vehiclePlate: "9S-9032" },
-  { id: "DRV-016", email: "drv016@pccp.demo", name: "Ko Salai",            phone: "09-403659503", vehiclePlate: "4R-2132" },
-  { id: "DRV-017", email: "drv017@pccp.demo", name: "Ko Htet Lwin",        phone: "09-763778376", vehiclePlate: "2R-4244" },
-  { id: "DRV-018", email: "drv018@pccp.demo", name: "Ko Pyae Phyo Aung",   phone: "09-977301674", vehiclePlate: "9S-9038" },
-  { id: "DRV-019", email: "drv019@pccp.demo", name: "Ko Min Hlaig Soe",   phone: "09-664674483", vehiclePlate: "4Q-3955" },
-  { id: "DRV-020", email: "drv020@pccp.demo", name: "Ko Aung Kyaw Hein",  phone: "09-662888515", vehiclePlate: "4Q-3879" },
+  { id: "DRV-001", email: "drv001@pccp.demo", name: "Htet Aung Zaw",       phone: "09-268255686", vehiclePlate: "3R-5121" },
+  { id: "DRV-002", email: "drv002@pccp.demo", name: "San Min Latt",        phone: "09-785150311", vehiclePlate: "9S-6964" },
+  { id: "DRV-003", email: "drv003@pccp.demo", name: "Tun Lin",             phone: "09-750171714", vehiclePlate: "9S-6864" },
+  { id: "DRV-004", email: "drv004@pccp.demo", name: "Nyi Nyi Zin",         phone: "09-785379600", vehiclePlate: "9S-6975" },
+  { id: "DRV-005", email: "drv005@pccp.demo", name: "Than Zaw oo",         phone: "09-429531131", vehiclePlate: "4L-3922" },
+  { id: "DRV-006", email: "drv006@pccp.demo", name: "Win Myint Tun",       phone: "09-898968983", vehiclePlate: "4Q-3987" },
+  { id: "DRV-007", email: "drv007@pccp.demo", name: "Zaw Thu Aung",        phone: "09-755909331", vehiclePlate: "4Q-3959" },
+  { id: "DRV-008", email: "drv008@pccp.demo", name: "Min Khant Ko",        phone: "09-456003099", vehiclePlate: "3R-5160" },
+  { id: "DRV-010", email: "drv010@pccp.demo", name: "Aung Naing Win",      phone: "09-666662332", vehiclePlate: "4D-1200" },
+  { id: "DRV-011", email: "drv011@pccp.demo", name: "Ye Win Tun",          phone: "09-770760899", vehiclePlate: "4R-2444" },
+  { id: "DRV-013", email: "drv013@pccp.demo", name: "Aung Thu Hein",       phone: "09-420097656", vehiclePlate: "4D-1947" },
+  { id: "DRV-014", email: "drv014@pccp.demo", name: "Zarni Paing Htoo",    phone: "09-764600327", vehiclePlate: "3Q-3212" },
+  { id: "DRV-017", email: "drv017@pccp.demo", name: "Htet Lwin",           phone: "09-763778376", vehiclePlate: "4R-2132" },
+  { id: "DRV-018", email: "drv018@pccp.demo", name: "Ko Pyae Phyo Aung",   phone: "09-777301674", vehiclePlate: "2S-5051" },
+  { id: "DRV-021", email: "drv021@pccp.demo", name: "Myo Ko Ko",           phone: "09-441194334", vehiclePlate: "4Q-3881" },
 ];
 
-// ─── Vehicle Master List (20 unique vehicles from Book 5.xlsx) ──────────────
-// gpsDeviceId = verified Wialon avl_unit id (from live S7 NetPros query).
-// 1L-5160 and 4R-5052 have no matching Wialon unit → gpsDeviceId: null.
-// 4Q-3955 and 4Q-3879 are new vehicles awaiting Wialon unit IDs → gpsDeviceId: null.
+// ─── Vehicle Master List (19 vehicles from Excel) ──────────────────────────
+// gpsDeviceId = verified Wialon avl_unit id (from Wialon API query).
+// null = vehicle not found in Wialon (user to provide later).
 const VEHICLES = [
-  { plate: "3R-5121", make: "Toyota", model: "Hiace", year: 2023, color: "White", status: "ACTIVE", gpsDeviceId: 3366 },
-  { plate: "9S-6964", make: "Toyota", model: "Hiace", year: 2023, color: "White", status: "ACTIVE", gpsDeviceId: 6147 },
-  { plate: "9S-6864", make: "Toyota", model: "Hiace", year: 2023, color: "White", status: "ACTIVE", gpsDeviceId: 6423 },
-  { plate: "9S-6975", make: "Toyota", model: "Hiace", year: 2023, color: "Silver", status: "ACTIVE", gpsDeviceId: 6151 },
-  { plate: "1L-3947", make: "Toyota", model: "Hiace", year: 2022, color: "White", status: "ACTIVE", gpsDeviceId: 6704 },
-  { plate: "4Q-3897", make: "Toyota", model: "Hiace", year: 2023, color: "White", status: "ACTIVE", gpsDeviceId: 1000 },
-  { plate: "4Q-3959", make: "Toyota", model: "Hiace", year: 2023, color: "Silver", status: "ACTIVE", gpsDeviceId: 1003 },
-  { plate: "1L-5160", make: "Toyota", model: "Hiace", year: 2022, color: "White", status: "ACTIVE", gpsDeviceId: null },
-  { plate: "2S-2273", make: "Toyota", model: "Hiace", year: 2023, color: "White", status: "ACTIVE", gpsDeviceId: 4925 },
-  { plate: "4D-1200", make: "Toyota", model: "Hiace", year: 2023, color: "Silver", status: "ACTIVE", gpsDeviceId: 6471 },
-  { plate: "4R-5052", make: "Toyota", model: "Hiace", year: 2023, color: "White", status: "ACTIVE", gpsDeviceId: null },
-  { plate: "3R-5160", make: "Toyota", model: "Hiace", year: 2023, color: "White", status: "ACTIVE", gpsDeviceId: 3348 },
-  { plate: "9S-8931", make: "Toyota", model: "Hiace", year: 2023, color: "White", status: "ACTIVE", gpsDeviceId: 6430 },
-  { plate: "7Q-8284", make: "Toyota", model: "Hiace", year: 2023, color: "Silver", status: "ACTIVE", gpsDeviceId: 6072 },
-  { plate: "9S-9032", make: "Toyota", model: "Hiace", year: 2023, color: "White", status: "ACTIVE", gpsDeviceId: 6460 },
-  { plate: "4R-2132", make: "Toyota", model: "Hiace", year: 2023, color: "White", status: "ACTIVE", gpsDeviceId: 4928 },
-  { plate: "2R-4244", make: "Toyota", model: "Hiace", year: 2023, color: "Silver", status: "ACTIVE", gpsDeviceId: 4926 },
-  { plate: "9S-9038", make: "Toyota", model: "Hiace", year: 2023, color: "White", status: "ACTIVE", gpsDeviceId: 6632 },
-  { plate: "4Q-3955", make: "Toyota", model: "Hiace", year: 2023, color: "Silver", status: "ACTIVE", gpsDeviceId: null },
-  { plate: "4Q-3879", make: "Toyota", model: "Hiace", year: 2023, color: "White", status: "ACTIVE", gpsDeviceId: null },
+  { plate: "3R-5121", make: "Nissan", model: "Sunny",       year: 2023, color: "White",  status: "ACTIVE", gpsDeviceId: 3366 },
+  { plate: "9S-6964", make: "Suzuki", model: "Carry",       year: 2023, color: "White",  status: "ACTIVE", gpsDeviceId: 6147 },
+  { plate: "9S-6864", make: "Nissan", model: "Sunny",       year: 2023, color: "White",  status: "ACTIVE", gpsDeviceId: 6423 },
+  { plate: "9S-6975", make: "Nissan", model: "Sunny",       year: 2023, color: "Silver", status: "ACTIVE", gpsDeviceId: 6151 },
+  { plate: "4L-3922", make: "Suzuki", model: "Carry",       year: 2023, color: "White",  status: "ACTIVE", gpsDeviceId: 6714 },
+  { plate: "4Q-3987", make: "Nissan", model: "Sunny",       year: 2023, color: "White",  status: "ACTIVE", gpsDeviceId: null },
+  { plate: "4Q-3959", make: "Suzuki", model: "Carry",       year: 2023, color: "Silver", status: "ACTIVE", gpsDeviceId: 1003 },
+  { plate: "3R-5160", make: "Nissan", model: "Sunny",       year: 2023, color: "White",  status: "ACTIVE", gpsDeviceId: 3348 },
+  { plate: "4D-1200", make: "Toyota", model: "Hiace",       year: 2023, color: "Silver", status: "ACTIVE", gpsDeviceId: 6471 },
+  { plate: "4R-2444", make: "Suzuki", model: "Ertiga",      year: 2023, color: "Silver", status: "ACTIVE", gpsDeviceId: null },
+  { plate: "4D-1947", make: "Dongfeng", model: "Epiq 008",  year: 2023, color: "White",  status: "ACTIVE", gpsDeviceId: null },
+  { plate: "3Q-3212", make: "Suzuki", model: "Carry",       year: 2023, color: "White",  status: "ACTIVE", gpsDeviceId: null },
+  { plate: "4R-2132", make: "Suzuki", model: "Ertiga",      year: 2023, color: "White",  status: "ACTIVE", gpsDeviceId: 4928 },
+  { plate: "2S-5051", make: "Nissan", model: "Sunny",       year: 2023, color: "White",  status: "ACTIVE", gpsDeviceId: null },
+  { plate: "4Q-3881", make: "Nissan", model: "Sunny",       year: 2023, color: "White",  status: "ACTIVE", gpsDeviceId: 993 },
+  { plate: "9S-9032", make: "Dongfeng", model: "Epiq 008",  year: 2023, color: "White",  status: "ACTIVE", gpsDeviceId: 6460 },
+  { plate: "9S-9038", make: "Dongfeng", model: "Epiq 008",  year: 2023, color: "White",  status: "ACTIVE", gpsDeviceId: 6632 },
+  { plate: "9S-6901", make: "Nissan", model: "Sunny",       year: 2023, color: "White",  status: "ACTIVE", gpsDeviceId: 6146 },
 ];
 
 async function main() {

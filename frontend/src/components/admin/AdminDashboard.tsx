@@ -75,7 +75,7 @@ export default function AdminDashboard({ data }: { data: DashboardStats }) {
                       </p>
                     </div>
                     <div className="flex gap-1">
-                      <Badge status="IN_PROGRESS">{d.tripHours}h</Badge>
+                      <Badge status="IN_PROGRESS">{d.actualHours || d.tripHours || gps?.gpsHours || 0}h</Badge>
                     </div>
                   </div>
                 );

@@ -71,7 +71,18 @@ export class AdminService {
       if (ms <= 0) continue;
       actualHoursMap[r.driverId] = (actualHoursMap[r.driverId] || 0) + ms;
     }
-    const allDriverIds = new Set([...Object.keys(tripHoursMap), ...Object.keys(actualHoursMap)]);
+
+    const gpsDriverHoursRaw = await gpsHoursService.getGpsHoursByDriver();
+    const gpsDriverHoursMap: Record<string, { gpsHours: number; tripCount: number }> = {};
+    for (const d of gpsDriverHoursRaw) {
+      gpsDriverHoursMap[d.driverId] = { gpsHours: d.gpsHours, tripCount: d.tripCount };
+    }
+
+    const allDriverIds = new Set([
+      ...Object.keys(tripHoursMap),
+      ...Object.keys(actualHoursMap),
+      ...Object.keys(gpsDriverHoursMap),
+    ]);
     const driverHours = Array.from(allDriverIds).map((id) => ({
       driverId: id,
       driverName: driverNameMap.get(id) || "Unknown",
@@ -81,7 +92,6 @@ export class AdminService {
     const totalTripHours = Math.round(driverHours.reduce((s, d) => s + d.tripHours, 0) * 10) / 10;
     const totalActualHours = Math.round(driverHours.reduce((s, d) => s + d.actualHours, 0) * 10) / 10;
 
-    const gpsDriverHoursRaw = await gpsHoursService.getGpsHoursByDriver();
     const gpsDriverHours = gpsDriverHoursRaw.map((d) => ({
       driverId: d.driverId,
       driverName: d.driverName,

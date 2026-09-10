@@ -4,7 +4,7 @@ dotenv.config();
 
 export const config = {
   port: parseInt(process.env.PORT || "3001", 10),
-  databaseUrl: process.env.DATABASE_URL || "file:./dev.db",
+  databaseUrl: process.env.DATABASE_URL || "",
   jwtSecret: process.env.JWT_SECRET || "pccp-dev-secret-change-in-production",
   jwtExpiresIn: process.env.JWT_EXPIRES_IN || "24h",
   bcryptSaltRounds: 10,

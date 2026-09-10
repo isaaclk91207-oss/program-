@@ -12,7 +12,7 @@ services:
       - key: NODE_ENV
         value: production
       - key: DATABASE_URL
-        value: file:./dev.db
+        sync: false
       - key: CORS_ORIGIN
         value: https://pccp-program.vercel.app,https://pccp-program-isaaclk91207-oss-projects.vercel.app
       - key: JWT_EXPIRES_IN

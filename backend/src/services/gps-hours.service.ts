@@ -2,6 +2,7 @@ import { prisma } from "../lib/prisma";
 
 const MOVING_THRESHOLD_KMH = 5;
 const GAP_THRESHOLD_MINUTES = 5;
+const CAPPED_GAP_MS = GAP_THRESHOLD_MINUTES * 60 * 1000;
 
 interface GpsHoursResult {
   vehicleId: string;
@@ -62,12 +63,12 @@ export class GpsHoursService {
       for (const ts of timestamps) {
         if (lastTime) {
           const gapMs = ts.getTime() - lastTime.getTime();
-          const gapMinutes = gapMs / 60000;
-
-          if (gapMinutes > GAP_THRESHOLD_MINUTES) {
-            tripCount++;
+          if (gapMs > 0) {
+            totalMs += Math.min(gapMs, CAPPED_GAP_MS);
+            if (gapMs > CAPPED_GAP_MS) {
+              tripCount++;
+            }
           }
-          totalMs += gapMs;
         }
         lastTime = ts;
       }
@@ -91,22 +92,23 @@ export class GpsHoursService {
   ): Promise<DriverGpsHoursResult[]> {
     const vehicleHours = await this.getGpsHoursByVehicle(dateFrom, dateTo);
 
-    const vehicleDriverMap = await prisma.transportRequest.findMany({
-      where: { driverId: { not: null } },
+    const checkins = await prisma.vehicleCheckin.findMany({
       select: {
         driverId: true,
         vehicleId: true,
+        checkInTime: true,
+        checkOutTime: true,
         driver: { select: { user: { select: { name: true } } } },
       },
     });
 
     const driverVehicleMap: Record<string, { name: string; vehicles: Set<string> }> = {};
-    for (const tr of vehicleDriverMap) {
-      if (!tr.driverId || !tr.vehicleId || !tr.driver) continue;
-      if (!driverVehicleMap[tr.driverId]) {
-        driverVehicleMap[tr.driverId] = { name: tr.driver.user.name, vehicles: new Set() };
+    for (const c of checkins) {
+      if (!c.driverId || !c.vehicleId || !c.driver) continue;
+      if (!driverVehicleMap[c.driverId]) {
+        driverVehicleMap[c.driverId] = { name: c.driver.user.name, vehicles: new Set() };
       }
-      driverVehicleMap[tr.driverId].vehicles.add(tr.vehicleId);
+      driverVehicleMap[c.driverId].vehicles.add(c.vehicleId);
     }
 
     const vehicleHoursMap: Record<string, GpsHoursResult> = {};

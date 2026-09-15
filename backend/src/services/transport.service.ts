@@ -50,6 +50,7 @@ export class TransportService {
           driver: { include: { user: { select: { name: true } } } },
           vehicle: { select: { id: true, plate: true } },
           feedback: { select: { id: true, rating: true } },
+          vehicleCheckins: { select: { checkInTime: true, checkOutTime: true } },
         },
         orderBy: { createdAt: "desc" },
         skip: (page - 1) * limit,
@@ -275,9 +276,29 @@ export class TransportService {
     purpose?: string | null;
     returnTime?: string | null;
     note?: string | null;
+    pickedUpAt?: Date | null;
+    droppedOffAt?: Date | null;
     feedback: { id: string; rating: number } | null;
     createdAt: Date;
+    vehicleCheckins?: { checkInTime: Date | null; checkOutTime: Date | null }[];
   }): TransportRequestResponse {
+    let tripHours: number | undefined;
+    let actualHours: number | undefined;
+
+    if (r.vehicleCheckins && r.vehicleCheckins.length > 0) {
+      const lastCheckin = r.vehicleCheckins.find((c) => c.checkInTime && c.checkOutTime);
+      if (lastCheckin && lastCheckin.checkInTime && lastCheckin.checkOutTime) {
+        const ms = lastCheckin.checkOutTime.getTime() - lastCheckin.checkInTime.getTime();
+        if (ms > 0) tripHours = Math.round((ms / 3600000) * 10) / 10;
+      }
+    }
+
+    if (r.pickedUpAt) {
+      const end = r.droppedOffAt || new Date();
+      const ms = end.getTime() - r.pickedUpAt.getTime();
+      if (ms > 0) actualHours = Math.round((ms / 3600000) * 10) / 10;
+    }
+
     return {
       id: r.id,
       passengerId: r.passengerId,
@@ -305,6 +326,8 @@ export class TransportService {
       feedbackStatus: r.feedback ? "SUBMITTED" : null,
       createdAt: r.createdAt.toISOString(),
       hasActiveCheckin: false,
+      tripHours,
+      actualHours,
     };
   }
 }

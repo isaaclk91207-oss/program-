@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Card, Button, Badge, CertBadge, ProgressBar, Tabs, th, ConfirmDialog, StarRating, Icon } from "../ui";
 import { getDriverFeedback, getDrivingHours } from "../../services/api";
 import { onTripStatusChanged } from "../../services/socket";
-import type { Driver, Feedback, Assessment } from "../../types";
+import type { Driver, Feedback, Assessment, TripHoursEntry } from "../../types";
 
 function getDisplayId(d: Driver): string {
   if (d.version === "v2" && d.employeeId) return d.employeeId;
@@ -39,7 +39,7 @@ export default function DriverDetail({
   const [tab, setTab] = useState("overview");
   const [feedbacks, setFeedbacks] = useState<Feedback[]>([]);
   const [loadingFeedback, setLoadingFeedback] = useState(false);
-  const [drivingHours, setDrivingHours] = useState<{ tripHours: number; tripCount: number; actualHours: number; actualTripCount: number } | null>(null);
+  const [drivingHours, setDrivingHours] = useState<{ tripHours: number; tripCount: number; actualHours: number; actualTripCount: number; trips: TripHoursEntry[] } | null>(null);
 
   // Assessment state
   const [written, setWritten] = useState(80);
@@ -201,6 +201,26 @@ export default function DriverDetail({
                   <p className={`${th.text} font-bold`}>{drivingHours ? `${drivingHours.actualHours}h (${drivingHours.actualTripCount} trips)` : "—"}</p>
                 </div>
               </div>
+
+              {drivingHours && drivingHours.trips.length > 0 && (
+                <div className="col-span-2 mt-2">
+                  <p className={`${th.textSecondary} mb-2`}>Trip Breakdown</p>
+                  <div className="space-y-1 max-h-40 overflow-y-auto">
+                    {drivingHours.trips.map((t) => (
+                      <div key={t.requestId} className="flex justify-between items-center py-1 text-xs border-b border-border-hairline dark:border-outline-variant last:border-0">
+                        <div>
+                          <span className={`${th.text}`}>{t.route || t.requestId}</span>
+                          <span className={`${th.textSecondary} ml-2`}>{t.tripDate}</span>
+                        </div>
+                        <div className="flex gap-2">
+                          {t.tripHours > 0 && <span className="text-blue-500">{t.tripHours}h</span>}
+                          {t.actualHours > 0 && <span className="text-emerald-500">{t.actualHours}h</span>}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
 
             </div>
           </Card>

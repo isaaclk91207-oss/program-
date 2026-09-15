@@ -75,6 +75,8 @@ export interface TransportRequestResponse {
   feedbackStatus: string | null;
   createdAt: string;
   hasActiveCheckin: boolean;
+  tripHours?: number;
+  actualHours?: number;
 }
 
 // ─── QR Verification Types ───────────────────────────────────────────────────
@@ -250,6 +252,16 @@ export interface NotificationResponse {
   createdAt: string;
 }
 
+// ─── Trip Hours Types ────────────────────────────────────────────────────────
+
+export interface TripHoursEntry {
+  requestId: string;
+  tripDate: string;
+  route: string;
+  tripHours: number;
+  actualHours: number;
+}
+
 // ─── Dashboard Types ─────────────────────────────────────────────────────────
 
 export interface DashboardStats {
@@ -267,10 +279,9 @@ export interface DashboardStats {
   requestsByStatus: { status: string; count: number }[];
   requestsByDepartment: { department: string; count: number }[];
   recentRequests: TransportRequestResponse[];
-  driverHours: { driverId: string; driverName: string; tripHours: number; actualHours: number }[];
+  driverHours: { driverId: string; driverName: string; tripHours: number; actualHours: number; trips: TripHoursEntry[] }[];
   totalTripHours: number;
   totalActualHours: number;
-
 }
 
 // ─── Settings Types ──────────────────────────────────────────────────────────

@@ -98,6 +98,8 @@ export interface TransportRequest {
   createdAt: string;
   version?: "v1" | "v2";
   hasActiveCheckin?: boolean;
+  tripHours?: number;
+  actualHours?: number;
 }
 
 export function formatRequestId(id: string, requestNumber?: string): string {
@@ -150,6 +152,18 @@ export interface Notification {
   createdAt: string;
 }
 
+// ─── Trip Hours Types ────────────────────────────────────────────────────────
+
+export interface TripHoursEntry {
+  requestId: string;
+  tripDate: string;
+  route: string;
+  tripHours: number;
+  actualHours: number;
+}
+
+// ─── Dashboard Types ─────────────────────────────────────────────────────────
+
 export interface DashboardStats {
   totalRequests: number;
   pendingRequests: number;
@@ -165,10 +179,9 @@ export interface DashboardStats {
   requestsByStatus: { status: string; count: number }[];
   requestsByDepartment: { department: string; count: number }[];
   recentRequests: TransportRequest[];
-  driverHours: { driverId: string; driverName: string; tripHours: number; actualHours: number }[];
+  driverHours: { driverId: string; driverName: string; tripHours: number; actualHours: number; trips: TripHoursEntry[] }[];
   totalTripHours: number;
   totalActualHours: number;
-
 }
 
 export interface VehicleCheckin {

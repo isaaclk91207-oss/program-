@@ -111,6 +111,15 @@ export class DriverController {
       next(err);
     }
   }
+
+  async getTripHours(req: AuthenticatedRequest, res: Response, next: NextFunction) {
+    try {
+      const hours = await driverService.getDrivingHours(req.params.id);
+      res.json(hours.length > 0 ? hours[0].trips : []);
+    } catch (err) {
+      next(err);
+    }
+  }
 }
 
 export const driverController = new DriverController();

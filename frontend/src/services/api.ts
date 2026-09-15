@@ -119,9 +119,14 @@ export async function getDriverFeedback(driverId: string): Promise<Feedback[]> {
   return res.data;
 }
 
-export async function getDrivingHours(driverId?: string): Promise<{ driverId: string; tripHours: number; tripCount: number; actualHours: number; actualTripCount: number }[]> {
+export async function getDrivingHours(driverId?: string): Promise<{ driverId: string; tripHours: number; tripCount: number; actualHours: number; actualTripCount: number; trips: { requestId: string; tripDate: string; route: string; tripHours: number; actualHours: number }[] }[]> {
   const url = driverId ? `/drivers/hours?driverId=${driverId}` : "/drivers/hours";
   const res = await api.get(url);
+  return res.data;
+}
+
+export async function getTripHours(driverId: string): Promise<{ requestId: string; tripDate: string; route: string; tripHours: number; actualHours: number }[]> {
+  const res = await api.get(`/drivers/${driverId}/trip-hours`);
   return res.data;
 }
 

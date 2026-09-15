@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Icon } from "../ui";
 import { getDrivingHours } from "../../services/api";
 import { onTripStatusChanged } from "../../services/socket";
-import type { TransportRequest } from "../../types";
+import type { TransportRequest, TripHoursEntry } from "../../types";
 
 function initials(name: string) {
   return (name || "")
@@ -24,6 +24,7 @@ export default function DriverProfile({
 }) {
   const [tripHours, setTripHours] = useState<number | null>(null);
   const [actualHours, setActualHours] = useState<number | null>(null);
+  const [perTrip, setPerTrip] = useState<TripHoursEntry[]>([]);
   const completed = trips.filter((t) => t.status === "FEEDBACK_SUBMITTED").length;
 
   function loadHours() {
@@ -32,6 +33,7 @@ export default function DriverProfile({
         if (data.length > 0) {
           setTripHours(data[0].tripHours);
           setActualHours(data[0].actualHours);
+          setPerTrip(data[0].trips || []);
         }
       }).catch(() => {});
     }
@@ -45,6 +47,9 @@ export default function DriverProfile({
     });
     return unsub;
   }, [user.id]);
+
+  const tripTotal = Math.round(perTrip.reduce((s, t) => s + t.tripHours, 0) * 10) / 10;
+  const actualTotal = Math.round(perTrip.reduce((s, t) => s + t.actualHours, 0) * 10) / 10;
 
   return (
     <div className="max-w-[440px] mx-auto">
@@ -98,6 +103,34 @@ export default function DriverProfile({
           </div>
         </div>
       </div>
+
+      {/* Per-trip breakdown */}
+      {perTrip.length > 0 && (
+        <div className="mt-5 bg-surface dark:bg-navy-900 rounded-2xl border border-border-hairline dark:border-outline-variant p-5">
+          <h4 className="font-title-md text-title-md font-semibold text-on-surface dark:text-white mb-3">Trip Hours Breakdown</h4>
+          <div className="space-y-2 max-h-64 overflow-y-auto">
+            {perTrip.map((t) => (
+              <div key={t.requestId} className="flex justify-between items-center py-2 border-b border-border-hairline dark:border-outline-variant last:border-0">
+                <div>
+                  <p className="text-sm font-medium text-on-surface dark:text-white">{t.route || t.requestId}</p>
+                  <p className="text-xs text-on-surface-variant dark:text-outline-variant">{t.tripDate}</p>
+                </div>
+                <div className="flex gap-2 text-sm">
+                  {t.tripHours > 0 && <span className="text-blue-500">{t.tripHours}h trip</span>}
+                  {t.actualHours > 0 && <span className="text-emerald-500">{t.actualHours}h actual</span>}
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="flex justify-between items-center pt-2 mt-2 border-t border-border-hairline dark:border-outline-variant text-sm font-semibold text-on-surface dark:text-white">
+            <span>Total ({perTrip.length} trips)</span>
+            <div className="flex gap-2">
+              <span className="text-blue-500">{tripTotal}h</span>
+              <span className="text-emerald-500">{actualTotal}h</span>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

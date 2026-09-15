@@ -1,9 +1,12 @@
+import { useState } from "react";
 import { Card, Badge, KPICard, ProgressBar, th, Icon } from "../ui";
 import type { DashboardStats } from "../../types";
 import { formatRequestId } from "../../types";
 import { getStatusLabel } from "../../lib/status";
 
 export default function AdminDashboard({ data }: { data: DashboardStats }) {
+  const [expandedDriver, setExpandedDriver] = useState<string | null>(null);
+
   return (
     <div>
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
@@ -58,17 +61,40 @@ export default function AdminDashboard({ data }: { data: DashboardStats }) {
           <div className="space-y-2 max-h-64 overflow-y-auto">
             {data.driverHours && data.driverHours.length > 0 ? (
               data.driverHours.map((d) => {
+                const isExpanded = expandedDriver === d.driverId;
                 return (
-                  <div key={d.driverId} className={`flex justify-between items-center py-2 border-b ${th.border} last:border-0`}>
-                    <div>
-                      <p className={`text-sm font-medium ${th.text}`}>{d.driverName}</p>
-                      <p className={`text-xs ${th.textMuted}`}>
-                        Trip: {d.tripHours}h · QR: {d.actualHours}h
-                      </p>
-                    </div>
-                    <div className="flex gap-1">
-                      <Badge status="IN_PROGRESS">{d.actualHours || d.tripHours || 0}h</Badge>
-                    </div>
+                  <div key={d.driverId}>
+                    <button
+                      onClick={() => setExpandedDriver(isExpanded ? null : d.driverId)}
+                      className={`w-full text-left flex justify-between items-center py-2 border-b ${th.border} last:border-0`}
+                    >
+                      <div>
+                        <p className={`text-sm font-medium ${th.text}`}>{d.driverName}</p>
+                        <p className={`text-xs ${th.textMuted}`}>
+                          Trip: {d.tripHours}h · QR: {d.actualHours}h
+                        </p>
+                      </div>
+                      <div className="flex gap-1 items-center">
+                        <Badge status="IN_PROGRESS">{d.actualHours || d.tripHours || 0}h</Badge>
+                        <Icon name={isExpanded ? "expand_less" : "expand_more"} size={18} className={`${th.textMuted}`} />
+                      </div>
+                    </button>
+                    {isExpanded && d.trips && d.trips.length > 0 && (
+                      <div className="pl-4 pb-2">
+                        {d.trips.map((t) => (
+                          <div key={t.requestId} className={`flex justify-between items-center py-1 text-xs border-b ${th.border} last:border-0`}>
+                            <div>
+                              <span className={`${th.text}`}>{t.route || t.requestId}</span>
+                              <span className={`${th.textSecondary} ml-2`}>{t.tripDate}</span>
+                            </div>
+                            <div className="flex gap-2">
+                              {t.tripHours > 0 && <span className="text-blue-500">{t.tripHours}h</span>}
+                              {t.actualHours > 0 && <span className="text-emerald-500">{t.actualHours}h</span>}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
                   </div>
                 );
               })

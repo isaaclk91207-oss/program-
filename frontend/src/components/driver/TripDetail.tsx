@@ -103,6 +103,16 @@ export default function TripDetail({
         <InfoRow icon="calendar_month" label="Date" value={trip.date} />
         <InfoRow icon="schedule" label="Time" value={trip.time} />
         <InfoRow icon="directions_car" label="Vehicle" value={trip.vehiclePlate || "—"} valueClass="font-mono" />
+        {["FEEDBACK_SUBMITTED", "COMPLETED", "DROPOFF_COMPLETE"].includes(trip.status) && (trip.tripHours != null || trip.actualHours != null) && (
+          <>
+            {trip.tripHours != null && (
+              <InfoRow icon="schedule" label="Trip Hours" value={`${trip.tripHours}h`} valueClass="text-blue-500 font-bold" />
+            )}
+            {trip.actualHours != null && (
+              <InfoRow icon="play_arrow" label="Actual Driving Hours" value={`${trip.actualHours}h`} valueClass="text-emerald-500 font-bold" />
+            )}
+          </>
+        )}
       </div>
 
       {/* Actions */}

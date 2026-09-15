@@ -1,6 +1,6 @@
 import { prisma } from "../lib/prisma";
 import { DashboardStats, TransportRequestResponse } from "../types";
-import { gpsHoursService } from "./gps-hours.service";
+
 
 export class AdminService {
   async getDashboard(): Promise<DashboardStats> {
@@ -72,16 +72,9 @@ export class AdminService {
       actualHoursMap[r.driverId] = (actualHoursMap[r.driverId] || 0) + ms;
     }
 
-    const gpsDriverHoursRaw = await gpsHoursService.getGpsHoursByDriver();
-    const gpsDriverHoursMap: Record<string, { gpsHours: number; tripCount: number }> = {};
-    for (const d of gpsDriverHoursRaw) {
-      gpsDriverHoursMap[d.driverId] = { gpsHours: d.gpsHours, tripCount: d.tripCount };
-    }
-
     const allDriverIds = new Set([
       ...Object.keys(tripHoursMap),
       ...Object.keys(actualHoursMap),
-      ...Object.keys(gpsDriverHoursMap),
     ]);
     const driverHours = Array.from(allDriverIds).map((id) => ({
       driverId: id,
@@ -91,14 +84,6 @@ export class AdminService {
     }));
     const totalTripHours = Math.round(driverHours.reduce((s, d) => s + d.tripHours, 0) * 10) / 10;
     const totalActualHours = Math.round(driverHours.reduce((s, d) => s + d.actualHours, 0) * 10) / 10;
-
-    const gpsDriverHours = gpsDriverHoursRaw.map((d) => ({
-      driverId: d.driverId,
-      driverName: d.driverName,
-      gpsHours: d.gpsHours,
-      tripCount: d.tripCount,
-    }));
-    const totalGpsHours = Math.round(gpsDriverHours.reduce((s, d) => s + d.gpsHours, 0) * 10) / 10;
 
     return {
       totalRequests,
@@ -143,8 +128,7 @@ export class AdminService {
       driverHours,
       totalTripHours,
       totalActualHours,
-      gpsDriverHours,
-      totalGpsHours,
+
     };
   }
 

@@ -39,7 +39,7 @@ export default function DriverDetail({
   const [tab, setTab] = useState("overview");
   const [feedbacks, setFeedbacks] = useState<Feedback[]>([]);
   const [loadingFeedback, setLoadingFeedback] = useState(false);
-  const [drivingHours, setDrivingHours] = useState<{ tripHours: number; tripCount: number; actualHours: number; actualTripCount: number; gpsHours: number; gpsTripCount: number } | null>(null);
+  const [drivingHours, setDrivingHours] = useState<{ tripHours: number; tripCount: number; actualHours: number; actualTripCount: number } | null>(null);
 
   // Assessment state
   const [written, setWritten] = useState(80);
@@ -201,14 +201,7 @@ export default function DriverDetail({
                   <p className={`${th.text} font-bold`}>{drivingHours ? `${drivingHours.actualHours}h (${drivingHours.actualTripCount} trips)` : "—"}</p>
                 </div>
               </div>
-              <div className="flex items-center gap-2">
-                <Icon name="gps_fixed" size={16} />
-                <div>
-                  <p className={th.textSecondary}>GPS Hours</p>
-                  <p className={`${th.text} font-bold text-cyan-600`}>{drivingHours ? `${drivingHours.gpsHours || 0}h (${drivingHours.gpsTripCount || 0} trips)` : "—"}</p>
-                  <p className="text-xs text-slate-400">Auto-tracked</p>
-                </div>
-              </div>
+
             </div>
           </Card>
 

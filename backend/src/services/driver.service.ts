@@ -3,7 +3,7 @@ import bcrypt from "bcrypt";
 import { config, DEFAULT_WEIGHTS, PRACTICAL_CRITERIA, OPERATIONAL_CRITERIA, PASS_MARKS } from "../config";
 import { createAppError } from "../middlewares/error.middleware";
 import { CreateDriverDto, UpdateDriverDto, DriverResponse } from "../types";
-import { gpsHoursService } from "./gps-hours.service";
+
 
 function computeSectionScore(section: Record<string, number>, criteria: { key: string; weight: number }[]): number {
   if (!section || typeof section !== "object") return 0;
@@ -454,38 +454,19 @@ async getDrivingHours(driverId?: string) {
       actualHoursMap[r.driverId].tripCount += 1;
     }
 
-    const gpsHoursMap: Record<string, { gpsHours: number; tripCount: number }> = {};
-    if (driverId) {
-      const gpsHoursRaw = await gpsHoursService.getDriverGpsHours(driverId);
-      if (gpsHoursRaw.gpsHours > 0) {
-        gpsHoursMap[driverId] = { gpsHours: gpsHoursRaw.gpsHours, tripCount: gpsHoursRaw.tripCount };
-      }
-    } else {
-      const allGpsHours = await gpsHoursService.getGpsHoursByDriver();
-      for (const d of allGpsHours) {
-        if (d.gpsHours > 0) {
-          gpsHoursMap[d.driverId] = { gpsHours: d.gpsHours, tripCount: d.tripCount };
-        }
-      }
-    }
-
     const allDriverIds = new Set([
       ...Object.keys(tripHoursMap),
       ...Object.keys(actualHoursMap),
-      ...Object.keys(gpsHoursMap),
     ]);
     return Array.from(allDriverIds).map((id) => {
       const trip = tripHoursMap[id] || { totalMs: 0, tripCount: 0 };
       const actual = actualHoursMap[id] || { totalMs: 0, tripCount: 0 };
-      const gps = gpsHoursMap[id] || { gpsHours: 0, tripCount: 0 };
       return {
         driverId: id,
         tripHours: Math.round((trip.totalMs / 3600000) * 10) / 10,
         tripCount: trip.tripCount,
         actualHours: Math.round((actual.totalMs / 3600000) * 10) / 10,
         actualTripCount: actual.tripCount,
-        gpsHours: gps.gpsHours,
-        gpsTripCount: gps.tripCount,
       };
     });
   }

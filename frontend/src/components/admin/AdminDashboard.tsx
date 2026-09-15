@@ -34,14 +34,7 @@ export default function AdminDashboard({ data }: { data: DashboardStats }) {
           <p className="text-2xl font-bold text-emerald-600">{data.totalActualHours || 0}<span className="text-sm font-normal text-slate-500 ml-1">hrs</span></p>
           <p className="text-xs text-slate-400 mt-1">Passenger QR pickup → dropoff</p>
         </Card>
-        <Card className="p-4">
-          <div className="flex items-center gap-2 mb-1">
-            <Icon name="gps_fixed" size={18} className="text-cyan-600" />
-            <h3 className="font-semibold text-sm">GPS Hours</h3>
-          </div>
-          <p className="text-2xl font-bold text-cyan-600">{data.totalGpsHours || 0}<span className="text-sm font-normal text-slate-500 ml-1">hrs</span></p>
-          <p className="text-xs text-slate-400 mt-1">Auto-tracked via Wialon (speed &gt; 5km/h)</p>
-        </Card>
+
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
@@ -65,17 +58,16 @@ export default function AdminDashboard({ data }: { data: DashboardStats }) {
           <div className="space-y-2 max-h-64 overflow-y-auto">
             {data.driverHours && data.driverHours.length > 0 ? (
               data.driverHours.map((d) => {
-                const gps = data.gpsDriverHours?.find((g) => g.driverId === d.driverId);
                 return (
                   <div key={d.driverId} className={`flex justify-between items-center py-2 border-b ${th.border} last:border-0`}>
                     <div>
                       <p className={`text-sm font-medium ${th.text}`}>{d.driverName}</p>
                       <p className={`text-xs ${th.textMuted}`}>
-                        Trip: {d.tripHours}h · QR: {d.actualHours}h · GPS: {gps?.gpsHours || 0}h
+                        Trip: {d.tripHours}h · QR: {d.actualHours}h
                       </p>
                     </div>
                     <div className="flex gap-1">
-                      <Badge status="IN_PROGRESS">{d.actualHours || d.tripHours || gps?.gpsHours || 0}h</Badge>
+                      <Badge status="IN_PROGRESS">{d.actualHours || d.tripHours || 0}h</Badge>
                     </div>
                   </div>
                 );

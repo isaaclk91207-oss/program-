@@ -270,8 +270,7 @@ export interface DashboardStats {
   driverHours: { driverId: string; driverName: string; tripHours: number; actualHours: number }[];
   totalTripHours: number;
   totalActualHours: number;
-  gpsDriverHours: { driverId: string; driverName: string; gpsHours: number; tripCount: number }[];
-  totalGpsHours: number;
+
 }
 
 // ─── Settings Types ──────────────────────────────────────────────────────────

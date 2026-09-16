@@ -5,6 +5,7 @@ import { DriverHome, TripsList, DriverProfile, DriverNotifications, PassportCard
 import {
   getDriverTrips,
   getDriver,
+  getDrivers,
   driverCheckIn,
   driverCheckOut,
   getNotifications,
@@ -46,6 +47,8 @@ export default function DriverPage() {
   const [unreadCount, setUnreadCount] = useState(0);
   const [selectedTrip, setSelectedTrip] = useState<TransportRequest | null>(null);
   const [loading, setLoading] = useState(true);
+  const [driverProfile, setDriverProfile] = useState<any>(null);
+  const [allDrivers, setAllDrivers] = useState<any[]>([]);
 
   useEffect(() => {
     loadData();
@@ -77,15 +80,19 @@ export default function DriverPage() {
   async function loadData() {
     setLoading(true);
     try {
-      // Fetch trips from v2, notifications from v1
-      const [tripsData, notifData, countData] = await Promise.all([
+      // Fetch trips, notifications, driver profile, and all drivers for rank calculation
+      const [tripsData, notifData, countData, driverData, driversData] = await Promise.all([
         getDriverTrips().catch(() => []),
         getNotifications().catch(() => []),
         getUnreadCount().catch(() => ({ count: 0 })),
+        user ? getDriver(user.id).catch(() => null) : null,
+        getDrivers().catch(() => []),
       ]);
       setTrips(tripsData);
       setNotifications(notifData);
       setUnreadCount(countData.count);
+      setDriverProfile(driverData);
+      setAllDrivers(driversData);
     } catch (err) {
       console.error(err);
     } finally {
@@ -200,6 +207,8 @@ export default function DriverPage() {
                 {tab === "home" && user && (
                   <DriverHome
                     user={user}
+                    driverProfile={driverProfile}
+                    allDrivers={allDrivers}
                     activeTrips={activeTrips}
                     completedTrips={completedTrips}
                     onViewTrips={() => setTab("trips")}

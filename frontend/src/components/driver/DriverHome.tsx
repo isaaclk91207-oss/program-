@@ -1,5 +1,5 @@
-import { Icon, TripStatusPill } from "../ui";
-import type { TransportRequest } from "../../types";
+import { Icon, TripStatusPill, CertBadge } from "../ui";
+import type { TransportRequest, Driver } from "../../types";
 
 function initials(name: string) {
   return (name || "")
@@ -12,6 +12,8 @@ function initials(name: string) {
 
 export default function DriverHome({
   user,
+  driverProfile,
+  allDrivers,
   activeTrips,
   completedTrips,
   onViewTrips,
@@ -19,7 +21,9 @@ export default function DriverHome({
   onPassport,
   onCalendar,
 }: {
-  user: { name: string };
+  user: { name: string; id: string };
+  driverProfile: Driver | null;
+  allDrivers: Driver[];
   activeTrips: TransportRequest[];
   completedTrips: TransportRequest[];
   onViewTrips: () => void;
@@ -28,6 +32,11 @@ export default function DriverHome({
   onCalendar: () => void;
 }) {
   const lead = activeTrips[0];
+
+  // Calculate driver rank based on score
+  const sortedDrivers = [...allDrivers].sort((a, b) => (b.score || 0) - (a.score || 0));
+  const driverRank = sortedDrivers.findIndex((d) => d.id === user.id) + 1;
+  const totalDrivers = sortedDrivers.length;
 
   return (
     <div className="space-y-6 max-w-2xl">
@@ -41,6 +50,63 @@ export default function DriverHome({
           {initials(user.name)}
         </div>
       </div>
+
+      {/* Driver Rank Card */}
+      {driverRank > 0 && totalDrivers > 0 && (
+        <div className="bg-gradient-to-r from-amber-500 to-amber-600 rounded-xl p-4 text-white shadow-lg">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
+                <Icon name="emoji_events" size={28} className="text-white" />
+              </div>
+              <div>
+                <p className="text-sm opacity-90">Your Ranking</p>
+                <p className="text-2xl font-bold">#{driverRank} of {totalDrivers}</p>
+              </div>
+            </div>
+            <div className="text-right">
+              <p className="text-xs opacity-80">Score</p>
+              <p className="text-lg font-bold">{driverProfile?.score || 0}</p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Passport Summary Card */}
+      {driverProfile && (
+        <button
+          onClick={onPassport}
+          className="w-full bg-gradient-to-br from-role-driver via-[#6d28d9] to-[#4c1d95] rounded-xl p-4 text-white shadow-lg text-left transition-transform active:scale-[0.99]"
+        >
+          <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center gap-2">
+              <Icon name="badge" size={20} className="text-white/80" />
+              <span className="font-label-caps text-label-caps uppercase tracking-wider text-white/80">Driver Passport</span>
+            </div>
+            <CertBadge level={driverProfile.certLevel} />
+          </div>
+          <div className="flex items-center gap-4">
+            <div className="flex-1">
+              <p className="font-title-md text-title-md font-semibold">{driverProfile.name}</p>
+              <p className="text-sm opacity-80 font-mono">{driverProfile.id}</p>
+            </div>
+            <div className="flex gap-3">
+              <div className="text-center">
+                <p className="text-lg font-bold">{driverProfile.score}</p>
+                <p className="text-xs opacity-70">Score</p>
+              </div>
+              <div className="text-center">
+                <p className="text-lg font-bold">{driverProfile.rating}</p>
+                <p className="text-xs opacity-70">Rating</p>
+              </div>
+              <div className="text-center">
+                <p className="text-lg font-bold">{driverProfile.credits}</p>
+                <p className="text-xs opacity-70">Credits</p>
+              </div>
+            </div>
+          </div>
+        </button>
+      )}
 
       {/* Active assignment highlight */}
       {lead ? (

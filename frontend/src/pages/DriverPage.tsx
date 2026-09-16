@@ -6,6 +6,7 @@ import {
   getDriverTrips,
   getDriver,
   getDrivers,
+  getDriverFeedback,
   driverCheckIn,
   driverCheckOut,
   getNotifications,
@@ -13,7 +14,7 @@ import {
   getUnreadCount,
 } from "../services/api";
 import { onNotificationNew, onTripStatusChanged } from "../services/socket";
-import type { TransportRequest, Notification } from "../types";
+import type { TransportRequest, Notification, Feedback } from "../types";
 
 type Tab = "home" | "trips" | "profile" | "notifications" | "passport" | "qr" | "calendar";
 
@@ -49,6 +50,7 @@ export default function DriverPage() {
   const [loading, setLoading] = useState(true);
   const [driverProfile, setDriverProfile] = useState<any>(null);
   const [allDrivers, setAllDrivers] = useState<any[]>([]);
+  const [feedbacks, setFeedbacks] = useState<Feedback[]>([]);
 
   useEffect(() => {
     loadData();
@@ -80,19 +82,21 @@ export default function DriverPage() {
   async function loadData() {
     setLoading(true);
     try {
-      // Fetch trips, notifications, driver profile, and all drivers for rank calculation
-      const [tripsData, notifData, countData, driverData, driversData] = await Promise.all([
+      // Fetch trips, notifications, driver profile, all drivers, and feedback
+      const [tripsData, notifData, countData, driverData, driversData, feedbackData] = await Promise.all([
         getDriverTrips().catch(() => []),
         getNotifications().catch(() => []),
         getUnreadCount().catch(() => ({ count: 0 })),
         user ? getDriver(user.id).catch(() => null) : null,
         getDrivers().catch(() => []),
+        user ? getDriverFeedback(user.id).catch(() => []) : [],
       ]);
       setTrips(tripsData);
       setNotifications(notifData);
       setUnreadCount(countData.count);
       setDriverProfile(driverData);
       setAllDrivers(driversData);
+      setFeedbacks(feedbackData);
     } catch (err) {
       console.error(err);
     } finally {
@@ -209,6 +213,7 @@ export default function DriverPage() {
                     user={user}
                     driverProfile={driverProfile}
                     allDrivers={allDrivers}
+                    feedbacks={feedbacks}
                     activeTrips={activeTrips}
                     completedTrips={completedTrips}
                     onViewTrips={() => setTab("trips")}

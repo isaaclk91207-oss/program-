@@ -1,5 +1,5 @@
 import { Icon, TripStatusPill, CertBadge } from "../ui";
-import type { TransportRequest, Driver } from "../../types";
+import type { TransportRequest, Driver, Feedback } from "../../types";
 
 function initials(name: string) {
   return (name || "")
@@ -10,10 +10,27 @@ function initials(name: string) {
     .toUpperCase();
 }
 
+function StarRating({ rating }: { rating: number }) {
+  return (
+    <div className="flex gap-0.5">
+      {[1, 2, 3, 4, 5].map((star) => (
+        <Icon
+          key={star}
+          name={star <= rating ? "star" : "star_border"}
+          size={14}
+          className={star <= rating ? "text-amber-400" : "text-gray-300 dark:text-gray-600"}
+          fill={star <= rating}
+        />
+      ))}
+    </div>
+  );
+}
+
 export default function DriverHome({
   user,
   driverProfile,
   allDrivers,
+  feedbacks,
   activeTrips,
   completedTrips,
   onViewTrips,
@@ -24,6 +41,7 @@ export default function DriverHome({
   user: { name: string; id: string };
   driverProfile: Driver | null;
   allDrivers: Driver[];
+  feedbacks: Feedback[];
   activeTrips: TransportRequest[];
   completedTrips: TransportRequest[];
   onViewTrips: () => void;
@@ -168,6 +186,69 @@ export default function DriverHome({
           <p className="font-title-md text-title-md text-on-surface dark:text-white">Calendar</p>
           <p className="font-body-sm text-body-sm text-on-surface-variant dark:text-outline-variant">View trip schedule</p>
         </button>
+      </div>
+
+      {/* Passenger Feedback */}
+      <div>
+        <div className="flex items-center justify-between mb-3">
+          <h3 className="font-label-caps text-label-caps uppercase text-on-surface-variant dark:text-outline-variant">
+            Passenger Feedback
+          </h3>
+          {feedbacks.length > 0 && (
+            <span className="text-xs text-on-surface-variant dark:text-outline-variant">
+              {feedbacks.length} reviews
+            </span>
+          )}
+        </div>
+        {feedbacks.length === 0 ? (
+          <div className="bg-surface dark:bg-navy-900 rounded-xl border border-border-hairline dark:border-outline-variant p-5 text-center">
+            <Icon name="rate_review" size={32} className="text-on-surface-variant/50 dark:text-outline-variant/50 mx-auto mb-2" />
+            <p className="font-body-sm text-body-sm text-on-surface-variant dark:text-outline-variant">
+              No feedback yet. Complete trips to receive passenger reviews.
+            </p>
+          </div>
+        ) : (
+          <div className="space-y-3">
+            {feedbacks.slice(0, 3).map((fb) => (
+              <div
+                key={fb.id}
+                className="bg-surface dark:bg-navy-900 rounded-xl border border-border-hairline dark:border-outline-variant p-4"
+              >
+                <div className="flex items-start justify-between mb-2">
+                  <div className="flex items-center gap-3">
+                    <div className="w-9 h-9 rounded-full bg-role-passenger-container dark:bg-blue-500/20 flex items-center justify-center">
+                      <span className="font-body-sm text-body-sm font-semibold text-role-passenger dark:text-blue-400">
+                        {initials(fb.passengerName)}
+                      </span>
+                    </div>
+                    <div>
+                      <p className="font-title-sm text-title-sm text-on-surface dark:text-white">{fb.passengerName}</p>
+                      <p className="font-body-xs text-body-xs text-on-surface-variant dark:text-outline-variant">{fb.department}</p>
+                    </div>
+                  </div>
+                  <StarRating rating={fb.rating} />
+                </div>
+                {fb.comment && (
+                  <p className="font-body-sm text-body-sm text-on-surface-variant dark:text-outline-variant mt-2 leading-relaxed">
+                    "{fb.comment}"
+                  </p>
+                )}
+                {fb.tags && fb.tags.length > 0 && (
+                  <div className="flex flex-wrap gap-1.5 mt-2">
+                    {fb.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="px-2 py-0.5 rounded-full text-[10px] font-medium bg-role-passenger/10 text-role-passenger dark:bg-blue-500/20 dark:text-blue-400"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
       </div>
 
       {/* Active trips list */}

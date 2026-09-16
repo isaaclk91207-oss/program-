@@ -25,6 +25,14 @@ const apiV2 = axios.create({
   baseURL: import.meta.env.VITE_API_V2_BASE_URL ?? "/api/v1",
 });
 
+apiV2.interceptors.request.use((config: InternalAxiosRequestConfig) => {
+  const token = localStorage.getItem("pccp_token");
+  if (token && config.headers) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
+
 api.interceptors.request.use((config: InternalAxiosRequestConfig) => {
   const token = localStorage.getItem("pccp_token");
   if (token && config.headers) {

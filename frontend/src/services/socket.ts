@@ -1,16 +1,18 @@
 import { io, Socket } from "socket.io-client";
 import type { LiveVehicleLocation, Notification, TransportRequest } from "../types";
 
-const SOCKET_URL = import.meta.env.VITE_SOCKET_URL ?? "http://localhost:3001";
+const SOCKET_URL = import.meta.env.VITE_SOCKET_URL ?? "https://pccp-backend.onrender.com";
 
 let socket: Socket | null = null;
 
 export function getGpsSocket(): Socket {
   if (!socket) {
     socket = io(SOCKET_URL, {
-      transports: ["websocket"],
+      transports: ["polling", "websocket"],
       reconnectionAttempts: 10,
       reconnectionDelay: 2000,
+      upgrade: true,
+      rememberUpgrade: true,
     });
   }
   return socket;

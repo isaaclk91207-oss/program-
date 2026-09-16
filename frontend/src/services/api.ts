@@ -420,4 +420,16 @@ export async function getDriverReport(driverId: string, params: {
   return res.data;
 }
 
+// ─── Eco Driving (Admin) ─────────────────────────────────────────────────────
+
+export async function getAdminEcoDriving(filters?: {
+  driverId?: string;
+  from?: string;
+  to?: string;
+  violationType?: string;
+}) {
+  const res = await apiV2.get("/admin/eco-driving", { params: filters });
+  return res.data;
+}
+
 export default api;

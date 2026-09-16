@@ -94,4 +94,76 @@ router.get("/netpros/status", (_req: Request, res: Response) => {
   res.json(netprosService.getSyncStatus());
 });
 
+// GET /api/v1/admin/eco-driving — Get all eco driving records with filters
+router.get("/eco-driving", async (req: Request, res: Response) => {
+  try {
+    const { driverId, from, to, violationType } = req.query;
+
+    const where: Record<string, unknown> = {};
+
+    if (driverId) {
+      where.driverId = driverId;
+    }
+
+    if (violationType) {
+      where.violationType = violationType;
+    }
+
+    if (from || to) {
+      where.date = {};
+      if (from) (where.date as Record<string, unknown>).gte = new Date(from as string);
+      if (to) (where.date as Record<string, unknown>).lte = new Date(to as string);
+    }
+
+    const records = await prisma.ecoDrivingRecord.findMany({
+      where,
+      include: {
+        driver: { select: { id: true, name: true, employeeId: true } },
+        vehicle: { select: { id: true, plateNumber: true } },
+      },
+      orderBy: { date: "desc" },
+      take: 500,
+    });
+
+    const violationTypes = [...new Set(records.map((r) => r.violationType))];
+
+    const totalPenalties = records.reduce((sum, r) => sum + r.penaltyPoints, 0);
+    const avgRank = records.length > 0
+      ? Math.round((records.reduce((sum, r) => sum + r.rank, 0) / records.length) * 100) / 100
+      : 10;
+
+    const driverPenalties: Record<string, { name: string; employeeId: string; totalPenalties: number; violationCount: number }> = {};
+    for (const r of records) {
+      const key = r.driverId;
+      if (!driverPenalties[key]) {
+        driverPenalties[key] = {
+          name: r.driver.name,
+          employeeId: r.driver.employeeId,
+          totalPenalties: 0,
+          violationCount: 0,
+        };
+      }
+      driverPenalties[key].totalPenalties += r.penaltyPoints;
+      driverPenalties[key].violationCount++;
+    }
+    const topOffenders = Object.values(driverPenalties)
+      .sort((a, b) => b.totalPenalties - a.totalPenalties)
+      .slice(0, 5);
+
+    res.json({
+      records,
+      violationTypes,
+      summary: {
+        totalRecords: records.length,
+        totalPenalties,
+        avgRank,
+        topOffenders,
+      },
+    });
+  } catch (err) {
+    console.error("[Admin] Get eco driving failed:", err);
+    res.status(500).json({ error: { code: "INTERNAL_ERROR", message: "Failed to fetch eco driving records" } });
+  }
+});
+
 export default router;

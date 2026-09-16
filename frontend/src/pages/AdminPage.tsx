@@ -5,6 +5,7 @@ import {
   AdminDashboard, DashboardCharts, RequestsList, DriversList, VehiclesList,
   FeedbackList, NotificationsList, SettingsPanel, OperationalRecords,
   AssessmentsOverview, PassengersList, ReportsPage, LiveVehicleMap,
+  EcoDrivingPage,
 } from "../components/admin";
 import { convertToCSV, downloadCSV } from "../utils/csv";
 import {
@@ -16,13 +17,14 @@ import {
 import { onNotificationNew, onRequestNew } from "../services/socket";
 import type { DashboardStats, Driver, Vehicle, TransportRequest, TransportStatus, Feedback, Notification } from "../types";
 
-type Page = "dashboard" | "requests" | "drivers" | "vehicles" | "feedback" | "notifications" | "settings" | "records" | "assessments" | "passengers" | "reports";
+type Page = "dashboard" | "requests" | "drivers" | "vehicles" | "feedback" | "notifications" | "settings" | "records" | "assessments" | "passengers" | "reports" | "eco-driving";
 
 const NAV_ITEMS: { key: Page; label: string; icon: string }[] = [
   { key: "dashboard", label: "Dashboard", icon: "dashboard" },
   { key: "requests", label: "Transport Requests", icon: "receipt_long" },
   { key: "drivers", label: "Drivers", icon: "local_shipping" },
   { key: "vehicles", label: "Vehicles", icon: "directions_car" },
+  { key: "eco-driving", label: "Eco-Driving", icon: "eco" },
   { key: "reports", label: "Reports", icon: "description" },
   { key: "feedback", label: "Feedback", icon: "star" },
   { key: "records", label: "Records", icon: "history" },
@@ -250,6 +252,7 @@ export default function AdminPage() {
                 {page === "assessments" && <AssessmentsOverview />}
                 {page === "passengers" && <PassengersList />}
                 {page === "reports" && <ReportsPage />}
+                {page === "eco-driving" && <EcoDrivingPage />}
                 {page === "settings" && settings && <SettingsPanel settings={settings} onSave={async (data) => { await updateSettings(data); loadData(); }} />}
               </>
             )}

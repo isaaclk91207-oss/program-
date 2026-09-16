@@ -5,7 +5,7 @@ import type { Driver } from "../../types";
 export default function PassportCard({ driver }: { driver: Driver }) {
   return (
     <div className="max-w-md mx-auto">
-      <div className="bg-gradient-to-br from-role-driver via-[#6d28d9] to-[#4c1d95] rounded-2xl p-6 text-white shadow-xl">
+      <div className="bg-gradient-to-r from-[#7c3aed] via-[#6d28d9] to-[#5b21b6] rounded-2xl p-6 text-white shadow-xl">
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-2">
             <Icon name="badge" size={24} className="text-white/80" />
@@ -26,36 +26,31 @@ export default function PassportCard({ driver }: { driver: Driver }) {
           </div>
         </div>
 
-        <div className="grid grid-cols-3 gap-3 mb-6">
-          <div className="bg-white/10 rounded-lg p-3 text-center">
-            <Icon name="monitoring" size={18} className="mx-auto mb-1 opacity-80" />
-            <p className="text-lg font-bold">{driver.score}</p>
-            <p className="text-xs opacity-70">Score</p>
+        <div className="grid grid-cols-2 gap-4 mb-6">
+          <div className="bg-white/10 rounded-xl p-4 text-center">
+            <Icon name="monitoring" size={20} className="mx-auto mb-1 opacity-80" />
+            <p className="text-xl font-bold">{driver.score}</p>
+            <p className="font-label-caps text-label-caps uppercase opacity-70">Score</p>
           </div>
-          <div className="bg-white/10 rounded-lg p-3 text-center">
-            <Icon name="star" size={18} className="mx-auto mb-1 opacity-80" />
-            <p className="text-lg font-bold">{driver.rating}</p>
-            <p className="text-xs opacity-70">Rating</p>
-          </div>
-          <div className="bg-white/10 rounded-lg p-3 text-center">
-            <Icon name="workspace_premium" size={18} className="mx-auto mb-1 opacity-80" />
-            <p className="text-lg font-bold">{driver.credits}</p>
-            <p className="text-xs opacity-70">Credits</p>
+          <div className="bg-white/10 rounded-xl p-4 text-center">
+            <Icon name="star" size={20} className="mx-auto mb-1 opacity-80" />
+            <p className="text-xl font-bold">{driver.rating}</p>
+            <p className="font-label-caps text-label-caps uppercase opacity-70">Rating</p>
           </div>
         </div>
 
-        <div className="flex items-center justify-between text-sm opacity-80">
+        <div className="grid grid-cols-3 gap-3 text-center">
           <div>
-            <p className="opacity-70 text-xs">Valid Until</p>
-            <p className="font-medium">{driver.validUntil || "—"}</p>
+            <p className="opacity-70 font-label-caps text-label-caps uppercase mb-1">Valid Until</p>
+            <p className="font-body-sm text-body-sm font-medium">{driver.validUntil || "—"}</p>
           </div>
           <div>
-            <p className="opacity-70 text-xs">English Level</p>
-            <p className="font-medium">{driver.englishLevel || "—"}</p>
+            <p className="opacity-70 font-label-caps text-label-caps uppercase mb-1">English Level</p>
+            <p className="font-body-sm text-body-sm font-medium">{driver.englishLevel || "—"}</p>
           </div>
           <div>
-            <p className="opacity-70 text-xs">Accident Free</p>
-            <p className="font-medium">{driver.accidentFree || "—"}</p>
+            <p className="opacity-70 font-label-caps text-label-caps uppercase mb-1">Accident Free</p>
+            <p className="font-body-sm text-body-sm font-medium">{driver.accidentFree || "—"}</p>
           </div>
         </div>
       </div>

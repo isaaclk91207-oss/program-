@@ -76,32 +76,28 @@ export default function DriverHome({
       {driverProfile && (
         <button
           onClick={onPassport}
-          className="w-full bg-gradient-to-br from-role-driver via-[#6d28d9] to-[#4c1d95] rounded-xl p-4 text-white shadow-lg text-left transition-transform active:scale-[0.99]"
+          className="w-full bg-gradient-to-r from-[#7c3aed] via-[#6d28d9] to-[#5b21b6] rounded-2xl p-5 text-white shadow-xl text-left transition-transform active:scale-[0.99]"
         >
-          <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
-              <Icon name="badge" size={20} className="text-white/80" />
-              <span className="font-label-caps text-label-caps uppercase tracking-wider text-white/80">Driver Passport</span>
+              <Icon name="badge" size={18} className="text-white/70" />
+              <span className="font-label-caps text-label-caps uppercase tracking-wider text-white/70">Driver Passport</span>
             </div>
             <CertBadge level={driverProfile.certLevel} />
           </div>
-          <div className="flex items-center gap-4">
-            <div className="flex-1">
-              <p className="font-title-md text-title-md font-semibold">{driverProfile.name}</p>
-              <p className="text-sm opacity-80 font-mono">{driverProfile.id}</p>
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="font-headline-md text-headline-md font-bold">{driverProfile.name}</p>
+              <p className="font-body-sm text-body-sm text-white/70 font-mono mt-0.5">{driverProfile.id}</p>
             </div>
-            <div className="flex gap-3">
+            <div className="flex gap-5">
               <div className="text-center">
-                <p className="text-lg font-bold">{driverProfile.score}</p>
-                <p className="text-xs opacity-70">Score</p>
+                <p className="font-stat-lg text-stat-lg font-bold">{driverProfile.score}</p>
+                <p className="font-label-caps text-label-caps uppercase text-white/70">Score</p>
               </div>
               <div className="text-center">
-                <p className="text-lg font-bold">{driverProfile.rating}</p>
-                <p className="text-xs opacity-70">Rating</p>
-              </div>
-              <div className="text-center">
-                <p className="text-lg font-bold">{driverProfile.credits}</p>
-                <p className="text-xs opacity-70">Credits</p>
+                <p className="font-stat-lg text-stat-lg font-bold">{driverProfile.rating}</p>
+                <p className="font-label-caps text-label-caps uppercase text-white/70">Rating</p>
               </div>
             </div>
           </div>

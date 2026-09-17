@@ -227,6 +227,17 @@ export async function assignDriver(
   return res.data;
 }
 
+export async function assignBatchRequests(
+  requestIds: string[],
+  data: { driverId: string; vehicleId: string }
+): Promise<TransportRequest[]> {
+  const res = await api.put<TransportRequest[]>("/requests/assign-batch", {
+    requestIds,
+    ...data,
+  });
+  return res.data;
+}
+
 // ─── Trips ─────────────────────────────────────────────────────────────────
 
 export async function verifyQR(data: { qrValue: string }): Promise<QRVerificationResult> {

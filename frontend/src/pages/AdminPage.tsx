@@ -10,7 +10,7 @@ import {
 import { convertToCSV, downloadCSV } from "../utils/csv";
 import {
   getDashboard, getDrivers, getVehicles, getRequests, getAllFeedback, getNotifications, getUnreadCount,
-  assignDriver, assignDriverV2, exportData, updateAssessment, updateSettings, getSettings,
+  assignDriver, assignDriverV2, assignBatchRequests, exportData, updateAssessment, updateSettings, getSettings,
   createDriver, createVehicle, deleteDriver, deleteVehicle, updateDriver,
   getAllDriversV2, getAllVehiclesV2, getAllRequestsV2, getMe, createNotification, markNotificationRead,
 } from "../services/api";
@@ -234,6 +234,16 @@ export default function AdminPage() {
                       } catch (err: unknown) {
                         const axiosErr = err as { response?: { status?: number; data?: { error?: { message?: string } } } };
                         setAssignError(axiosErr.response?.status === 403 ? "You need admin access. Please log in as admin." : axiosErr.response?.data?.error?.message || "Assignment failed. Please try again.");
+                      }
+                    }}
+                    onAssignBatch={async (requestIds, data) => {
+                      setAssignError(null);
+                      try {
+                        await assignBatchRequests(requestIds, data);
+                        loadData();
+                      } catch (err: unknown) {
+                        const axiosErr = err as { response?: { status?: number; data?: { error?: { message?: string } } } };
+                        setAssignError(axiosErr.response?.data?.error?.message || "Batch assignment failed. Please try again.");
                       }
                     }}
                     onRefresh={loadData} />

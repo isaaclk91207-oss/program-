@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Card, Button, Badge, EmptyState, SearchInput, th, Icon, DataTable, TableRow, TableCell } from "../ui";
 import AssignModal from "./AssignModal";
+import BatchAssignModal from "./BatchAssignModal";
 import type { TransportRequest, Driver, Vehicle } from "../../types";
 import { formatRequestId } from "../../types";
 import { getStatusLabel } from "../../lib/status";
@@ -20,6 +21,7 @@ export default function RequestsList({
   showAssignModal,
   onShowAssignModal,
   onAssign,
+  onAssignBatch,
   onRefresh,
 }: {
   requests: TransportRequest[];
@@ -30,14 +32,59 @@ export default function RequestsList({
   showAssignModal: boolean;
   onShowAssignModal: (v: boolean) => void;
   onAssign: (requestId: string, data: { driverId: string; vehicleId: string }) => void;
+  onAssignBatch: (requestIds: string[], data: { driverId: string; vehicleId: string }) => void;
   onRefresh: () => void;
 }) {
   const [filter, setFilter] = useState("ALL");
   const [search, setSearch] = useState("");
   const [inlineAssign, setInlineAssign] = useState<Record<string, { driverId: string; vehicleId: string }>>({});
 
+  // Multi-select state
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
+  const [showBatchModal, setShowBatchModal] = useState(false);
+
+  // Group by destination state
+  const [groupByDest, setGroupByDest] = useState(false);
+  const [destFilter, setDestFilter] = useState("");
+
+  // Get unique destinations from pending requests for the filter dropdown
+  const uniqueDestinations = useMemo(() => {
+    const dests = new Set(
+      requests
+        .filter((r) => r.status === "PENDING")
+        .map((r) => r.destination)
+    );
+    return [...dests].sort();
+  }, [requests]);
+
+  // Build a set of request IDs that share the same destination+date as the hovered/selected one
+  const highlightedIds = useMemo(() => {
+    if (!groupByDest) return new Set<string>();
+    const destMap = new Map<string, Set<string>>();
+    for (const r of requests) {
+      if (r.status !== "PENDING") continue;
+      const key = `${r.destination}|||${r.date}`;
+      if (!destMap.has(key)) destMap.set(key, new Set());
+      destMap.get(key)!.add(r.id);
+    }
+    // All IDs that have at least one match (group of 2+)
+    const highlighted = new Set<string>();
+    for (const ids of destMap.values()) {
+      if (ids.size >= 2) {
+        for (const id of ids) highlighted.add(id);
+      }
+    }
+    return highlighted;
+  }, [requests, groupByDest]);
+
   const filtered = requests
     .filter((r) => filter === "ALL" || r.status === filter)
+    .filter((r) => {
+      if (destFilter && r.status === "PENDING") {
+        return r.destination === destFilter;
+      }
+      return true;
+    })
     .filter((r) =>
       search === "" ||
       r.id.toLowerCase().includes(search.toLowerCase()) ||
@@ -46,6 +93,10 @@ export default function RequestsList({
       r.pickup.toLowerCase().includes(search.toLowerCase()) ||
       r.destination.toLowerCase().includes(search.toLowerCase())
     );
+
+  // Pending requests that can be selected for batch
+  const selectablePending = filtered.filter((r) => r.status === "PENDING");
+  const allPendingSelected = selectablePending.length > 0 && selectablePending.every((r) => selectedIds.has(r.id));
 
   function getDriversForVersion(version?: "v1" | "v2") {
     return drivers
@@ -70,6 +121,37 @@ export default function RequestsList({
     });
   }
 
+  function toggleSelect(id: string) {
+    setSelectedIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  }
+
+  function toggleSelectAll() {
+    if (allPendingSelected) {
+      setSelectedIds((prev) => {
+        const next = new Set(prev);
+        for (const r of selectablePending) next.delete(r.id);
+        return next;
+      });
+    } else {
+      setSelectedIds((prev) => {
+        const next = new Set(prev);
+        for (const r of selectablePending) next.add(r.id);
+        return next;
+      });
+    }
+  }
+
+  function clearSelection() {
+    setSelectedIds(new Set());
+  }
+
+  const selectedPendingRequests = requests.filter((r) => selectedIds.has(r.id) && r.status === "PENDING");
+
   return (
     <div>
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
@@ -84,6 +166,7 @@ export default function RequestsList({
         <SearchInput value={search} onChange={setSearch} placeholder="Search requests..." className="w-full sm:w-64" />
       </div>
 
+      {/* Status filter pills */}
       <div className="flex gap-2 mb-4 flex-wrap">
         {["ALL", "PENDING", "ASSIGNED", "QR_PENDING", "IN_PROGRESS", "DROP_OFF_SCANNED", "FEEDBACK_SUBMITTED"].map((s) => (
           <button
@@ -99,6 +182,35 @@ export default function RequestsList({
           </button>
         ))}
       </div>
+
+      {/* Group by destination + destination filter */}
+      {filter === "ALL" || filter === "PENDING" ? (
+        <div className="flex items-center gap-3 mb-4 flex-wrap">
+          <button
+            onClick={() => { setGroupByDest(!groupByDest); setDestFilter(""); }}
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors border ${
+              groupByDest
+                ? "bg-role-admin/10 text-role-admin border-role-admin/30"
+                : `${th.bgInput} ${th.textSecondary} border-transparent hover:${th.text}`
+            }`}
+          >
+            <Icon name="group_work" size={14} />
+            {groupByDest ? "Grouped by Destination" : "Group by Destination"}
+          </button>
+          {groupByDest && (
+            <select
+              value={destFilter}
+              onChange={(e) => setDestFilter(e.target.value)}
+              className={`text-xs px-3 py-1.5 rounded-lg border ${th.border} ${th.bgInput} ${th.text}`}
+            >
+              <option value="">All destinations (highlighting matches)</option>
+              {uniqueDestinations.map((d) => (
+                <option key={d} value={d}>{d}</option>
+              ))}
+            </select>
+          )}
+        </div>
+      ) : null}
 
       {selectedRequest ? (
         <Card className="p-4">
@@ -210,88 +322,137 @@ export default function RequestsList({
           {filtered.length === 0 ? (
             <EmptyState message="No requests found" />
           ) : (
-            <DataTable
-              headers={["Request ID", "Passenger", "Dept", "Pickup", "Destination", "Departs", "Driver", "Vehicle", "Status", ""]}
-            >
-              {filtered.map((r) => {
-                const isPending = r.status === "PENDING";
-                const sel = inlineAssign[r.id] || { driverId: "", vehicleId: "" };
-                const version = r.version;
-                const activeDrivers = getDriversForVersion(version);
-                const activeVehicles = getVehiclesForVersion(version);
+            <>
+              {/* Batch action bar */}
+              {selectedIds.size > 0 && (
+                <div className="flex items-center justify-between px-4 py-3 mb-3 rounded-xl bg-role-admin/5 border border-role-admin/20">
+                  <span className="text-sm font-medium">
+                    <span className="text-role-admin font-bold">{selectedIds.size}</span> request{selectedIds.size > 1 ? "s" : ""} selected
+                  </span>
+                  <div className="flex items-center gap-2">
+                    <Button
+                      accent="admin"
+                      size="sm"
+                      onClick={() => setShowBatchModal(true)}
+                    >
+                      <Icon name="group_add" size={14} className="mr-1" />
+                      Assign Selected
+                    </Button>
+                    <Button variant="ghost" size="sm" onClick={clearSelection}>
+                      <Icon name="close" size={14} />
+                    </Button>
+                  </div>
+                </div>
+              )}
 
-                return (
-                  <TableRow key={r.id} onClick={() => !isPending && onSelectRequest(r)}>
-                    <TableCell className="font-medium whitespace-nowrap">{formatRequestId(r.id, r.requestNumber)}</TableCell>
-                    <TableCell className="whitespace-nowrap">{r.passengerName || "—"}</TableCell>
-                    <TableCell className="whitespace-nowrap">{r.department || "—"}</TableCell>
-                    <TableCell className="whitespace-nowrap">{r.pickup}</TableCell>
-                    <TableCell className="whitespace-nowrap">{r.destination}</TableCell>
-                    <TableCell className="whitespace-nowrap text-muted">{r.date} · {r.time}</TableCell>
-                    <TableCell className="whitespace-nowrap">
-                      {isPending ? (
-                        <select
-                          value={sel.driverId}
-                          onChange={(e) => {
-                            e.stopPropagation();
-                            setInlineAssign((prev) => ({ ...prev, [r.id]: { ...prev[r.id], driverId: e.target.value, vehicleId: prev[r.id]?.vehicleId || "" } }));
-                          }}
-                          onClick={(e) => e.stopPropagation()}
-                          className={`text-xs px-2 py-1 rounded border bg-surface-container-low dark:bg-navy-900 border-border-hairline dark:border-outline-variant ${th.text} focus:outline-none focus:border-role-admin`}
-                        >
-                          <option value="">Select driver</option>
-                          {activeDrivers.map((d) => (
-                            <option key={d.id} value={d.id}>{d.name} ({getDisplayId(d)})</option>
-                          ))}
-                        </select>
-                      ) : (
-                        r.driverName || <span className={th.textMuted}>Unassigned</span>
-                      )}
-                    </TableCell>
-                    <TableCell className="font-mono whitespace-nowrap">
-                      {isPending ? (
-                        <select
-                          value={sel.vehicleId}
-                          onChange={(e) => {
-                            e.stopPropagation();
-                            setInlineAssign((prev) => ({ ...prev, [r.id]: { driverId: prev[r.id]?.driverId || "", vehicleId: e.target.value } }));
-                          }}
-                          onClick={(e) => e.stopPropagation()}
-                          className={`text-xs px-2 py-1 rounded border bg-surface-container-low dark:bg-navy-900 border-border-hairline dark:border-outline-variant ${th.text} focus:outline-none focus:border-role-admin`}
-                        >
-                          <option value="">Select vehicle</option>
-                          {activeVehicles.map((v) => (
-                            <option key={v.id} value={v.id}>
-                              {v.version === "v2" ? v.plate : `${v.plate} · ${v.make}`}
-                            </option>
-                          ))}
-                        </select>
-                      ) : (
-                        r.vehiclePlate || <span className={th.textMuted}>—</span>
-                      )}
-                    </TableCell>
-                    <TableCell><Badge status={r.status}>{getStatusLabel(r.status as any, "admin")}</Badge></TableCell>
-                    <TableCell className="text-right">
-                      {isPending ? (
-                        <Button
-                          accent="admin"
-                          size="sm"
-                          disabled={!sel.driverId || !sel.vehicleId}
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handleInlineAssign(r.id);
-                          }}
-                        >
-                          Assign
-                        </Button>
-                      ) : (
-                        <Icon name="chevron_right" size={18} className="text-on-surface-variant" />
-                      )}
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
-            </DataTable>
+              <DataTable
+                headers={["", "Request ID", "Passenger", "Dept", "Pickup", "Destination", "Departs", "Driver", "Vehicle", "Status", ""]}
+              >
+                {filtered.map((r) => {
+                  const isPending = r.status === "PENDING";
+                  const isSelectable = isPending;
+                  const isSelected = selectedIds.has(r.id);
+                  const isHighlighted = highlightedIds.has(r.id);
+                  const sel = inlineAssign[r.id] || { driverId: "", vehicleId: "" };
+                  const version = r.version;
+                  const activeDrivers = getDriversForVersion(version);
+                  const activeVehicles = getVehiclesForVersion(version);
+
+                  return (
+                    <TableRow
+                      key={r.id}
+                      onClick={() => !isPending && onSelectRequest(r)}
+                    >
+                      {/* Checkbox column */}
+                      <TableCell className="w-10">
+                        {isSelectable ? (
+                          <input
+                            type="checkbox"
+                            checked={isSelected}
+                            onChange={(e) => { e.stopPropagation(); toggleSelect(r.id); }}
+                            onClick={(e) => e.stopPropagation()}
+                            className="w-4 h-4 rounded border-gray-300 text-emerald-600 focus:ring-emerald-500 cursor-pointer"
+                          />
+                        ) : null}
+                      </TableCell>
+                      <TableCell className="font-medium whitespace-nowrap">{formatRequestId(r.id, r.requestNumber)}</TableCell>
+                      <TableCell className="whitespace-nowrap">{r.passengerName || "—"}</TableCell>
+                      <TableCell className="whitespace-nowrap">{r.department || "—"}</TableCell>
+                      <TableCell className="whitespace-nowrap">{r.pickup}</TableCell>
+                      <TableCell className="whitespace-nowrap">
+                        <div className="flex items-center gap-1.5">
+                          {isHighlighted && (
+                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 flex-shrink-0" />
+                          )}
+                          {r.destination}
+                        </div>
+                      </TableCell>
+                      <TableCell className="whitespace-nowrap text-muted">{r.date} · {r.time}</TableCell>
+                      <TableCell className="whitespace-nowrap">
+                        {isPending ? (
+                          <select
+                            value={sel.driverId}
+                            onChange={(e) => {
+                              e.stopPropagation();
+                              setInlineAssign((prev) => ({ ...prev, [r.id]: { ...prev[r.id], driverId: e.target.value, vehicleId: prev[r.id]?.vehicleId || "" } }));
+                            }}
+                            onClick={(e) => e.stopPropagation()}
+                            className={`text-xs px-2 py-1 rounded border bg-surface-container-low dark:bg-navy-900 border-border-hairline dark:border-outline-variant ${th.text} focus:outline-none focus:border-role-admin`}
+                          >
+                            <option value="">Select driver</option>
+                            {activeDrivers.map((d) => (
+                              <option key={d.id} value={d.id}>{d.name} ({getDisplayId(d)})</option>
+                            ))}
+                          </select>
+                        ) : (
+                          r.driverName || <span className={th.textMuted}>Unassigned</span>
+                        )}
+                      </TableCell>
+                      <TableCell className="font-mono whitespace-nowrap">
+                        {isPending ? (
+                          <select
+                            value={sel.vehicleId}
+                            onChange={(e) => {
+                              e.stopPropagation();
+                              setInlineAssign((prev) => ({ ...prev, [r.id]: { driverId: prev[r.id]?.driverId || "", vehicleId: e.target.value } }));
+                            }}
+                            onClick={(e) => e.stopPropagation()}
+                            className={`text-xs px-2 py-1 rounded border bg-surface-container-low dark:bg-navy-900 border-border-hairline dark:border-outline-variant ${th.text} focus:outline-none focus:border-role-admin`}
+                          >
+                            <option value="">Select vehicle</option>
+                            {activeVehicles.map((v) => (
+                              <option key={v.id} value={v.id}>
+                                {v.version === "v2" ? v.plate : `${v.plate} · ${v.make}`}
+                              </option>
+                            ))}
+                          </select>
+                        ) : (
+                          r.vehiclePlate || <span className={th.textMuted}>—</span>
+                        )}
+                      </TableCell>
+                      <TableCell><Badge status={r.status}>{getStatusLabel(r.status as any, "admin")}</Badge></TableCell>
+                      <TableCell className="text-right">
+                        {isPending ? (
+                          <Button
+                            accent="admin"
+                            size="sm"
+                            disabled={!sel.driverId || !sel.vehicleId}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleInlineAssign(r.id);
+                            }}
+                          >
+                            Assign
+                          </Button>
+                        ) : (
+                          <Icon name="chevron_right" size={18} className="text-on-surface-variant" />
+                        )}
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
+              </DataTable>
+            </>
           )}
           {requests.length > 0 && (
             <div className="flex justify-end mt-3">
@@ -311,6 +472,20 @@ export default function RequestsList({
           vehicles={vehicles}
           onAssign={onAssign}
           onClose={() => onShowAssignModal(false)}
+        />
+      )}
+
+      {showBatchModal && selectedPendingRequests.length > 0 && (
+        <BatchAssignModal
+          requests={selectedPendingRequests}
+          drivers={drivers}
+          vehicles={vehicles}
+          onAssignBatch={(ids, data) => {
+            onAssignBatch(ids, data);
+            setShowBatchModal(false);
+            clearSelection();
+          }}
+          onClose={() => setShowBatchModal(false)}
         />
       )}
     </div>

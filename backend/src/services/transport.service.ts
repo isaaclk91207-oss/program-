@@ -207,6 +207,82 @@ export class TransportService {
     return this.formatResponse(updated);
   }
 
+  async assignBatch(requestIds: string[], data: AssignDriverDto) {
+    if (!requestIds || requestIds.length === 0) {
+      throw createAppError(400, "NO_REQUESTS", "No request IDs provided");
+    }
+
+    const requests = await prisma.transportRequest.findMany({
+      where: { id: { in: requestIds } },
+    });
+
+    if (requests.length !== requestIds.length) {
+      throw createAppError(404, "REQUESTS_NOT_FOUND", "One or more transport requests not found");
+    }
+
+    const pendingRequests = requests.filter((r) => r.status === "PENDING");
+    if (pendingRequests.length === 0) {
+      throw createAppError(400, "INVALID_TRANSITION", "None of the selected requests are in PENDING status");
+    }
+
+    const driver = await prisma.driverProfile.findUnique({
+      where: { userId: data.driverId },
+      include: { user: { select: { name: true, phone: true } } },
+    });
+    if (!driver) {
+      throw createAppError(404, "DRIVER_NOT_FOUND", "Driver not found");
+    }
+
+    const vehicle = await prisma.vehicle.findUnique({ where: { id: data.vehicleId } });
+    if (!vehicle) {
+      throw createAppError(404, "VEHICLE_NOT_FOUND", "Vehicle not found");
+    }
+
+    const updatedIds = pendingRequests.map((r) => r.id);
+
+    await prisma.transportRequest.updateMany({
+      where: { id: { in: updatedIds } },
+      data: {
+        driverId: data.driverId,
+        vehicleId: data.vehicleId,
+        status: "ASSIGNED",
+      },
+    });
+
+    // Create notifications for each passenger
+    await Promise.all(
+      pendingRequests.map((req) =>
+        notificationService.create({
+          recipientId: req.passengerId,
+          recipientRole: "PASSENGER",
+          title: "Transport Request Assigned",
+          message: `Your transport request ${req.id} has been assigned to Driver ${driver.user.name} (${driver.user.phone || "N/A"}) with vehicle ${vehicle.plate}.`,
+          relatedRequestId: req.id,
+        })
+      )
+    );
+
+    // Notify driver of all assignments
+    await notificationService.create({
+      recipientId: data.driverId,
+      recipientRole: "DRIVER",
+      title: "Batch Transport Assignment",
+      message: `You have been assigned ${updatedIds.length} transport request(s) with vehicle ${vehicle.plate}.`,
+    });
+
+    const updated = await prisma.transportRequest.findMany({
+      where: { id: { in: updatedIds } },
+      include: {
+        passenger: { include: { user: { select: { name: true } } } },
+        driver: { include: { user: { select: { name: true, phone: true } } } },
+        vehicle: true,
+        feedback: { select: { id: true, rating: true } },
+      },
+    });
+
+    return updated.map((r) => this.formatResponse(r));
+  }
+
   async transitionStatus(requestId: string, newStatus: string) {
     const request = await prisma.transportRequest.findUnique({ where: { id: requestId } });
 

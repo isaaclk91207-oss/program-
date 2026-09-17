@@ -52,6 +52,16 @@ export class TransportController {
     }
   }
 
+  async assignBatch(req: AuthenticatedRequest, res: Response, next: NextFunction) {
+    try {
+      const { requestIds, driverId, vehicleId } = req.body;
+      const result = await transportService.assignBatch(requestIds, { driverId, vehicleId });
+      res.json(result);
+    } catch (err) {
+      next(err);
+    }
+  }
+
   async getStats(_req: AuthenticatedRequest, res: Response, next: NextFunction) {
     try {
       const stats = await transportService.getStats();

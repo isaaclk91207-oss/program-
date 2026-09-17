@@ -70,6 +70,18 @@ export class AdminController {
       next(err);
     }
   }
+
+  async triggerEcoSync(req: AuthenticatedRequest, res: Response, next: NextFunction) {
+    try {
+      const { timeFrom, timeTo } = req.body as { timeFrom?: number; timeTo?: number };
+      const now = Math.floor(Date.now() / 1000);
+      const defaultFrom = now - 30 * 24 * 3600;
+      const result = await netprosService.syncEcoDriving(timeFrom || defaultFrom, timeTo || now);
+      res.json(result);
+    } catch (err) {
+      next(err);
+    }
+  }
 }
 
 export const adminController = new AdminController();

@@ -251,6 +251,207 @@ export class NetprosService {
     };
   }
 
+  // ─── Eco Driving Report ──────────────────────────────────────────────────
+
+  private async wialonRequest(svc: string, params: Record<string, unknown>): Promise<Record<string, unknown>> {
+    if (!sessionToken) {
+      await this.login();
+    }
+
+    const exec = async (sid: string) => {
+      const url = `${this.baseUrl}/wialon/ajax.html?svc=${svc}&params=${encodeURIComponent(JSON.stringify(params))}&sid=${sid}`;
+      const response = await fetch(url);
+      return response.json() as Promise<Record<string, unknown>>;
+    };
+
+    let data = await exec(sessionToken!);
+    if (data.error === 1) {
+      sessionToken = null;
+      await this.login();
+      data = await exec(sessionToken!);
+    }
+    if (data.error && data.error !== 0) {
+      throw createAppError(502, "WIALON_API_ERROR", this.mapWialonError(data.error as number));
+    }
+    return data;
+  }
+
+  async execEcoDrivingReport(unitId: number, timeFrom: number, timeTo: number): Promise<unknown> {
+    await this.wialonRequest("report/cleanup_result", {});
+
+    const params: Record<string, unknown> = {
+      reportObjectId: unitId,
+      reportObjectSecId: 0,
+      interval: { from: timeFrom, to: timeTo, flags: 0 },
+    };
+
+    if (config.wialonEcoReportResourceId && config.wialonEcoReportTemplateId) {
+      params.reportResourceId = config.wialonEcoReportResourceId;
+      params.reportTemplateId = config.wialonEcoReportTemplateId;
+    } else {
+      params.reportResourceId = 0;
+      params.reportTemplateId = 0;
+      params.reportTemplate = {
+        n: "Eco Driving Report",
+        ct: "avl_unit",
+        tbl: [{ n: "table_ev", l: "Eco driving", f: 0x10 }],
+      };
+    }
+
+    return this.wialonRequest("report/exec_report", params);
+  }
+
+  parseEcoDrivingTable(report: Record<string, unknown>): { violations: Array<{ violationType: string; value: number; duration: number; mileage: number; avgSpeed: number; penalties: number; rank: number }>; totalPenalties: number; overallRank: number } {
+    const violations: Array<{ violationType: string; value: number; duration: number; mileage: number; avgSpeed: number; penalties: number; rank: number }> = [];
+
+    const reportResult = report.reportResult as { tables?: Array<{ name: string; label?: string; c?: unknown[][]; total?: unknown[] }> } | undefined;
+    if (!reportResult?.tables) {
+      return { violations: [], totalPenalties: 0, overallRank: 10 };
+    }
+
+    const ecoTable = reportResult.tables.find(
+      (t) => t.name === "table_ev" || t.label?.toLowerCase().includes("eco")
+    );
+
+    if (!ecoTable?.c) {
+      return { violations: [], totalPenalties: 0, overallRank: 10 };
+    }
+
+    for (const row of ecoTable.c) {
+      const violationType = String(row[0]).trim();
+      if (!violationType || violationType === "Total" || violationType === "-" || violationType === "") continue;
+
+      violations.push({
+        violationType,
+        value: parseFloat(String(row[1])) || 0,
+        duration: parseFloat(String(row[2])) || 0,
+        mileage: parseFloat(String(row[3])) || 0,
+        avgSpeed: parseFloat(String(row[4])) || 0,
+        penalties: parseFloat(String(row[5])) || 0,
+        rank: parseFloat(String(row[6])) || 10,
+      });
+    }
+
+    let totalPenalties = violations.reduce((sum, v) => sum + v.penalties, 0);
+    let overallRank = 10;
+
+    if (ecoTable.total && ecoTable.total.length > 0) {
+      for (let i = ecoTable.total.length - 1; i >= 0; i--) {
+        const val = parseFloat(String(ecoTable.total[i]));
+        if (!isNaN(val) && val > 0 && val <= 10) { overallRank = val; break; }
+      }
+      for (let i = ecoTable.total.length - 2; i >= 0; i--) {
+        const val = parseFloat(String(ecoTable.total[i]));
+        if (!isNaN(val) && val > 0) { totalPenalties = val; break; }
+      }
+    }
+
+    return { violations, totalPenalties, overallRank };
+  }
+
+  async syncEcoDriving(timeFrom: number, timeTo: number): Promise<{
+    status: "success" | "error";
+    vehiclesProcessed: number;
+    totalViolations: number;
+    timestamp: string;
+    error?: string;
+  }> {
+    syncStatus = "syncing";
+    lastError = null;
+
+    try {
+      const vehicles = await prisma.vehicle.findMany({
+        where: { gpsDeviceId: { not: null } },
+      });
+
+      let totalViolations = 0;
+      let vehiclesProcessed = 0;
+
+      for (const vehicle of vehicles) {
+        try {
+          const report = await this.execEcoDrivingReport(vehicle.gpsDeviceId!, timeFrom, timeTo);
+          const { violations } = this.parseEcoDrivingTable(report as Record<string, unknown>);
+
+          if (violations.length === 0) continue;
+
+          // Find a driver linked to this vehicle via transport requests
+          const latestRequest = await prisma.transportRequest.findFirst({
+            where: { vehicleId: vehicle.id, driverId: { not: null } },
+            orderBy: { createdAt: "desc" },
+          });
+
+          if (!latestRequest?.driverId) {
+            console.warn(`[Netpros] No driver found for vehicle ${vehicle.plate}, skipping eco sync`);
+            continue;
+          }
+
+          const reportDate = new Date(timeFrom * 1000);
+
+          for (const violation of violations) {
+            await prisma.ecoDrivingRecord.upsert({
+              where: {
+                vehicleId_violationType_date: {
+                  vehicleId: vehicle.id,
+                  violationType: violation.violationType,
+                  date: reportDate,
+                },
+              },
+              update: {
+                penaltyPoints: violation.penalties,
+                rank: violation.rank,
+                violationValue: violation.value,
+                duration: violation.duration,
+                mileage: violation.mileage,
+                avgSpeed: violation.avgSpeed,
+                syncDate: new Date(),
+              },
+              create: {
+                driverId: latestRequest.driverId,
+                vehicleId: vehicle.id,
+                netprosUnitId: String(vehicle.gpsDeviceId),
+                violationType: violation.violationType,
+                violationValue: violation.value,
+                penaltyPoints: violation.penalties,
+                rank: violation.rank,
+                duration: violation.duration,
+                mileage: violation.mileage,
+                avgSpeed: violation.avgSpeed,
+                date: reportDate,
+              },
+            });
+          }
+
+          totalViolations += violations.length;
+          vehiclesProcessed++;
+        } catch (err) {
+          console.warn(`[Netpros] Failed eco driving for vehicle ${vehicle.plate}:`, err);
+        }
+      }
+
+      lastSyncTime = new Date();
+      syncStatus = "idle";
+
+      return {
+        status: "success",
+        vehiclesProcessed,
+        totalViolations,
+        timestamp: lastSyncTime.toISOString(),
+      };
+    } catch (err) {
+      syncStatus = "error";
+      lastError = err instanceof Error ? err.message : "Unknown error";
+      lastSyncTime = new Date();
+
+      return {
+        status: "error",
+        vehiclesProcessed: 0,
+        totalViolations: 0,
+        timestamp: lastSyncTime.toISOString(),
+        error: lastError,
+      };
+    }
+  }
+
   private mapWialonError(errorCode: number): string {
     const errorMap: Record<number, string> = {
       0: "Success",

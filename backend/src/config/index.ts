@@ -10,6 +10,8 @@ export const config = {
   bcryptSaltRounds: 10,
   wialonBaseUrl: process.env.WIALON_BASE_URL || "https://wh101.wialon.com",
   wialonToken: process.env.WIALON_TOKEN || "",
+  wialonEcoReportResourceId: parseInt(process.env.WIALON_ECO_REPORT_RESOURCE_ID || "0", 10),
+  wialonEcoReportTemplateId: parseInt(process.env.WIALON_ECO_REPORT_TEMPLATE_ID || "0", 10),
   cronSchedule: process.env.CRON_SCHEDULE || "0 */6 * * *",
   corsOrigin: Array.from(
     new Set([

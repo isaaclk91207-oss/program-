@@ -440,4 +440,12 @@ export async function getAdminEcoDriving(filters?: {
   return res.data;
 }
 
+export async function triggerEcoSync(data?: {
+  timeFrom?: number;
+  timeTo?: number;
+}) {
+  const res = await api.post("/admin/netpros/eco-sync", data);
+  return res.data;
+}
+
 export default api;

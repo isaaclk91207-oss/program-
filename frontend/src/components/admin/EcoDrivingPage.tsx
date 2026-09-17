@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Card, KPICard, LoadingSpinner, th, Icon, Button } from "../ui";
-import { getAdminEcoDriving, getDrivers } from "../../services/api";
+import { getAdminEcoDriving, getDrivers, triggerEcoSync } from "../../services/api";
 
 interface EcoDrivingRecord {
   id: string;
@@ -59,6 +59,8 @@ export default function EcoDrivingPage() {
   const [violationTypes, setViolationTypes] = useState<string[]>([]);
   const [drivers, setDrivers] = useState<DriverOption[]>([]);
   const [loading, setLoading] = useState(true);
+  const [syncing, setSyncing] = useState(false);
+  const [syncResult, setSyncResult] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   const [filterDriver, setFilterDriver] = useState("");
@@ -111,6 +113,26 @@ export default function EcoDrivingPage() {
     setTimeout(fetchData, 100);
   }
 
+  async function handleSync() {
+    setSyncing(true);
+    setSyncResult(null);
+    setError(null);
+    try {
+      const result = await triggerEcoSync();
+      setSyncResult(
+        result.status === "success"
+          ? `Sync complete: ${result.vehiclesProcessed} vehicles, ${result.totalViolations} violations found.`
+          : `Sync failed: ${result.error || "Unknown error"}`
+      );
+      fetchData();
+    } catch (err: unknown) {
+      const apiErr = err as { response?: { data?: { error?: { message?: string } } } };
+      setError(apiErr.response?.data?.error?.message || "Failed to sync eco-driving data");
+    } finally {
+      setSyncing(false);
+    }
+  }
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
@@ -118,7 +140,27 @@ export default function EcoDrivingPage() {
           <Icon name="eco" size={24} className="text-role-admin" />
           Eco-Driving Violations
         </h2>
+        <Button
+          accent="admin"
+          onClick={handleSync}
+          disabled={syncing}
+          className="flex items-center gap-2"
+        >
+          <Icon name={syncing ? "hourglass_empty" : "sync"} size={16} />
+          {syncing ? "Syncing..." : "Sync from NetPros"}
+        </Button>
       </div>
+
+      {syncResult && (
+        <div className={`flex items-center gap-2 px-4 py-3 rounded-xl text-sm font-medium ${
+          syncResult.includes("failed") || syncResult.includes("error")
+            ? "bg-red-50 text-red-700 dark:bg-red-900/20 dark:text-red-400"
+            : "bg-emerald-50 text-emerald-700 dark:bg-emerald-900/20 dark:text-emerald-400"
+        }`}>
+          <Icon name={syncResult.includes("failed") || syncResult.includes("error") ? "error_outline" : "check_circle"} size={18} />
+          {syncResult}
+        </div>
+      )}
 
       {/* Filters */}
       <Card className="p-5">

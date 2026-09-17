@@ -17,6 +17,7 @@ router.put("/settings", adminController.updateSettings);
 router.get("/export/:type", adminController.exportData);
 router.get("/netpros/status", adminController.getNetprosStatus);
 router.post("/netpros/sync", adminController.triggerNetprosSync);
+router.post("/netpros/sync-gps-ids", adminController.syncGpsDeviceIds);
 router.post("/netpros/eco-sync", adminController.triggerEcoSync);
 
 // GET /api/v1/admin/eco-driving — Get all eco driving records with filters

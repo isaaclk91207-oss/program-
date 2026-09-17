@@ -73,10 +73,27 @@ export class AdminController {
 
   async triggerEcoSync(req: AuthenticatedRequest, res: Response, next: NextFunction) {
     try {
+      // First sync GPS device IDs from Wialon
+      const gpsSync = await netprosService.syncGpsDeviceIds();
+
+      // Then run eco-driving sync
       const { timeFrom, timeTo } = req.body as { timeFrom?: number; timeTo?: number };
       const now = Math.floor(Date.now() / 1000);
       const defaultFrom = now - 30 * 24 * 3600;
-      const result = await netprosService.syncEcoDriving(timeFrom || defaultFrom, timeTo || now);
+      const ecoResult = await netprosService.syncEcoDriving(timeFrom || defaultFrom, timeTo || now);
+
+      res.json({
+        ...ecoResult,
+        gpsSync,
+      });
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  async syncGpsDeviceIds(_req: AuthenticatedRequest, res: Response, next: NextFunction) {
+    try {
+      const result = await netprosService.syncGpsDeviceIds();
       res.json(result);
     } catch (err) {
       next(err);

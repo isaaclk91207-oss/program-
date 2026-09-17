@@ -253,6 +253,39 @@ export class NetprosService {
 
   // ─── Eco Driving Report ──────────────────────────────────────────────────
 
+  async syncGpsDeviceIds(): Promise<{ linked: number; skipped: number; unitsFound: number }> {
+    await this.login();
+
+    const units = await this.searchItems();
+    const vehiclesWithoutGps = await prisma.vehicle.findMany({
+      where: { gpsDeviceId: null },
+      select: { id: true, plate: true },
+    });
+
+    let linked = 0;
+    let skipped = 0;
+
+    for (const vehicle of vehiclesWithoutGps) {
+      const match = units.find((u) => u.nm === vehicle.plate);
+      if (match) {
+        try {
+          await prisma.vehicle.update({
+            where: { id: vehicle.id },
+            data: { gpsDeviceId: match.id },
+          });
+          linked++;
+        } catch (err) {
+          console.warn(`[Netpros] Failed to link gpsDeviceId for vehicle ${vehicle.plate}:`, err);
+          skipped++;
+        }
+      } else {
+        skipped++;
+      }
+    }
+
+    return { linked, skipped, unitsFound: units.length };
+  }
+
   private async wialonRequest(svc: string, params: Record<string, unknown>): Promise<Record<string, unknown>> {
     if (!sessionToken) {
       await this.login();

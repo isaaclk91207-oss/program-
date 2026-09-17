@@ -119,9 +119,12 @@ export default function EcoDrivingPage() {
     setError(null);
     try {
       const result = await triggerEcoSync();
+      const gpsMsg = result.gpsSync
+        ? `GPS: ${result.gpsSync.linked} vehicles linked, ${result.gpsSync.unitsFound} units found.`
+        : "";
       setSyncResult(
         result.status === "success"
-          ? `Sync complete: ${result.vehiclesProcessed} vehicles, ${result.totalViolations} violations found.`
+          ? `Sync complete: ${result.vehiclesProcessed} vehicles, ${result.totalViolations} violations. ${gpsMsg}`
           : `Sync failed: ${result.error || "Unknown error"}`
       );
       fetchData();

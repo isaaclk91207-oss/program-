@@ -436,7 +436,7 @@ export async function getAdminEcoDriving(filters?: {
   to?: string;
   violationType?: string;
 }) {
-  const res = await apiV2.get("/admin/eco-driving", { params: filters });
+  const res = await api.get("/admin/eco-driving", { params: filters });
   return res.data;
 }
 

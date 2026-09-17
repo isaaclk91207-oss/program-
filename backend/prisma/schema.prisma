@@ -45,6 +45,7 @@ model DriverProfile {
   feedbackRecords   Feedback[]
   vehicleCheckins   VehicleCheckin[]
   transportRequests TransportRequest[]
+  ecoDrivingRecords EcoDrivingRecord[]
 
   @@map("driver_profiles")
 }
@@ -75,6 +76,7 @@ model Vehicle {
   transportRequests TransportRequest[]
   feedbackRecords   Feedback[]
   vehicleCheckins   VehicleCheckin[]
+  ecoDrivingRecords EcoDrivingRecord[]
   @@map("vehicles")
 }
 
@@ -192,6 +194,30 @@ model SystemSettings {
   updatedAt         DateTime @updatedAt
 
   @@map("system_settings")
+}
+
+model EcoDrivingRecord {
+  id              String   @id @default(uuid())
+  driverId        String
+  vehicleId       String
+  violationType   String
+  violationValue  Float    @default(0)
+  penaltyPoints   Float    @default(0)
+  rank            Float    @default(10)
+  duration        Float?
+  mileage         Float?
+  avgSpeed        Float?
+  tripDuration    Float?
+  engineHoursDuration Float?
+  date            DateTime
+  syncDate        DateTime @default(now())
+  netprosUnitId   String?
+
+  driver          DriverProfile @relation(fields: [driverId], references: [userId])
+  vehicle         Vehicle       @relation(fields: [vehicleId], references: [id])
+
+  @@unique([vehicleId, violationType, date])
+  @@map("eco_driving_records")
 }
 
 

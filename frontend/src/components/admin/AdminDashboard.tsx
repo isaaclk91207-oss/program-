@@ -20,22 +20,38 @@ export default function AdminDashboard({ data }: { data: DashboardStats }) {
         <KPICard label="QR Pending" value={data.qrPendingRequests} icon={<Icon name="qr_code" size={20} />} color="purple" />
       </div>
 
-      <div className="grid grid-cols-3 gap-4 mb-6">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
         <Card className="p-4">
           <div className="flex items-center gap-2 mb-1">
             <Icon name="schedule" size={18} className="text-blue-600" />
             <h3 className="font-semibold text-sm">Trip Hours</h3>
           </div>
           <p className="text-2xl font-bold text-blue-600">{data.totalTripHours || 0}<span className="text-sm font-normal text-slate-500 ml-1">hrs</span></p>
-          <p className="text-xs text-slate-400 mt-1">Manual check-in → check-out</p>
+          <p className="text-xs text-slate-400 mt-1">QR pickup → QR dropoff</p>
         </Card>
         <Card className="p-4">
           <div className="flex items-center gap-2 mb-1">
             <Icon name="directions_car" size={18} className="text-emerald-600" />
-            <h3 className="font-semibold text-sm">Actual Hours</h3>
+            <h3 className="font-semibold text-sm">Driving Hours</h3>
           </div>
-          <p className="text-2xl font-bold text-emerald-600">{data.totalActualHours || 0}<span className="text-sm font-normal text-slate-500 ml-1">hrs</span></p>
-          <p className="text-xs text-slate-400 mt-1">Passenger QR pickup → dropoff</p>
+          <p className="text-2xl font-bold text-emerald-600">{data.totalDrivingHours || 0}<span className="text-sm font-normal text-slate-500 ml-1">hrs</span></p>
+          <p className="text-xs text-slate-400 mt-1">Admin check-in → check-out</p>
+        </Card>
+        <Card className="p-4">
+          <div className="flex items-center gap-2 mb-1">
+            <Icon name="hourglass_top" size={18} className="text-amber-600" />
+            <h3 className="font-semibold text-sm">Waiting Time</h3>
+          </div>
+          <p className="text-2xl font-bold text-amber-600">{Math.round((data.totalWaitingTimeMs || 0) / 3600000 * 10) / 10}<span className="text-sm font-normal text-slate-500 ml-1">hrs</span></p>
+          <p className="text-xs text-slate-400 mt-1">Manual start → stop</p>
+        </Card>
+        <Card className="p-4">
+          <div className="flex items-center gap-2 mb-1">
+            <Icon name="assignment" size={18} className="text-purple-600" />
+            <h3 className="font-semibold text-sm">Task Hours</h3>
+          </div>
+          <p className="text-2xl font-bold text-purple-600">{data.totalTaskHours || 0}<span className="text-sm font-normal text-slate-500 ml-1">hrs</span></p>
+          <p className="text-xs text-slate-400 mt-1">Admin-assigned tasks</p>
         </Card>
 
       </div>
@@ -71,11 +87,11 @@ export default function AdminDashboard({ data }: { data: DashboardStats }) {
                       <div>
                         <p className={`text-sm font-medium ${th.text}`}>{d.driverName}</p>
                         <p className={`text-xs ${th.textMuted}`}>
-                          Trip: {d.tripHours}h · QR: {d.actualHours}h
+                          Trip: {d.tripHours}h · Driving: {d.drivingHours}h · Waiting: {Math.round((d.waitingTimeMs || 0) / 3600000 * 10) / 10}h · Tasks: {d.taskHours || 0}h
                         </p>
                       </div>
                       <div className="flex gap-1 items-center">
-                        <Badge status="IN_PROGRESS">{d.actualHours || d.tripHours || 0}h</Badge>
+                        <Badge status="IN_PROGRESS">{d.tripHours || d.drivingHours || 0}h</Badge>
                         <Icon name={isExpanded ? "expand_less" : "expand_more"} size={18} className={`${th.textMuted}`} />
                       </div>
                     </button>
@@ -89,7 +105,7 @@ export default function AdminDashboard({ data }: { data: DashboardStats }) {
                             </div>
                             <div className="flex gap-2">
                               {t.tripHours > 0 && <span className="text-blue-500">{t.tripHours}h</span>}
-                              {t.actualHours > 0 && <span className="text-emerald-500">{t.actualHours}h</span>}
+                              {t.drivingHours > 0 && <span className="text-emerald-500">{t.drivingHours}h</span>}
                             </div>
                           </div>
                         ))}

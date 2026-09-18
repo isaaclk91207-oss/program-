@@ -23,7 +23,9 @@ export default function DriverProfile({
   onBack: () => void;
 }) {
   const [tripHours, setTripHours] = useState<number | null>(null);
-  const [actualHours, setActualHours] = useState<number | null>(null);
+  const [drivingHours, setDrivingHours] = useState<number | null>(null);
+  const [waitingTimeMs, setWaitingTimeMs] = useState<number>(0);
+  const [taskHours, setTaskHours] = useState<number>(0);
   const [perTrip, setPerTrip] = useState<TripHoursEntry[]>([]);
   const completed = trips.filter((t) => t.status === "FEEDBACK_SUBMITTED").length;
 
@@ -32,7 +34,9 @@ export default function DriverProfile({
       getDrivingHours(user.id).then((data) => {
         if (data.length > 0) {
           setTripHours(data[0].tripHours);
-          setActualHours(data[0].actualHours);
+          setDrivingHours(data[0].drivingHours);
+          setWaitingTimeMs(data[0].waitingTimeMs || 0);
+          setTaskHours(data[0].taskHours || 0);
           setPerTrip(data[0].trips || []);
         }
       }).catch(() => {});
@@ -49,7 +53,7 @@ export default function DriverProfile({
   }, [user.id]);
 
   const tripTotal = Math.round(perTrip.reduce((s, t) => s + t.tripHours, 0) * 10) / 10;
-  const actualTotal = Math.round(perTrip.reduce((s, t) => s + t.actualHours, 0) * 10) / 10;
+  const drivingTotal = Math.round(perTrip.reduce((s, t) => s + t.drivingHours, 0) * 10) / 10;
 
   return (
     <div className="max-w-[440px] mx-auto">
@@ -98,8 +102,8 @@ export default function DriverProfile({
         <div className="mt-3">
           <div className="bg-surface-container-low dark:bg-navy-900 rounded-xl p-3 border border-border-hairline dark:border-outline-variant">
             <Icon name="play_arrow" size={20} className="text-emerald-500 dark:text-emerald-400 mx-auto mb-1" />
-            <p className="font-stat-lg text-stat-lg text-on-surface dark:text-white">{actualHours !== null ? actualHours : "—"}</p>
-            <p className="font-label-caps text-label-caps uppercase text-on-surface-variant dark:text-outline-variant">Actual Driving Hrs</p>
+            <p className="font-stat-lg text-stat-lg text-on-surface dark:text-white">{drivingHours !== null ? drivingHours : "—"}</p>
+            <p className="font-label-caps text-label-caps uppercase text-on-surface-variant dark:text-outline-variant">Driving Hrs</p>
           </div>
         </div>
       </div>
@@ -117,7 +121,8 @@ export default function DriverProfile({
                 </div>
                 <div className="flex gap-2 text-sm">
                   {t.tripHours > 0 && <span className="text-blue-500">{t.tripHours}h trip</span>}
-                  {t.actualHours > 0 && <span className="text-emerald-500">{t.actualHours}h actual</span>}
+                  {t.drivingHours > 0 && <span className="text-emerald-500">{t.drivingHours}h driving</span>}
+                  {t.waitingTimeMs > 0 && <span className="text-amber-500">{Math.round((t.waitingTimeMs / 3600000) * 10) / 10}h wait</span>}
                 </div>
               </div>
             ))}
@@ -126,7 +131,7 @@ export default function DriverProfile({
             <span>Total ({perTrip.length} trips)</span>
             <div className="flex gap-2">
               <span className="text-blue-500">{tripTotal}h</span>
-              <span className="text-emerald-500">{actualTotal}h</span>
+              <span className="text-emerald-500">{drivingTotal}h</span>
             </div>
           </div>
         </div>

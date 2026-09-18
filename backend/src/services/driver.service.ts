@@ -2,7 +2,7 @@ import { prisma } from "../lib/prisma";
 import bcrypt from "bcrypt";
 import { config, DEFAULT_WEIGHTS, PRACTICAL_CRITERIA, OPERATIONAL_CRITERIA, PASS_MARKS } from "../config";
 import { createAppError } from "../middlewares/error.middleware";
-import { CreateDriverDto, UpdateDriverDto, DriverResponse, TripHoursEntry } from "../types";
+import { CreateDriverDto, UpdateDriverDto, DriverResponse, TripHoursEntry, CreateDriverTaskDto, DriverTaskResponse } from "../types";
 
 
 function computeSectionScore(section: Record<string, number>, criteria: { key: string; weight: number }[]): number {
@@ -418,72 +418,178 @@ export class DriverService {
       rating: avgRating,
     };
   }
-async getDrivingHours(driverId?: string) {
+  async getDrivingHours(driverId?: string) {
     const where: Record<string, unknown> = {};
     if (driverId) where.driverId = driverId;
 
-    const [checkins, requests] = await Promise.all([
+    const [checkins, requests, tasks] = await Promise.all([
       prisma.vehicleCheckin.findMany({
         where,
         select: { driverId: true, checkInTime: true, checkOutTime: true, requestId: true },
       }),
       prisma.transportRequest.findMany({
         where: { ...where, pickedUpAt: { not: null } },
-        select: { driverId: true, pickedUpAt: true, droppedOffAt: true, id: true, pickup: true, destination: true, date: true },
+        select: { driverId: true, pickedUpAt: true, droppedOffAt: true, id: true, pickup: true, destination: true, date: true, waitingTotalMs: true },
+      }),
+      prisma.driverTask.findMany({
+        where: driverId ? { driverId } : {},
+        select: { driverId: true, startedAt: true, endedAt: true, status: true },
       }),
     ]);
 
-    const tripMap: Record<string, { totalMs: number; tripCount: number; trips: TripHoursEntry[] }> = {};
+    const drivingMap: Record<string, number> = {};
     for (const c of checkins) {
       if (!c.checkInTime || !c.checkOutTime) continue;
       const ms = c.checkOutTime.getTime() - c.checkInTime.getTime();
       if (ms <= 0) continue;
-      if (!tripMap[c.driverId]) tripMap[c.driverId] = { totalMs: 0, tripCount: 0, trips: [] };
-      tripMap[c.driverId].totalMs += ms;
-      tripMap[c.driverId].tripCount += 1;
+      drivingMap[c.driverId] = (drivingMap[c.driverId] || 0) + ms;
     }
 
-    const actualMap: Record<string, { totalMs: number; tripCount: number; trips: TripHoursEntry[] }> = {};
+    const tripMap: Record<string, { totalMs: number; tripCount: number; trips: TripHoursEntry[] }> = {};
+    const waitingMap: Record<string, number> = {};
     for (const r of requests) {
       if (!r.pickedUpAt || !r.driverId) continue;
       const end = r.droppedOffAt || new Date();
       const ms = end.getTime() - r.pickedUpAt.getTime();
-      if (ms <= 0) continue;
-      if (!actualMap[r.driverId]) actualMap[r.driverId] = { totalMs: 0, tripCount: 0, trips: [] };
-      actualMap[r.driverId].totalMs += ms;
-      actualMap[r.driverId].tripCount += 1;
+      if (ms > 0) {
+        if (!tripMap[r.driverId]) tripMap[r.driverId] = { totalMs: 0, tripCount: 0, trips: [] };
+        tripMap[r.driverId].totalMs += ms;
+        tripMap[r.driverId].tripCount += 1;
+      }
+      waitingMap[r.driverId] = (waitingMap[r.driverId] || 0) + (r.waitingTotalMs || 0);
+    }
+
+    const taskMap: Record<string, number> = {};
+    for (const t of tasks) {
+      if (t.status !== "COMPLETED" || !t.endedAt) continue;
+      const ms = t.endedAt.getTime() - t.startedAt.getTime();
+      if (ms > 0) taskMap[t.driverId] = (taskMap[t.driverId] || 0) + ms;
     }
 
     const allDriverIds = new Set([
+      ...Object.keys(drivingMap),
       ...Object.keys(tripMap),
-      ...Object.keys(actualMap),
+      ...Object.keys(taskMap),
     ]);
+
     return Array.from(allDriverIds).map((id) => {
       const trip = tripMap[id] || { totalMs: 0, tripCount: 0, trips: [] };
-      const actual = actualMap[id] || { totalMs: 0, tripCount: 0, trips: [] };
+      const allRequestIds = new Set(trip.trips.map(t => t.requestId));
+      for (const r of requests) {
+        if (r.driverId === id) allRequestIds.add(r.id);
+      }
 
-      const allRequestIds = new Set([...trip.trips.map(t => t.requestId), ...actual.trips.map(t => t.requestId)]);
-      const trips: TripHoursEntry[] = Array.from(allRequestIds).map((requestId) => {
-        const tEntry = trip.trips.find(t => t.requestId === requestId);
-        const aEntry = actual.trips.find(t => t.requestId === requestId);
+      const tripHoursEntries: TripHoursEntry[] = Array.from(allRequestIds).map((requestId) => {
+        const r = requests.find(req => req.id === requestId);
+        const tripMs = r ? (() => {
+          if (!r.pickedUpAt) return 0;
+          const end = r.droppedOffAt || new Date();
+          const ms = end.getTime() - r.pickedUpAt.getTime();
+          return ms > 0 ? ms : 0;
+        })() : 0;
         return {
           requestId,
-          tripDate: tEntry?.tripDate || aEntry?.tripDate || "",
-          route: tEntry?.route || aEntry?.route || "",
-          tripHours: tEntry?.tripHours || 0,
-          actualHours: aEntry?.actualHours || 0,
+          tripDate: r?.date?.toISOString().split("T")[0] || "",
+          route: r ? `${r.pickup} → ${r.destination}` : "",
+          tripHours: Math.round((tripMs / 3600000) * 10) / 10,
+          drivingHours: 0,
+          waitingTimeMs: r?.waitingTotalMs || 0,
         };
       });
 
       return {
         driverId: id,
-        tripHours: Math.round((trip.totalMs / 3600000) * 10) / 10,
+        tripHours: Math.round(((tripMap[id]?.totalMs || 0) / 3600000) * 10) / 10,
         tripCount: trip.tripCount,
-        actualHours: Math.round((actual.totalMs / 3600000) * 10) / 10,
-        actualTripCount: actual.tripCount,
-        trips,
+        drivingHours: Math.round(((drivingMap[id] || 0) / 3600000) * 10) / 10,
+        waitingTimeMs: waitingMap[id] || 0,
+        taskHours: Math.round(((taskMap[id] || 0) / 3600000) * 10) / 10,
+        trips: tripHoursEntries,
       };
     });
+  }
+
+  async createTask(driverId: string, data: CreateDriverTaskDto): Promise<DriverTaskResponse> {
+    const driver = await prisma.driverProfile.findUnique({ where: { userId: driverId } });
+    if (!driver) {
+      throw createAppError(404, "DRIVER_NOT_FOUND", "Driver not found");
+    }
+
+    const task = await prisma.driverTask.create({
+      data: {
+        driverId,
+        title: data.title,
+        description: data.description || null,
+        startedAt: new Date(),
+        status: "ACTIVE",
+      },
+    });
+
+    return this.formatTaskResponse(task);
+  }
+
+  async getTasks(driverId: string): Promise<DriverTaskResponse[]> {
+    const tasks = await prisma.driverTask.findMany({
+      where: { driverId },
+      orderBy: { createdAt: "desc" },
+    });
+
+    return tasks.map((t) => this.formatTaskResponse(t));
+  }
+
+  async updateTask(driverId: string, taskId: string, data: { title?: string; description?: string; status?: string }): Promise<DriverTaskResponse> {
+    const task = await prisma.driverTask.findFirst({ where: { id: taskId, driverId } });
+    if (!task) {
+      throw createAppError(404, "TASK_NOT_FOUND", "Task not found");
+    }
+
+    const updateData: Record<string, unknown> = {};
+    if (data.title !== undefined) updateData.title = data.title;
+    if (data.description !== undefined) updateData.description = data.description;
+    if (data.status === "COMPLETED" && !task.endedAt) {
+      updateData.endedAt = new Date();
+      updateData.status = "COMPLETED";
+    } else if (data.status !== undefined) {
+      updateData.status = data.status;
+    }
+
+    const updated = await prisma.driverTask.update({
+      where: { id: taskId },
+      data: updateData,
+    });
+
+    return this.formatTaskResponse(updated);
+  }
+
+  async deleteTask(driverId: string, taskId: string): Promise<void> {
+    const task = await prisma.driverTask.findFirst({ where: { id: taskId, driverId } });
+    if (!task) {
+      throw createAppError(404, "TASK_NOT_FOUND", "Task not found");
+    }
+
+    await prisma.driverTask.delete({ where: { id: taskId } });
+  }
+
+  private formatTaskResponse(t: {
+    id: string;
+    driverId: string;
+    title: string;
+    description: string | null;
+    startedAt: Date;
+    endedAt: Date | null;
+    status: string;
+    createdAt: Date;
+  }): DriverTaskResponse {
+    return {
+      id: t.id,
+      driverId: t.driverId,
+      title: t.title,
+      description: t.description,
+      startedAt: t.startedAt.toISOString(),
+      endedAt: t.endedAt?.toISOString() || null,
+      status: t.status,
+      createdAt: t.createdAt.toISOString(),
+    };
   }
 }
 

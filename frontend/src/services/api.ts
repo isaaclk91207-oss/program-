@@ -14,6 +14,7 @@ import type {
   Assessment,
   VehicleCheckin,
   LiveVehicleLocation,
+  DriverTask,
 } from "../types";
 
 const api = axios.create({
@@ -127,15 +128,34 @@ export async function getDriverFeedback(driverId: string): Promise<Feedback[]> {
   return res.data;
 }
 
-export async function getDrivingHours(driverId?: string): Promise<{ driverId: string; tripHours: number; tripCount: number; actualHours: number; actualTripCount: number; trips: { requestId: string; tripDate: string; route: string; tripHours: number; actualHours: number }[] }[]> {
+export async function getDrivingHours(driverId?: string): Promise<{ driverId: string; tripHours: number; tripCount: number; drivingHours: number; waitingTimeMs: number; taskHours: number; trips: { requestId: string; tripDate: string; route: string; tripHours: number; drivingHours: number; waitingTimeMs: number }[] }[]> {
   const url = driverId ? `/drivers/hours?driverId=${driverId}` : "/drivers/hours";
   const res = await api.get(url);
   return res.data;
 }
 
-export async function getTripHours(driverId: string): Promise<{ requestId: string; tripDate: string; route: string; tripHours: number; actualHours: number }[]> {
+export async function getTripHours(driverId: string): Promise<{ requestId: string; tripDate: string; route: string; tripHours: number; drivingHours: number; waitingTimeMs: number }[]> {
   const res = await api.get(`/drivers/${driverId}/trip-hours`);
   return res.data;
+}
+
+export async function getDriverTasks(driverId: string): Promise<DriverTask[]> {
+  const res = await api.get(`/drivers/${driverId}/tasks`);
+  return res.data;
+}
+
+export async function createDriverTask(driverId: string, data: { title: string; description?: string }): Promise<DriverTask> {
+  const res = await api.post(`/drivers/${driverId}/tasks`, data);
+  return res.data;
+}
+
+export async function updateDriverTask(driverId: string, taskId: string, data: { title?: string; description?: string; status?: string }): Promise<DriverTask> {
+  const res = await api.put(`/drivers/${driverId}/tasks/${taskId}`, data);
+  return res.data;
+}
+
+export async function deleteDriverTask(driverId: string, taskId: string): Promise<void> {
+  await api.delete(`/drivers/${driverId}/tasks/${taskId}`);
 }
 
 export async function getCertSummary() {
@@ -270,6 +290,26 @@ export async function driverCheckOut(data: {
   remark?: string;
 }) {
   const res = await api.post("/trips/checkout", data);
+  return res.data;
+}
+
+export async function adminCheckIn(data: { driverId: string; vehiclePlate: string; location: string; remark?: string }) {
+  const res = await api.post("/trips/admin/checkin", data);
+  return res.data;
+}
+
+export async function adminCheckOut(data: { driverId: string; vehiclePlate: string; location: string; remark?: string }) {
+  const res = await api.post("/trips/admin/checkout", data);
+  return res.data;
+}
+
+export async function startWaiting(requestId: string) {
+  const res = await api.post(`/trips/${requestId}/waiting/start`);
+  return res.data;
+}
+
+export async function stopWaiting(requestId: string) {
+  const res = await api.post(`/trips/${requestId}/waiting/stop`);
   return res.data;
 }
 

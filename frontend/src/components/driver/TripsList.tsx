@@ -123,10 +123,10 @@ export default function TripsList({
                 <Field label="Vehicle" value={t.vehiclePlate || "—"} />
                 <Field label="Department" value={t.department} />
               </div>
-              {["FEEDBACK_SUBMITTED", "COMPLETED", "DROPOFF_COMPLETE"].includes(t.status) && (t.tripHours != null || t.actualHours != null) && (
+              {["FEEDBACK_SUBMITTED", "COMPLETED", "DROPOFF_COMPLETE"].includes(t.status) && (t.tripHours != null || t.drivingHours != null) && (
                 <div className="flex gap-3 mt-2 text-xs text-on-surface-variant dark:text-outline-variant">
                   {t.tripHours != null && <span>Trip: <span className="text-blue-500 font-medium">{t.tripHours}h</span></span>}
-                  {t.actualHours != null && <span>Actual: <span className="text-emerald-500 font-medium">{t.actualHours}h</span></span>}
+                  {t.drivingHours != null && <span>Driving: <span className="text-emerald-500 font-medium">{t.drivingHours}h</span></span>}
                 </div>
               )}
             </button>

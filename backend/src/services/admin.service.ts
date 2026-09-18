@@ -21,6 +21,7 @@ export class AdminService {
       checkins,
       driveRequests,
       drivers,
+      allTasks,
     ] = await Promise.all([
       prisma.transportRequest.count(),
       prisma.transportRequest.count({ where: { status: "PENDING" } }),
@@ -48,73 +49,78 @@ export class AdminService {
       }),
       prisma.transportRequest.findMany({
         where: { pickedUpAt: { not: null } },
-        select: { driverId: true, pickedUpAt: true, droppedOffAt: true, id: true, pickup: true, destination: true, date: true },
+        select: { driverId: true, pickedUpAt: true, droppedOffAt: true, id: true, pickup: true, destination: true, date: true, waitingTotalMs: true },
       }),
       prisma.driverProfile.findMany({
         select: { userId: true, user: { select: { name: true } } },
       }),
+      prisma.driverTask.findMany({
+        select: { driverId: true, startedAt: true, endedAt: true, status: true },
+      }),
     ]);
 
     const driverNameMap = new Map(drivers.map((d) => [d.userId, d.user.name]));
-    const tripHoursMap: Record<string, { totalMs: number; trips: TripHoursEntry[] }> = {};
+
+    const drivingHoursMap: Record<string, number> = {};
     for (const c of checkins) {
       if (!c.checkInTime || !c.checkOutTime || !c.driverId) continue;
       const ms = c.checkOutTime.getTime() - c.checkInTime.getTime();
       if (ms <= 0) continue;
-      if (!tripHoursMap[c.driverId]) tripHoursMap[c.driverId] = { totalMs: 0, trips: [] };
-      tripHoursMap[c.driverId].totalMs += ms;
+      drivingHoursMap[c.driverId] = (drivingHoursMap[c.driverId] || 0) + ms;
     }
-    const actualHoursMap: Record<string, { totalMs: number; trips: TripHoursEntry[] }> = {};
+
+    const tripHoursMap: Record<string, number> = {};
+    const waitingMap: Record<string, number> = {};
     for (const r of driveRequests) {
       if (!r.pickedUpAt || !r.driverId) continue;
       const end = r.droppedOffAt || new Date();
       const ms = end.getTime() - r.pickedUpAt.getTime();
-      if (ms <= 0) continue;
-      if (!actualHoursMap[r.driverId]) actualHoursMap[r.driverId] = { totalMs: 0, trips: [] };
-      actualHoursMap[r.driverId].totalMs += ms;
+      if (ms > 0) tripHoursMap[r.driverId] = (tripHoursMap[r.driverId] || 0) + ms;
+      waitingMap[r.driverId] = (waitingMap[r.driverId] || 0) + (r.waitingTotalMs || 0);
+    }
+
+    const taskMap: Record<string, number> = {};
+    for (const t of allTasks) {
+      if (t.status !== "COMPLETED" || !t.endedAt) continue;
+      const ms = t.endedAt.getTime() - t.startedAt.getTime();
+      if (ms > 0) taskMap[t.driverId] = (taskMap[t.driverId] || 0) + ms;
     }
 
     const allDriverIds = new Set([
+      ...Object.keys(drivingHoursMap),
       ...Object.keys(tripHoursMap),
-      ...Object.keys(actualHoursMap),
+      ...Object.keys(taskMap),
     ]);
-    const driverHours = Array.from(allDriverIds).map((id) => {
-      const trip = tripHoursMap[id] || { totalMs: 0, trips: [] };
-      const actual = actualHoursMap[id] || { totalMs: 0, trips: [] };
 
+    const driverHours = Array.from(allDriverIds).map((id) => {
       const tripByRequest: Record<string, TripHoursEntry> = {};
-      for (const c of checkins) {
-        if (c.driverId !== id || !c.checkInTime || !c.checkOutTime) continue;
-        const ms = c.checkOutTime.getTime() - c.checkInTime.getTime();
-        if (ms <= 0) continue;
-        if (!tripByRequest[c.requestId]) {
-          tripByRequest[c.requestId] = { requestId: c.requestId, tripDate: "", route: "", tripHours: 0, actualHours: 0 };
-        }
-        tripByRequest[c.requestId].tripHours = Math.round((ms / 3600000) * 10) / 10;
-      }
       for (const r of driveRequests) {
         if (r.driverId !== id || !r.pickedUpAt) continue;
         const end = r.droppedOffAt || new Date();
         const ms = end.getTime() - r.pickedUpAt.getTime();
         if (ms <= 0) continue;
         if (!tripByRequest[r.id]) {
-          tripByRequest[r.id] = { requestId: r.id, tripDate: r.date.toISOString().split("T")[0], route: `${r.pickup} → ${r.destination}`, tripHours: 0, actualHours: 0 };
+          tripByRequest[r.id] = { requestId: r.id, tripDate: r.date.toISOString().split("T")[0], route: `${r.pickup} → ${r.destination}`, tripHours: 0, drivingHours: 0, waitingTimeMs: 0 };
         }
-        tripByRequest[r.id].actualHours = Math.round((ms / 3600000) * 10) / 10;
-        tripByRequest[r.id].tripDate = tripByRequest[r.id].tripDate || r.date.toISOString().split("T")[0];
-        tripByRequest[r.id].route = tripByRequest[r.id].route || `${r.pickup} → ${r.destination}`;
+        tripByRequest[r.id].tripHours = Math.round((ms / 3600000) * 10) / 10;
+        tripByRequest[r.id].waitingTimeMs = r.waitingTotalMs || 0;
       }
 
       return {
         driverId: id,
         driverName: driverNameMap.get(id) || "Unknown",
-        tripHours: Math.round(((trip.totalMs) / 3600000) * 10) / 10,
-        actualHours: Math.round(((actual.totalMs) / 3600000) * 10) / 10,
+        tripHours: Math.round(((tripHoursMap[id] || 0) / 3600000) * 10) / 10,
+        drivingHours: Math.round(((drivingHoursMap[id] || 0) / 3600000) * 10) / 10,
+        waitingTimeMs: waitingMap[id] || 0,
+        taskHours: Math.round(((taskMap[id] || 0) / 3600000) * 10) / 10,
         trips: Object.values(tripByRequest),
       };
     });
+
     const totalTripHours = Math.round(driverHours.reduce((s, d) => s + d.tripHours, 0) * 10) / 10;
-    const totalActualHours = Math.round(driverHours.reduce((s, d) => s + d.actualHours, 0) * 10) / 10;
+    const totalDrivingHours = Math.round(driverHours.reduce((s, d) => s + d.drivingHours, 0) * 10) / 10;
+    const totalWaitingTimeMs = driverHours.reduce((s, d) => s + d.waitingTimeMs, 0);
+    const totalTaskHours = Math.round(driverHours.reduce((s, d) => s + d.taskHours, 0) * 10) / 10;
 
     return {
       totalRequests,
@@ -158,7 +164,9 @@ export class AdminService {
       })),
       driverHours,
       totalTripHours,
-      totalActualHours,
+      totalDrivingHours,
+      totalWaitingTimeMs,
+      totalTaskHours,
 
     };
   }

@@ -97,6 +97,48 @@ export class TripController {
       next(err);
     }
   }
+
+  async adminCheckIn(req: AuthenticatedRequest, res: Response, next: NextFunction) {
+    try {
+      const result = await tripService.adminCheckIn(req.body.driverId, req.body);
+      res.json(result);
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  async adminCheckOut(req: AuthenticatedRequest, res: Response, next: NextFunction) {
+    try {
+      const result = await tripService.adminCheckOut(req.body.driverId, req.body);
+      res.json(result);
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  async startWaiting(req: AuthenticatedRequest, res: Response, next: NextFunction) {
+    try {
+      if (!req.user) {
+        return res.status(401).json({ error: { code: "UNAUTHORIZED", message: "Not authenticated" } });
+      }
+      const result = await tripService.startWaiting(req.params.id, req.user.id);
+      res.json(result);
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  async stopWaiting(req: AuthenticatedRequest, res: Response, next: NextFunction) {
+    try {
+      if (!req.user) {
+        return res.status(401).json({ error: { code: "UNAUTHORIZED", message: "Not authenticated" } });
+      }
+      const result = await tripService.stopWaiting(req.params.id, req.user.id);
+      res.json(result);
+    } catch (err) {
+      next(err);
+    }
+  }
 }
 
 export const tripController = new TripController();

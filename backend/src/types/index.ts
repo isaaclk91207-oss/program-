@@ -76,7 +76,8 @@ export interface TransportRequestResponse {
   createdAt: string;
   hasActiveCheckin: boolean;
   tripHours?: number;
-  actualHours?: number;
+  drivingHours?: number;
+  waitingTimeMs?: number;
 }
 
 // ─── QR Verification Types ───────────────────────────────────────────────────
@@ -259,7 +260,26 @@ export interface TripHoursEntry {
   tripDate: string;
   route: string;
   tripHours: number;
-  actualHours: number;
+  drivingHours: number;
+  waitingTimeMs: number;
+}
+
+// ─── Driver Task Types ──────────────────────────────────────────────────────
+
+export interface CreateDriverTaskDto {
+  title: string;
+  description?: string;
+}
+
+export interface DriverTaskResponse {
+  id: string;
+  driverId: string;
+  title: string;
+  description: string | null;
+  startedAt: string;
+  endedAt: string | null;
+  status: string;
+  createdAt: string;
 }
 
 // ─── Dashboard Types ─────────────────────────────────────────────────────────
@@ -279,9 +299,11 @@ export interface DashboardStats {
   requestsByStatus: { status: string; count: number }[];
   requestsByDepartment: { department: string; count: number }[];
   recentRequests: TransportRequestResponse[];
-  driverHours: { driverId: string; driverName: string; tripHours: number; actualHours: number; trips: TripHoursEntry[] }[];
+  driverHours: { driverId: string; driverName: string; tripHours: number; drivingHours: number; waitingTimeMs: number; taskHours: number; trips: TripHoursEntry[] }[];
   totalTripHours: number;
-  totalActualHours: number;
+  totalDrivingHours: number;
+  totalWaitingTimeMs: number;
+  totalTaskHours: number;
 }
 
 // ─── Settings Types ──────────────────────────────────────────────────────────

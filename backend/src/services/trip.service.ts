@@ -167,6 +167,7 @@ export class TripService {
         checkInTime: new Date(),
         checkInRemark: data.remark,
         status: "CHECKED_IN",
+        checkedBy: "DRIVER",
       },
     });
 
@@ -315,6 +316,144 @@ export class TripService {
     }
 
     return request;
+  }
+
+  async adminCheckIn(driverId: string, data: CheckInDto) {
+    const vehicle = await vehicleService.getByPlate(data.vehiclePlate);
+
+    const activeRequest = await prisma.transportRequest.findFirst({
+      where: {
+        driverId,
+        vehicleId: vehicle.id,
+        status: { in: ["ASSIGNED", "QR_PENDING", "PICK_UP_SCANNED"] },
+      },
+    });
+
+    if (!activeRequest) {
+      throw createAppError(400, "NO_ACTIVE_TRIP", "No active trip found for this driver and vehicle combination");
+    }
+
+    const existingCheckin = await prisma.vehicleCheckin.findFirst({
+      where: {
+        driverId,
+        status: "CHECKED_IN",
+      },
+    });
+
+    if (existingCheckin) {
+      throw createAppError(400, "ALREADY_CHECKED_IN", "Driver is already checked in");
+    }
+
+    const checkin = await prisma.vehicleCheckin.create({
+      data: {
+        vehicleId: vehicle.id,
+        driverId,
+        requestId: activeRequest.id,
+        checkInLocation: data.location,
+        checkInTime: new Date(),
+        checkInRemark: data.remark,
+        status: "CHECKED_IN",
+        checkedBy: "ADMIN",
+      },
+    });
+
+    socketService.emit("trip:statusChanged", { requestId: activeRequest.id, status: "ADMIN_CHECKED_IN", driverId, checkInTime: checkin.checkInTime });
+
+    await notificationService.create({
+      recipientId: driverId,
+      recipientRole: "driver",
+      title: "Admin Check-In",
+      message: `Admin has checked you in for vehicle ${data.vehiclePlate}.`,
+      relatedRequestId: activeRequest.id,
+    });
+
+    return checkin;
+  }
+
+  async adminCheckOut(driverId: string, data: CheckOutDto) {
+    const vehicle = await vehicleService.getByPlate(data.vehiclePlate);
+
+    const checkin = await prisma.vehicleCheckin.findFirst({
+      where: {
+        driverId,
+        vehicleId: vehicle.id,
+        status: "CHECKED_IN",
+      },
+      include: { transportRequest: true },
+    });
+
+    if (!checkin) {
+      throw createAppError(404, "NO_ACTIVE_CHECKIN", "No active check-in found for this driver");
+    }
+
+    const updated = await prisma.vehicleCheckin.update({
+      where: { id: checkin.id },
+      data: {
+        checkOutLocation: data.location,
+        checkOutTime: new Date(),
+        checkOutRemark: data.remark,
+        status: "CHECKED_OUT",
+      },
+    });
+
+    socketService.emit("trip:statusChanged", { requestId: checkin.requestId, status: "ADMIN_CHECKED_OUT", driverId, checkOutTime: updated.checkOutTime });
+
+    await notificationService.create({
+      recipientId: driverId,
+      recipientRole: "driver",
+      title: "Admin Check-Out",
+      message: `Admin has checked you out for vehicle ${data.vehiclePlate}.`,
+      relatedRequestId: checkin.requestId,
+    });
+
+    return updated;
+  }
+
+  async startWaiting(requestId: string, userId: string) {
+    const request = await prisma.transportRequest.findUnique({ where: { id: requestId } });
+
+    if (!request) {
+      throw createAppError(404, "REQUEST_NOT_FOUND", "Transport request not found");
+    }
+
+    if (request.waitingStartedAt) {
+      throw createAppError(400, "WAITING_ALREADY_STARTED", "Waiting is already in progress");
+    }
+
+    const updated = await prisma.transportRequest.update({
+      where: { id: requestId },
+      data: { waitingStartedAt: new Date() },
+    });
+
+    socketService.emit("trip:statusChanged", { requestId, status: "WAITING_STARTED", driverId: request.driverId });
+
+    return updated;
+  }
+
+  async stopWaiting(requestId: string, userId: string) {
+    const request = await prisma.transportRequest.findUnique({ where: { id: requestId } });
+
+    if (!request) {
+      throw createAppError(404, "REQUEST_NOT_FOUND", "Transport request not found");
+    }
+
+    if (!request.waitingStartedAt) {
+      throw createAppError(400, "WAITING_NOT_STARTED", "No waiting period in progress");
+    }
+
+    const waitMs = Date.now() - request.waitingStartedAt.getTime();
+
+    const updated = await prisma.transportRequest.update({
+      where: { id: requestId },
+      data: {
+        waitingStartedAt: null,
+        waitingTotalMs: request.waitingTotalMs + waitMs,
+      },
+    });
+
+    socketService.emit("trip:statusChanged", { requestId, status: "WAITING_STOPPED", driverId: request.driverId });
+
+    return updated;
   }
 
   private formatTripResponse(t: {

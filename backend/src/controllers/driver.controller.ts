@@ -120,6 +120,42 @@ export class DriverController {
       next(err);
     }
   }
+
+  async createTask(req: AuthenticatedRequest, res: Response, next: NextFunction) {
+    try {
+      const task = await driverService.createTask(req.params.id, req.body);
+      res.status(201).json(task);
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  async getTasks(req: AuthenticatedRequest, res: Response, next: NextFunction) {
+    try {
+      const tasks = await driverService.getTasks(req.params.id);
+      res.json(tasks);
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  async updateTask(req: AuthenticatedRequest, res: Response, next: NextFunction) {
+    try {
+      const task = await driverService.updateTask(req.params.id, req.params.taskId, req.body);
+      res.json(task);
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  async deleteTask(req: AuthenticatedRequest, res: Response, next: NextFunction) {
+    try {
+      await driverService.deleteTask(req.params.id, req.params.taskId);
+      res.status(204).send();
+    } catch (err) {
+      next(err);
+    }
+  }
 }
 
 export const driverController = new DriverController();

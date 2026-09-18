@@ -354,25 +354,26 @@ export class TransportService {
     note?: string | null;
     pickedUpAt?: Date | null;
     droppedOffAt?: Date | null;
+    waitingTotalMs?: number | null;
     feedback: { id: string; rating: number } | null;
     createdAt: Date;
     vehicleCheckins?: { checkInTime: Date | null; checkOutTime: Date | null }[];
   }): TransportRequestResponse {
     let tripHours: number | undefined;
-    let actualHours: number | undefined;
+    let drivingHours: number | undefined;
+
+    if (r.pickedUpAt) {
+      const end = r.droppedOffAt || new Date();
+      const ms = end.getTime() - r.pickedUpAt.getTime();
+      if (ms > 0) tripHours = Math.round((ms / 3600000) * 10) / 10;
+    }
 
     if (r.vehicleCheckins && r.vehicleCheckins.length > 0) {
       const lastCheckin = r.vehicleCheckins.find((c) => c.checkInTime && c.checkOutTime);
       if (lastCheckin && lastCheckin.checkInTime && lastCheckin.checkOutTime) {
         const ms = lastCheckin.checkOutTime.getTime() - lastCheckin.checkInTime.getTime();
-        if (ms > 0) tripHours = Math.round((ms / 3600000) * 10) / 10;
+        if (ms > 0) drivingHours = Math.round((ms / 3600000) * 10) / 10;
       }
-    }
-
-    if (r.pickedUpAt) {
-      const end = r.droppedOffAt || new Date();
-      const ms = end.getTime() - r.pickedUpAt.getTime();
-      if (ms > 0) actualHours = Math.round((ms / 3600000) * 10) / 10;
     }
 
     return {
@@ -403,7 +404,8 @@ export class TransportService {
       createdAt: r.createdAt.toISOString(),
       hasActiveCheckin: false,
       tripHours,
-      actualHours,
+      drivingHours,
+      waitingTimeMs: r.waitingTotalMs || 0,
     };
   }
 }

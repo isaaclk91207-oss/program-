@@ -99,7 +99,8 @@ export interface TransportRequest {
   version?: "v1" | "v2";
   hasActiveCheckin?: boolean;
   tripHours?: number;
-  actualHours?: number;
+  drivingHours?: number;
+  waitingTimeMs?: number;
 }
 
 export function formatRequestId(id: string, requestNumber?: string): string {
@@ -159,7 +160,21 @@ export interface TripHoursEntry {
   tripDate: string;
   route: string;
   tripHours: number;
-  actualHours: number;
+  drivingHours: number;
+  waitingTimeMs: number;
+}
+
+// ─── Driver Task Types ──────────────────────────────────────────────────────
+
+export interface DriverTask {
+  id: string;
+  driverId: string;
+  title: string;
+  description: string | null;
+  startedAt: string;
+  endedAt: string | null;
+  status: string;
+  createdAt: string;
 }
 
 // ─── Dashboard Types ─────────────────────────────────────────────────────────
@@ -179,9 +194,11 @@ export interface DashboardStats {
   requestsByStatus: { status: string; count: number }[];
   requestsByDepartment: { department: string; count: number }[];
   recentRequests: TransportRequest[];
-  driverHours: { driverId: string; driverName: string; tripHours: number; actualHours: number; trips: TripHoursEntry[] }[];
+  driverHours: { driverId: string; driverName: string; tripHours: number; drivingHours: number; waitingTimeMs: number; taskHours: number; trips: TripHoursEntry[] }[];
   totalTripHours: number;
-  totalActualHours: number;
+  totalDrivingHours: number;
+  totalWaitingTimeMs: number;
+  totalTaskHours: number;
 }
 
 export interface VehicleCheckin {

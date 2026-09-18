@@ -46,6 +46,7 @@ model DriverProfile {
   vehicleCheckins   VehicleCheckin[]
   transportRequests TransportRequest[]
   ecoDrivingRecords EcoDrivingRecord[]
+  driverTasks       DriverTask[]
 
   @@map("driver_profiles")
 }
@@ -99,6 +100,8 @@ model TransportRequest {
   purpose        String?
   returnTime     String?
   note           String?
+  waitingStartedAt DateTime?
+  waitingTotalMs   Int         @default(0)
   createdAt      DateTime  @default(now())
   updatedAt      DateTime  @updatedAt
 
@@ -160,6 +163,7 @@ model VehicleCheckin {
   checkOutTime     DateTime?
   checkOutRemark   String?
   status           String    @default("CHECKED_IN") // CHECKED_IN | CHECKED_OUT
+  checkedBy        String    @default("DRIVER") // ADMIN | DRIVER
   createdAt        DateTime  @default(now())
 
   vehicle          Vehicle          @relation(fields: [vehicleId], references: [id])
@@ -218,6 +222,21 @@ model EcoDrivingRecord {
 
   @@unique([vehicleId, violationType, date])
   @@map("eco_driving_records")
+}
+
+model DriverTask {
+  id          String    @id @default(uuid())
+  driverId    String
+  title       String
+  description String?
+  startedAt   DateTime
+  endedAt     DateTime?
+  status      String    @default("ACTIVE") // ACTIVE | COMPLETED
+  createdAt   DateTime  @default(now())
+
+  driver DriverProfile @relation(fields: [driverId], references: [userId], onDelete: Cascade)
+
+  @@map("driver_tasks")
 }
 
 

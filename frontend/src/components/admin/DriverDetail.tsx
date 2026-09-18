@@ -39,7 +39,7 @@ export default function DriverDetail({
   const [tab, setTab] = useState("overview");
   const [feedbacks, setFeedbacks] = useState<Feedback[]>([]);
   const [loadingFeedback, setLoadingFeedback] = useState(false);
-  const [drivingHours, setDrivingHours] = useState<{ tripHours: number; tripCount: number; actualHours: number; actualTripCount: number; trips: TripHoursEntry[] } | null>(null);
+  const [drivingHours, setDrivingHours] = useState<{ tripHours: number; tripCount: number; drivingHours: number; waitingTimeMs: number; taskHours: number; trips: TripHoursEntry[] } | null>(null);
 
   // Assessment state
   const [written, setWritten] = useState(80);
@@ -197,8 +197,22 @@ export default function DriverDetail({
               <div className="flex items-center gap-2">
                 <Icon name="play_arrow" size={16} />
                 <div>
-                  <p className={th.textSecondary}>Actual Driving Hours</p>
-                  <p className={`${th.text} font-bold`}>{drivingHours ? `${drivingHours.actualHours}h (${drivingHours.actualTripCount} trips)` : "—"}</p>
+                  <p className={th.textSecondary}>Driving Hours</p>
+                  <p className={`${th.text} font-bold`}>{drivingHours ? `${drivingHours.drivingHours}h` : "—"}</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-2">
+                <Icon name="hourglass_top" size={16} />
+                <div>
+                  <p className={th.textSecondary}>Waiting Time</p>
+                  <p className={`${th.text} font-bold`}>{drivingHours ? `${Math.round((drivingHours.waitingTimeMs || 0) / 3600000 * 10) / 10}h` : "—"}</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-2">
+                <Icon name="assignment" size={16} />
+                <div>
+                  <p className={th.textSecondary}>Task Hours</p>
+                  <p className={`${th.text} font-bold`}>{drivingHours ? `${drivingHours.taskHours || 0}h` : "—"}</p>
                 </div>
               </div>
 
@@ -214,7 +228,8 @@ export default function DriverDetail({
                         </div>
                         <div className="flex gap-2">
                           {t.tripHours > 0 && <span className="text-blue-500">{t.tripHours}h</span>}
-                          {t.actualHours > 0 && <span className="text-emerald-500">{t.actualHours}h</span>}
+                          {t.drivingHours > 0 && <span className="text-emerald-500">{t.drivingHours}h</span>}
+                          {t.waitingTimeMs > 0 && <span className="text-amber-500">{Math.round((t.waitingTimeMs / 3600000) * 10) / 10}h wait</span>}
                         </div>
                       </div>
                     ))}

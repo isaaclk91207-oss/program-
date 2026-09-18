@@ -225,14 +225,15 @@ model EcoDrivingRecord {
 }
 
 model DriverTask {
-  id          String    @id @default(uuid())
-  driverId    String
-  title       String
-  description String?
-  startedAt   DateTime
-  endedAt     DateTime?
-  status      String    @default("ACTIVE") // ACTIVE | COMPLETED
-  createdAt   DateTime  @default(now())
+  id                 String    @id @default(uuid())
+  driverId           String
+  title              String
+  description        String?
+  estimatedDurationMs Int?
+  startedAt          DateTime
+  endedAt            DateTime?
+  status             String    @default("ACTIVE") // ACTIVE | COMPLETED
+  createdAt          DateTime  @default(now())
 
   driver DriverProfile @relation(fields: [driverId], references: [userId], onDelete: Cascade)
 

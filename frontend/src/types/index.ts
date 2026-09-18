@@ -171,6 +171,7 @@ export interface DriverTask {
   driverId: string;
   title: string;
   description: string | null;
+  estimatedDurationMs: number | null;
   startedAt: string;
   endedAt: string | null;
   status: string;

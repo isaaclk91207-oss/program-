@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { Icon } from "../ui";
-import { getDrivingHours } from "../../services/api";
+import { getDrivingHours, getDriverTasks, updateDriverTask } from "../../services/api";
 import { onTripStatusChanged } from "../../services/socket";
-import type { TransportRequest, TripHoursEntry } from "../../types";
+import type { TransportRequest, TripHoursEntry, DriverTask } from "../../types";
 
 function initials(name: string) {
   return (name || "")
@@ -27,6 +27,7 @@ export default function DriverProfile({
   const [waitingTimeMs, setWaitingTimeMs] = useState<number>(0);
   const [taskHours, setTaskHours] = useState<number>(0);
   const [perTrip, setPerTrip] = useState<TripHoursEntry[]>([]);
+  const [tasks, setTasks] = useState<DriverTask[]>([]);
   const completed = trips.filter((t) => t.status === "FEEDBACK_SUBMITTED").length;
 
   function loadHours() {
@@ -43,17 +44,36 @@ export default function DriverProfile({
     }
   }
 
-  useEffect(() => { loadHours(); }, [user.id]);
+  function loadTasks() {
+    if (user.id) {
+      getDriverTasks(user.id).then((data) => {
+        setTasks(data);
+      }).catch(() => {});
+    }
+  }
+
+  useEffect(() => { loadHours(); loadTasks(); }, [user.id]);
 
   useEffect(() => {
     const unsub = onTripStatusChanged((event) => {
-      if (event.driverId === user.id) loadHours();
+      if (event.driverId === user.id) { loadHours(); loadTasks(); }
     });
     return unsub;
   }, [user.id]);
 
   const tripTotal = Math.round(perTrip.reduce((s, t) => s + t.tripHours, 0) * 10) / 10;
   const drivingTotal = Math.round(perTrip.reduce((s, t) => s + t.drivingHours, 0) * 10) / 10;
+
+  async function handleCompleteTask(taskId: string) {
+    if (!user.id) return;
+    try {
+      await updateDriverTask(user.id, taskId, { status: "COMPLETED" });
+      loadTasks();
+      loadHours();
+    } catch (err) {
+      console.error(err);
+    }
+  }
 
   return (
     <div className="max-w-[440px] mx-auto">
@@ -99,11 +119,21 @@ export default function DriverProfile({
             <p className="font-label-caps text-label-caps uppercase text-on-surface-variant dark:text-outline-variant">Trip Hrs</p>
           </div>
         </div>
-        <div className="mt-3">
+        <div className="grid grid-cols-3 gap-3 mt-3">
           <div className="bg-surface-container-low dark:bg-navy-900 rounded-xl p-3 border border-border-hairline dark:border-outline-variant">
             <Icon name="play_arrow" size={20} className="text-emerald-500 dark:text-emerald-400 mx-auto mb-1" />
             <p className="font-stat-lg text-stat-lg text-on-surface dark:text-white">{drivingHours !== null ? drivingHours : "—"}</p>
             <p className="font-label-caps text-label-caps uppercase text-on-surface-variant dark:text-outline-variant">Driving Hrs</p>
+          </div>
+          <div className="bg-surface-container-low dark:bg-navy-900 rounded-xl p-3 border border-border-hairline dark:border-outline-variant">
+            <Icon name="hourglass_top" size={20} className="text-amber-500 dark:text-amber-400 mx-auto mb-1" />
+            <p className="font-stat-lg text-stat-lg text-on-surface dark:text-white">{waitingTimeMs > 0 ? Math.round((waitingTimeMs / 3600000) * 10) / 10 : "—"}</p>
+            <p className="font-label-caps text-label-caps uppercase text-on-surface-variant dark:text-outline-variant">Waiting Hrs</p>
+          </div>
+          <div className="bg-surface-container-low dark:bg-navy-900 rounded-xl p-3 border border-border-hairline dark:border-outline-variant">
+            <Icon name="assignment" size={20} className="text-purple-500 dark:text-purple-400 mx-auto mb-1" />
+            <p className="font-stat-lg text-stat-lg text-on-surface dark:text-white">{taskHours > 0 ? taskHours : "—"}</p>
+            <p className="font-label-caps text-label-caps uppercase text-on-surface-variant dark:text-outline-variant">Task Hrs</p>
           </div>
         </div>
       </div>
@@ -133,6 +163,38 @@ export default function DriverProfile({
               <span className="text-blue-500">{tripTotal}h</span>
               <span className="text-emerald-500">{drivingTotal}h</span>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* Active Tasks */}
+      {tasks.filter((t) => t.status === "ACTIVE").length > 0 && (
+        <div className="mt-5 bg-surface dark:bg-navy-900 rounded-2xl border border-border-hairline dark:border-outline-variant p-5">
+          <h4 className="font-title-md text-title-md font-semibold text-on-surface dark:text-white mb-3">Active Tasks</h4>
+          <div className="space-y-2">
+            {tasks.filter((t) => t.status === "ACTIVE").map((t) => {
+              const estHours = t.estimatedDurationMs ? Math.round((t.estimatedDurationMs / 3600000) * 10) / 10 : null;
+              return (
+                <div key={t.id} className="flex justify-between items-center py-2 border-b border-border-hairline dark:border-outline-variant last:border-0">
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-medium text-on-surface dark:text-white truncate">{t.title}</p>
+                    {t.description && (
+                      <p className="text-xs text-on-surface-variant dark:text-outline-variant truncate">{t.description}</p>
+                    )}
+                    <div className="flex gap-3 mt-1 text-xs text-on-surface-variant dark:text-outline-variant">
+                      {estHours !== null && <span>Est: {estHours}h</span>}
+                      <span>Started: {new Date(t.startedAt).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}</span>
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => handleCompleteTask(t.id)}
+                    className="ml-3 shrink-0 px-3 py-1.5 text-xs font-medium rounded-lg bg-emerald-500 text-white hover:bg-emerald-600 transition-colors"
+                  >
+                    Complete
+                  </button>
+                </div>
+              );
+            })}
           </div>
         </div>
       )}

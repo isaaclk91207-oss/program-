@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { Card, Button, Badge, CertBadge, ProgressBar, Tabs, th, ConfirmDialog, StarRating, Icon } from "../ui";
-import { getDriverFeedback, getDrivingHours } from "../../services/api";
+import { getDriverFeedback, getDrivingHours, getDriverTasks, createDriverTask, updateDriverTask, deleteDriverTask } from "../../services/api";
 import { onTripStatusChanged } from "../../services/socket";
-import type { Driver, Feedback, Assessment, TripHoursEntry } from "../../types";
+import type { Driver, Feedback, Assessment, TripHoursEntry, DriverTask } from "../../types";
 
 function getDisplayId(d: Driver): string {
   if (d.version === "v2" && d.employeeId) return d.employeeId;
@@ -41,6 +41,14 @@ export default function DriverDetail({
   const [loadingFeedback, setLoadingFeedback] = useState(false);
   const [drivingHours, setDrivingHours] = useState<{ tripHours: number; tripCount: number; drivingHours: number; waitingTimeMs: number; taskHours: number; trips: TripHoursEntry[] } | null>(null);
 
+  // Task state
+  const [tasks, setTasks] = useState<DriverTask[]>([]);
+  const [taskTitle, setTaskTitle] = useState("");
+  const [taskDescription, setTaskDescription] = useState("");
+  const [taskDurationHours, setTaskDurationHours] = useState("");
+  const [creatingTask, setCreatingTask] = useState(false);
+  const [deletingTaskId, setDeletingTaskId] = useState<string | null>(null);
+
   // Assessment state
   const [written, setWritten] = useState(80);
   const [practical, setPractical] = useState<Record<string, number>>({
@@ -57,6 +65,7 @@ export default function DriverDetail({
 
   useEffect(() => {
     if (tab === "feedback") loadFeedback();
+    if (tab === "tasks") loadTasks();
   }, [tab]);
 
   function loadHours() {
@@ -86,6 +95,56 @@ export default function DriverDetail({
     }
   }
 
+  function loadTasks() {
+    getDriverTasks(driver.id).then((data) => {
+      setTasks(data);
+    }).catch(() => {});
+  }
+
+  async function handleCreateTask() {
+    if (!taskTitle.trim()) return;
+    setCreatingTask(true);
+    try {
+      const durationMs = taskDurationHours ? Math.round(parseFloat(taskDurationHours) * 3600000) : undefined;
+      await createDriverTask(driver.id, {
+        title: taskTitle.trim(),
+        description: taskDescription.trim() || undefined,
+        estimatedDurationMs: durationMs,
+      });
+      setTaskTitle("");
+      setTaskDescription("");
+      setTaskDurationHours("");
+      loadTasks();
+      loadHours();
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setCreatingTask(false);
+    }
+  }
+
+  async function handleCompleteTask(taskId: string) {
+    try {
+      await updateDriverTask(driver.id, taskId, { status: "COMPLETED" });
+      loadTasks();
+      loadHours();
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  async function handleDeleteTask() {
+    if (!deletingTaskId) return;
+    try {
+      await deleteDriverTask(driver.id, deletingTaskId);
+      setDeletingTaskId(null);
+      loadTasks();
+      loadHours();
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
   // Compute assessment scores
   const practicalScore = PRACTICAL_CRITERIA.reduce((sum, c) => sum + (practical[c] || 0) * (c === "safety" ? 0.3 : c === "preTripReadiness" || c === "vehicleInspection" ? 0.2 : 0.15), 0);
   const operationalScore = OPERATIONAL_CRITERIA.reduce((sum, c) => sum + (operational[c] || 0) * (c === "vehicleUtilization" ? 0.3 : c === "documentation" ? 0.1 : 0.2), 0);
@@ -102,6 +161,7 @@ export default function DriverDetail({
     { key: "passport", label: "Passport", icon: <Icon name="credit_card" size={16} /> },
     { key: "assessment", label: "Assessment", icon: <Icon name="trending_up" size={16} /> },
     { key: "feedback", label: "Feedback", icon: <Icon name="chat" size={16} /> },
+    { key: "tasks", label: "Tasks", icon: <Icon name="assignment" size={16} /> },
     { key: "records", label: "Records", icon: <Icon name="history" size={16} /> },
   ];
 
@@ -480,6 +540,110 @@ export default function DriverDetail({
         </div>
       )}
 
+      {/* Tasks Tab */}
+      {tab === "tasks" && (
+        <div className="space-y-4">
+          {/* Create Task Form */}
+          <Card className="p-4">
+            <h4 className={`font-semibold ${th.text} mb-3`}>Assign New Task</h4>
+            <div className="space-y-3">
+              <div>
+                <label className={`text-sm ${th.textSecondary}`}>Title *</label>
+                <input
+                  type="text"
+                  value={taskTitle}
+                  onChange={(e) => setTaskTitle(e.target.value)}
+                  placeholder="e.g. Vehicle inspection, Office duty"
+                  className={`w-full mt-1 px-3 py-2 text-sm rounded-lg border ${th.bgInput} ${th.border} ${th.text} focus:outline-none focus:border-emerald-500`}
+                />
+              </div>
+              <div>
+                <label className={`text-sm ${th.textSecondary}`}>Description</label>
+                <textarea
+                  value={taskDescription}
+                  onChange={(e) => setTaskDescription(e.target.value)}
+                  placeholder="Optional details..."
+                  rows={2}
+                  className={`w-full mt-1 px-3 py-2 text-sm rounded-lg border ${th.bgInput} ${th.border} ${th.text} focus:outline-none focus:border-emerald-500 resize-none`}
+                />
+              </div>
+              <div>
+                <label className={`text-sm ${th.textSecondary}`}>Estimated Duration (hours)</label>
+                <input
+                  type="number"
+                  min="0"
+                  step="0.5"
+                  value={taskDurationHours}
+                  onChange={(e) => setTaskDurationHours(e.target.value)}
+                  placeholder="e.g. 2"
+                  className={`w-full mt-1 px-3 py-2 text-sm rounded-lg border ${th.bgInput} ${th.border} ${th.text} focus:outline-none focus:border-emerald-500`}
+                />
+              </div>
+              <Button
+                accent="admin"
+                onClick={handleCreateTask}
+                disabled={!taskTitle.trim() || creatingTask}
+                className="w-full"
+              >
+                {creatingTask ? "Creating..." : "Assign Task"}
+              </Button>
+            </div>
+          </Card>
+
+          {/* Task List */}
+          <Card className="p-4">
+            <h4 className={`font-semibold ${th.text} mb-3`}>Tasks ({tasks.length})</h4>
+            {tasks.length === 0 ? (
+              <p className={`text-sm ${th.textMuted}`}>No tasks assigned yet.</p>
+            ) : (
+              <div className="space-y-2">
+                {tasks.map((t) => {
+                  const isActive = t.status === "ACTIVE";
+                  const estHours = t.estimatedDurationMs ? Math.round((t.estimatedDurationMs / 3600000) * 10) / 10 : null;
+                  const actualHours = t.endedAt ? Math.round(((new Date(t.endedAt).getTime() - new Date(t.startedAt).getTime()) / 3600000) * 10) / 10 : null;
+                  return (
+                    <div key={t.id} className={`p-3 rounded-lg border ${th.border} ${isActive ? "" : "opacity-60"}`}>
+                      <div className="flex justify-between items-start">
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2">
+                            <p className={`text-sm font-medium ${th.text} truncate`}>{t.title}</p>
+                            <Badge status={isActive ? "IN_PROGRESS" : "FEEDBACK_SUBMITTED"}>
+                              {isActive ? "ACTIVE" : "DONE"}
+                            </Badge>
+                          </div>
+                          {t.description && (
+                            <p className={`text-xs ${th.textMuted} mt-1`}>{t.description}</p>
+                          )}
+                          <div className={`flex gap-3 mt-1 text-xs ${th.textSecondary}`}>
+                            {estHours !== null && <span>Est: {estHours}h</span>}
+                            {actualHours !== null && <span>Actual: {actualHours}h</span>}
+                            <span>Started: {new Date(t.startedAt).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}</span>
+                            {t.endedAt && <span>Ended: {new Date(t.endedAt).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}</span>}
+                          </div>
+                        </div>
+                        <div className="flex gap-1 ml-2 shrink-0">
+                          {isActive && (
+                            <Button accent="admin" onClick={() => handleCompleteTask(t.id)} className="text-xs px-2 py-1">
+                              Complete
+                            </Button>
+                          )}
+                          <button
+                            onClick={() => setDeletingTaskId(t.id)}
+                            className={`p-1 rounded hover:bg-red-500/10 text-red-500`}
+                          >
+                            <Icon name="delete" size={16} />
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </Card>
+        </div>
+      )}
+
       {/* Records Tab */}
       {tab === "records" && (
         <Card className="p-4">
@@ -524,6 +688,16 @@ export default function DriverDetail({
         onConfirm={() => { onDeleteDriver(); setConfirmAction(null); }}
         title="Delete Driver"
         message={`Permanently delete ${driver.name}? This action cannot be undone.`}
+        confirmLabel="Delete"
+        danger
+      />
+
+      <ConfirmDialog
+        open={deletingTaskId !== null}
+        onClose={() => setDeletingTaskId(null)}
+        onConfirm={handleDeleteTask}
+        title="Delete Task"
+        message="Are you sure you want to delete this task?"
         confirmLabel="Delete"
         danger
       />

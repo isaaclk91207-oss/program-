@@ -520,6 +520,7 @@ export class DriverService {
         driverId,
         title: data.title,
         description: data.description || null,
+        estimatedDurationMs: data.estimatedDurationMs || null,
         startedAt: new Date(),
         status: "ACTIVE",
       },
@@ -575,6 +576,7 @@ export class DriverService {
     driverId: string;
     title: string;
     description: string | null;
+    estimatedDurationMs: number | null;
     startedAt: Date;
     endedAt: Date | null;
     status: string;
@@ -585,6 +587,7 @@ export class DriverService {
       driverId: t.driverId,
       title: t.title,
       description: t.description,
+      estimatedDurationMs: t.estimatedDurationMs || null,
       startedAt: t.startedAt.toISOString(),
       endedAt: t.endedAt?.toISOString() || null,
       status: t.status,

@@ -155,6 +155,7 @@ async function main() {
     { id: "PAS-00094", email: "mya@company.com", name: "Daw Mya", department: "Operations", phone: "+95 9 423 4567" },
     { id: "PAS-00071", email: "thein.aung@company.com", name: "U Thein Aung", department: "Marketing", phone: "+95 9 523 4567" },
     { id: "PAS-00061", email: "sandar@company.com", name: "Daw Sandar", department: "IT", phone: "+95 9 623 4567" },
+    { id: "PAS-00150", email: "mee.mee@company.com", name: "Mee Mee", department: "CEO Office", phone: "+95 9 723 4567" },
   ];
 
   const passengerUserIds: Record<string, string> = {};

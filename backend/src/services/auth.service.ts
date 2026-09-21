@@ -44,6 +44,7 @@ export class AuthService {
     name: string;
     role: "ADMIN" | "DRIVER" | "PASSENGER";
     phone?: string;
+    department?: string;
   }): Promise<LoginResponse> {
     const existingUser = await prisma.user.findUnique({
       where: { email: data.email },
@@ -64,6 +65,12 @@ export class AuthService {
         phone: data.phone,
       },
     });
+
+    if (data.role === "PASSENGER" && data.department) {
+      await prisma.passengerProfile.create({
+        data: { userId: user.id, department: data.department },
+      });
+    }
 
     const token = generateToken({
       id: user.id,

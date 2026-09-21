@@ -144,7 +144,7 @@ export async function getDriverTasks(driverId: string): Promise<DriverTask[]> {
   return res.data;
 }
 
-export async function createDriverTask(driverId: string, data: { title: string; description?: string; estimatedDurationMs?: number }): Promise<DriverTask> {
+export async function createDriverTask(driverId: string, data: { title: string; description?: string; vehicleId?: string; estimatedDurationMs?: number }): Promise<DriverTask> {
   const res = await api.post(`/drivers/${driverId}/tasks`, data);
   return res.data;
 }

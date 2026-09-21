@@ -269,12 +269,15 @@ export interface TripHoursEntry {
 export interface CreateDriverTaskDto {
   title: string;
   description?: string;
+  vehicleId?: string;
   estimatedDurationMs?: number;
 }
 
 export interface DriverTaskResponse {
   id: string;
   driverId: string;
+  vehicleId: string | null;
+  vehiclePlate: string | null;
   title: string;
   description: string | null;
   estimatedDurationMs: number | null;

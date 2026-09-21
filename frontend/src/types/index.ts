@@ -169,6 +169,8 @@ export interface TripHoursEntry {
 export interface DriverTask {
   id: string;
   driverId: string;
+  vehicleId: string | null;
+  vehiclePlate: string | null;
   title: string;
   description: string | null;
   estimatedDurationMs: number | null;

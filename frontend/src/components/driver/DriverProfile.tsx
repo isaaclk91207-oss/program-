@@ -182,6 +182,7 @@ export default function DriverProfile({
                       <p className="text-xs text-on-surface-variant dark:text-outline-variant truncate">{t.description}</p>
                     )}
                     <div className="flex gap-3 mt-1 text-xs text-on-surface-variant dark:text-outline-variant">
+                      {t.vehiclePlate && <span className="font-mono">{t.vehiclePlate}</span>}
                       {estHours !== null && <span>Est: {estHours}h</span>}
                       <span>Started: {new Date(t.startedAt).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}</span>
                     </div>

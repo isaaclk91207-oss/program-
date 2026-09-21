@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Card, Button, Badge, CertBadge, SearchInput, th, ConfirmDialog, Icon } from "../ui";
 import DriverDetail from "./DriverDetail";
 import DriverForm from "./DriverForm";
-import type { Driver } from "../../types";
+import type { Driver, Vehicle } from "../../types";
 
 function getDisplayId(d: Driver): string {
   if (d.version === "v2" && d.employeeId) return d.employeeId;
@@ -11,10 +11,11 @@ function getDisplayId(d: Driver): string {
 }
 
 export default function DriversList({
-  drivers, selectedDriver, onSelectDriver, onUpdateAssessment, onRefresh, onExport,
+  drivers, vehicles, selectedDriver, onSelectDriver, onUpdateAssessment, onRefresh, onExport,
   onAddDriver, onDeleteDriver, onUpdateDriver,
 }: {
   drivers: Driver[];
+  vehicles: Vehicle[];
   selectedDriver: Driver | null;
   onSelectDriver: (d: Driver | null) => void;
   onUpdateAssessment: (driverId: string, data: { written: number; practical: Record<string, number>; operational: Record<string, number> }) => void;
@@ -36,6 +37,7 @@ export default function DriversList({
     return (
       <DriverDetail
         driver={selectedDriver}
+        vehicles={vehicles}
         onBack={() => onSelectDriver(null)}
         onUpdateAssessment={(data) => onUpdateAssessment(selectedDriver.id, data)}
         onUpdateDriver={(data) => onUpdateDriver(selectedDriver.id, data)}

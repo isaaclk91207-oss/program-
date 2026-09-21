@@ -78,6 +78,7 @@ model Vehicle {
   feedbackRecords   Feedback[]
   vehicleCheckins   VehicleCheckin[]
   ecoDrivingRecords EcoDrivingRecord[]
+  driverTasks       DriverTask[]
   @@map("vehicles")
 }
 
@@ -225,17 +226,19 @@ model EcoDrivingRecord {
 }
 
 model DriverTask {
-  id                 String    @id @default(uuid())
-  driverId           String
-  title              String
-  description        String?
+  id                  String    @id @default(uuid())
+  driverId            String
+  vehicleId           String?
+  title               String
+  description         String?
   estimatedDurationMs Int?
-  startedAt          DateTime
-  endedAt            DateTime?
-  status             String    @default("ACTIVE") // ACTIVE | COMPLETED
-  createdAt          DateTime  @default(now())
+  startedAt           DateTime
+  endedAt             DateTime?
+  status              String    @default("ACTIVE") // ACTIVE | COMPLETED
+  createdAt           DateTime  @default(now())
 
-  driver DriverProfile @relation(fields: [driverId], references: [userId], onDelete: Cascade)
+  driver  DriverProfile @relation(fields: [driverId], references: [userId], onDelete: Cascade)
+  vehicle Vehicle?      @relation(fields: [vehicleId], references: [id], onDelete: SetNull)
 
   @@map("driver_tasks")
 }

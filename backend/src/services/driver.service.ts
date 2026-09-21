@@ -520,10 +520,12 @@ export class DriverService {
         driverId,
         title: data.title,
         description: data.description || null,
+        vehicleId: data.vehicleId || null,
         estimatedDurationMs: data.estimatedDurationMs || null,
         startedAt: new Date(),
         status: "ACTIVE",
       },
+      include: { vehicle: { select: { plate: true } } },
     });
 
     return this.formatTaskResponse(task);
@@ -533,6 +535,7 @@ export class DriverService {
     const tasks = await prisma.driverTask.findMany({
       where: { driverId },
       orderBy: { createdAt: "desc" },
+      include: { vehicle: { select: { plate: true } } },
     });
 
     return tasks.map((t) => this.formatTaskResponse(t));
@@ -557,6 +560,7 @@ export class DriverService {
     const updated = await prisma.driverTask.update({
       where: { id: taskId },
       data: updateData,
+      include: { vehicle: { select: { plate: true } } },
     });
 
     return this.formatTaskResponse(updated);
@@ -574,6 +578,7 @@ export class DriverService {
   private formatTaskResponse(t: {
     id: string;
     driverId: string;
+    vehicleId: string | null;
     title: string;
     description: string | null;
     estimatedDurationMs: number | null;
@@ -581,10 +586,13 @@ export class DriverService {
     endedAt: Date | null;
     status: string;
     createdAt: Date;
+    vehicle?: { plate: string } | null;
   }): DriverTaskResponse {
     return {
       id: t.id,
       driverId: t.driverId,
+      vehicleId: t.vehicleId || null,
+      vehiclePlate: t.vehicle?.plate || null,
       title: t.title,
       description: t.description,
       estimatedDurationMs: t.estimatedDurationMs || null,

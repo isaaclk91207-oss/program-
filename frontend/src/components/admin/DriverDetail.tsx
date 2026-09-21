@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Card, Button, Badge, CertBadge, ProgressBar, Tabs, th, ConfirmDialog, StarRating, Icon } from "../ui";
 import { getDriverFeedback, getDrivingHours, getDriverTasks, createDriverTask, updateDriverTask, deleteDriverTask } from "../../services/api";
 import { onTripStatusChanged } from "../../services/socket";
-import type { Driver, Feedback, Assessment, TripHoursEntry, DriverTask } from "../../types";
+import type { Driver, Feedback, Assessment, TripHoursEntry, DriverTask, Vehicle } from "../../types";
 
 function getDisplayId(d: Driver): string {
   if (d.version === "v2" && d.employeeId) return d.employeeId;
@@ -17,6 +17,7 @@ const PASS_MARKS: Record<string, number> = { CD: 75, CC: 80, CPC: 85, CEC: 88, C
 
 export default function DriverDetail({
   driver,
+  vehicles,
   onBack,
   onUpdateAssessment,
   onUpdateDriver,
@@ -27,6 +28,7 @@ export default function DriverDetail({
   onUnsuspendDriver,
 }: {
   driver: Driver;
+  vehicles: Vehicle[];
   onBack: () => void;
   onUpdateAssessment: (data: { written: number; practical: Record<string, number>; operational: Record<string, number> }) => void;
   onUpdateDriver: (data: Record<string, unknown>) => void;
@@ -46,6 +48,7 @@ export default function DriverDetail({
   const [taskTitle, setTaskTitle] = useState("");
   const [taskDescription, setTaskDescription] = useState("");
   const [taskDurationHours, setTaskDurationHours] = useState("");
+  const [taskVehicleId, setTaskVehicleId] = useState("");
   const [creatingTask, setCreatingTask] = useState(false);
   const [deletingTaskId, setDeletingTaskId] = useState<string | null>(null);
 
@@ -109,11 +112,13 @@ export default function DriverDetail({
       await createDriverTask(driver.id, {
         title: taskTitle.trim(),
         description: taskDescription.trim() || undefined,
+        vehicleId: taskVehicleId || undefined,
         estimatedDurationMs: durationMs,
       });
       setTaskTitle("");
       setTaskDescription("");
       setTaskDurationHours("");
+      setTaskVehicleId("");
       loadTasks();
       loadHours();
     } catch (err) {
@@ -568,6 +573,19 @@ export default function DriverDetail({
                 />
               </div>
               <div>
+                <label className={`text-sm ${th.textSecondary}`}>Vehicle (optional)</label>
+                <select
+                  value={taskVehicleId}
+                  onChange={(e) => setTaskVehicleId(e.target.value)}
+                  className={`w-full mt-1 px-3 py-2 text-sm rounded-lg border ${th.bgInput} ${th.border} ${th.text} focus:outline-none focus:border-emerald-500`}
+                >
+                  <option value="">No vehicle</option>
+                  {vehicles.filter((v) => v.status === "ACTIVE").map((v) => (
+                    <option key={v.id} value={v.id}>{v.plate} — {v.make} {v.model}</option>
+                  ))}
+                </select>
+              </div>
+              <div>
                 <label className={`text-sm ${th.textSecondary}`}>Estimated Duration (hours)</label>
                 <input
                   type="number"
@@ -615,6 +633,7 @@ export default function DriverDetail({
                             <p className={`text-xs ${th.textMuted} mt-1`}>{t.description}</p>
                           )}
                           <div className={`flex gap-3 mt-1 text-xs ${th.textSecondary}`}>
+                            {t.vehiclePlate && <span className="font-mono">{t.vehiclePlate}</span>}
                             {estHours !== null && <span>Est: {estHours}h</span>}
                             {actualHours !== null && <span>Actual: {actualHours}h</span>}
                             <span>Started: {new Date(t.startedAt).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}</span>

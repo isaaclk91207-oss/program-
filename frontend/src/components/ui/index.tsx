@@ -382,6 +382,52 @@ export function KPICard({
   );
 }
 
+// ─── HoursCard ────────────────────────────────────────────────────────────────
+
+export type HoursType = "trip" | "driving" | "waiting" | "task";
+
+const HOURS_CONFIG: Record<HoursType, { icon: string; color: string; label: string; description: string }> = {
+  trip: { icon: "schedule", color: "blue", label: "Trip Hours", description: "QR pickup → QR dropoff" },
+  driving: { icon: "directions_car", color: "emerald", label: "Driving Hours", description: "Admin check-in → check-out" },
+  waiting: { icon: "hourglass_top", color: "amber", label: "Waiting Time", description: "Manual start → stop" },
+  task: { icon: "assignment", color: "purple", label: "Task Hours", description: "Admin-assigned tasks" },
+};
+
+interface HoursCardProps {
+  type: HoursType;
+  value: number | string;
+  description?: string;
+  showDescription?: boolean;
+  onClick?: () => void;
+}
+
+export function HoursCard({ type, value, description, showDescription = true, onClick }: HoursCardProps) {
+  const config = HOURS_CONFIG[type];
+  const { icon: IconName, color, label, description: defaultDesc } = config;
+  const Icon = ({ size = 24, className = "" }: { size?: number; className?: string }) => (
+    <span className={`material-symbols-outlined ${className}`} style={{ fontSize: size, fontFamily: "'Material Symbols Outlined'" }}>{IconName}</span>
+  );
+
+  return (
+    <Card className={`p-4 ${onClick ? "cursor-pointer transition-colors hover:bg-surface-container-low" : ""}`} onClick={onClick}>
+      <div className="flex items-start justify-between gap-4">
+        <div className="flex-1 min-w-0">
+          <p className={`text-xs ${th.textSecondary} uppercase tracking-wider`}>{label}</p>
+          <p className={`text-2xl font-bold ${color === "blue" ? "text-blue-500 dark:text-blue-400" : color === "emerald" ? "text-emerald-500 dark:text-emerald-400" : color === "amber" ? "text-amber-500 dark:text-amber-400" : color === "purple" ? "text-purple-500 dark:text-purple-400" : th.text}`}>
+            {value}
+          </p>
+          {showDescription && (
+            <p className={`text-xs ${th.textMuted} mt-1 truncate`}>{description || defaultDesc}</p>
+          )}
+        </div>
+        <div className={`shrink-0 ${color === "blue" ? "text-blue-500 dark:text-blue-400" : color === "emerald" ? "text-emerald-500 dark:text-emerald-400" : color === "amber" ? "text-amber-500 dark:text-amber-400" : color === "purple" ? "text-purple-500 dark:text-purple-400" : th.text}`}>
+          <Icon size={28} />
+        </div>
+      </div>
+    </Card>
+  );
+}
+
 // ─── ProgressBar ────────────────────────────────────────────────────────────
 
 export function ProgressBar({

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Icon } from "../ui";
+import { Icon, HoursCard } from "../ui";
 import { getDrivingHours, getDriverTasks, updateDriverTask } from "../../services/api";
 import { onTripStatusChanged } from "../../services/socket";
 import type { TransportRequest, TripHoursEntry, DriverTask } from "../../types";
@@ -103,6 +103,11 @@ export default function DriverProfile({
         </div>
 
         <div className="grid grid-cols-3 gap-3 mt-5">
+          <HoursCard type="trip" value={tripHours !== null ? tripHours : "—"} />
+          <HoursCard type="driving" value={drivingHours !== null ? drivingHours : "—"} />
+          <HoursCard type="waiting" value={waitingTimeMs > 0 ? Math.round((waitingTimeMs / 3600000) * 10) / 10 : "—"} />
+        </div>
+        <div className="grid grid-cols-3 gap-3 mt-3">
           <div className="bg-surface-container-low dark:bg-navy-900 rounded-xl p-3 border border-border-hairline dark:border-outline-variant">
             <Icon name="directions_car" size={20} className="text-role-driver dark:text-purple-400 mx-auto mb-1" />
             <p className="font-stat-lg text-stat-lg text-on-surface dark:text-white">{trips.length}</p>
@@ -113,28 +118,7 @@ export default function DriverProfile({
             <p className="font-stat-lg text-stat-lg text-on-surface dark:text-white">{completed}</p>
             <p className="font-label-caps text-label-caps uppercase text-on-surface-variant dark:text-outline-variant">Completed</p>
           </div>
-          <div className="bg-surface-container-low dark:bg-navy-900 rounded-xl p-3 border border-border-hairline dark:border-outline-variant">
-            <Icon name="schedule" size={20} className="text-blue-500 dark:text-blue-400 mx-auto mb-1" />
-            <p className="font-stat-lg text-stat-lg text-on-surface dark:text-white">{tripHours !== null ? tripHours : "—"}</p>
-            <p className="font-label-caps text-label-caps uppercase text-on-surface-variant dark:text-outline-variant">Trip Hrs</p>
-          </div>
-        </div>
-        <div className="grid grid-cols-3 gap-3 mt-3">
-          <div className="bg-surface-container-low dark:bg-navy-900 rounded-xl p-3 border border-border-hairline dark:border-outline-variant">
-            <Icon name="play_arrow" size={20} className="text-emerald-500 dark:text-emerald-400 mx-auto mb-1" />
-            <p className="font-stat-lg text-stat-lg text-on-surface dark:text-white">{drivingHours !== null ? drivingHours : "—"}</p>
-            <p className="font-label-caps text-label-caps uppercase text-on-surface-variant dark:text-outline-variant">Driving Hrs</p>
-          </div>
-          <div className="bg-surface-container-low dark:bg-navy-900 rounded-xl p-3 border border-border-hairline dark:border-outline-variant">
-            <Icon name="hourglass_top" size={20} className="text-amber-500 dark:text-amber-400 mx-auto mb-1" />
-            <p className="font-stat-lg text-stat-lg text-on-surface dark:text-white">{waitingTimeMs > 0 ? Math.round((waitingTimeMs / 3600000) * 10) / 10 : "—"}</p>
-            <p className="font-label-caps text-label-caps uppercase text-on-surface-variant dark:text-outline-variant">Waiting Hrs</p>
-          </div>
-          <div className="bg-surface-container-low dark:bg-navy-900 rounded-xl p-3 border border-border-hairline dark:border-outline-variant">
-            <Icon name="assignment" size={20} className="text-purple-500 dark:text-purple-400 mx-auto mb-1" />
-            <p className="font-stat-lg text-stat-lg text-on-surface dark:text-white">{taskHours > 0 ? taskHours : "—"}</p>
-            <p className="font-label-caps text-label-caps uppercase text-on-surface-variant dark:text-outline-variant">Task Hrs</p>
-          </div>
+          <HoursCard type="task" value={taskHours > 0 ? taskHours : "—"} />
         </div>
       </div>
 

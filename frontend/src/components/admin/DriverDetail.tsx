@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Card, Button, Badge, CertBadge, ProgressBar, Tabs, th, ConfirmDialog, StarRating, Icon } from "../ui";
+import { Card, Button, Badge, CertBadge, ProgressBar, Tabs, th, ConfirmDialog, StarRating, Icon, HoursCard } from "../ui";
 import { getDriverFeedback, getDrivingHours, getDriverTasks, createDriverTask, updateDriverTask, deleteDriverTask } from "../../services/api";
 import { onTripStatusChanged } from "../../services/socket";
 import type { Driver, Feedback, Assessment, TripHoursEntry, DriverTask, Vehicle } from "../../types";
@@ -252,33 +252,11 @@ export default function DriverDetail({
                 <p className={th.textSecondary}>Accident Free</p>
                 <p className={th.text}>{driver.accidentFree || "—"}</p>
               </div>
-              <div className="flex items-center gap-2">
-                <Icon name="schedule" size={16} />
-                <div>
-                  <p className={th.textSecondary}>Trip Hours</p>
-                  <p className={th.text}>{drivingHours ? `${drivingHours.tripHours}h (${drivingHours.tripCount} trips)` : "—"}</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-2">
-                <Icon name="play_arrow" size={16} />
-                <div>
-                  <p className={th.textSecondary}>Driving Hours</p>
-                  <p className={`${th.text} font-bold`}>{drivingHours ? `${drivingHours.drivingHours}h` : "—"}</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-2">
-                <Icon name="hourglass_top" size={16} />
-                <div>
-                  <p className={th.textSecondary}>Waiting Time</p>
-                  <p className={`${th.text} font-bold`}>{drivingHours ? `${Math.round((drivingHours.waitingTimeMs || 0) / 3600000 * 10) / 10}h` : "—"}</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-2">
-                <Icon name="assignment" size={16} />
-                <div>
-                  <p className={th.textSecondary}>Task Hours</p>
-                  <p className={`${th.text} font-bold`}>{drivingHours ? `${drivingHours.taskHours || 0}h` : "—"}</p>
-                </div>
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+                <HoursCard type="trip" value={drivingHours ? `${drivingHours.tripHours}h (${drivingHours.tripCount} trips)` : "—"} showDescription={false} />
+                <HoursCard type="driving" value={drivingHours ? `${drivingHours.drivingHours}h` : "—"} showDescription={false} />
+                <HoursCard type="waiting" value={drivingHours ? `${Math.round((drivingHours.waitingTimeMs || 0) / 3600000 * 10) / 10}h` : "—"} showDescription={false} />
+                <HoursCard type="task" value={drivingHours ? `${drivingHours.taskHours || 0}h` : "—"} showDescription={false} />
               </div>
 
               {drivingHours && drivingHours.trips.length > 0 && (

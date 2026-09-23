@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Card, Badge, KPICard, ProgressBar, th, Icon } from "../ui";
+import { Card, Badge, KPICard, ProgressBar, th, Icon, HoursCard } from "../ui";
 import type { DashboardStats } from "../../types";
 import { formatRequestId } from "../../types";
 import { getStatusLabel } from "../../lib/status";
@@ -21,39 +21,10 @@ export default function AdminDashboard({ data }: { data: DashboardStats }) {
       </div>
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-        <Card className="p-4">
-          <div className="flex items-center gap-2 mb-1">
-            <Icon name="schedule" size={18} className="text-blue-600" />
-            <h3 className="font-semibold text-sm">Trip Hours</h3>
-          </div>
-          <p className="text-2xl font-bold text-blue-600">{data.totalTripHours || 0}<span className="text-sm font-normal text-slate-500 ml-1">hrs</span></p>
-          <p className="text-xs text-slate-400 mt-1">QR pickup → QR dropoff</p>
-        </Card>
-        <Card className="p-4">
-          <div className="flex items-center gap-2 mb-1">
-            <Icon name="directions_car" size={18} className="text-emerald-600" />
-            <h3 className="font-semibold text-sm">Driving Hours</h3>
-          </div>
-          <p className="text-2xl font-bold text-emerald-600">{data.totalDrivingHours || 0}<span className="text-sm font-normal text-slate-500 ml-1">hrs</span></p>
-          <p className="text-xs text-slate-400 mt-1">Admin check-in → check-out</p>
-        </Card>
-        <Card className="p-4">
-          <div className="flex items-center gap-2 mb-1">
-            <Icon name="hourglass_top" size={18} className="text-amber-600" />
-            <h3 className="font-semibold text-sm">Waiting Time</h3>
-          </div>
-          <p className="text-2xl font-bold text-amber-600">{Math.round((data.totalWaitingTimeMs || 0) / 3600000 * 10) / 10}<span className="text-sm font-normal text-slate-500 ml-1">hrs</span></p>
-          <p className="text-xs text-slate-400 mt-1">Manual start → stop</p>
-        </Card>
-        <Card className="p-4">
-          <div className="flex items-center gap-2 mb-1">
-            <Icon name="assignment" size={18} className="text-purple-600" />
-            <h3 className="font-semibold text-sm">Task Hours</h3>
-          </div>
-          <p className="text-2xl font-bold text-purple-600">{data.totalTaskHours || 0}<span className="text-sm font-normal text-slate-500 ml-1">hrs</span></p>
-          <p className="text-xs text-slate-400 mt-1">Admin-assigned tasks</p>
-        </Card>
-
+        <HoursCard type="trip" value={data.totalTripHours || 0} />
+        <HoursCard type="driving" value={data.totalDrivingHours || 0} />
+        <HoursCard type="waiting" value={Math.round((data.totalWaitingTimeMs || 0) / 3600000 * 10) / 10} />
+        <HoursCard type="task" value={data.totalTaskHours || 0} />
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">

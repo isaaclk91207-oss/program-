@@ -52,6 +52,19 @@ export class AdminController {
     }
   }
 
+  async exportExcel(req: AuthenticatedRequest, res: Response, next: NextFunction) {
+    try {
+      const { type } = req.params;
+      const buffer = await adminService.exportToExcel(type);
+      const filename = `${type}_${new Date().toISOString().split("T")[0]}.xlsx`;
+      res.setHeader("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+      res.setHeader("Content-Disposition", `attachment; filename="${filename}"`);
+      res.send(buffer);
+    } catch (err) {
+      next(err);
+    }
+  }
+
   async getNetprosStatus(_req: AuthenticatedRequest, res: Response, next: NextFunction) {
     try {
       const status = netprosService.getSyncStatus();

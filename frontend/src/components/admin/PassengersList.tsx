@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import { Card, Badge, SearchInput, th, EmptyState, Icon } from "../ui";
+import { Button, SearchInput, th, EmptyState, Icon, DataTable, TableRow, TableCell } from "../ui";
+import { exportExcel, exportCSV, downloadBlob } from "../../services/api";
 import { getPassengers } from "../../services/api";
 
 interface PassengerRecord {
@@ -16,6 +17,7 @@ export default function PassengersList() {
   const [passengers, setPassengers] = useState<PassengerRecord[]>([]);
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
+  const [exporting, setExporting] = useState(false);
 
   useEffect(() => { loadPassengers(); }, []);
 
@@ -31,6 +33,19 @@ export default function PassengersList() {
     }
   }
 
+  async function handleExport(format: "excel" | "csv") {
+    setExporting(true);
+    try {
+      const blob = format === "excel" ? await exportExcel("passengers") : await exportCSV("passengers");
+      const filename = `passengers_${new Date().toISOString().split("T")[0]}.${format === "excel" ? "xlsx" : "csv"}`;
+      downloadBlob(blob, filename);
+    } catch (err) {
+      console.error("Export failed:", err);
+    } finally {
+      setExporting(false);
+    }
+  }
+
   const filtered = passengers.filter(
     (p) => search === "" || p.name.toLowerCase().includes(search.toLowerCase()) || p.email.toLowerCase().includes(search.toLowerCase()) || p.department.toLowerCase().includes(search.toLowerCase())
   );
@@ -42,7 +57,19 @@ export default function PassengersList() {
           <h2 className="text-2xl font-bold">Passengers</h2>
           <span className={`text-sm ${th.textMuted}`}>({filtered.length})</span>
         </div>
-        <SearchInput value={search} onChange={setSearch} placeholder="Search passengers..." className="w-full sm:w-64" />
+        <div className="flex items-center gap-2">
+          <SearchInput value={search} onChange={setSearch} placeholder="Search passengers..." className="w-full sm:w-64" />
+          <div className="flex items-center gap-1">
+            <Button variant="secondary" size="sm" onClick={() => handleExport("excel")} disabled={exporting}>
+              <Icon name="table_chart" size={16} className="mr-1" />
+              {exporting ? "Exporting..." : "Excel"}
+            </Button>
+            <Button variant="secondary" size="sm" onClick={() => handleExport("csv")} disabled={exporting}>
+              <Icon name="description" size={16} className="mr-1" />
+              {exporting ? "Exporting..." : "CSV"}
+            </Button>
+          </div>
+        </div>
       </div>
 
       {loading ? (
@@ -50,36 +77,18 @@ export default function PassengersList() {
       ) : filtered.length === 0 ? (
         <EmptyState message="No passengers found" />
       ) : (
-        <div className="space-y-2">
+        <DataTable headers={["Name", "Email", "Phone", "Department", "Total Requests", "Completed"]}>
           {filtered.map((p) => (
-            <Card key={p.id} className="p-3">
-              <div className="flex justify-between items-center">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-slate-100 dark:bg-slate-800 rounded-full flex items-center justify-center">
-                    <Icon name="person" size={20} className="text-slate-400" />
-                  </div>
-                  <div>
-                    <p className={`text-sm font-medium ${th.text}`}>{p.name}</p>
-                    <div className="flex items-center gap-3 text-xs text-slate-500">
-                      <span className="flex items-center gap-1"><Icon name="mail" size={12} />{p.email}</span>
-                      <span className="flex items-center gap-1"><Icon name="business" size={12} />{p.department}</span>
-                    </div>
-                  </div>
-                </div>
-                <div className="flex items-center gap-3 text-xs">
-                  <div className="text-center">
-                    <p className={`font-bold ${th.text}`}>{p.totalRequests}</p>
-                    <p className={th.textMuted}>Requests</p>
-                  </div>
-                  <div className="text-center">
-                    <p className="font-bold text-emerald-500">{p.completedRequests}</p>
-                    <p className={th.textMuted}>Completed</p>
-                  </div>
-                </div>
-              </div>
-            </Card>
+            <TableRow key={p.id}>
+              <TableCell className="font-medium">{p.name}</TableCell>
+              <TableCell>{p.email}</TableCell>
+              <TableCell>{p.phone || "—"}</TableCell>
+              <TableCell>{p.department}</TableCell>
+              <TableCell className="text-center">{p.totalRequests}</TableCell>
+              <TableCell className="text-center text-emerald-500 font-bold">{p.completedRequests}</TableCell>
+            </TableRow>
           ))}
-        </div>
+        </DataTable>
       )}
     </div>
   );

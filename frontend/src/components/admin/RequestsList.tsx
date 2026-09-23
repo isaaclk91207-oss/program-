@@ -1,5 +1,6 @@
 import { useState, useMemo } from "react";
 import { Card, Button, Badge, EmptyState, SearchInput, th, Icon, DataTable, TableRow, TableCell } from "../ui";
+import { exportExcel, exportCSV, downloadBlob } from "../../services/api";
 import AssignModal from "./AssignModal";
 import BatchAssignModal from "./BatchAssignModal";
 import type { TransportRequest, Driver, Vehicle } from "../../types";
@@ -38,6 +39,7 @@ export default function RequestsList({
   const [filter, setFilter] = useState("ALL");
   const [search, setSearch] = useState("");
   const [inlineAssign, setInlineAssign] = useState<Record<string, { driverId: string; vehicleId: string }>>({});
+  const [exporting, setExporting] = useState(false);
 
   // Multi-select state
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
@@ -110,6 +112,19 @@ export default function RequestsList({
       .filter((v) => !version || (v.version ?? "v1") === version);
   }
 
+  async function handleExport(format: "excel" | "csv") {
+    setExporting(true);
+    try {
+      const blob = format === "excel" ? await exportExcel("requests") : await exportCSV("requests");
+      const filename = `requests_${new Date().toISOString().split("T")[0]}.${format === "excel" ? "xlsx" : "csv"}`;
+      downloadBlob(blob, filename);
+    } catch (err) {
+      console.error("Export failed:", err);
+    } finally {
+      setExporting(false);
+    }
+  }
+
   function handleInlineAssign(requestId: string) {
     const sel = inlineAssign[requestId];
     if (!sel || !sel.driverId || !sel.vehicleId) return;
@@ -164,6 +179,16 @@ export default function RequestsList({
           <h2 className="text-2xl font-bold">Transport Requests</h2>
         </div>
         <SearchInput value={search} onChange={setSearch} placeholder="Search requests..." className="w-full sm:w-64" />
+        <div className="flex items-center gap-1">
+          <Button variant="secondary" size="sm" onClick={() => handleExport("excel")} disabled={exporting}>
+            <Icon name="table_chart" size={16} className="mr-1" />
+            {exporting ? "Exporting..." : "Excel"}
+          </Button>
+          <Button variant="secondary" size="sm" onClick={() => handleExport("csv")} disabled={exporting}>
+            <Icon name="description" size={16} className="mr-1" />
+            {exporting ? "Exporting..." : "CSV"}
+          </Button>
+        </div>
       </div>
 
       {/* Status filter pills */}

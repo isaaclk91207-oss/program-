@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Card, Button, Badge, CertBadge, SearchInput, th, ConfirmDialog, Icon } from "../ui";
+import { Card, Button, Badge, CertBadge, SearchInput, th, ConfirmDialog, Icon, DataTable, TableRow, TableCell } from "../ui";
+import { exportExcel, exportCSV, downloadBlob } from "../../services/api";
 import DriverDetail from "./DriverDetail";
 import DriverForm from "./DriverForm";
 import type { Driver, Vehicle } from "../../types";
@@ -10,8 +11,21 @@ function getDisplayId(d: Driver): string {
   return d.id.substring(0, 8);
 }
 
+function formatPhone(phone: string | null) {
+  return phone || "—";
+}
+
+function getStatusBadge(status: string) {
+  const colors: Record<string, string> = {
+    Active: "ACTIVE",
+    Suspended: "SUSPENDED",
+    Inactive: "RETIRED",
+  };
+  return colors[status] || "PENDING";
+}
+
 export default function DriversList({
-  drivers, vehicles, selectedDriver, onSelectDriver, onUpdateAssessment, onRefresh, onExport,
+  drivers, vehicles, selectedDriver, onSelectDriver, onUpdateAssessment, onRefresh,
   onAddDriver, onDeleteDriver, onUpdateDriver,
 }: {
   drivers: Driver[];
@@ -20,7 +34,6 @@ export default function DriversList({
   onSelectDriver: (d: Driver | null) => void;
   onUpdateAssessment: (driverId: string, data: { written: number; practical: Record<string, number>; operational: Record<string, number> }) => void;
   onRefresh: () => void;
-  onExport: () => void;
   onAddDriver: (data: { email: string; password: string; name: string; phone?: string }) => void;
   onDeleteDriver: (id: string) => void;
   onUpdateDriver: (id: string, data: Record<string, unknown>) => void;
@@ -28,10 +41,24 @@ export default function DriversList({
   const [search, setSearch] = useState("");
   const [showForm, setShowForm] = useState(false);
   const [deleteTarget, setDeleteTarget] = useState<Driver | null>(null);
+  const [exporting, setExporting] = useState(false);
 
   const filtered = drivers.filter(
     (d) => search === "" || d.name.toLowerCase().includes(search.toLowerCase()) || d.id.toLowerCase().includes(search.toLowerCase()) || d.email.toLowerCase().includes(search.toLowerCase())
   );
+
+  const handleExport = async (format: "excel" | "csv") => {
+    setExporting(true);
+    try {
+      const blob = format === "excel" ? await exportExcel("drivers") : await exportCSV("drivers");
+      const filename = `drivers_${new Date().toISOString().split("T")[0]}.${format === "excel" ? "xlsx" : "csv"}`;
+      downloadBlob(blob, filename);
+    } catch (err) {
+      console.error("Export failed:", err);
+    } finally {
+      setExporting(false);
+    }
+  };
 
   if (selectedDriver) {
     return (
@@ -59,30 +86,44 @@ export default function DriversList({
         </div>
         <div className="flex items-center gap-2">
           <SearchInput value={search} onChange={setSearch} placeholder="Search drivers..." className="w-full sm:w-64" />
-          <Button variant="secondary" size="sm" onClick={onExport}><Icon name="download" size={16} />Export</Button>
-          <Button accent="admin" size="sm" onClick={() => setShowForm(true)}><Icon name="add" size={16} />Add</Button>
+          <div className="flex items-center gap-1">
+            <Button variant="secondary" size="sm" onClick={() => handleExport("excel")} disabled={exporting}>
+              <Icon name="table_chart" size={16} className="mr-1" />
+              {exporting ? "Exporting..." : "Excel"}
+            </Button>
+            <Button variant="secondary" size="sm" onClick={() => handleExport("csv")} disabled={exporting}>
+              <Icon name="description" size={16} className="mr-1" />
+              {exporting ? "Exporting..." : "CSV"}
+            </Button>
+            <Button accent="admin" size="sm" onClick={() => setShowForm(true)}><Icon name="add" size={16} />Add</Button>
+          </div>
         </div>
       </div>
-      <div className="space-y-2">
+      <DataTable headers={["Name", "ID", "Email", "Phone", "Cert Level", "Cert Status", "Valid Until", "Vehicle", "Score", "Rating", "Status", "Actions"]}>
         {filtered.map((d) => (
-          <Card key={d.id} className={`p-3 cursor-pointer ${th.borderHover}`} onClick={() => onSelectDriver(d)}>
-            <div className="flex justify-between items-center">
-              <div>
-                <p className={`text-sm font-medium ${th.text}`}>{d.name} <span className={`${th.textMuted} font-mono`}>{getDisplayId(d)}</span></p>
-                <p className={`text-xs ${th.textMuted}`}>Score: {d.score} · <Icon name="star" size={12} />{d.rating} · {d.currentVehiclePlate || "No vehicle"}</p>
-              </div>
-              <div className="flex items-center gap-2">
-                <CertBadge level={d.certLevel} />
-                <Badge status={d.certStatus}>{d.certStatus}</Badge>
-                <Badge status={d.status}>{d.status}</Badge>
-                <button onClick={(e) => { e.stopPropagation(); setDeleteTarget(d); }} className="text-slate-400 hover:text-rose-500 p-1">
-                  <Icon name="delete" size={16} />
-                </button>
-              </div>
-            </div>
-          </Card>
+          <TableRow key={d.id} onClick={() => onSelectDriver(d)}>
+            <TableCell className="font-medium">{d.name}</TableCell>
+            <TableCell className="font-mono">{getDisplayId(d)}</TableCell>
+            <TableCell>{d.email}</TableCell>
+            <TableCell>{formatPhone(d.phone)}</TableCell>
+            <TableCell><CertBadge level={d.certLevel} /></TableCell>
+            <TableCell><Badge status={d.certStatus}>{d.certStatus}</Badge></TableCell>
+            <TableCell>{d.validUntil ? d.validUntil.split("T")[0] : "—"}</TableCell>
+            <TableCell className="font-mono">{d.currentVehiclePlate || "—"}</TableCell>
+            <TableCell className="text-right">{d.score}</TableCell>
+            <TableCell className="text-right">{d.rating}</TableCell>
+            <TableCell><Badge status={getStatusBadge(d.status)}>{d.status}</Badge></TableCell>
+            <TableCell>
+              <button
+                onClick={(e) => { e.stopPropagation(); setDeleteTarget(d); }}
+                className="text-slate-400 hover:text-rose-500 p-1"
+              >
+                <Icon name="delete" size={16} />
+              </button>
+            </TableCell>
+          </TableRow>
         ))}
-      </div>
+      </DataTable>
 
       <DriverForm open={showForm} onClose={() => setShowForm(false)} onSubmit={(data) => { onAddDriver(data); setShowForm(false); }} />
 

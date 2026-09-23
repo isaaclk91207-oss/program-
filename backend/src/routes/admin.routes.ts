@@ -15,6 +15,7 @@ router.get("/gps/live", adminController.getLiveLocations);
 router.get("/settings", adminController.getSettings);
 router.put("/settings", adminController.updateSettings);
 router.get("/export/:type", adminController.exportData);
+router.get("/export/excel/:type", adminController.exportExcel);
 router.get("/netpros/status", adminController.getNetprosStatus);
 router.post("/netpros/sync", adminController.triggerNetprosSync);
 router.post("/netpros/sync-gps-ids", adminController.syncGpsDeviceIds);

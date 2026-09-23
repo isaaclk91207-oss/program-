@@ -1,5 +1,6 @@
 import { prisma } from "../lib/prisma";
 import { DashboardStats, TransportRequestResponse, TripHoursEntry } from "../types";
+import ExcelJS from "exceljs";
 
 
 export class AdminService {
@@ -320,9 +321,91 @@ export class AdminService {
           certStatus: d.certStatus,
         }));
       }
+      case "vehicles": {
+        const vehicles = await prisma.vehicle.findMany({
+          include: {
+            driverProfiles: { select: { user: { select: { name: true } } } },
+          },
+          orderBy: { plate: "asc" },
+        });
+        return vehicles.map((v) => ({
+          plate: v.plate,
+          make: v.make,
+          model: v.model,
+          year: v.year,
+          color: v.color,
+          status: v.status,
+          assignedDriver: v.driverProfiles[0]?.user.name || "",
+          qrValue: v.qrValue,
+        }));
+      }
+      case "passengers": {
+        const passengers = await prisma.user.findMany({
+          where: { role: "PASSENGER" },
+          include: {
+            passengerProfile: { 
+              select: { department: true },
+              include: { 
+                transportRequests: { select: { id: true, status: true } }
+              }
+            },
+          },
+          orderBy: { name: "asc" },
+        });
+        return passengers.map((p) => ({
+          id: p.id,
+          name: p.name,
+          email: p.email,
+          phone: p.phone || "",
+          department: p.passengerProfile?.department || "",
+          totalRequests: p.passengerProfile?.transportRequests.length || 0,
+          completedRequests: p.passengerProfile?.transportRequests.filter((r) => r.status === "FEEDBACK_SUBMITTED").length || 0,
+        }));
+      }
       default:
         return [];
     }
+  }
+
+  async exportToExcel(type: string): Promise<Buffer> {
+    const workbook = new ExcelJS.Workbook();
+    workbook.creator = "PCCP System";
+    workbook.created = new Date();
+
+    const data = await this.exportData(type);
+    if (!data.length) {
+      const emptySheet = workbook.addWorksheet(type);
+      emptySheet.addRow(["No data available"]);
+      const buffer = await workbook.xlsx.writeBuffer();
+      return Buffer.from(buffer);
+    }
+
+    const sheet = workbook.addWorksheet(type, {
+      properties: { tabColor: { argb: "FF00796B" } },
+    });
+
+    const keys = Object.keys(data[0]);
+    sheet.columns = keys.map((k) => ({
+      header: k.charAt(0).toUpperCase() + k.slice(1).replace(/([A-Z])/g, " $1"),
+      key: k,
+      width: Math.max(k.length + 2, 15),
+    }));
+
+    sheet.getRow(1).font = { bold: true, color: { argb: "FFFFFFFF" } };
+    sheet.getRow(1).fill = {
+      type: "pattern",
+      pattern: "solid",
+      fgColor: { argb: "FF00796B" },
+    };
+
+    data.forEach((row) => {
+      sheet.addRow(row);
+    });
+
+    sheet.views = [{ state: "frozen", ySplit: 1 }];
+
+    const buffer = await workbook.xlsx.writeBuffer();
+    return Buffer.from(buffer);
   }
 }
 

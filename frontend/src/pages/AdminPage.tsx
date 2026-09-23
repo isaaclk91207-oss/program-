@@ -254,9 +254,9 @@ export default function AdminPage() {
                     </div>
                   )}
                 </>)}
-                {page === "drivers" && <DriversList drivers={drivers} vehicles={vehicles} selectedDriver={selectedDriver} onSelectDriver={setSelectedDriver} onUpdateAssessment={async (did, data) => { await updateAssessment(did, data); loadData(); }} onRefresh={loadData} onExport={() => handleExport("drivers")} onAddDriver={handleAddDriver} onDeleteDriver={handleDeleteDriver} onUpdateDriver={handleUpdateDriver} />}
-                {page === "vehicles" && <VehiclesList vehicles={vehicles} onRefresh={loadData} onExport={() => handleExport("vehicles")} onAddVehicle={handleAddVehicle} onDeleteVehicle={handleDeleteVehicle} />}
-                {page === "feedback" && <FeedbackList feedbacks={feedbacks} onExport={() => handleExport("feedback")} />}
+                {page === "drivers" && <DriversList drivers={drivers} vehicles={vehicles} selectedDriver={selectedDriver} onSelectDriver={setSelectedDriver} onUpdateAssessment={async (did, data) => { await updateAssessment(did, data); loadData(); }} onRefresh={loadData} onAddDriver={handleAddDriver} onDeleteDriver={handleDeleteDriver} onUpdateDriver={handleUpdateDriver} />}
+                {page === "vehicles" && <VehiclesList vehicles={vehicles} onRefresh={loadData} onAddVehicle={handleAddVehicle} onDeleteVehicle={handleDeleteVehicle} />}
+                {page === "feedback" && <FeedbackList feedbacks={feedbacks} />}
                 {page === "notifications" && <NotificationsList notifications={notifications} requests={requests} onSelectRequest={(r) => { setSelectedRequest(requests.find((req) => req.id === r.id) || null); setPage("requests"); }} onNavigateToRequests={() => setPage("requests")} onMarkRead={async (id) => { try { await markNotificationRead(id); setNotifications((prev) => prev.map((n) => n.id === id ? { ...n, read: true } : n)); setUnreadCount((c) => Math.max(0, c - 1)); } catch {} }} />}
                 {page === "records" && <OperationalRecords />}
                 {page === "assessments" && <AssessmentsOverview />}

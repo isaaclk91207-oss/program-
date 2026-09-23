@@ -1,15 +1,15 @@
 import { useState } from "react";
-import { Card, Button, Badge, SearchInput, th, ConfirmDialog, Icon } from "../ui";
+import { Card, Button, Badge, SearchInput, th, ConfirmDialog, Icon, DataTable, TableRow, TableCell } from "../ui";
+import { exportExcel, exportCSV, downloadBlob } from "../../services/api";
 import VehicleDetail from "./VehicleDetail";
 import VehicleForm from "./VehicleForm";
 import type { Vehicle } from "../../types";
 
 export default function VehiclesList({
-  vehicles, onRefresh, onExport, onAddVehicle, onDeleteVehicle,
+  vehicles, onRefresh, onAddVehicle, onDeleteVehicle,
 }: {
   vehicles: Vehicle[];
   onRefresh: () => void;
-  onExport: () => void;
   onAddVehicle: (data: { plate: string; make: string; model: string; year: number; color: string }) => void;
   onDeleteVehicle: (id: string) => void;
 }) {
@@ -17,10 +17,24 @@ export default function VehiclesList({
   const [selectedVehicle, setSelectedVehicle] = useState<Vehicle | null>(null);
   const [showForm, setShowForm] = useState(false);
   const [deleteTarget, setDeleteTarget] = useState<Vehicle | null>(null);
+  const [exporting, setExporting] = useState(false);
 
   const filtered = vehicles.filter(
     (v) => search === "" || v.plate.toLowerCase().includes(search.toLowerCase()) || v.make.toLowerCase().includes(search.toLowerCase()) || v.model.toLowerCase().includes(search.toLowerCase())
   );
+
+  async function handleExport(format: "excel" | "csv") {
+    setExporting(true);
+    try {
+      const blob = format === "excel" ? await exportExcel("vehicles") : await exportCSV("vehicles");
+      const filename = `vehicles_${new Date().toISOString().split("T")[0]}.${format === "excel" ? "xlsx" : "csv"}`;
+      downloadBlob(blob, filename);
+    } catch (err) {
+      console.error("Export failed:", err);
+    } finally {
+      setExporting(false);
+    }
+  }
 
   if (selectedVehicle) {
     return <VehicleDetail vehicle={selectedVehicle} onBack={() => setSelectedVehicle(null)} />;
@@ -35,40 +49,38 @@ export default function VehiclesList({
         </div>
         <div className="flex items-center gap-2">
           <SearchInput value={search} onChange={setSearch} placeholder="Search vehicles..." className="w-full sm:w-64" />
-          <Button variant="secondary" size="sm" onClick={onExport}><Icon name="download" size={16} className="mr-1" />Export</Button>
-          <Button size="sm" accent="admin" onClick={() => setShowForm(true)}><Icon name="add" size={16} className="mr-1" />Add</Button>
+          <div className="flex items-center gap-1">
+            <Button variant="secondary" size="sm" onClick={() => handleExport("excel")} disabled={exporting}>
+              <Icon name="table_chart" size={16} className="mr-1" />
+              {exporting ? "Exporting..." : "Excel"}
+            </Button>
+            <Button variant="secondary" size="sm" onClick={() => handleExport("csv")} disabled={exporting}>
+              <Icon name="description" size={16} className="mr-1" />
+              {exporting ? "Exporting..." : "CSV"}
+            </Button>
+            <Button size="sm" accent="admin" onClick={() => setShowForm(true)}><Icon name="add" size={16} className="mr-1" />Add</Button>
+          </div>
         </div>
       </div>
-      <div className="space-y-2">
+      <DataTable headers={["Plate", "Make", "Model", "Year", "Color", "Status", "Assigned Driver", "QR", "Actions"]}>
         {filtered.map((v) => (
-          <Card key={v.id} className={`p-3 cursor-pointer ${th.borderHover}`} onClick={() => setSelectedVehicle(v)}>
-            <div className="flex justify-between items-center">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-slate-100 dark:bg-slate-800 rounded-lg flex items-center justify-center">
-                  <Icon name="local_shipping" size={20} className="text-slate-400" />
-                </div>
-                <div>
-                  <p className={`text-sm font-medium font-mono ${th.text}`}>{v.plate}</p>
-                  <p className={`text-xs ${th.textMuted}`}>{v.make} {v.model} · {v.year} · {v.color}</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-3">
-                {v.assignedDriverName && (
-                  <div className="flex items-center gap-1">
-                    <Icon name="person" size={12} className="text-slate-400" />
-                    <span className={`text-xs ${th.textMuted}`}>{v.assignedDriverName}</span>
-                  </div>
-                )}
-                <Icon name="qr_code" size={16} className="text-slate-400" />
-                <Badge status={v.status}>{v.status}</Badge>
-                <button onClick={(e) => { e.stopPropagation(); setDeleteTarget(v); }} className="text-slate-400 hover:text-rose-500 p-1">
-                  <Icon name="delete" size={16} />
-                </button>
-              </div>
-            </div>
-          </Card>
+          <TableRow key={v.id} onClick={() => setSelectedVehicle(v)}>
+            <TableCell className="font-mono font-medium">{v.plate}</TableCell>
+            <TableCell>{v.make}</TableCell>
+            <TableCell>{v.model}</TableCell>
+            <TableCell className="text-center">{v.year}</TableCell>
+            <TableCell>{v.color}</TableCell>
+            <TableCell><Badge status={v.status}>{v.status}</Badge></TableCell>
+            <TableCell>{v.assignedDriverName || "—"}</TableCell>
+            <TableCell className="text-center"><Icon name="qr_code" size={16} className="text-slate-400" /></TableCell>
+            <TableCell>
+              <button onClick={(e) => { e.stopPropagation(); setDeleteTarget(v); }} className="text-slate-400 hover:text-rose-500 p-1">
+                <Icon name="delete" size={16} />
+              </button>
+            </TableCell>
+          </TableRow>
         ))}
-      </div>
+      </DataTable>
 
       <VehicleForm open={showForm} onClose={() => setShowForm(false)} onSubmit={(data) => { onAddVehicle(data); setShowForm(false); }} />
 

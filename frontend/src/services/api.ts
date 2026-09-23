@@ -438,6 +438,16 @@ export async function exportData(type: string) {
   return res.data;
 }
 
+export async function exportExcel(type: string): Promise<Blob> {
+  const res = await api.get(`/admin/export/excel/${type}`, { responseType: "blob" });
+  return res.data;
+}
+
+export async function exportCSV(type: string): Promise<Blob> {
+  const res = await api.get(`/admin/export/${type}?format=csv`, { responseType: "blob" });
+  return res.data;
+}
+
 export async function getNetprosStatus() {
   const res = await api.get("/admin/netpros/status");
   return res.data;
@@ -500,3 +510,14 @@ export async function triggerEcoSync(data?: {
 }
 
 export default api;
+
+export function downloadBlob(blob: Blob, filename: string) {
+  const url = window.URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  window.URL.revokeObjectURL(url);
+  document.body.removeChild(a);
+}

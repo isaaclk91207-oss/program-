@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Card, Button, Badge, CertBadge, ProgressBar, Tabs, th, ConfirmDialog, StarRating, Icon, HoursCard } from "../ui";
-import { getDriverFeedback, getDrivingHours, getDriverTasks, createDriverTask, updateDriverTask, deleteDriverTask } from "../../services/api";
+import { getDriverFeedback, getDrivingHours, getDriverTasks, createDriverTask, updateDriverTask, deleteDriverTask, adminCheckIn, adminCheckOut } from "../../services/api";
 import { onTripStatusChanged } from "../../services/socket";
 import type { Driver, Feedback, Assessment, TripHoursEntry, DriverTask, Vehicle } from "../../types";
 
@@ -52,6 +52,16 @@ export default function DriverDetail({
   const [creatingTask, setCreatingTask] = useState(false);
   const [deletingTaskId, setDeletingTaskId] = useState<string | null>(null);
 
+  // Admin Check-in/out state
+  const [checkInVehicleId, setCheckInVehicleId] = useState("");
+  const [checkInLocation, setCheckInLocation] = useState("");
+  const [checkInRemark, setCheckInRemark] = useState("");
+  const [checkOutVehicleId, setCheckOutVehicleId] = useState("");
+  const [checkOutLocation, setCheckOutLocation] = useState("");
+  const [checkOutRemark, setCheckOutRemark] = useState("");
+  const [checkingIn, setCheckingIn] = useState(false);
+  const [checkingOut, setCheckingOut] = useState(false);
+
   // Assessment state
   const [written, setWritten] = useState(80);
   const [practical, setPractical] = useState<Record<string, number>>({
@@ -102,6 +112,48 @@ export default function DriverDetail({
     getDriverTasks(driver.id).then((data) => {
       setTasks(data);
     }).catch(() => {});
+  }
+
+  async function handleAdminCheckIn() {
+    if (!checkInVehicleId || !checkInLocation) return;
+    setCheckingIn(true);
+    try {
+      await adminCheckIn({
+        driverId: driver.id,
+        vehiclePlate: vehicles.find(v => v.id === checkInVehicleId)?.plate || "",
+        location: checkInLocation,
+        remark: checkInRemark || undefined,
+      });
+      setCheckInVehicleId("");
+      setCheckInLocation("");
+      setCheckInRemark("");
+      loadHours();
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setCheckingIn(false);
+    }
+  }
+
+  async function handleAdminCheckOut() {
+    if (!checkOutVehicleId || !checkOutLocation) return;
+    setCheckingOut(true);
+    try {
+      await adminCheckOut({
+        driverId: driver.id,
+        vehiclePlate: vehicles.find(v => v.id === checkOutVehicleId)?.plate || "",
+        location: checkOutLocation,
+        remark: checkOutRemark || undefined,
+      });
+      setCheckOutVehicleId("");
+      setCheckOutLocation("");
+      setCheckOutRemark("");
+      loadHours();
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setCheckingOut(false);
+    }
   }
 
   async function handleCreateTask() {
@@ -583,6 +635,104 @@ export default function DriverDetail({
               >
                 {creatingTask ? "Creating..." : "Assign Task"}
               </Button>
+            </div>
+          </Card>
+
+          {/* Admin Check-in/Out */}
+          <Card className="p-4">
+            <h4 className={`font-semibold ${th.text} mb-3`}>Driver Check-In / Check-Out</h4>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+              {/* Check In */}
+              <div className="space-y-3">
+                <h5 className={`font-medium ${th.text}`}>Check In</h5>
+                <div>
+                  <label className={`text-sm ${th.textSecondary}`}>Vehicle</label>
+                  <select
+                    value={checkInVehicleId}
+                    onChange={(e) => setCheckInVehicleId(e.target.value)}
+                    className={`w-full mt-1 px-3 py-2 text-sm rounded-lg border ${th.bgInput} ${th.border} ${th.text} focus:outline-none focus:border-emerald-500`}
+                  >
+                    <option value="">Select vehicle</option>
+                    {vehicles.filter((v) => v.status === "ACTIVE").map((v) => (
+                      <option key={v.id} value={v.id}>{v.plate} — {v.make} {v.model}</option>
+                    ))}
+                  </select>
+                </div>
+                <div>
+                  <label className={`text-sm ${th.textSecondary}`}>Location</label>
+                  <input
+                    type="text"
+                    value={checkInLocation}
+                    onChange={(e) => setCheckInLocation(e.target.value)}
+                    placeholder="Enter location"
+                    className={`w-full mt-1 px-3 py-2 text-sm rounded-lg border ${th.bgInput} ${th.border} ${th.text} focus:outline-none focus:border-emerald-500`}
+                  />
+                </div>
+                <div>
+                  <label className={`text-sm ${th.textSecondary}`}>Remark (optional)</label>
+                  <input
+                    type="text"
+                    value={checkInRemark}
+                    onChange={(e) => setCheckInRemark(e.target.value)}
+                    placeholder="Any notes..."
+                    className={`w-full mt-1 px-3 py-2 text-sm rounded-lg border ${th.bgInput} ${th.border} ${th.text} focus:outline-none focus:border-emerald-500`}
+                  />
+                </div>
+                <Button
+                  accent="admin"
+                  onClick={handleAdminCheckIn}
+                  disabled={!checkInVehicleId || !checkInLocation || checkingIn}
+                  className="w-full"
+                >
+                  {checkingIn ? "Checking In..." : "Check In"}
+                </Button>
+              </div>
+
+              {/* Check Out */}
+              <div className="space-y-3">
+                <h5 className={`font-medium ${th.text}`}>Check Out</h5>
+                <div>
+                  <label className={`text-sm ${th.textSecondary}`}>Vehicle</label>
+                  <select
+                    value={checkOutVehicleId}
+                    onChange={(e) => setCheckOutVehicleId(e.target.value)}
+                    className={`w-full mt-1 px-3 py-2 text-sm rounded-lg border ${th.bgInput} ${th.border} ${th.text} focus:outline-none focus:border-emerald-500`}
+                  >
+                    <option value="">Select vehicle</option>
+                    {vehicles.filter((v) => v.status === "ACTIVE").map((v) => (
+                      <option key={v.id} value={v.id}>{v.plate} — {v.make} {v.model}</option>
+                    ))}
+                  </select>
+                </div>
+                <div>
+                  <label className={`text-sm ${th.textSecondary}`}>Location</label>
+                  <input
+                    type="text"
+                    value={checkOutLocation}
+                    onChange={(e) => setCheckOutLocation(e.target.value)}
+                    placeholder="Enter location"
+                    className={`w-full mt-1 px-3 py-2 text-sm rounded-lg border ${th.bgInput} ${th.border} ${th.text} focus:outline-none focus:border-emerald-500`}
+                  />
+                </div>
+                <div>
+                  <label className={`text-sm ${th.textSecondary}`}>Remark (optional)</label>
+                  <input
+                    type="text"
+                    value={checkOutRemark}
+                    onChange={(e) => setCheckOutRemark(e.target.value)}
+                    placeholder="Any notes..."
+                    className={`w-full mt-1 px-3 py-2 text-sm rounded-lg border ${th.bgInput} ${th.border} ${th.text} focus:outline-none focus:border-emerald-500`}
+                  />
+                </div>
+                <Button
+                  accent="admin"
+                  onClick={handleAdminCheckOut}
+                  disabled={!checkOutVehicleId || !checkOutLocation || checkingOut}
+                  className="w-full"
+                >
+                  {checkingOut ? "Checking Out..." : "Check Out"}
+                </Button>
+              </div>
             </div>
           </Card>
 

@@ -20,38 +20,10 @@ function InfoRow({ icon, label, value, valueClass = "" }: { icon: string; label:
 export default function TripDetail({
   trip,
   onBack,
-  onCheckIn,
-  onCheckOut,
 }: {
   trip: TransportRequest;
   onBack: () => void;
-  onCheckIn: (vehiclePlate: string, location: string, remark?: string) => void;
-  onCheckOut: (vehiclePlate: string, location: string, remark?: string) => void;
 }) {
-  const [showCheckIn, setShowCheckIn] = useState(false);
-  const [showCheckOut, setShowCheckOut] = useState(false);
-  const [location, setLocation] = useState("");
-  const [remark, setRemark] = useState("");
-
-  const handleCheckIn = () => {
-    if (!location || !trip.vehiclePlate) return;
-    onCheckIn(trip.vehiclePlate, location, remark || undefined);
-    setShowCheckIn(false);
-    setLocation("");
-    setRemark("");
-  };
-
-  const handleCheckOut = () => {
-    if (!location || !trip.vehiclePlate) return;
-    onCheckOut(trip.vehiclePlate, location, remark || undefined);
-    setShowCheckOut(false);
-    setLocation("");
-    setRemark("");
-  };
-
-  const inputClass =
-    "w-full mt-1 px-3 py-2 text-sm rounded-lg border bg-surface-container-low dark:bg-navy-900 border-border-hairline dark:border-outline-variant text-on-surface dark:text-white focus:outline-none focus:border-role-driver dark:focus:border-purple-400 placeholder:text-on-surface-variant/60";
-
   return (
     <div className="max-w-[440px] mx-auto space-y-4">
       {/* Header */}
@@ -117,59 +89,6 @@ export default function TripDetail({
           </>
         )}
       </div>
-
-      {/* Actions */}
-      <div className="space-y-2">
-        {!trip.hasActiveCheckin && ["ASSIGNED", "QR_PENDING"].includes(trip.status) && (
-          <Button accent="driver" onClick={() => setShowCheckIn(true)} className="w-full">
-            <Icon name="login" size={18} className="mr-2" />
-            Check In
-          </Button>
-        )}
-        {trip.hasActiveCheckin && (
-          <Button onClick={() => setShowCheckOut(true)} className="w-full" variant="secondary">
-            <Icon name="logout" size={18} className="mr-2" />
-            Check Out
-          </Button>
-        )}
-      </div>
-
-      {/* Check in / out form */}
-      {(showCheckIn || showCheckOut) && (
-        <div className="bg-surface dark:bg-navy-900 rounded-2xl border border-border-hairline dark:border-outline-variant p-5 space-y-3">
-          <h4 className="font-title-md text-title-md text-on-surface dark:text-white">
-            {showCheckIn ? "Check In" : "Check Out"} Vehicle
-          </h4>
-          <div>
-            <label className={`font-body-sm text-body-sm text-on-surface-variant dark:text-outline-variant`}>Location</label>
-            <input
-              type="text"
-              value={location}
-              onChange={(e) => setLocation(e.target.value)}
-              className={inputClass}
-              placeholder="Enter location"
-            />
-          </div>
-          <div>
-            <label className={`font-body-sm text-body-sm text-on-surface-variant dark:text-outline-variant`}>Remark (optional)</label>
-            <input
-              type="text"
-              value={remark}
-              onChange={(e) => setRemark(e.target.value)}
-              className={inputClass}
-              placeholder="Any notes..."
-            />
-          </div>
-          <div className="flex gap-3">
-            <Button accent="driver" onClick={showCheckIn ? handleCheckIn : handleCheckOut} disabled={!location} className="flex-1">
-              Submit {showCheckIn ? "Check In" : "Check Out"}
-            </Button>
-            <Button variant="secondary" onClick={() => { setShowCheckIn(false); setShowCheckOut(false); }}>
-              Cancel
-            </Button>
-          </div>
-        </div>
-      )}
     </div>
   );
 }

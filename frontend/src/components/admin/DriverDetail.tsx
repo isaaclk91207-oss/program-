@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Card, Button, Badge, CertBadge, ProgressBar, Tabs, th, ConfirmDialog, StarRating, Icon, HoursCard } from "../ui";
+import PassportCard from "../driver/PassportCard";
 import { getDriverFeedback, getDrivingHours, getDriverTasks, createDriverTask, updateDriverTask, deleteDriverTask, adminCheckIn, adminCheckOut } from "../../services/api";
 import { onTripStatusChanged } from "../../services/socket";
 import type { Driver, Feedback, Assessment, TripHoursEntry, DriverTask, Vehicle } from "../../types";
@@ -427,59 +428,7 @@ export default function DriverDetail({
       )}
 
       {/* Passport Tab */}
-      {tab === "passport" && (
-        <div className={`bg-gradient-to-br from-slate-700 to-slate-800 rounded-2xl p-6 text-white shadow-xl`}>
-          <div className="flex items-center justify-between mb-6">
-            <div className="flex items-center gap-2">
-              <Icon name="shield" size={24} />
-              <span className="text-sm font-medium opacity-80">PCCP Driver Passport</span>
-            </div>
-            <CertBadge level={driver.certLevel} />
-          </div>
-          <div className="flex items-center gap-4 mb-6">
-            <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center">
-              <span className="text-2xl font-bold">
-                {(driver.name || "").split(" ").map((n) => n[0]).join("").slice(0, 2)}
-              </span>
-            </div>
-            <div>
-              <h3 className="text-xl font-bold">{driver.name}</h3>
-              <p className="text-sm opacity-80 font-mono">{getDisplayId(driver)}</p>
-            </div>
-          </div>
-          <div className="grid grid-cols-3 gap-3 mb-6">
-            <div className="bg-white/10 rounded-lg p-3 text-center">
-              <Icon name="credit_card" size={16} />
-              <p className="text-lg font-bold">{driver.score}</p>
-              <p className="text-xs opacity-70">Score</p>
-            </div>
-            <div className="bg-white/10 rounded-lg p-3 text-center">
-              <Icon name="emoji_events" size={16} />
-              <p className="text-lg font-bold">{driver.rating}</p>
-              <p className="text-xs opacity-70">Rating</p>
-            </div>
-            <div className="bg-white/10 rounded-lg p-3 text-center">
-              <Icon name="calendar_today" size={16} />
-              <p className="text-lg font-bold">{driver.credits}</p>
-              <p className="text-xs opacity-70">Credits</p>
-            </div>
-          </div>
-          <div className="flex items-center justify-between text-sm opacity-80">
-            <div>
-              <p className="opacity-70 text-xs">Valid Until</p>
-              <p className="font-medium">{driver.validUntil || "—"}</p>
-            </div>
-            <div>
-              <p className="opacity-70 text-xs">English Level</p>
-              <p className="font-medium">{driver.englishLevel || "—"}</p>
-            </div>
-            <div>
-              <p className="opacity-70 text-xs">Accident Free</p>
-              <p className="font-medium">{driver.accidentFree || "—"}</p>
-            </div>
-          </div>
-        </div>
-      )}
+      {tab === "passport" && <PassportCard driver={driver} className="max-w-3xl" />}
 
       {/* Assessment Tab */}
       {tab === "assessment" && (

@@ -37,11 +37,15 @@ export default function TripsList({
   selectedTrip,
   onSelectTrip,
   onBack,
+  onCheckIn,
+  onCheckOut,
 }: {
   trips: TransportRequest[];
   selectedTrip: TransportRequest | null;
   onSelectTrip: (t: TransportRequest | null) => void;
   onBack: () => void;
+  onCheckIn: (vehiclePlate: string, location: string, remark?: string) => void;
+  onCheckOut: (vehiclePlate: string, location: string, remark?: string) => void;
 }) {
   const [filter, setFilter] = useState<Filter>("all");
 

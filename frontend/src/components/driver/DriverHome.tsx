@@ -1,5 +1,5 @@
 import { Icon, TripStatusPill, CertBadge } from "../ui";
-import type { TransportRequest, Driver, Feedback } from "../../types";
+import type { TransportRequest, Driver, Feedback, DriverTask } from "../../types";
 
 function initials(name: string) {
   return (name || "")
@@ -33,6 +33,7 @@ export default function DriverHome({
   feedbacks,
   activeTrips,
   completedTrips,
+  tasks,
   onViewTrips,
   onSelectTrip,
   onPassport,
@@ -44,6 +45,7 @@ export default function DriverHome({
   feedbacks: Feedback[];
   activeTrips: TransportRequest[];
   completedTrips: TransportRequest[];
+  tasks: DriverTask[];
   onViewTrips: () => void;
   onSelectTrip: (t: TransportRequest) => void;
   onPassport: () => void;
@@ -250,6 +252,39 @@ export default function DriverHome({
           </div>
         )}
       </div>
+
+      {/* Active Tasks */}
+      {tasks && tasks.length > 0 && (
+        <div>
+          <h3 className="font-label-caps text-label-caps uppercase text-on-surface-variant dark:text-outline-variant mb-2">
+            Active Tasks
+          </h3>
+          <div className="space-y-2">
+            {tasks.filter((t) => t.status === "ACTIVE").map((t) => (
+              <div
+                key={t.id}
+                className="bg-surface dark:bg-navy-900 rounded-xl border border-border-hairline dark:border-outline-variant p-4"
+              >
+                <div className="flex justify-between items-start">
+                  <div className="min-w-0">
+                    <p className="font-title-md text-title-md text-on-surface dark:text-white truncate">{t.title}</p>
+                    {t.description && (
+                      <p className="font-body-sm text-body-sm text-on-surface-variant dark:text-outline-variant mt-1 truncate">{t.description}</p>
+                    )}
+                    <div className="flex items-center gap-3 mt-2 text-xs text-on-surface-variant dark:text-outline-variant">
+                      {t.vehiclePlate && <span className="font-mono">{t.vehiclePlate}</span>}
+                      {t.estimatedDurationMs && (
+                        <span>Est: {Math.round((t.estimatedDurationMs / 3600000) * 10) / 10}h</span>
+                      )}
+                      <span>Started: {new Date(t.startedAt).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Active trips list */}
       {activeTrips.length > 1 && (

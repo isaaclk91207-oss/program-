@@ -7,9 +7,12 @@ import {
   getDriver,
   getDrivers,
   getDriverFeedback,
+  driverCheckIn,
+  driverCheckOut,
   getNotifications,
   markAllNotificationsRead,
   getUnreadCount,
+  getDriverTasks,
 } from "../services/api";
 import { onNotificationNew, onTripStatusChanged } from "../services/socket";
 import type { TransportRequest, Notification, Feedback } from "../types";
@@ -49,6 +52,7 @@ export default function DriverPage() {
   const [driverProfile, setDriverProfile] = useState<any>(null);
   const [allDrivers, setAllDrivers] = useState<any[]>([]);
   const [feedbacks, setFeedbacks] = useState<Feedback[]>([]);
+  const [tasks, setTasks] = useState<any[]>([]);
 
   useEffect(() => {
     loadData();
@@ -80,14 +84,15 @@ export default function DriverPage() {
   async function loadData() {
     setLoading(true);
     try {
-      // Fetch trips, notifications, driver profile, all drivers, and feedback
-      const [tripsData, notifData, countData, driverData, driversData, feedbackData] = await Promise.all([
+      // Fetch trips, notifications, driver profile, all drivers, feedback, and tasks
+      const [tripsData, notifData, countData, driverData, driversData, feedbackData, tasksData] = await Promise.all([
         getDriverTrips().catch(() => []),
         getNotifications().catch(() => []),
         getUnreadCount().catch(() => ({ count: 0 })),
         user ? getDriver(user.id).catch(() => null) : null,
         getDrivers().catch(() => []),
         user ? getDriverFeedback(user.id).catch(() => []) : [],
+        user ? getDriverTasks(user.id).catch(() => []) : [],
       ]);
       setTrips(tripsData);
       setNotifications(notifData);
@@ -95,10 +100,29 @@ export default function DriverPage() {
       setDriverProfile(driverData);
       setAllDrivers(driversData);
       setFeedbacks(feedbackData);
+      setTasks(tasksData);
     } catch (err) {
       console.error(err);
     } finally {
       setLoading(false);
+    }
+  }
+
+  async function handleCheckIn(vehiclePlate: string, location: string, remark?: string) {
+    try {
+      await driverCheckIn({ vehiclePlate, location, remark });
+      loadData();
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  async function handleCheckOut(vehiclePlate: string, location: string, remark?: string) {
+    try {
+      await driverCheckOut({ vehiclePlate, location, remark });
+      loadData();
+    } catch (err) {
+      console.error(err);
     }
   }
 
@@ -196,6 +220,7 @@ export default function DriverPage() {
                     feedbacks={feedbacks}
                     activeTrips={activeTrips}
                     completedTrips={completedTrips}
+                    tasks={tasks}
                     onViewTrips={() => setTab("trips")}
                     onSelectTrip={(t) => { setSelectedTrip(t); setTab("trips"); }}
                     onPassport={() => setTab("passport")}
@@ -208,6 +233,8 @@ export default function DriverPage() {
                     selectedTrip={selectedTrip}
                     onSelectTrip={setSelectedTrip}
                     onBack={() => { setSelectedTrip(null); setTab("home"); }}
+                    onCheckIn={handleCheckIn}
+                    onCheckOut={handleCheckOut}
                   />
                 )}
                 {tab === "notifications" && (

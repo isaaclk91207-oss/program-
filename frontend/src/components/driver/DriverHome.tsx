@@ -1,4 +1,5 @@
 import { Icon, TripStatusPill, CertBadge } from "../ui";
+import PassportCard from "./PassportCard";
 import type { TransportRequest, Driver, Feedback, DriverTask } from "../../types";
 
 function initials(name: string) {
@@ -94,34 +95,39 @@ export default function DriverHome({
 
       {/* Passport Summary Card */}
       {driverProfile && (
-        <button
-          onClick={onPassport}
-          className="w-full bg-gradient-to-r from-[#7c3aed] via-[#6d28d9] to-[#5b21b6] rounded-2xl p-5 text-white shadow-xl text-left transition-transform active:scale-[0.99]"
-        >
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center gap-2">
-              <Icon name="badge" size={18} className="text-white/70" />
-              <span className="font-label-caps text-label-caps uppercase tracking-wider text-white/70">Driver Passport</span>
-            </div>
-            <CertBadge level={driverProfile.certLevel} />
-          </div>
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="font-headline-md text-headline-md font-bold">{driverProfile.name}</p>
-              <p className="font-body-sm text-body-sm text-white/70 font-mono mt-0.5">{driverProfile.id}</p>
-            </div>
-            <div className="flex gap-5">
-              <div className="text-center">
-                <p className="font-stat-lg text-stat-lg font-bold">{driverProfile.score}</p>
-                <p className="font-label-caps text-label-caps uppercase text-white/70">Score</p>
+        <>
+          <button
+            onClick={onPassport}
+            className="w-full bg-gradient-to-r from-[#7c3aed] via-[#6d28d9] to-[#5b21b6] rounded-2xl p-5 text-white shadow-xl text-left transition-transform active:scale-[0.99]"
+          >
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center gap-2">
+                <Icon name="badge" size={18} className="text-white/70" />
+                <span className="font-label-caps text-label-caps uppercase tracking-wider text-white/70">Driver Passport</span>
               </div>
-              <div className="text-center">
-                <p className="font-stat-lg text-stat-lg font-bold">{driverProfile.rating}</p>
-                <p className="font-label-caps text-label-caps uppercase text-white/70">Rating</p>
+              <CertBadge level={driverProfile.certLevel} />
+            </div>
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="font-headline-md text-headline-md font-bold">{driverProfile.name}</p>
+                <p className="font-body-sm text-body-sm text-white/70 font-mono mt-0.5">{driverProfile.id}</p>
+              </div>
+              <div className="flex gap-5">
+                <div className="text-center">
+                  <p className="font-stat-lg text-stat-lg font-bold">{driverProfile.score}</p>
+                  <p className="font-label-caps text-label-caps uppercase text-white/70">Score</p>
+                </div>
+                <div className="text-center">
+                  <p className="font-stat-lg text-stat-lg font-bold">{driverProfile.rating}</p>
+                  <p className="font-label-caps text-label-caps uppercase text-white/70">Rating</p>
+                </div>
               </div>
             </div>
-          </div>
-        </button>
+          </button>
+
+          {/* Full Passport Card */}
+          <PassportCard driver={driverProfile} />
+        </>
       )}
 
       {/* Active assignment highlight */}

@@ -335,7 +335,7 @@ export class TransportService {
   private formatResponse(r: {
     id: string;
     passengerId: string;
-    passenger: { user: { name: string } };
+    passenger: { user: { name: string }; department?: string | null };
     driverId: string | null;
     driver: { user: { name: string } } | null;
     vehicleId: string | null;
@@ -385,7 +385,7 @@ export class TransportService {
       id: r.id,
       passengerId: r.passengerId,
       passengerName: r.passenger.user.name,
-      department: "",
+      department: r.passenger.department || "",
       driverId: r.driverId,
       driverName: r.driver?.user?.name || null,
       vehicleId: r.vehicleId,

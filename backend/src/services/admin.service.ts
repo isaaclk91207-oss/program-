@@ -62,6 +62,18 @@ export class AdminService {
 
     const driverNameMap = new Map(drivers.map((d) => [d.userId, d.user.name]));
 
+    const deptRows = await prisma.transportRequest.findMany({
+      select: { passenger: { select: { department: true } } },
+    });
+    const deptCountMap = new Map<string, number>();
+    for (const row of deptRows) {
+      const dept = row.passenger.department || "Unknown";
+      deptCountMap.set(dept, (deptCountMap.get(dept) || 0) + 1);
+    }
+    const requestsByDepartment = [...deptCountMap.entries()]
+      .map(([department, count]) => ({ department, count }))
+      .sort((a, b) => b.count - a.count);
+
     const drivingHoursMap: Record<string, number> = {};
     for (const c of checkins) {
       if (!c.checkInTime || !c.checkOutTime || !c.driverId) continue;
@@ -136,12 +148,12 @@ export class AdminService {
       totalVehicles,
       activeVehicles,
       requestsByStatus: requestsByStatus.map((s) => ({ status: s.status, count: s._count })),
-      requestsByDepartment: [],
+      requestsByDepartment,
       recentRequests: recentRequests.map((r) => ({
         id: r.id,
         passengerId: r.passengerId,
         passengerName: r.passenger.user.name,
-        department: "",
+        department: r.passenger.department || "",
         driverId: r.driverId,
         driverName: r.driver?.user?.name || null,
         vehicleId: r.vehicleId,
@@ -245,7 +257,7 @@ export class AdminService {
         return requests.map((r) => ({
           id: r.id,
           passengerName: r.passenger.user.name,
-          department: "",
+          department: r.passenger.department || "",
           pickup: r.pickup,
           destination: r.destination,
           date: r.date.toISOString().split("T")[0],

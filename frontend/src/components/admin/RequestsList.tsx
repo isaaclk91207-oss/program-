@@ -105,6 +105,7 @@ export default function RequestsList({
       r.id.toLowerCase().includes(search.toLowerCase()) ||
       (r.requestNumber || "").toLowerCase().includes(search.toLowerCase()) ||
       r.passengerName.toLowerCase().includes(search.toLowerCase()) ||
+      (r.department || "").toLowerCase().includes(search.toLowerCase()) ||
       r.pickup.toLowerCase().includes(search.toLowerCase()) ||
       r.destination.toLowerCase().includes(search.toLowerCase())
     );
@@ -263,6 +264,10 @@ export default function RequestsList({
                 <p className={th.textSecondary}>Passenger</p>
                 <p className={th.text}>{selectedRequest.passengerName}</p>
               </div>
+            </div>
+            <div>
+              <p className={th.textSecondary}>Department</p>
+              <p className={th.text}>{selectedRequest.department || "-"}</p>
             </div>
             <div>
               <p className={th.textSecondary}>No. of People</p>

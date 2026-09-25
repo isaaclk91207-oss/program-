@@ -97,7 +97,7 @@ export class FeedbackService {
       rating: feedback.rating,
       comment: feedback.comment,
       tags: typeof feedback.tags === "string" ? JSON.parse(feedback.tags) : feedback.tags,
-      department: "",
+      department: feedback.passenger.department || "",
       date: feedback.createdAt.toISOString().split("T")[0],
     };
   }
@@ -136,7 +136,7 @@ export class FeedbackService {
       rating: f.rating,
       comment: f.comment,
       tags: typeof f.tags === "string" ? JSON.parse(f.tags) : f.tags,
-      department: "",
+      department: f.passenger.department || "",
       date: f.createdAt.toISOString().split("T")[0],
     }));
   }

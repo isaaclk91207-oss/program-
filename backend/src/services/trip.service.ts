@@ -466,7 +466,7 @@ export class TripService {
   private formatTripResponse(t: {
     id: string;
     passengerId: string;
-    passenger: { user: { name: string } };
+    passenger: { user: { name: string }; department?: string | null };
     driverId: string | null;
     driver: { user: { name: string } } | null;
     vehicleId: string | null;
@@ -495,7 +495,7 @@ export class TripService {
       id: t.id,
       passengerId: t.passengerId,
       passengerName: t.passenger?.user?.name || "",
-      department: "",
+      department: t.passenger?.department || "",
       driverId: t.driverId,
       driverName: t.driver?.user?.name || null,
       vehicleId: t.vehicleId,

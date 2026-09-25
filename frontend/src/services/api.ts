@@ -275,24 +275,6 @@ export async function dropoffQRScan(requestId: string) {
   return res.data;
 }
 
-export async function driverCheckIn(data: {
-  vehiclePlate: string;
-  location: string;
-  remark?: string;
-}) {
-  const res = await api.post("/trips/checkin", data);
-  return res.data;
-}
-
-export async function driverCheckOut(data: {
-  vehiclePlate: string;
-  location: string;
-  remark?: string;
-}) {
-  const res = await api.post("/trips/checkout", data);
-  return res.data;
-}
-
 export async function adminCheckIn(data: { driverId: string; vehiclePlate: string; location: string; remark?: string }) {
   const res = await api.post("/trips/admin/checkin", data);
   return res.data;

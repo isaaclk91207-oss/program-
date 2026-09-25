@@ -7,8 +7,6 @@ import {
   getDriver,
   getDrivers,
   getDriverFeedback,
-  driverCheckIn,
-  driverCheckOut,
   getNotifications,
   markAllNotificationsRead,
   getUnreadCount,
@@ -105,24 +103,6 @@ export default function DriverPage() {
       console.error(err);
     } finally {
       setLoading(false);
-    }
-  }
-
-  async function handleCheckIn(vehiclePlate: string, location: string, remark?: string) {
-    try {
-      await driverCheckIn({ vehiclePlate, location, remark });
-      loadData();
-    } catch (err) {
-      console.error(err);
-    }
-  }
-
-  async function handleCheckOut(vehiclePlate: string, location: string, remark?: string) {
-    try {
-      await driverCheckOut({ vehiclePlate, location, remark });
-      loadData();
-    } catch (err) {
-      console.error(err);
     }
   }
 
@@ -233,8 +213,6 @@ export default function DriverPage() {
                     selectedTrip={selectedTrip}
                     onSelectTrip={setSelectedTrip}
                     onBack={() => { setSelectedTrip(null); setTab("home"); }}
-                    onCheckIn={handleCheckIn}
-                    onCheckOut={handleCheckOut}
                   />
                 )}
                 {tab === "notifications" && (

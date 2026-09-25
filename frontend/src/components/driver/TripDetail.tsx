@@ -1,8 +1,6 @@
-import { useState } from "react";
-import { Button, Icon, TripStatusPill } from "../ui";
+import { Icon, TripStatusPill } from "../ui";
 import type { TransportRequest } from "../../types";
 import { formatRequestId } from "../../types";
-import { driverCheckIn, driverCheckOut } from "../../services/api";
 
 function InfoRow({ icon, label, value, valueClass = "" }: { icon: string; label: string; value: string; valueClass?: string }) {
   return (
@@ -18,8 +16,6 @@ function InfoRow({ icon, label, value, valueClass = "" }: { icon: string; label:
   );
 }
 
-const ACTIVE_STATUSES = ["ASSIGNED", "QR_PENDING", "PICK_UP_SCANNED", "IN_PROGRESS"];
-
 export default function TripDetail({
   trip,
   onBack,
@@ -27,52 +23,6 @@ export default function TripDetail({
   trip: TransportRequest;
   onBack: () => void;
 }) {
-  const [showCheckIn, setShowCheckIn] = useState(false);
-  const [showCheckOut, setShowCheckOut] = useState(false);
-  const [location, setLocation] = useState("");
-  const [remark, setRemark] = useState("");
-  const [checkingIn, setCheckingIn] = useState(false);
-  const [checkingOut, setCheckingOut] = useState(false);
-
-  const canCheckIn = !trip.hasActiveCheckin && ACTIVE_STATUSES.includes(trip.status);
-  const canCheckOut = trip.hasActiveCheckin;
-
-  const inputClass =
-    "w-full mt-1 px-3 py-2 text-sm rounded-lg border bg-surface-container-low dark:bg-navy-900 border-border-hairline dark:border-outline-variant text-on-surface dark:text-white focus:outline-none focus:border-role-driver dark:focus:border-purple-400 placeholder:text-on-surface-variant/60";
-
-  async function handleCheckIn() {
-    if (!location || !trip.vehiclePlate) return;
-    setCheckingIn(true);
-    try {
-      await driverCheckIn({ vehiclePlate: trip.vehiclePlate, location, remark: remark || undefined });
-      setShowCheckIn(false);
-      setLocation("");
-      setRemark("");
-      // Trigger a reload of the trip data - parent can listen for this
-      window.dispatchEvent(new CustomEvent("trip-status-changed"));
-    } catch (err) {
-      console.error("Check-in failed:", err);
-    } finally {
-      setCheckingIn(false);
-    }
-  }
-
-  async function handleCheckOut() {
-    if (!location || !trip.vehiclePlate) return;
-    setCheckingOut(true);
-    try {
-      await driverCheckOut({ vehiclePlate: trip.vehiclePlate, location, remark: remark || undefined });
-      setShowCheckOut(false);
-      setLocation("");
-      setRemark("");
-      window.dispatchEvent(new CustomEvent("trip-status-changed"));
-    } catch (err) {
-      console.error("Check-out failed:", err);
-    } finally {
-      setCheckingOut(false);
-    }
-  }
-
   return (
     <div className="max-w-[440px] mx-auto space-y-4">
       {/* Header */}
@@ -138,63 +88,6 @@ export default function TripDetail({
           </>
         )}
       </div>
-
-      {/* Actions - Check In / Check Out */}
-      {canCheckIn && (
-        <Button accent="driver" onClick={() => setShowCheckIn(true)} className="w-full">
-          <Icon name="login" size={18} className="mr-2" />
-          Check In
-        </Button>
-      )}
-      {canCheckOut && (
-        <Button onClick={() => setShowCheckOut(true)} className="w-full" variant="secondary">
-          <Icon name="logout" size={18} className="mr-2" />
-          Check Out
-        </Button>
-      )}
-
-      {/* Check In / Check Out Forms */}
-      {(showCheckIn || showCheckOut) && (
-        <div className="bg-surface dark:bg-navy-900 rounded-2xl border border-border-hairline dark:border-outline-variant p-5 space-y-3">
-          <h4 className="font-title-md text-title-md text-on-surface dark:text-white">
-            {showCheckIn ? "Check In" : "Check Out"} Vehicle
-          </h4>
-          <div>
-            <label className={`font-body-sm text-body-sm text-on-surface-variant dark:text-outline-variant`}>Location</label>
-            <input
-              type="text"
-              value={location}
-              onChange={(e) => setLocation(e.target.value)}
-              className={inputClass}
-              placeholder="Enter location"
-              required
-            />
-          </div>
-          <div>
-            <label className={`font-body-sm text-body-sm text-on-surface-variant dark:text-outline-variant`}>Remark (optional)</label>
-            <input
-              type="text"
-              value={remark}
-              onChange={(e) => setRemark(e.target.value)}
-              className={inputClass}
-              placeholder="Any notes..."
-            />
-          </div>
-          <div className="flex gap-3">
-            <Button
-              accent="driver"
-              onClick={showCheckIn ? handleCheckIn : handleCheckOut}
-              disabled={!location || checkingIn || checkingOut}
-              className="flex-1"
-            >
-              {checkingIn ? "Checking In..." : checkingOut ? "Checking Out..." : showCheckIn ? "Submit Check In" : "Submit Check Out"}
-            </Button>
-            <Button variant="secondary" onClick={() => { setShowCheckIn(false); setShowCheckOut(false); setLocation(""); setRemark(""); }}>
-              Cancel
-            </Button>
-          </div>
-        </div>
-      )}
     </div>
   );
 }

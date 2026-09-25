@@ -428,7 +428,7 @@ export default function DriverDetail({
       )}
 
       {/* Passport Tab */}
-      {tab === "passport" && <PassportCard driver={driver} className="max-w-3xl" />}
+      {tab === "passport" && <PassportCard driver={driver} className="max-w-4xl" wide />}
 
       {/* Assessment Tab */}
       {tab === "assessment" && (

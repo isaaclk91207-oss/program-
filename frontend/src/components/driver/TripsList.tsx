@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { EmptyState, Icon, TripStatusPill } from "../ui";
+import { CheckedInChip, EmptyState, Icon, TripStatusPill } from "../ui";
 import TripDetail from "./TripDetail";
 import type { TransportRequest } from "../../types";
 import { formatRequestId } from "../../types";
@@ -109,7 +109,10 @@ export default function TripsList({
                     {t.date} · {t.time}
                   </span>
                 </div>
-                <TripStatusPill status={t.status} perspective="driver" />
+                <div className="flex items-center gap-1.5">
+                  <TripStatusPill status={t.status} perspective="driver" />
+                  {t.hasActiveCheckin && <CheckedInChip />}
+                </div>
               </div>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                 <div className="col-span-2 md:col-span-1">

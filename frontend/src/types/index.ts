@@ -103,6 +103,11 @@ export interface TransportRequest {
   createdAt: string;
   version?: "v1" | "v2";
   hasActiveCheckin?: boolean;
+  activeCheckin?: {
+    checkInTime: string | null;
+    checkInLocation: string | null;
+    checkedBy: string | null;
+  } | null;
   tripHours?: number;
   drivingHours?: number;
   waitingTimeMs?: number;

@@ -167,6 +167,27 @@ export function Badge({ status, children }: { status: string; children: React.Re
   );
 }
 
+// ─── CheckedInChip ───────────────────────────────────────────────────────────
+
+export function CheckedInChip({
+  className = "",
+  onDark = false,
+}: {
+  className?: string;
+  onDark?: boolean;
+}) {
+  return (
+    <span
+      className={`inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[11px] font-semibold whitespace-nowrap ${
+        onDark ? "bg-emerald-300/95 text-emerald-950" : "bg-emerald-600 text-white"
+      } ${className}`}
+    >
+      <span className={`w-1.5 h-1.5 rounded-full ${onDark ? "bg-emerald-700" : "bg-white"}`} />
+      Checked In
+    </span>
+  );
+}
+
 // ─── CertBadge ──────────────────────────────────────────────────────────────
 
 const CERT_COLORS: Record<string, string> = {

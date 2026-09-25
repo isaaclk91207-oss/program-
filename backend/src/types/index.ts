@@ -75,6 +75,11 @@ export interface TransportRequestResponse {
   feedbackStatus: string | null;
   createdAt: string;
   hasActiveCheckin: boolean;
+  activeCheckin?: {
+    checkInTime: string | null;
+    checkInLocation: string | null;
+    checkedBy: string | null;
+  } | null;
   tripHours?: number;
   drivingHours?: number;
   waitingTimeMs?: number;

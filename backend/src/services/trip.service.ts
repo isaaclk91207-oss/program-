@@ -259,11 +259,18 @@ export class TripService {
         requestId: { in: tripIds },
         status: "CHECKED_IN",
       },
-      select: { requestId: true },
+      select: {
+        requestId: true,
+        checkInTime: true,
+        checkInLocation: true,
+        checkedBy: true,
+      },
     });
-    const activeCheckinSet = new Set(activeCheckins.map((c) => c.requestId));
+    const activeCheckinMap = new Map(
+      activeCheckins.map((c) => [c.requestId, c])
+    );
 
-    return trips.map((t) => this.formatTripResponse(t, activeCheckinSet.has(t.id)));
+    return trips.map((t) => this.formatTripResponse(t, activeCheckinMap.get(t.id) || null));
   }
 
   async getPassengerTrips(passengerId: string, status?: string) {
@@ -284,7 +291,7 @@ export class TripService {
       orderBy: { date: "desc" },
     });
 
-    return trips.map((t) => this.formatTripResponse(t, false));
+    return trips.map((t) => this.formatTripResponse(t, null));
   }
 
   async getTripDetail(requestId: string) {
@@ -478,7 +485,12 @@ export class TripService {
     note?: string | null;
     feedback: { id: string; rating: number } | null;
     createdAt: Date;
-  }, hasActiveCheckin: boolean) {
+  }, activeCheckin: {
+    checkInTime: Date | null;
+    checkInLocation: string | null;
+    checkedBy: string;
+  } | null) {
+    const hasActiveCheckin = !!activeCheckin;
     return {
       id: t.id,
       passengerId: t.passengerId,
@@ -506,6 +518,13 @@ export class TripService {
       feedbackStatus: t.feedback ? "SUBMITTED" : null,
       createdAt: t.createdAt.toISOString(),
       hasActiveCheckin,
+      activeCheckin: activeCheckin
+        ? {
+            checkInTime: activeCheckin.checkInTime?.toISOString() || null,
+            checkInLocation: activeCheckin.checkInLocation,
+            checkedBy: activeCheckin.checkedBy,
+          }
+        : null,
     };
   }
 }

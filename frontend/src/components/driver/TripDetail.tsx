@@ -1,4 +1,4 @@
-import { Icon, TripStatusPill } from "../ui";
+import { CheckedInChip, Icon, TripStatusPill } from "../ui";
 import type { TransportRequest } from "../../types";
 import { formatRequestId } from "../../types";
 
@@ -41,7 +41,10 @@ export default function TripDetail({
             {trip.date} · {trip.time}
           </p>
         </div>
-        <TripStatusPill status={trip.status} perspective="driver" />
+        <div className="flex items-center gap-1.5">
+          <TripStatusPill status={trip.status} perspective="driver" />
+          {trip.hasActiveCheckin && <CheckedInChip />}
+        </div>
       </div>
 
       {/* Route card */}
@@ -74,6 +77,27 @@ export default function TripDetail({
         <InfoRow icon="calendar_month" label="Date" value={trip.date} />
         <InfoRow icon="schedule" label="Time" value={trip.time} />
         <InfoRow icon="directions_car" label="Vehicle" value={trip.vehiclePlate || "—"} valueClass="font-mono" />
+        {trip.hasActiveCheckin && (
+          <div className="flex items-start gap-3 p-3 rounded-lg border border-emerald-200 bg-emerald-50/70 dark:bg-emerald-500/10 dark:border-emerald-500/30">
+            <span className="w-8 h-8 rounded-lg bg-emerald-600 text-white flex items-center justify-center shrink-0">
+              <Icon name="login" size={18} />
+            </span>
+            <div className="min-w-0">
+              <p className="font-label-caps text-label-caps uppercase text-emerald-700 dark:text-emerald-400">Checked In</p>
+              <p className="font-body-base text-body-base text-on-surface dark:text-white">
+                {trip.vehiclePlate ? <span className="font-mono">{trip.vehiclePlate}</span> : "Vehicle"}
+                {trip.activeCheckin?.checkInTime && (
+                  <> · {new Date(trip.activeCheckin.checkInTime).toLocaleString()}</>
+                )}
+              </p>
+              <p className="font-body-sm text-body-sm text-on-surface-variant dark:text-outline-variant">
+                {trip.activeCheckin?.checkInLocation ? `${trip.activeCheckin.checkInLocation} · ` : ""}
+                {trip.activeCheckin?.checkedBy === "DRIVER" ? "Checked in by Driver" : "Checked in by Admin"}
+                {" · driving hours running"}
+              </p>
+            </div>
+          </div>
+        )}
         {["FEEDBACK_SUBMITTED", "COMPLETED", "DROPOFF_COMPLETE"].includes(trip.status) && (trip.tripHours != null || trip.drivingHours != null) && (
           <>
             {trip.tripHours != null && (

@@ -3,9 +3,21 @@ import { Card, Button, Badge, EmptyState, SearchInput, th, Icon, DataTable, Tabl
 import { exportExcel, exportCSV, downloadBlob } from "../../services/api";
 import AssignModal from "./AssignModal";
 import BatchAssignModal from "./BatchAssignModal";
+import CheckInOutModal from "./CheckInOutModal";
 import type { TransportRequest, Driver, Vehicle } from "../../types";
 import { formatRequestId } from "../../types";
 import { getStatusLabel } from "../../lib/status";
+
+// Statuses where the admin may check a driver in (mirrors backend rules)
+const CHECK_IN_STATUSES = ["ASSIGNED", "QR_PENDING", "PICK_UP_SCANNED"];
+
+function canCheckIn(r: TransportRequest) {
+  return !!r.driverId && !!r.vehiclePlate && CHECK_IN_STATUSES.includes(r.status) && !r.hasActiveCheckin;
+}
+
+function canCheckOut(r: TransportRequest) {
+  return !!r.driverId && !!r.vehiclePlate && !!r.hasActiveCheckin;
+}
 
 function getDisplayId(d: Driver): string {
   if (d.version === "v2" && d.employeeId) return d.employeeId;
@@ -40,6 +52,7 @@ export default function RequestsList({
   const [search, setSearch] = useState("");
   const [inlineAssign, setInlineAssign] = useState<Record<string, { driverId: string; vehicleId: string }>>({});
   const [exporting, setExporting] = useState(false);
+  const [checkAction, setCheckAction] = useState<{ request: TransportRequest; mode: "in" | "out" } | null>(null);
 
   // Multi-select state
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
@@ -338,6 +351,60 @@ export default function RequestsList({
               </div>
             )}
           </div>
+
+          {/* Check-In / Check-Out actions (visible once a driver is assigned) */}
+          {(canCheckIn(selectedRequest) || canCheckOut(selectedRequest)) && (
+            <div className="mt-4 p-4 rounded-xl border border-emerald-300 dark:border-emerald-500/40 bg-emerald-50/70 dark:bg-emerald-500/10">
+              <div className="flex items-start justify-between gap-3 flex-wrap">
+                <div className="flex items-start gap-2.5">
+                  <Icon name="fact_check" size={22} className="text-emerald-600 dark:text-emerald-400 mt-0.5" />
+                  <div>
+                    <p className="text-sm font-semibold text-on-surface dark:text-white">Driver Check-In / Check-Out</p>
+                    <p className="text-xs text-on-surface-variant dark:text-outline-variant mt-0.5">
+                      Required after assignment — starts and ends the driver's driving hours for this trip.
+                    </p>
+                  </div>
+                </div>
+                <span
+                  className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold ${
+                    selectedRequest.hasActiveCheckin
+                      ? "bg-emerald-600 text-white"
+                      : "bg-amber-100 text-amber-700 dark:bg-amber-500/20 dark:text-amber-300"
+                  }`}
+                >
+                  <span className={`w-1.5 h-1.5 rounded-full ${selectedRequest.hasActiveCheckin ? "bg-white" : "bg-amber-500"}`} />
+                  {selectedRequest.hasActiveCheckin ? "Checked In" : "Not Checked In"}
+                </span>
+              </div>
+              <div className="flex gap-2 mt-3">
+                <Button
+                  accent="admin"
+                  size="sm"
+                  disabled={!canCheckIn(selectedRequest)}
+                  onClick={() => setCheckAction({ request: selectedRequest, mode: "in" })}
+                >
+                  <Icon name="login" size={15} className="mr-1.5" />
+                  Check In
+                </Button>
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  disabled={!canCheckOut(selectedRequest)}
+                  className="border-amber-400 text-amber-600 dark:text-amber-400 dark:border-amber-500/50"
+                  onClick={() => setCheckAction({ request: selectedRequest, mode: "out" })}
+                >
+                  <Icon name="logout" size={15} className="mr-1.5" />
+                  Check Out
+                </Button>
+              </div>
+              {!canCheckIn(selectedRequest) && !selectedRequest.hasActiveCheckin && (
+                <p className="text-xs text-on-surface-variant dark:text-outline-variant mt-2">
+                  Check-in becomes available for ASSIGNED / QR pending / pickup-scanned trips.
+                </p>
+              )}
+            </div>
+          )}
+
           {selectedRequest.status === "PENDING" && (
             <Button accent="admin" onClick={() => onShowAssignModal(true)} className="mt-4">Assign Driver + Vehicle</Button>
           )}
@@ -456,7 +523,7 @@ export default function RequestsList({
                         )}
                       </TableCell>
                       <TableCell><Badge status={r.status}>{getStatusLabel(r.status as any, "admin")}</Badge></TableCell>
-                      <TableCell className="text-right">
+                      <TableCell className="text-right whitespace-nowrap">
                         {isPending ? (
                           <Button
                             accent="admin"
@@ -469,8 +536,41 @@ export default function RequestsList({
                           >
                             Assign
                           </Button>
+                        ) : canCheckOut(r) || canCheckIn(r) ? (
+                          <div className="flex items-center justify-end gap-1.5">
+                            {canCheckIn(r) && (
+                              <Button
+                                accent="admin"
+                                size="sm"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setCheckAction({ request: r, mode: "in" });
+                                }}
+                              >
+                                <Icon name="login" size={14} className="mr-1" />
+                                Check In
+                              </Button>
+                            )}
+                            {canCheckOut(r) && (
+                              <Button
+                                variant="secondary"
+                                size="sm"
+                                className="border-amber-400 text-amber-600 dark:text-amber-400 dark:border-amber-500/50"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setCheckAction({ request: r, mode: "out" });
+                                }}
+                              >
+                                <Icon name="logout" size={14} className="mr-1" />
+                                Check Out
+                              </Button>
+                            )}
+                            <button onClick={(e) => { e.stopPropagation(); onSelectRequest(r); }} className="p-1 text-on-surface-variant">
+                              <Icon name="chevron_right" size={18} />
+                            </button>
+                          </div>
                         ) : (
-                          <Icon name="chevron_right" size={18} className="text-on-surface-variant" />
+                          <Icon name="chevron_right" size={18} className="text-on-surface-variant inline" />
                         )}
                       </TableCell>
                     </TableRow>
@@ -511,6 +611,15 @@ export default function RequestsList({
             clearSelection();
           }}
           onClose={() => setShowBatchModal(false)}
+        />
+      )}
+
+      {checkAction && (
+        <CheckInOutModal
+          request={checkAction.request}
+          mode={checkAction.mode}
+          onClose={() => setCheckAction(null)}
+          onDone={onRefresh}
         />
       )}
     </div>

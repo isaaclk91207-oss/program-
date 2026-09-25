@@ -53,6 +53,12 @@ export default function DriverDetail({
   const [deletingTaskId, setDeletingTaskId] = useState<string | null>(null);
 
   // Admin Check-in/out state
+  const [activeCheckin, setActiveCheckin] = useState({
+    active: !!driver.hasActiveCheckin,
+    plate: driver.activeCheckinVehiclePlate || "",
+    time: driver.activeCheckinTime || null,
+    location: driver.activeCheckinLocation || null,
+  });
   const [checkInVehicleId, setCheckInVehicleId] = useState("");
   const [checkInLocation, setCheckInLocation] = useState("");
   const [checkInRemark, setCheckInRemark] = useState("");
@@ -61,6 +67,7 @@ export default function DriverDetail({
   const [checkOutRemark, setCheckOutRemark] = useState("");
   const [checkingIn, setCheckingIn] = useState(false);
   const [checkingOut, setCheckingOut] = useState(false);
+  const [checkError, setCheckError] = useState("");
 
   // Assessment state
   const [written, setWritten] = useState(80);
@@ -90,6 +97,21 @@ export default function DriverDetail({
   useEffect(() => { loadHours(); }, [driver.id]);
 
   useEffect(() => {
+    setActiveCheckin({
+      active: !!driver.hasActiveCheckin,
+      plate: driver.activeCheckinVehiclePlate || "",
+      time: driver.activeCheckinTime || null,
+      location: driver.activeCheckinLocation || null,
+    });
+    // Pre-select the driver's assigned vehicle for check-in
+    if (driver.currentVehicleId) setCheckInVehicleId(driver.currentVehicleId);
+    if (driver.hasActiveCheckin && driver.activeCheckinVehiclePlate) {
+      const v = vehicles.find((x) => x.plate === driver.activeCheckinVehiclePlate);
+      if (v) setCheckOutVehicleId(v.id);
+    }
+  }, [driver.id]);
+
+  useEffect(() => {
     const unsub = onTripStatusChanged((event) => {
       if (event.driverId === driver.id) loadHours();
     });
@@ -117,19 +139,23 @@ export default function DriverDetail({
   async function handleAdminCheckIn() {
     if (!checkInVehicleId || !checkInLocation) return;
     setCheckingIn(true);
+    setCheckError("");
     try {
+      const plate = vehicles.find(v => v.id === checkInVehicleId)?.plate || "";
       await adminCheckIn({
         driverId: driver.id,
-        vehiclePlate: vehicles.find(v => v.id === checkInVehicleId)?.plate || "",
+        vehiclePlate: plate,
         location: checkInLocation,
         remark: checkInRemark || undefined,
       });
       setCheckInVehicleId("");
       setCheckInLocation("");
       setCheckInRemark("");
+      setActiveCheckin({ active: true, plate, time: new Date().toISOString(), location: checkInLocation });
       loadHours();
-    } catch (err) {
-      console.error(err);
+    } catch (err: unknown) {
+      const data = (err as { response?: { data?: { error?: { message?: string }; message?: string } } })?.response?.data;
+      setCheckError(data?.error?.message || data?.message || "Check-in failed");
     } finally {
       setCheckingIn(false);
     }
@@ -138,19 +164,23 @@ export default function DriverDetail({
   async function handleAdminCheckOut() {
     if (!checkOutVehicleId || !checkOutLocation) return;
     setCheckingOut(true);
+    setCheckError("");
     try {
+      const plate = vehicles.find(v => v.id === checkOutVehicleId)?.plate || "";
       await adminCheckOut({
         driverId: driver.id,
-        vehiclePlate: vehicles.find(v => v.id === checkOutVehicleId)?.plate || "",
+        vehiclePlate: plate,
         location: checkOutLocation,
         remark: checkOutRemark || undefined,
       });
       setCheckOutVehicleId("");
       setCheckOutLocation("");
       setCheckOutRemark("");
+      setActiveCheckin((prev) => ({ ...prev, active: false }));
       loadHours();
-    } catch (err) {
-      console.error(err);
+    } catch (err: unknown) {
+      const data = (err as { response?: { data?: { error?: { message?: string }; message?: string } } })?.response?.data;
+      setCheckError(data?.error?.message || data?.message || "Check-out failed");
     } finally {
       setCheckingOut(false);
     }
@@ -578,6 +608,167 @@ export default function DriverDetail({
       {/* Tasks Tab */}
       {tab === "tasks" && (
         <div className="space-y-4">
+          {/* Admin Check-in/Out — required after a driver is assigned */}
+          <Card className="p-4">
+            <div className="flex items-center justify-between gap-3 flex-wrap mb-3">
+              <div className="flex items-center gap-2">
+                <span className="w-8 h-8 rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center">
+                  <Icon name="fact_check" size={18} />
+                </span>
+                <div>
+                  <h4 className={`font-semibold ${th.text}`}>Driver Check-In / Check-Out</h4>
+                  <p className={`text-xs ${th.textMuted}`}>Required after assignment — starts / ends driving hours.</p>
+                </div>
+              </div>
+              <span
+                className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold ${
+                  activeCheckin.active
+                    ? "bg-emerald-600 text-white"
+                    : "bg-amber-100 text-amber-700 dark:bg-amber-500/20 dark:text-amber-300"
+                }`}
+              >
+                <span className={`w-1.5 h-1.5 rounded-full ${activeCheckin.active ? "bg-white" : "bg-amber-500"}`} />
+                {activeCheckin.active ? "Checked In" : "Not Checked In"}
+              </span>
+            </div>
+
+            {/* Status banner */}
+            <div
+              className={`flex items-start gap-2.5 p-3 rounded-lg border mb-4 ${
+                activeCheckin.active
+                  ? "bg-emerald-50 border-emerald-200 dark:bg-emerald-500/10 dark:border-emerald-500/30"
+                  : "bg-surface-container-low dark:bg-navy-900 border-border-hairline dark:border-outline-variant"
+              }`}
+            >
+              <span
+                className={`mt-1 w-2 h-2 rounded-full shrink-0 ${
+                  activeCheckin.active ? "bg-emerald-500 animate-pulse" : "bg-outline dark:bg-outline-variant"
+                }`}
+              />
+              <div className="text-sm min-w-0">
+                {activeCheckin.active ? (
+                  <>
+                    <p className="font-medium text-emerald-700 dark:text-emerald-300">
+                      Checked in{activeCheckin.plate ? <> — <span className="font-mono">{activeCheckin.plate}</span></> : null}
+                    </p>
+                    <p className={`text-xs ${th.textSecondary} mt-0.5`}>
+                      {activeCheckin.time ? new Date(activeCheckin.time).toLocaleString() : ""}
+                      {activeCheckin.location ? ` · ${activeCheckin.location}` : ""} · driving hours running
+                    </p>
+                  </>
+                ) : (
+                  <>
+                    <p className={`font-medium ${th.text}`}>Not checked in</p>
+                    <p className={`text-xs ${th.textSecondary} mt-0.5`}>
+                      Check this driver in (with their assigned vehicle) to start driving hours, then check out when the trip ends.
+                    </p>
+                  </>
+                )}
+              </div>
+            </div>
+
+            {checkError && (
+              <div className="flex items-center gap-2 text-sm text-error mb-3">
+                <Icon name="error" size={16} />
+                {checkError}
+              </div>
+            )}
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+              {/* Check In */}
+              <div className="space-y-3">
+                <h5 className={`font-medium ${th.text}`}>Check In</h5>
+                <div>
+                  <label className={`text-sm ${th.textSecondary}`}>Vehicle</label>
+                  <select
+                    value={checkInVehicleId}
+                    onChange={(e) => setCheckInVehicleId(e.target.value)}
+                    className={`w-full mt-1 px-3 py-2 text-sm rounded-lg border ${th.bgInput} ${th.border} ${th.text} focus:outline-none focus:border-emerald-500`}
+                  >
+                    <option value="">Select vehicle</option>
+                    {vehicles.filter((v) => v.status === "ACTIVE").map((v) => (
+                      <option key={v.id} value={v.id}>{v.plate} — {v.make} {v.model}</option>
+                    ))}
+                  </select>
+                </div>
+                <div>
+                  <label className={`text-sm ${th.textSecondary}`}>Location</label>
+                  <input
+                    type="text"
+                    value={checkInLocation}
+                    onChange={(e) => setCheckInLocation(e.target.value)}
+                    placeholder="Enter location"
+                    className={`w-full mt-1 px-3 py-2 text-sm rounded-lg border ${th.bgInput} ${th.border} ${th.text} focus:outline-none focus:border-emerald-500`}
+                  />
+                </div>
+                <div>
+                  <label className={`text-sm ${th.textSecondary}`}>Remark (optional)</label>
+                  <input
+                    type="text"
+                    value={checkInRemark}
+                    onChange={(e) => setCheckInRemark(e.target.value)}
+                    placeholder="Any notes..."
+                    className={`w-full mt-1 px-3 py-2 text-sm rounded-lg border ${th.bgInput} ${th.border} ${th.text} focus:outline-none focus:border-emerald-500`}
+                  />
+                </div>
+                <Button
+                  accent="admin"
+                  onClick={handleAdminCheckIn}
+                  disabled={activeCheckin.active || !checkInVehicleId || !checkInLocation || checkingIn}
+                  className="w-full"
+                >
+                  {checkingIn ? "Checking In..." : activeCheckin.active ? "Already Checked In" : "Check In"}
+                </Button>
+              </div>
+
+              {/* Check Out */}
+              <div className="space-y-3">
+                <h5 className={`font-medium ${th.text}`}>Check Out</h5>
+                <div>
+                  <label className={`text-sm ${th.textSecondary}`}>Vehicle</label>
+                  <select
+                    value={checkOutVehicleId}
+                    onChange={(e) => setCheckOutVehicleId(e.target.value)}
+                    className={`w-full mt-1 px-3 py-2 text-sm rounded-lg border ${th.bgInput} ${th.border} ${th.text} focus:outline-none focus:border-emerald-500`}
+                  >
+                    <option value="">Select vehicle</option>
+                    {vehicles.filter((v) => v.status === "ACTIVE").map((v) => (
+                      <option key={v.id} value={v.id}>{v.plate} — {v.make} {v.model}</option>
+                    ))}
+                  </select>
+                </div>
+                <div>
+                  <label className={`text-sm ${th.textSecondary}`}>Location</label>
+                  <input
+                    type="text"
+                    value={checkOutLocation}
+                    onChange={(e) => setCheckOutLocation(e.target.value)}
+                    placeholder="Enter location"
+                    className={`w-full mt-1 px-3 py-2 text-sm rounded-lg border ${th.bgInput} ${th.border} ${th.text} focus:outline-none focus:border-emerald-500`}
+                  />
+                </div>
+                <div>
+                  <label className={`text-sm ${th.textSecondary}`}>Remark (optional)</label>
+                  <input
+                    type="text"
+                    value={checkOutRemark}
+                    onChange={(e) => setCheckOutRemark(e.target.value)}
+                    placeholder="Any notes..."
+                    className={`w-full mt-1 px-3 py-2 text-sm rounded-lg border ${th.bgInput} ${th.border} ${th.text} focus:outline-none focus:border-emerald-500`}
+                  />
+                </div>
+                <Button
+                  variant="secondary"
+                  onClick={handleAdminCheckOut}
+                  disabled={!activeCheckin.active || !checkOutVehicleId || !checkOutLocation || checkingOut}
+                  className="w-full border-amber-400 text-amber-600 dark:text-amber-400 dark:border-amber-500/50"
+                >
+                  {checkingOut ? "Checking Out..." : !activeCheckin.active ? "Not Checked In" : "Check Out"}
+                </Button>
+              </div>
+            </div>
+          </Card>
+
           {/* Create Task Form */}
           <Card className="p-4">
             <h4 className={`font-semibold ${th.text} mb-3`}>Assign New Task</h4>
@@ -635,104 +826,6 @@ export default function DriverDetail({
               >
                 {creatingTask ? "Creating..." : "Assign Task"}
               </Button>
-            </div>
-          </Card>
-
-          {/* Admin Check-in/Out */}
-          <Card className="p-4">
-            <h4 className={`font-semibold ${th.text} mb-3`}>Driver Check-In / Check-Out</h4>
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-              {/* Check In */}
-              <div className="space-y-3">
-                <h5 className={`font-medium ${th.text}`}>Check In</h5>
-                <div>
-                  <label className={`text-sm ${th.textSecondary}`}>Vehicle</label>
-                  <select
-                    value={checkInVehicleId}
-                    onChange={(e) => setCheckInVehicleId(e.target.value)}
-                    className={`w-full mt-1 px-3 py-2 text-sm rounded-lg border ${th.bgInput} ${th.border} ${th.text} focus:outline-none focus:border-emerald-500`}
-                  >
-                    <option value="">Select vehicle</option>
-                    {vehicles.filter((v) => v.status === "ACTIVE").map((v) => (
-                      <option key={v.id} value={v.id}>{v.plate} — {v.make} {v.model}</option>
-                    ))}
-                  </select>
-                </div>
-                <div>
-                  <label className={`text-sm ${th.textSecondary}`}>Location</label>
-                  <input
-                    type="text"
-                    value={checkInLocation}
-                    onChange={(e) => setCheckInLocation(e.target.value)}
-                    placeholder="Enter location"
-                    className={`w-full mt-1 px-3 py-2 text-sm rounded-lg border ${th.bgInput} ${th.border} ${th.text} focus:outline-none focus:border-emerald-500`}
-                  />
-                </div>
-                <div>
-                  <label className={`text-sm ${th.textSecondary}`}>Remark (optional)</label>
-                  <input
-                    type="text"
-                    value={checkInRemark}
-                    onChange={(e) => setCheckInRemark(e.target.value)}
-                    placeholder="Any notes..."
-                    className={`w-full mt-1 px-3 py-2 text-sm rounded-lg border ${th.bgInput} ${th.border} ${th.text} focus:outline-none focus:border-emerald-500`}
-                  />
-                </div>
-                <Button
-                  accent="admin"
-                  onClick={handleAdminCheckIn}
-                  disabled={!checkInVehicleId || !checkInLocation || checkingIn}
-                  className="w-full"
-                >
-                  {checkingIn ? "Checking In..." : "Check In"}
-                </Button>
-              </div>
-
-              {/* Check Out */}
-              <div className="space-y-3">
-                <h5 className={`font-medium ${th.text}`}>Check Out</h5>
-                <div>
-                  <label className={`text-sm ${th.textSecondary}`}>Vehicle</label>
-                  <select
-                    value={checkOutVehicleId}
-                    onChange={(e) => setCheckOutVehicleId(e.target.value)}
-                    className={`w-full mt-1 px-3 py-2 text-sm rounded-lg border ${th.bgInput} ${th.border} ${th.text} focus:outline-none focus:border-emerald-500`}
-                  >
-                    <option value="">Select vehicle</option>
-                    {vehicles.filter((v) => v.status === "ACTIVE").map((v) => (
-                      <option key={v.id} value={v.id}>{v.plate} — {v.make} {v.model}</option>
-                    ))}
-                  </select>
-                </div>
-                <div>
-                  <label className={`text-sm ${th.textSecondary}`}>Location</label>
-                  <input
-                    type="text"
-                    value={checkOutLocation}
-                    onChange={(e) => setCheckOutLocation(e.target.value)}
-                    placeholder="Enter location"
-                    className={`w-full mt-1 px-3 py-2 text-sm rounded-lg border ${th.bgInput} ${th.border} ${th.text} focus:outline-none focus:border-emerald-500`}
-                  />
-                </div>
-                <div>
-                  <label className={`text-sm ${th.textSecondary}`}>Remark (optional)</label>
-                  <input
-                    type="text"
-                    value={checkOutRemark}
-                    onChange={(e) => setCheckOutRemark(e.target.value)}
-                    placeholder="Any notes..."
-                    className={`w-full mt-1 px-3 py-2 text-sm rounded-lg border ${th.bgInput} ${th.border} ${th.text} focus:outline-none focus:border-emerald-500`}
-                  />
-                </div>
-                <Button
-                  accent="admin"
-                  onClick={handleAdminCheckOut}
-                  disabled={!checkOutVehicleId || !checkOutLocation || checkingOut}
-                  className="w-full"
-                >
-                  {checkingOut ? "Checking Out..." : "Check Out"}
-                </Button>
-              </div>
             </div>
           </Card>
 

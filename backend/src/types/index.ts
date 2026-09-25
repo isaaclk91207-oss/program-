@@ -134,6 +134,11 @@ export interface DriverResponse {
   currentVehiclePlate: string | null;
   score: number;
   rating: number;
+  hasActiveCheckin: boolean;
+  activeCheckinVehiclePlate: string | null;
+  activeCheckinTime: string | null;
+  activeCheckinLocation: string | null;
+  activeCheckinBy: string | null;
 }
 
 // ─── Vehicle Types ───────────────────────────────────────────────────────────

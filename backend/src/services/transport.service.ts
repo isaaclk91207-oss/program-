@@ -50,7 +50,7 @@ export class TransportService {
           driver: { include: { user: { select: { name: true } } } },
           vehicle: { select: { id: true, plate: true } },
           feedback: { select: { id: true, rating: true } },
-          vehicleCheckins: { select: { checkInTime: true, checkOutTime: true } },
+          vehicleCheckins: { select: { checkInTime: true, checkOutTime: true, status: true } },
         },
         orderBy: { createdAt: "desc" },
         skip: (page - 1) * limit,
@@ -357,7 +357,7 @@ export class TransportService {
     waitingTotalMs?: number | null;
     feedback: { id: string; rating: number } | null;
     createdAt: Date;
-    vehicleCheckins?: { checkInTime: Date | null; checkOutTime: Date | null }[];
+    vehicleCheckins?: { checkInTime: Date | null; checkOutTime: Date | null; status?: string }[];
   }): TransportRequestResponse {
     let tripHours: number | undefined;
     let drivingHours: number | undefined;
@@ -368,8 +368,13 @@ export class TransportService {
       if (ms > 0) tripHours = Math.round((ms / 3600000) * 10) / 10;
     }
 
+    const hasActiveCheckin = (r.vehicleCheckins || []).some((c) => c.status === "CHECKED_IN");
+
     if (r.vehicleCheckins && r.vehicleCheckins.length > 0) {
-      const lastCheckin = r.vehicleCheckins.find((c) => c.checkInTime && c.checkOutTime);
+      const completed = [...r.vehicleCheckins]
+        .filter((c) => c.checkInTime && c.checkOutTime)
+        .sort((a, b) => (b.checkInTime?.getTime() || 0) - (a.checkInTime?.getTime() || 0));
+      const lastCheckin = completed[0];
       if (lastCheckin && lastCheckin.checkInTime && lastCheckin.checkOutTime) {
         const ms = lastCheckin.checkOutTime.getTime() - lastCheckin.checkInTime.getTime();
         if (ms > 0) drivingHours = Math.round((ms / 3600000) * 10) / 10;
@@ -402,7 +407,7 @@ export class TransportService {
         : null,
       feedbackStatus: r.feedback ? "SUBMITTED" : null,
       createdAt: r.createdAt.toISOString(),
-      hasActiveCheckin: false,
+      hasActiveCheckin,
       tripHours,
       drivingHours,
       waitingTimeMs: r.waitingTotalMs || 0,

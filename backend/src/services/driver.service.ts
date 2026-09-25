@@ -88,6 +88,17 @@ export class DriverService {
         currentVehicle: true,
         assessments: { orderBy: { createdAt: "desc" }, take: 1 },
         feedbackRecords: { select: { rating: true } },
+        vehicleCheckins: {
+          where: { status: "CHECKED_IN" },
+          take: 1,
+          select: {
+            status: true,
+            checkInTime: true,
+            checkInLocation: true,
+            checkedBy: true,
+            vehicle: { select: { plate: true } },
+          },
+        },
       },
       orderBy: { user: { name: "asc" } },
     });
@@ -110,6 +121,8 @@ export class DriverService {
           orderBy: { createdAt: "desc" },
         },
         vehicleCheckins: {
+          where: { status: "CHECKED_IN" },
+          take: 1,
           include: { vehicle: { select: { plate: true } } },
           orderBy: { createdAt: "desc" },
         },
@@ -391,6 +404,13 @@ export class DriverService {
     currentVehicle?: { id: string; plate: string } | null;
     feedbackRecords?: { rating: number }[];
     assessments?: { overallScore: number }[];
+    vehicleCheckins?: {
+      status: string;
+      checkInTime: Date | null;
+      checkInLocation?: string | null;
+      checkedBy?: string;
+      vehicle?: { plate: string } | null;
+    }[];
   }): DriverResponse {
     const avgRating =
       d.feedbackRecords && d.feedbackRecords.length > 0
@@ -398,6 +418,8 @@ export class DriverService {
             (d.feedbackRecords.reduce((sum, f) => sum + f.rating, 0) / d.feedbackRecords.length) * 10
           ) / 10
         : 0;
+
+    const activeCheckin = (d.vehicleCheckins || []).find((c) => c.status === "CHECKED_IN");
 
     return {
       id: d.userId,
@@ -416,6 +438,11 @@ export class DriverService {
       currentVehiclePlate: d.currentVehicle?.plate || null,
       score: d.assessments?.[0]?.overallScore || 0,
       rating: avgRating,
+      hasActiveCheckin: !!activeCheckin,
+      activeCheckinVehiclePlate: activeCheckin?.vehicle?.plate || null,
+      activeCheckinTime: activeCheckin?.checkInTime?.toISOString() || null,
+      activeCheckinLocation: activeCheckin?.checkInLocation || null,
+      activeCheckinBy: activeCheckin?.checkedBy || null,
     };
   }
   async getDrivingHours(driverId?: string) {

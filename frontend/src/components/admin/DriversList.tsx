@@ -112,7 +112,20 @@ export default function DriversList({
             <TableCell className="font-mono">{d.currentVehiclePlate || "—"}</TableCell>
             <TableCell className="text-right">{d.score}</TableCell>
             <TableCell className="text-right">{d.rating}</TableCell>
-            <TableCell><Badge status={getStatusBadge(d.status)}>{d.status}</Badge></TableCell>
+            <TableCell>
+              <div className="flex items-center gap-1.5 flex-wrap">
+                <Badge status={getStatusBadge(d.status)}>{d.status}</Badge>
+                {d.hasActiveCheckin && (
+                  <span
+                    title={d.activeCheckinVehiclePlate ? `Checked in — ${d.activeCheckinVehiclePlate}` : "Checked in"}
+                    className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-600 text-white whitespace-nowrap"
+                  >
+                    <span className="w-1 h-1 rounded-full bg-white" />
+                    Checked In
+                  </span>
+                )}
+              </div>
+            </TableCell>
             <TableCell>
               <button
                 onClick={(e) => { e.stopPropagation(); setDeleteTarget(d); }}

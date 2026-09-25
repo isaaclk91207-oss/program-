@@ -69,6 +69,11 @@ export interface Driver {
   employeeId?: string;
   wialonDriverId?: number;
   version?: "v1" | "v2";
+  hasActiveCheckin?: boolean;
+  activeCheckinVehiclePlate?: string | null;
+  activeCheckinTime?: string | null;
+  activeCheckinLocation?: string | null;
+  activeCheckinBy?: string | null;
 }
 
 export interface TransportRequest {

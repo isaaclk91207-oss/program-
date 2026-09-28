@@ -124,9 +124,11 @@ export class TripService {
 
     socketService.emit("trip:statusChanged", { requestId, status: "DRIVER_ARRIVED", driverId, arrivedAt: updated.arrivedAt });
 
+    const admin = await prisma.user.findFirst({ where: { role: "ADMIN" } });
+
     await notificationService.create({
-      recipientId: "ADMIN",
-      recipientRole: "admin",
+      recipientId: admin?.id ?? "admin-system",
+      recipientRole: "ADMIN",
       title: "Driver Arrived",
       message: `${request.driver?.user?.name || "Driver"} arrived at pickup for request ${requestId} (${request.pickup} → ${request.destination}).`,
       relatedRequestId: requestId,
@@ -215,7 +217,7 @@ export class TripService {
 
     await notificationService.create({
       recipientId: driverId,
-      recipientRole: "driver",
+      recipientRole: "DRIVER",
       title: "Check-In Recorded",
       message: `Your check-in for vehicle ${data.vehiclePlate} has been recorded successfully.`,
       relatedRequestId: activeRequest.id,
@@ -265,7 +267,7 @@ export class TripService {
 
     await notificationService.create({
       recipientId: driverId,
-      recipientRole: "driver",
+      recipientRole: "DRIVER",
       title: "Check-Out Recorded",
       message: `Your check-out for vehicle ${data.vehiclePlate} has been recorded successfully.`,
       relatedRequestId: checkin.requestId,
@@ -408,7 +410,7 @@ export class TripService {
 
     await notificationService.create({
       recipientId: driverId,
-      recipientRole: "driver",
+      recipientRole: "DRIVER",
       title: "Admin Check-In",
       message: `Admin has checked you in for vehicle ${data.vehiclePlate}.`,
       relatedRequestId: activeRequest.id,
@@ -447,7 +449,7 @@ export class TripService {
 
     await notificationService.create({
       recipientId: driverId,
-      recipientRole: "driver",
+      recipientRole: "DRIVER",
       title: "Admin Check-Out",
       message: `Admin has checked you out for vehicle ${data.vehiclePlate}.`,
       relatedRequestId: checkin.requestId,

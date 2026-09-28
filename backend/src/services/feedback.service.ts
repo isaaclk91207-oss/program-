@@ -77,9 +77,11 @@ export class FeedbackService {
       data: { status: "FEEDBACK_SUBMITTED" },
     });
 
+    const admin = await prisma.user.findFirst({ where: { role: "ADMIN" } });
+
     await notificationService.create({
-      recipientId: "ADMIN",
-      recipientRole: "admin",
+      recipientId: admin?.id ?? "admin-system",
+      recipientRole: "ADMIN",
       title: "Feedback Submitted",
       message: `${request.passenger.user.name} submitted ${data.rating}-star feedback for driver ${request.driver?.user?.name} on request ${requestId}.`,
       relatedRequestId: requestId,

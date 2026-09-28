@@ -274,6 +274,8 @@ export interface TripHoursEntry {
   tripHours: number;
   drivingHours: number;
   waitingTimeMs: number;
+  redZoneCleaningMs: number;
+  redZoneWaitingMs: number;
 }
 
 // ─── Driver Task Types ──────────────────────────────────────────────────────
@@ -299,6 +301,14 @@ export interface DriverTaskResponse {
   createdAt: string;
 }
 
+// ─── Red Zone Types ────────────────────────────────────────────────────────────
+
+export interface RecordRedZoneDto {
+  cleaningTimeMs: number;
+  waitingTimeMs?: number;
+  remark?: string;
+}
+
 // ─── Dashboard Types ─────────────────────────────────────────────────────────
 
 export interface DashboardStats {
@@ -316,11 +326,14 @@ export interface DashboardStats {
   requestsByStatus: { status: string; count: number }[];
   requestsByDepartment: { department: string; count: number }[];
   recentRequests: TransportRequestResponse[];
-  driverHours: { driverId: string; driverName: string; tripHours: number; drivingHours: number; waitingTimeMs: number; taskHours: number; trips: TripHoursEntry[] }[];
+  driverHours: { driverId: string; driverName: string; tripHours: number; drivingHours: number; waitingTimeMs: number; taskHours: number; redZoneHours: number; redZoneCleaningMs: number; redZoneWaitingMs: number; trips: TripHoursEntry[] }[];
   totalTripHours: number;
   totalDrivingHours: number;
   totalWaitingTimeMs: number;
   totalTaskHours: number;
+  totalRedZoneHours: number;
+  totalRedZoneCleaningMs: number;
+  totalRedZoneWaitingMs: number;
 }
 
 // ─── Settings Types ──────────────────────────────────────────────────────────

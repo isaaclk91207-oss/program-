@@ -151,6 +151,18 @@ export class TripController {
       next(err);
     }
   }
+
+  async recordRedZone(req: AuthenticatedRequest, res: Response, next: NextFunction) {
+    try {
+      if (!req.user) {
+        return res.status(401).json({ error: { code: "UNAUTHORIZED", message: "Not authenticated" } });
+      }
+      const result = await tripService.recordRedZone(req.params.id, req.body, req.user.id, req.user.role);
+      res.json(result);
+    } catch (err) {
+      next(err);
+    }
+  }
 }
 
 export const tripController = new TripController();

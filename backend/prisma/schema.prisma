@@ -155,23 +155,27 @@ model Feedback {
 }
 
 model VehicleCheckin {
-  id               String    @id @default(uuid())
-  vehicleId        String
-  driverId         String
-  requestId        String
-  checkInLocation  String?
-  checkInTime      DateTime?
-  checkInRemark    String?
-  checkOutLocation String?
-  checkOutTime     DateTime?
-  checkOutRemark   String?
-  status           String    @default("CHECKED_IN") // CHECKED_IN | CHECKED_OUT
-  checkedBy        String    @default("DRIVER") // ADMIN | DRIVER
-  createdAt        DateTime  @default(now())
+  id                String    @id @default(uuid())
+  vehicleId         String
+  driverId          String
+  requestId         String
+  checkInLocation   String?
+  checkInTime       DateTime?
+  checkInRemark     String?
+  checkOutLocation  String?
+  checkOutTime      DateTime?
+  checkOutRemark    String?
+  status            String    @default("CHECKED_IN") // CHECKED_IN | CHECKED_OUT
+  checkedBy         String    @default("DRIVER") // ADMIN | DRIVER
+  createdAt         DateTime  @default(now())
+  cleaningTimeMs    Int       @default(0)
+  redZoneWaitingMs  Int       @default(0)
+  redZoneRemark     String?
+  redZoneRecordedAt DateTime?
 
-  vehicle          Vehicle          @relation(fields: [vehicleId], references: [id])
-  driver           DriverProfile    @relation(fields: [driverId], references: [userId])
-  transportRequest TransportRequest @relation(fields: [requestId], references: [id])
+  vehicle           Vehicle          @relation(fields: [vehicleId], references: [id])
+  driver            DriverProfile    @relation(fields: [driverId], references: [userId])
+  transportRequest  TransportRequest @relation(fields: [requestId], references: [id])
 
   @@map("vehicle_checkins")
 }

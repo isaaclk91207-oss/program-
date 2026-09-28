@@ -1,9 +1,11 @@
 import { useState, useMemo } from "react";
 import { Card, Button, Badge, EmptyState, SearchInput, th, Icon, DataTable, TableRow, TableCell, ArrivedChip } from "../ui";
-import { exportExcel, exportCSV, downloadBlob } from "../../services/api";
+import { exportExcel, exportCSV, downloadBlob, recordRedZone } from "../../services/api";
 import AssignModal from "./AssignModal";
 import BatchAssignModal from "./BatchAssignModal";
 import CheckInOutModal from "./CheckInOutModal";
+import RedZoneModal from "./RedZoneModal";
+import { useToast } from "../ui";
 import type { TransportRequest, Driver, Vehicle } from "../../types";
 import { formatRequestId } from "../../types";
 import { getStatusLabel } from "../../lib/status";
@@ -57,6 +59,11 @@ export default function RequestsList({
   const [inlineAssign, setInlineAssign] = useState<Record<string, { driverId: string; vehicleId: string }>>({});
   const [exporting, setExporting] = useState(false);
   const [checkAction, setCheckAction] = useState<{ request: TransportRequest; mode: "in" | "out" } | null>(null);
+  const [showRedZone, setShowRedZone] = useState(false);
+  const [redZoneError, setRedZoneError] = useState<string | null>(null);
+  const { addToast } = useToast();
+
+  const hasRedZone = (selectedRequest?.redZoneCleaningMs || 0) > 0 || (selectedRequest?.redZoneWaitingMs || 0) > 0;
 
   // Multi-select state
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
@@ -140,6 +147,22 @@ export default function RequestsList({
       console.error("Export failed:", err);
     } finally {
       setExporting(false);
+    }
+  }
+
+  async function handleRecordRedZone(data: { cleaningTimeMs: number; waitingTimeMs?: number; remark?: string }) {
+    if (!selectedRequest) return;
+    try {
+      await recordRedZone(selectedRequest.id, data);
+      addToast("success", "Red Zone entry recorded");
+      setShowRedZone(false);
+      setRedZoneError(null);
+      onRefresh();
+    } catch (err: unknown) {
+      const axiosErr = err as { response?: { data?: { error?: { message?: string } } } };
+      const msg = axiosErr.response?.data?.error?.message || "Failed to record Red Zone";
+      setRedZoneError(msg);
+      throw err;
     }
   }
 
@@ -431,6 +454,25 @@ export default function RequestsList({
 
           {selectedRequest.status === "PENDING" && (
             <Button accent="admin" onClick={() => onShowAssignModal(true)} className="mt-4">Assign Driver + Vehicle</Button>
+          )}
+          {["DROP_OFF_SCANNED", "FEEDBACK_SUBMITTED"].includes(selectedRequest.status) && !hasRedZone && (
+            <div className="flex gap-3 mt-4">
+              <Button
+                accent="admin"
+                onClick={() => setShowRedZone(true)}
+                className="flex-1"
+              >
+                <Icon name="cleaning_services" size={18} className="mr-2" />
+                Record Red Zone
+              </Button>
+            </div>
+          )}
+          {showRedZone && (
+            <RedZoneModal
+              request={selectedRequest}
+              onClose={() => { setShowRedZone(false); setRedZoneError(null); }}
+              onSubmit={handleRecordRedZone}
+            />
           )}
         </Card>
       ) : (

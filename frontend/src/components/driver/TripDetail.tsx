@@ -1,5 +1,8 @@
 import { useState } from "react";
-import { ArrivedChip, CheckedInChip, Icon, TripStatusPill } from "../ui";
+import { ArrivedChip, CheckedInChip, Icon, TripStatusPill, Button } from "../ui";
+import { RedZoneModal } from "../admin";
+import { recordRedZone } from "../../services/api";
+import { useToast } from "../../components/ui";
 import type { TransportRequest } from "../../types";
 import { formatRequestId } from "../../types";
 
@@ -28,7 +31,12 @@ export default function TripDetail({
 }) {
   const [marking, setMarking] = useState(false);
   const [markError, setMarkError] = useState<string | null>(null);
+  const [showRedZone, setShowRedZone] = useState(false);
+  const [redZoneError, setRedZoneError] = useState<string | null>(null);
+  const { addToast } = useToast();
   const canArrive = (trip.status === "ASSIGNED" || trip.status === "QR_PENDING") && !trip.arrivedAt;
+  const hasRedZone = (trip.redZoneCleaningMs || 0) > 0 || (trip.redZoneWaitingMs || 0) > 0;
+  const canRecordRedZone = ["DROP_OFF_SCANNED", "FEEDBACK_SUBMITTED"].includes(trip.status) && !hasRedZone;
 
   async function handleMarkArrived() {
     if (!onMarkArrived || marking) return;
@@ -41,6 +49,20 @@ export default function TripDetail({
       setMarkError(axiosErr.response?.data?.error?.message || "Could not mark arrival. Try again.");
     } finally {
       setMarking(false);
+    }
+  }
+
+  async function handleRecordRedZone(data: { cleaningTimeMs: number; waitingTimeMs?: number; remark?: string }) {
+    try {
+      await recordRedZone(trip.id, data);
+      addToast("success", "Red Zone entry recorded");
+      setShowRedZone(false);
+      setRedZoneError(null);
+    } catch (err: unknown) {
+      const axiosErr = err as { response?: { data?: { error?: { message?: string } } } };
+      const msg = axiosErr.response?.data?.error?.message || "Failed to record Red Zone";
+      setRedZoneError(msg);
+      throw err;
     }
   }
 
@@ -159,7 +181,32 @@ export default function TripDetail({
             {(trip.waitingTimeMs || 0) > 0 && (
               <InfoRow icon="hourglass_top" label="Waiting Time" value={`${Math.round((trip.waitingTimeMs || 0) / 3600000 * 10) / 10}h`} valueClass="text-amber-500 font-bold" />
             )}
+            {(trip.redZoneCleaningMs || 0) > 0 && (
+              <InfoRow icon="cleaning_services" label="Red Zone Cleaning" value={`${Math.round((trip.redZoneCleaningMs || 0) / 3600000 * 10) / 10}h`} valueClass="text-emerald-500 font-bold" />
+            )}
+            {(trip.redZoneWaitingMs || 0) > 0 && (
+              <InfoRow icon="hourglass_top" label="Red Zone Waiting" value={`${Math.round((trip.redZoneWaitingMs || 0) / 3600000 * 10) / 10}h`} valueClass="text-amber-500 font-bold" />
+            )}
           </>
+        )}
+        {canRecordRedZone && (
+          <div className="flex gap-3 pt-2">
+            <Button
+              accent="admin"
+              onClick={() => setShowRedZone(true)}
+              className="flex-1"
+            >
+              <Icon name="cleaning_services" size={18} className="mr-2" />
+              Record Red Zone
+            </Button>
+          </div>
+        )}
+        {showRedZone && (
+          <RedZoneModal
+            request={trip}
+            onClose={() => { setShowRedZone(false); setRedZoneError(null); }}
+            onSubmit={handleRecordRedZone}
+          />
         )}
       </div>
     </div>

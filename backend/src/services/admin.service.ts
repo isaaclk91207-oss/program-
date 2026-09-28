@@ -54,7 +54,16 @@ export class AdminService {
       }),
       prisma.vehicleCheckin.findMany({
         where: { checkInTime: range },
-        select: { driverId: true, checkInTime: true, checkOutTime: true, requestId: true },
+        select: { 
+          driverId: true, 
+          checkInTime: true, 
+          checkOutTime: true, 
+          requestId: true,
+          cleaningTimeMs: true,
+          redZoneWaitingMs: true,
+          redZoneRemark: true,
+          redZoneRecordedAt: true
+        },
       }),
       prisma.transportRequest.findMany({
         where: { pickedUpAt: range ? range : { not: null } },
@@ -92,6 +101,18 @@ export class AdminService {
       drivingHoursMap[c.driverId] = (drivingHoursMap[c.driverId] || 0) + ms;
     }
 
+    const redZoneCleaningMap: Record<string, number> = {};
+    const redZoneWaitingMap: Record<string, number> = {};
+    for (const c of checkins) {
+      if (!c.driverId) continue;
+      if (c.cleaningTimeMs > 0) {
+        redZoneCleaningMap[c.driverId] = (redZoneCleaningMap[c.driverId] || 0) + c.cleaningTimeMs;
+      }
+      if (c.redZoneWaitingMs > 0) {
+        redZoneWaitingMap[c.driverId] = (redZoneWaitingMap[c.driverId] || 0) + c.redZoneWaitingMs;
+      }
+    }
+
     const tripHoursMap: Record<string, number> = {};
     const waitingMap: Record<string, number> = {};
     for (const r of driveRequests) {
@@ -113,6 +134,8 @@ export class AdminService {
       ...Object.keys(drivingHoursMap),
       ...Object.keys(tripHoursMap),
       ...Object.keys(taskMap),
+      ...Object.keys(redZoneCleaningMap),
+      ...Object.keys(redZoneWaitingMap),
     ]);
 
     const driverHours = Array.from(allDriverIds).map((id) => {
@@ -123,11 +146,30 @@ export class AdminService {
         const ms = end.getTime() - r.pickedUpAt.getTime();
         if (ms <= 0) continue;
         if (!tripByRequest[r.id]) {
-          tripByRequest[r.id] = { requestId: r.id, tripDate: r.date.toISOString().split("T")[0], route: `${r.pickup} → ${r.destination}`, tripHours: 0, drivingHours: 0, waitingTimeMs: 0 };
+          tripByRequest[r.id] = { 
+            requestId: r.id, 
+            tripDate: r.date.toISOString().split("T")[0], 
+            route: `${r.pickup} → ${r.destination}`, 
+            tripHours: 0, 
+            drivingHours: 0, 
+            waitingTimeMs: 0,
+            redZoneCleaningMs: 0,
+            redZoneWaitingMs: 0
+          };
         }
         tripByRequest[r.id].tripHours = Math.round((ms / 3600000) * 10) / 10;
         tripByRequest[r.id].waitingTimeMs = r.waitingTotalMs || 0;
+        // Find matching checkin for this request to get Red Zone data
+        const checkin = checkins.find(c => c.requestId === r.id);
+        if (checkin) {
+          tripByRequest[r.id].redZoneCleaningMs = checkin.cleaningTimeMs || 0;
+          tripByRequest[r.id].redZoneWaitingMs = checkin.redZoneWaitingMs || 0;
+        }
       }
+
+      const redZoneCleaningMs = redZoneCleaningMap[id] || 0;
+      const redZoneWaitingMs = redZoneWaitingMap[id] || 0;
+      const redZoneHours = Math.round(((redZoneCleaningMs + redZoneWaitingMs) / 3600000) * 10) / 10;
 
       return {
         driverId: id,
@@ -136,6 +178,9 @@ export class AdminService {
         drivingHours: Math.round(((drivingHoursMap[id] || 0) / 3600000) * 10) / 10,
         waitingTimeMs: waitingMap[id] || 0,
         taskHours: Math.round(((taskMap[id] || 0) / 3600000) * 10) / 10,
+        redZoneHours,
+        redZoneCleaningMs,
+        redZoneWaitingMs,
         trips: Object.values(tripByRequest),
       };
     });
@@ -144,6 +189,9 @@ export class AdminService {
     const totalDrivingHours = Math.round(driverHours.reduce((s, d) => s + d.drivingHours, 0) * 10) / 10;
     const totalWaitingTimeMs = driverHours.reduce((s, d) => s + d.waitingTimeMs, 0);
     const totalTaskHours = Math.round(driverHours.reduce((s, d) => s + d.taskHours, 0) * 10) / 10;
+    const totalRedZoneCleaningMs = driverHours.reduce((s, d) => s + d.redZoneCleaningMs, 0);
+    const totalRedZoneWaitingMs = driverHours.reduce((s, d) => s + d.redZoneWaitingMs, 0);
+    const totalRedZoneHours = Math.round(((totalRedZoneCleaningMs + totalRedZoneWaitingMs) / 3600000) * 10) / 10;
 
     return {
       totalRequests,
@@ -190,6 +238,9 @@ export class AdminService {
       totalDrivingHours,
       totalWaitingTimeMs,
       totalTaskHours,
+      totalRedZoneHours,
+      totalRedZoneCleaningMs,
+      totalRedZoneWaitingMs,
 
     };
   }
@@ -382,6 +433,24 @@ export class AdminService {
           department: p.passengerProfile?.department || "",
           totalRequests: p.passengerProfile?.transportRequests.length || 0,
           completedRequests: p.passengerProfile?.transportRequests.filter((r) => r.status === "FEEDBACK_SUBMITTED").length || 0,
+        }));
+      }
+      case "driverHours": {
+        const stats = await this.getDashboard();
+        return stats.driverHours.map((d) => ({
+          driverId: d.driverId,
+          driverName: d.driverName,
+          tripHours: d.tripHours,
+          drivingHours: d.drivingHours,
+          waitingTimeMs: d.waitingTimeMs,
+          waitingHours: Math.round((d.waitingTimeMs / 3600000) * 10) / 10,
+          taskHours: d.taskHours,
+          redZoneHours: d.redZoneHours,
+          redZoneCleaningMs: d.redZoneCleaningMs,
+          redZoneCleaningHours: Math.round((d.redZoneCleaningMs / 3600000) * 10) / 10,
+          redZoneWaitingMs: d.redZoneWaitingMs,
+          redZoneWaitingHours: Math.round((d.redZoneWaitingMs / 3600000) * 10) / 10,
+          totalHours: Math.round((d.tripHours + d.drivingHours + d.taskHours + d.redZoneHours) * 10) / 10,
         }));
       }
       default:

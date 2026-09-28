@@ -452,7 +452,14 @@ export class DriverService {
     const [checkins, requests, tasks] = await Promise.all([
       prisma.vehicleCheckin.findMany({
         where,
-        select: { driverId: true, checkInTime: true, checkOutTime: true, requestId: true },
+        select: { 
+          driverId: true, 
+          checkInTime: true, 
+          checkOutTime: true, 
+          requestId: true,
+          cleaningTimeMs: true,
+          redZoneWaitingMs: true,
+        },
       }),
       prisma.transportRequest.findMany({
         where: { ...where, pickedUpAt: { not: null } },
@@ -465,11 +472,19 @@ export class DriverService {
     ]);
 
     const drivingMap: Record<string, number> = {};
+    const redZoneCleaningMap: Record<string, number> = {};
+    const redZoneWaitingMap: Record<string, number> = {};
     for (const c of checkins) {
       if (!c.checkInTime || !c.checkOutTime) continue;
       const ms = c.checkOutTime.getTime() - c.checkInTime.getTime();
       if (ms <= 0) continue;
       drivingMap[c.driverId] = (drivingMap[c.driverId] || 0) + ms;
+      if (c.cleaningTimeMs > 0) {
+        redZoneCleaningMap[c.driverId] = (redZoneCleaningMap[c.driverId] || 0) + c.cleaningTimeMs;
+      }
+      if (c.redZoneWaitingMs > 0) {
+        redZoneWaitingMap[c.driverId] = (redZoneWaitingMap[c.driverId] || 0) + c.redZoneWaitingMs;
+      }
     }
 
     const tripMap: Record<string, { totalMs: number; tripCount: number; trips: TripHoursEntry[] }> = {};
@@ -497,6 +512,8 @@ export class DriverService {
       ...Object.keys(drivingMap),
       ...Object.keys(tripMap),
       ...Object.keys(taskMap),
+      ...Object.keys(redZoneCleaningMap),
+      ...Object.keys(redZoneWaitingMap),
     ]);
 
     return Array.from(allDriverIds).map((id) => {
@@ -508,6 +525,7 @@ export class DriverService {
 
       const tripHoursEntries: TripHoursEntry[] = Array.from(allRequestIds).map((requestId) => {
         const r = requests.find(req => req.id === requestId);
+        const checkin = checkins.find(c => c.requestId === requestId);
         const tripMs = r ? (() => {
           if (!r.pickedUpAt) return 0;
           const end = r.droppedOffAt || new Date();
@@ -521,8 +539,14 @@ export class DriverService {
           tripHours: Math.round((tripMs / 3600000) * 10) / 10,
           drivingHours: 0,
           waitingTimeMs: r?.waitingTotalMs || 0,
+          redZoneCleaningMs: checkin?.cleaningTimeMs || 0,
+          redZoneWaitingMs: checkin?.redZoneWaitingMs || 0,
         };
       });
+
+      const redZoneCleaningMs = redZoneCleaningMap[id] || 0;
+      const redZoneWaitingMs = redZoneWaitingMap[id] || 0;
+      const redZoneHours = Math.round(((redZoneCleaningMs + redZoneWaitingMs) / 3600000) * 10) / 10;
 
       return {
         driverId: id,
@@ -531,6 +555,9 @@ export class DriverService {
         drivingHours: Math.round(((drivingMap[id] || 0) / 3600000) * 10) / 10,
         waitingTimeMs: waitingMap[id] || 0,
         taskHours: Math.round(((taskMap[id] || 0) / 3600000) * 10) / 10,
+        redZoneHours,
+        redZoneCleaningMs,
+        redZoneWaitingMs,
         trips: tripHoursEntries,
       };
     });

@@ -113,6 +113,8 @@ export interface TransportRequest {
   tripHours?: number;
   drivingHours?: number;
   waitingTimeMs?: number;
+  redZoneCleaningMs?: number;
+  redZoneWaitingMs?: number;
 }
 
 export function formatRequestId(id: string, requestNumber?: string): string {
@@ -174,6 +176,8 @@ export interface TripHoursEntry {
   tripHours: number;
   drivingHours: number;
   waitingTimeMs: number;
+  redZoneCleaningMs: number;
+  redZoneWaitingMs: number;
 }
 
 // ─── Driver Task Types ──────────────────────────────────────────────────────
@@ -209,11 +213,14 @@ export interface DashboardStats {
   requestsByStatus: { status: string; count: number }[];
   requestsByDepartment: { department: string; count: number }[];
   recentRequests: TransportRequest[];
-  driverHours: { driverId: string; driverName: string; tripHours: number; drivingHours: number; waitingTimeMs: number; taskHours: number; trips: TripHoursEntry[] }[];
+  driverHours: { driverId: string; driverName: string; tripHours: number; drivingHours: number; waitingTimeMs: number; taskHours: number; redZoneHours: number; redZoneCleaningMs: number; redZoneWaitingMs: number; trips: TripHoursEntry[] }[];
   totalTripHours: number;
   totalDrivingHours: number;
   totalWaitingTimeMs: number;
   totalTaskHours: number;
+  totalRedZoneHours: number;
+  totalRedZoneCleaningMs: number;
+  totalRedZoneWaitingMs: number;
 }
 
 export interface VehicleCheckin {
@@ -230,6 +237,10 @@ export interface VehicleCheckin {
   checkOutTime: string | null;
   checkOutRemark: string | null;
   status: string;
+  cleaningTimeMs: number;
+  redZoneWaitingMs: number;
+  redZoneRemark: string | null;
+  redZoneRecordedAt: string | null;
 }
 
 export interface Assessment {

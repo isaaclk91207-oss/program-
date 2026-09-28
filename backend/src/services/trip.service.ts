@@ -505,6 +505,55 @@ export class TripService {
     return updated;
   }
 
+  async recordRedZone(
+    requestId: string,
+    data: { cleaningTimeMs: number; waitingTimeMs?: number; remark?: string },
+    userId: string,
+    role: string
+  ) {
+    const request = await prisma.transportRequest.findUnique({
+      where: { id: requestId },
+      include: { vehicleCheckins: true },
+    });
+
+    if (!request) {
+      throw createAppError(404, "REQUEST_NOT_FOUND", "Transport request not found");
+    }
+
+    if (!["DROP_OFF_SCANNED", "FEEDBACK_SUBMITTED"].includes(request.status)) {
+      throw createAppError(
+        400,
+        "INVALID_STATUS",
+        "Red Zone can only be recorded for completed trips (DROP_OFF_SCANNED or FEEDBACK_SUBMITTED)"
+      );
+    }
+
+    const vehicleCheckin = request.vehicleCheckins?.[0];
+    if (!vehicleCheckin) {
+      throw createAppError(404, "CHECKIN_NOT_FOUND", "No vehicle check-in found for this trip");
+    }
+
+    // Only driver of this trip or admin can record
+    if (role === "DRIVER" && request.driverId !== userId) {
+      throw createAppError(403, "FORBIDDEN", "You can only record Red Zone for your own trips");
+    }
+
+    const checkin = await prisma.vehicleCheckin.update({
+      where: { id: vehicleCheckin.id },
+      data: {
+        cleaningTimeMs: data.cleaningTimeMs,
+        redZoneWaitingMs: data.waitingTimeMs || 0,
+        redZoneRemark: data.remark || null,
+        redZoneRecordedAt: new Date(),
+      },
+    });
+
+    // Emit socket event for real-time updates
+    socketService.emit("trip:statusChanged", { requestId, status: request.status, driverId: request.driverId });
+
+    return checkin;
+  }
+
   private formatTripResponse(t: {
     id: string;
     passengerId: string;

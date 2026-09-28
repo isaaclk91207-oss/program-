@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
 import { Card, Button, Badge, CertBadge, ProgressBar, Tabs, th, ConfirmDialog, StarRating, Icon, HoursCard } from "../ui";
 import PassportCard from "../driver/PassportCard";
-import { getDriverFeedback, getDrivingHours, getDriverTasks, createDriverTask, updateDriverTask, deleteDriverTask, adminCheckIn, adminCheckOut } from "../../services/api";
+import RedZoneModal from "./RedZoneModal";
+import { getDriverFeedback, getDrivingHours, getDriverTasks, createDriverTask, updateDriverTask, deleteDriverTask, adminCheckIn, adminCheckOut, recordRedZone } from "../../services/api";
 import { onTripStatusChanged } from "../../services/socket";
+import { useToast } from "../ui";
 import type { Driver, Feedback, Assessment, TripHoursEntry, DriverTask, Vehicle } from "../../types";
 
 function getDisplayId(d: Driver): string {
@@ -42,7 +44,12 @@ export default function DriverDetail({
   const [tab, setTab] = useState("overview");
   const [feedbacks, setFeedbacks] = useState<Feedback[]>([]);
   const [loadingFeedback, setLoadingFeedback] = useState(false);
-  const [drivingHours, setDrivingHours] = useState<{ tripHours: number; tripCount: number; drivingHours: number; waitingTimeMs: number; taskHours: number; trips: TripHoursEntry[] } | null>(null);
+  const [drivingHours, setDrivingHours] = useState<{ tripHours: number; tripCount: number; drivingHours: number; waitingTimeMs: number; taskHours: number; redZoneHours: number; redZoneCleaningMs: number; redZoneWaitingMs: number; trips: TripHoursEntry[] } | null>(null);
+
+  // Red Zone state
+  const [redZoneRequestId, setRedZoneRequestId] = useState<string | null>(null);
+  const [redZoneError, setRedZoneError] = useState<string | null>(null);
+  const { addToast } = useToast();
 
   // Task state
   const [tasks, setTasks] = useState<DriverTask[]>([]);
@@ -93,6 +100,21 @@ export default function DriverDetail({
     getDrivingHours(driver.id).then((data) => {
       if (data.length > 0) setDrivingHours(data[0]);
     }).catch(() => {});
+  }
+
+  async function handleRecordRedZone(requestId: string, data: { cleaningTimeMs: number; waitingTimeMs?: number; remark?: string }) {
+    try {
+      await recordRedZone(requestId, data);
+      addToast("success", "Red Zone entry recorded");
+      setRedZoneRequestId(null);
+      setRedZoneError(null);
+      loadHours();
+    } catch (err: unknown) {
+      const axiosErr = err as { response?: { data?: { error?: { message?: string } } } };
+      const msg = axiosErr.response?.data?.error?.message || "Failed to record Red Zone";
+      setRedZoneError(msg);
+      throw err;
+    }
   }
 
   useEffect(() => { loadHours(); }, [driver.id]);
@@ -335,32 +357,74 @@ export default function DriverDetail({
                 <p className={th.textSecondary}>Accident Free</p>
                 <p className={th.text}>{driver.accidentFree || "—"}</p>
               </div>
-              <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+              <div className="grid grid-cols-2 lg:grid-cols-5 gap-3">
                 <HoursCard type="trip" value={drivingHours ? `${drivingHours.tripHours}h (${drivingHours.tripCount} trips)` : "—"} showDescription={false} />
                 <HoursCard type="driving" value={drivingHours ? `${drivingHours.drivingHours}h` : "—"} showDescription={false} />
                 <HoursCard type="waiting" value={drivingHours ? `${Math.round((drivingHours.waitingTimeMs || 0) / 3600000 * 10) / 10}h` : "—"} showDescription={false} />
                 <HoursCard type="task" value={drivingHours ? `${drivingHours.taskHours || 0}h` : "—"} showDescription={false} />
+                <HoursCard type="driving" value={drivingHours ? `${drivingHours.redZoneHours || 0}h` : "—"} showDescription={false} />
               </div>
 
               {drivingHours && drivingHours.trips.length > 0 && (
                 <div className="col-span-2 mt-2">
-                  <p className={`${th.textSecondary} mb-2`}>Trip Breakdown</p>
+                  <div className="flex items-center justify-between mb-2">
+                    <p className={`${th.textSecondary} mb-2`}>Trip Breakdown</p>
+                    <Button size="sm" accent="admin" onClick={() => setRedZoneRequestId("new")} className="ml-auto">
+                      <Icon name="cleaning_services" size={14} className="mr-1" />
+                      Record Red Zone
+                    </Button>
+                  </div>
                   <div className="space-y-1 max-h-40 overflow-y-auto">
-                    {drivingHours.trips.map((t) => (
-                      <div key={t.requestId} className="flex justify-between items-center py-1 text-xs border-b border-border-hairline dark:border-outline-variant last:border-0">
-                        <div>
-                          <span className={`${th.text}`}>{t.route || t.requestId}</span>
-                          <span className={`${th.textSecondary} ml-2`}>{t.tripDate}</span>
+                    {drivingHours.trips.map((t) => {
+                      const hasRedZone = (t.redZoneCleaningMs || 0) > 0 || (t.redZoneWaitingMs || 0) > 0;
+                      return (
+                        <div key={t.requestId} className="flex justify-between items-center py-1 text-xs border-b border-border-hairline dark:border-outline-variant last:border-0">
+                          <div>
+                            <span className={`${th.text}`}>{t.route || t.requestId}</span>
+                            <span className={`${th.textSecondary} ml-2`}>{t.tripDate}</span>
+                          </div>
+                          <div className="flex gap-2">
+                            {t.tripHours > 0 && <span className="text-blue-500">{t.tripHours}h</span>}
+                            {t.drivingHours > 0 && <span className="text-emerald-500">{t.drivingHours}h</span>}
+                            {t.waitingTimeMs > 0 && <span className="text-amber-500">{Math.round((t.waitingTimeMs / 3600000) * 10) / 10}h wait</span>}
+                            {t.redZoneCleaningMs > 0 && <span className="text-emerald-500">{Math.round((t.redZoneCleaningMs / 3600000) * 10) / 10}h clean</span>}
+                            {t.redZoneWaitingMs > 0 && <span className="text-amber-500">{Math.round((t.redZoneWaitingMs / 3600000) * 10) / 10}h wait</span>}
+                            {!hasRedZone && (
+                              <Button size="sm" accent="admin" onClick={() => setRedZoneRequestId(t.requestId)} className="h-6 px-2 text-xs">
+                                <Icon name="cleaning_services" size={12} className="mr-0.5" />
+                                Add Red Zone
+                              </Button>
+                            )}
+                          </div>
                         </div>
-                        <div className="flex gap-2">
-                          {t.tripHours > 0 && <span className="text-blue-500">{t.tripHours}h</span>}
-                          {t.drivingHours > 0 && <span className="text-emerald-500">{t.drivingHours}h</span>}
-                          {t.waitingTimeMs > 0 && <span className="text-amber-500">{Math.round((t.waitingTimeMs / 3600000) * 10) / 10}h wait</span>}
-                        </div>
-                      </div>
-                    ))}
+                      );
+                    })}
                   </div>
                 </div>
+              )}
+
+              {redZoneRequestId && (
+                <RedZoneModal
+                  request={{ 
+                    id: redZoneRequestId, 
+                    driverName: driver.name, 
+                    vehiclePlate: drivingHours?.trips.find(t => t.requestId === redZoneRequestId)?.route || "",
+                    date: drivingHours?.trips.find(t => t.requestId === redZoneRequestId)?.tripDate || "",
+                    time: "",
+                    passengerName: "",
+                    pickup: "",
+                    destination: "",
+                    status: "FEEDBACK_SUBMITTED",
+                  } as any}
+                  onClose={() => setRedZoneRequestId(null)}
+                  onSubmit={async (data) => {
+                    if (!redZoneRequestId) return;
+                    await recordRedZone(redZoneRequestId, data);
+                    addToast("success", "Red Zone entry recorded");
+                    setRedZoneRequestId(null);
+                    loadHours();
+                  }}
+                />
               )}
 
             </div>

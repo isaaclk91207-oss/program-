@@ -20,5 +20,6 @@ router.post("/:id/arrived", requireRole("DRIVER"), tripController.markArrived);
 router.post("/:id/qr-dropoff", requireRole("PASSENGER"), tripController.dropoffQRScan);
 router.post("/:id/waiting/start", requireRole("DRIVER", "ADMIN"), tripController.startWaiting);
 router.post("/:id/waiting/stop", requireRole("DRIVER", "ADMIN"), tripController.stopWaiting);
+router.post("/:id/red-zone", requireRole("DRIVER", "ADMIN"), tripController.recordRedZone);
 
 export default router;

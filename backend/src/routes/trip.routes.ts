@@ -16,6 +16,7 @@ router.get("/driver", requireRole("DRIVER"), tripController.getDriverTrips);
 router.get("/passenger", requireRole("PASSENGER"), tripController.getPassengerTrips);
 router.get("/:id", tripController.getTripDetail);
 router.post("/:id/qr-pickup", requireRole("PASSENGER"), tripController.pickupQRScan);
+router.post("/:id/arrived", requireRole("DRIVER"), tripController.markArrived);
 router.post("/:id/qr-dropoff", requireRole("PASSENGER"), tripController.dropoffQRScan);
 router.post("/:id/waiting/start", requireRole("DRIVER", "ADMIN"), tripController.startWaiting);
 router.post("/:id/waiting/stop", requireRole("DRIVER", "ADMIN"), tripController.stopWaiting);

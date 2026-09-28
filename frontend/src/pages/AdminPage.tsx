@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useAuth } from "../hooks/useAuth";
 import { LoadingSpinner, ThemeToggle, ToastProvider, th, Icon, Button } from "../components/ui";
 import {
@@ -14,7 +14,7 @@ import {
   createDriver, createVehicle, deleteDriver, deleteVehicle, updateDriver,
   getAllDriversV2, getAllVehiclesV2, getAllRequestsV2, getMe, createNotification, markNotificationRead,
 } from "../services/api";
-import { onNotificationNew, onRequestNew } from "../services/socket";
+import { onNotificationNew, onRequestNew, onTripStatusChanged } from "../services/socket";
 import type { DashboardStats, Driver, Vehicle, TransportRequest, TransportStatus, Feedback, Notification } from "../types";
 
 type Page = "dashboard" | "requests" | "drivers" | "vehicles" | "feedback" | "notifications" | "settings" | "records" | "assessments" | "passengers" | "reports" | "eco-driving";
@@ -59,6 +59,8 @@ export default function AdminPage() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [assignError, setAssignError] = useState<string | null>(null);
   const [unreadCount, setUnreadCount] = useState(0);
+  const loadDataRef = useRef(loadData);
+  loadDataRef.current = loadData;
 
   useEffect(() => { loadData(); }, [page]);
   useEffect(() => {
@@ -75,9 +77,12 @@ export default function AdminPage() {
       setUnreadCount((c) => c + 1);
     });
     const unsubRequest = onRequestNew(() => {
-      loadData();
+      loadDataRef.current();
     });
-    return () => { unsubNotification(); unsubRequest(); };
+    const unsubTrip = onTripStatusChanged(() => {
+      loadDataRef.current();
+    });
+    return () => { unsubNotification(); unsubRequest(); unsubTrip(); };
   }, []);
 
   async function handleDashboardMonth(month: string) {

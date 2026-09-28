@@ -1,4 +1,5 @@
-import { CheckedInChip, Icon, TripStatusPill } from "../ui";
+import { useState } from "react";
+import { ArrivedChip, CheckedInChip, Icon, TripStatusPill } from "../ui";
 import type { TransportRequest } from "../../types";
 import { formatRequestId } from "../../types";
 
@@ -19,10 +20,30 @@ function InfoRow({ icon, label, value, valueClass = "" }: { icon: string; label:
 export default function TripDetail({
   trip,
   onBack,
+  onMarkArrived,
 }: {
   trip: TransportRequest;
   onBack: () => void;
+  onMarkArrived?: (id: string) => Promise<void>;
 }) {
+  const [marking, setMarking] = useState(false);
+  const [markError, setMarkError] = useState<string | null>(null);
+  const canArrive = (trip.status === "ASSIGNED" || trip.status === "QR_PENDING") && !trip.arrivedAt;
+
+  async function handleMarkArrived() {
+    if (!onMarkArrived || marking) return;
+    setMarking(true);
+    setMarkError(null);
+    try {
+      await onMarkArrived(trip.id);
+    } catch (err: unknown) {
+      const axiosErr = err as { response?: { data?: { error?: { message?: string } } } };
+      setMarkError(axiosErr.response?.data?.error?.message || "Could not mark arrival. Try again.");
+    } finally {
+      setMarking(false);
+    }
+  }
+
   return (
     <div className="max-w-[440px] mx-auto space-y-4">
       {/* Header */}
@@ -43,9 +64,38 @@ export default function TripDetail({
         </div>
         <div className="flex items-center gap-1.5">
           <TripStatusPill status={trip.status} perspective="driver" />
+          {trip.arrivedAt && <ArrivedChip arrivedAt={trip.arrivedAt} />}
           {trip.hasActiveCheckin && <CheckedInChip />}
         </div>
       </div>
+
+      {/* Arrival */}
+      {canArrive && (
+        <div className="bg-surface dark:bg-navy-900 rounded-2xl border border-border-hairline dark:border-outline-variant p-4">
+          <button
+            onClick={handleMarkArrived}
+            disabled={marking || !onMarkArrived}
+            className="w-full py-3 rounded-xl bg-role-driver hover:bg-purple-700 disabled:opacity-60 text-white font-title-md text-title-md transition-colors flex items-center justify-center gap-2"
+          >
+            <Icon name="location_on" size={18} />
+            {marking ? "Sending…" : "I've arrived at pickup"}
+          </button>
+          {markError && <p className="mt-2 text-sm text-red-500 text-center">{markError}</p>}
+        </div>
+      )}
+      {trip.arrivedAt && (
+        <div className="flex items-center gap-3 p-3 rounded-xl border border-sky-200 bg-sky-50/70 dark:bg-sky-500/10 dark:border-sky-500/30">
+          <span className="w-8 h-8 rounded-lg bg-sky-600 text-white flex items-center justify-center shrink-0">
+            <Icon name="where_to_vote" size={18} />
+          </span>
+          <div className="min-w-0">
+            <p className="font-label-caps text-label-caps uppercase text-sky-700 dark:text-sky-400">Arrived at pickup</p>
+            <p className="font-body-sm text-body-sm text-on-surface-variant dark:text-outline-variant">
+              {new Date(trip.arrivedAt).toLocaleString()} · waiting for admin check-in
+            </p>
+          </div>
+        </div>
+      )}
 
       {/* Route card */}
       <div className="bg-surface dark:bg-navy-900 rounded-2xl border border-border-hairline dark:border-outline-variant p-5">

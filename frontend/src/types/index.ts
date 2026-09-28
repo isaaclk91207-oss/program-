@@ -101,6 +101,7 @@ export interface TransportRequest {
   qrScanStatus: string | null;
   feedbackStatus: string | null;
   createdAt: string;
+  arrivedAt?: string | null;
   version?: "v1" | "v2";
   hasActiveCheckin?: boolean;
   activeCheckin?: {

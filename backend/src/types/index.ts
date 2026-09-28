@@ -74,6 +74,7 @@ export interface TransportRequestResponse {
   qrScanStatus: string | null;
   feedbackStatus: string | null;
   createdAt: string;
+  arrivedAt?: string | null;
   hasActiveCheckin: boolean;
   activeCheckin?: {
     checkInTime: string | null;

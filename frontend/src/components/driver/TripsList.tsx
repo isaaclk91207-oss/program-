@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { CheckedInChip, EmptyState, Icon, TripStatusPill } from "../ui";
+import { ArrivedChip, CheckedInChip, EmptyState, Icon, TripStatusPill } from "../ui";
 import TripDetail from "./TripDetail";
 import type { TransportRequest } from "../../types";
 import { formatRequestId } from "../../types";
@@ -37,16 +37,18 @@ export default function TripsList({
   selectedTrip,
   onSelectTrip,
   onBack,
+  onMarkArrived,
 }: {
   trips: TransportRequest[];
   selectedTrip: TransportRequest | null;
   onSelectTrip: (t: TransportRequest | null) => void;
   onBack: () => void;
+  onMarkArrived?: (id: string) => Promise<void>;
 }) {
   const [filter, setFilter] = useState<Filter>("all");
 
   if (selectedTrip) {
-    return <TripDetail trip={selectedTrip} onBack={() => onSelectTrip(null)} />;
+    return <TripDetail trip={selectedTrip} onBack={() => onSelectTrip(null)} onMarkArrived={onMarkArrived} />;
   }
 
   const visible = filterTrips(trips, filter);
@@ -111,6 +113,7 @@ export default function TripsList({
                 </div>
                 <div className="flex items-center gap-1.5">
                   <TripStatusPill status={t.status} perspective="driver" />
+                  {t.arrivedAt && <ArrivedChip arrivedAt={t.arrivedAt} />}
                   {t.hasActiveCheckin && <CheckedInChip />}
                 </div>
               </div>

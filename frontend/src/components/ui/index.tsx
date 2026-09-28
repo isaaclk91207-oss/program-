@@ -188,6 +188,26 @@ export function CheckedInChip({
   );
 }
 
+// ─── ArrivedChip ─────────────────────────────────────────────────────────────
+
+export function ArrivedChip({
+  arrivedAt,
+  className = "",
+}: {
+  arrivedAt?: string | null;
+  className?: string;
+}) {
+  const time = arrivedAt ? new Date(arrivedAt).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }) : null;
+  return (
+    <span
+      className={`inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[11px] font-semibold whitespace-nowrap bg-sky-600 text-white ${className}`}
+    >
+      <span className="w-1.5 h-1.5 rounded-full bg-white" />
+      {time ? `Arrived ${time}` : "Arrived"}
+    </span>
+  );
+}
+
 // ─── CertBadge ──────────────────────────────────────────────────────────────
 
 const CERT_COLORS: Record<string, string> = {

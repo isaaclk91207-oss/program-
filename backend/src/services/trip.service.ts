@@ -95,6 +95,46 @@ export class TripService {
     return updated;
   }
 
+  async markArrived(requestId: string, driverId: string) {
+    const request = await prisma.transportRequest.findUnique({
+      where: { id: requestId },
+      include: { driver: { include: { user: { select: { name: true } } } } },
+    });
+
+    if (!request) {
+      throw createAppError(404, "REQUEST_NOT_FOUND", "Transport request not found");
+    }
+
+    if (request.driverId !== driverId) {
+      throw createAppError(403, "FORBIDDEN", "You are not the assigned driver for this request");
+    }
+
+    if (request.status !== "ASSIGNED" && request.status !== "QR_PENDING") {
+      throw createAppError(400, "INVALID_TRANSITION", "Arrival can only be marked before the passenger scans the pickup QR");
+    }
+
+    if (request.arrivedAt) {
+      return { arrivedAt: request.arrivedAt };
+    }
+
+    const updated = await prisma.transportRequest.update({
+      where: { id: requestId },
+      data: { arrivedAt: new Date() },
+    });
+
+    socketService.emit("trip:statusChanged", { requestId, status: "DRIVER_ARRIVED", driverId, arrivedAt: updated.arrivedAt });
+
+    await notificationService.create({
+      recipientId: "ADMIN",
+      recipientRole: "admin",
+      title: "Driver Arrived",
+      message: `${request.driver?.user?.name || "Driver"} arrived at pickup for request ${requestId} (${request.pickup} → ${request.destination}).`,
+      relatedRequestId: requestId,
+    });
+
+    return { arrivedAt: updated.arrivedAt };
+  }
+
   async dropoffQRScan(requestId: string, userId: string) {
     const request = await prisma.transportRequest.findUnique({
       where: { id: requestId },
@@ -485,6 +525,7 @@ export class TripService {
     note?: string | null;
     feedback: { id: string; rating: number } | null;
     createdAt: Date;
+    arrivedAt?: Date | null;
   }, activeCheckin: {
     checkInTime: Date | null;
     checkInLocation: string | null;
@@ -517,6 +558,7 @@ export class TripService {
         : null,
       feedbackStatus: t.feedback ? "SUBMITTED" : null,
       createdAt: t.createdAt.toISOString(),
+      arrivedAt: t.arrivedAt?.toISOString() || null,
       hasActiveCheckin,
       activeCheckin: activeCheckin
         ? {

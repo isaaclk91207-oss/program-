@@ -63,6 +63,18 @@ export class TripController {
     }
   }
 
+  async markArrived(req: AuthenticatedRequest, res: Response, next: NextFunction) {
+    try {
+      if (!req.user) {
+        return res.status(401).json({ error: { code: "UNAUTHORIZED", message: "Not authenticated" } });
+      }
+      const result = await tripService.markArrived(req.params.id, req.user.id);
+      res.json(result);
+    } catch (err) {
+      next(err);
+    }
+  }
+
   async getDriverTrips(req: AuthenticatedRequest, res: Response, next: NextFunction) {
     try {
       if (!req.user) {

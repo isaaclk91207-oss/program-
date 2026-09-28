@@ -1,4 +1,4 @@
-import { Icon, TripStatusPill, CertBadge, CheckedInChip } from "../ui";
+import { Icon, TripStatusPill, CertBadge, CheckedInChip, ArrivedChip } from "../ui";
 import PassportCard from "./PassportCard";
 import type { TransportRequest, Driver, Feedback, DriverTask } from "../../types";
 
@@ -139,6 +139,7 @@ export default function DriverHome({
           <div className="flex items-center justify-between mb-4">
             <span className="font-label-caps text-label-caps uppercase tracking-wider text-white/70">Current Assignment</span>
             <div className="flex items-center gap-1.5">
+              {lead.arrivedAt && <ArrivedChip arrivedAt={lead.arrivedAt} />}
               {lead.hasActiveCheckin && <CheckedInChip onDark />}
               <span className="bg-white/20 rounded-full px-3 py-1 font-label-caps text-label-caps uppercase">{lead.status.replace(/_/g, " ")}</span>
             </div>
@@ -320,6 +321,7 @@ export default function DriverHome({
                   </div>
                   <div className="flex items-center gap-1.5">
                     <TripStatusPill status={t.status} perspective="driver" />
+                    {t.arrivedAt && <ArrivedChip arrivedAt={t.arrivedAt} />}
                     {t.hasActiveCheckin && <CheckedInChip />}
                   </div>
                 </div>

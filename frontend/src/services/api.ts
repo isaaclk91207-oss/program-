@@ -275,6 +275,11 @@ export async function dropoffQRScan(requestId: string) {
   return res.data;
 }
 
+export async function markArrived(requestId: string): Promise<{ arrivedAt: string }> {
+  const res = await api.post<{ arrivedAt: string }>(`/trips/${requestId}/arrived`);
+  return res.data;
+}
+
 export async function adminCheckIn(data: { driverId: string; vehiclePlate: string; location: string; remark?: string }) {
   const res = await api.post("/trips/admin/checkin", data);
   return res.data;

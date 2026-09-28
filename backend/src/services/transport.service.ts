@@ -357,6 +357,7 @@ export class TransportService {
     waitingTotalMs?: number | null;
     feedback: { id: string; rating: number } | null;
     createdAt: Date;
+    arrivedAt?: Date | null;
     vehicleCheckins?: { checkInTime: Date | null; checkOutTime: Date | null; status?: string }[];
   }): TransportRequestResponse {
     let tripHours: number | undefined;
@@ -386,6 +387,7 @@ export class TransportService {
       passengerId: r.passengerId,
       passengerName: r.passenger.user.name,
       department: r.passenger.department || "",
+      arrivedAt: r.arrivedAt?.toISOString() || null,
       driverId: r.driverId,
       driverName: r.driver?.user?.name || null,
       vehicleId: r.vehicleId,

@@ -94,6 +94,7 @@ model TransportRequest {
   time           String
   pickedUpAt     DateTime?
   droppedOffAt   DateTime?
+  arrivedAt      DateTime?
   noOfPeople     Int       @default(1)
   wayUsers       String?
   section        String?

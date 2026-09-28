@@ -1,5 +1,5 @@
 import { useState, useMemo } from "react";
-import { Card, Button, Badge, EmptyState, SearchInput, th, Icon, DataTable, TableRow, TableCell } from "../ui";
+import { Card, Button, Badge, EmptyState, SearchInput, th, Icon, DataTable, TableRow, TableCell, ArrivedChip } from "../ui";
 import { exportExcel, exportCSV, downloadBlob } from "../../services/api";
 import AssignModal from "./AssignModal";
 import BatchAssignModal from "./BatchAssignModal";
@@ -270,6 +270,12 @@ export default function RequestsList({
               <p className={th.text}>{selectedRequest.department || "-"}</p>
             </div>
             <div>
+              <p className={th.textSecondary}>Driver Arrived</p>
+              <p className={th.text}>
+                {selectedRequest.arrivedAt ? new Date(selectedRequest.arrivedAt).toLocaleString() : "—"}
+              </p>
+            </div>
+            <div>
               <p className={th.textSecondary}>No. of People</p>
               <p className={th.text}>{selectedRequest.noOfPeople || 1}</p>
             </div>
@@ -527,7 +533,10 @@ export default function RequestsList({
                           r.vehiclePlate || <span className={th.textMuted}>—</span>
                         )}
                       </TableCell>
-                      <TableCell><Badge status={r.status}>{getStatusLabel(r.status as any, "admin")}</Badge></TableCell>
+                      <TableCell className="whitespace-nowrap">
+                        <Badge status={r.status}>{getStatusLabel(r.status as any, "admin")}</Badge>
+                        {r.arrivedAt && <div className="mt-1"><ArrivedChip arrivedAt={r.arrivedAt} /></div>}
+                      </TableCell>
                       <TableCell className="text-right whitespace-nowrap">
                         {isPending ? (
                           <Button

@@ -11,6 +11,7 @@ import {
   markAllNotificationsRead,
   getUnreadCount,
   getDriverTasks,
+  markArrived,
 } from "../services/api";
 import { onNotificationNew, onTripStatusChanged } from "../services/socket";
 import type { TransportRequest, Notification, Feedback } from "../types";
@@ -67,6 +68,13 @@ export default function DriverPage() {
     const interval = setInterval(poll, 15000);
     return () => clearInterval(interval);
   }, []);
+
+  async function handleMarkArrived(requestId: string) {
+    const { arrivedAt } = await markArrived(requestId);
+    setTrips((prev) => prev.map((t) => (t.id === requestId ? { ...t, arrivedAt } : t)));
+    setSelectedTrip((prev) => (prev && prev.id === requestId ? { ...prev, arrivedAt } : prev));
+    loadData();
+  }
 
   useEffect(() => {
     const unsubNotification = onNotificationNew((n) => {
@@ -213,6 +221,7 @@ export default function DriverPage() {
                     selectedTrip={selectedTrip}
                     onSelectTrip={setSelectedTrip}
                     onBack={() => { setSelectedTrip(null); setTab("home"); }}
+                    onMarkArrived={handleMarkArrived}
                   />
                 )}
                 {tab === "notifications" && (

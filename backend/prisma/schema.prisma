@@ -88,6 +88,7 @@ model TransportRequest {
   driverId       String?
   vehicleId      String?
   status         String    @default("PENDING") // PENDING | ASSIGNED | QR_PENDING | PICK_UP_SCANNED | IN_PROGRESS | DROP_OFF_SCANNED | FEEDBACK_SUBMITTED
+  provider       String    @default("INTERNAL") // INTERNAL | GRAB
   pickup         String
   destination    String
   date           DateTime

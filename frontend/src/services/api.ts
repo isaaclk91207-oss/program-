@@ -247,6 +247,16 @@ export async function assignDriver(
   return res.data;
 }
 
+export async function assignGrab(requestId: string): Promise<TransportRequest> {
+  const res = await api.put<TransportRequest>(`/requests/${requestId}/assign-grab`);
+  return res.data;
+}
+
+export async function assignGrabBatch(requestIds: string[]): Promise<TransportRequest[]> {
+  const res = await api.put<TransportRequest[]>("/requests/assign-batch-grab", { requestIds });
+  return res.data;
+}
+
 export async function assignBatchRequests(
   requestIds: string[],
   data: { driverId: string; vehicleId: string }

@@ -62,6 +62,25 @@ export class TransportController {
     }
   }
 
+  async assignGrab(req: AuthenticatedRequest, res: Response, next: NextFunction) {
+    try {
+      const result = await transportService.assignToGrab(req.params.id);
+      res.json(result);
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  async assignGrabBatch(req: AuthenticatedRequest, res: Response, next: NextFunction) {
+    try {
+      const { requestIds } = req.body;
+      const result = await transportService.assignBatchToGrab(requestIds);
+      res.json(result);
+    } catch (err) {
+      next(err);
+    }
+  }
+
   async getStats(_req: AuthenticatedRequest, res: Response, next: NextFunction) {
     try {
       const stats = await transportService.getStats();

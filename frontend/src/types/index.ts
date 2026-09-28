@@ -87,6 +87,7 @@ export interface TransportRequest {
   vehicleId: string | null;
   vehiclePlate: string | null;
   status: TransportStatus;
+  provider?: string;
   pickup: string;
   destination: string;
   date: string;

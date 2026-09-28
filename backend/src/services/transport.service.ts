@@ -283,6 +283,99 @@ export class TransportService {
     return updated.map((r) => this.formatResponse(r));
   }
 
+  async assignToGrab(requestId: string) {
+    const request = await prisma.transportRequest.findUnique({ where: { id: requestId } });
+
+    if (!request) {
+      throw createAppError(404, "REQUEST_NOT_FOUND", "Transport request not found");
+    }
+
+    if (request.status !== "PENDING") {
+      throw createAppError(
+        400,
+        "INVALID_TRANSITION",
+        `Cannot assign to Grab for request in '${request.status}' status. Must be PENDING.`
+      );
+    }
+
+    const updated = await prisma.transportRequest.update({
+      where: { id: requestId },
+      data: {
+        provider: "GRAB",
+        status: "ASSIGNED",
+      },
+      include: {
+        passenger: { include: { user: { select: { name: true } } } },
+        driver: { include: { user: { select: { name: true, phone: true } } } },
+        vehicle: true,
+        feedback: { select: { id: true, rating: true } },
+      },
+    });
+
+    await notificationService.create({
+      recipientId: request.passengerId,
+      recipientRole: "PASSENGER",
+      title: "Transport Request Assigned to Grab",
+      message: `Your transport request ${requestId} from ${request.pickup} to ${request.destination} has been assigned to Grab (ride-hailing) as no internal driver and vehicle were available.`,
+      relatedRequestId: requestId,
+    });
+
+    return this.formatResponse(updated);
+  }
+
+  async assignBatchToGrab(requestIds: string[]) {
+    if (!requestIds || requestIds.length === 0) {
+      throw createAppError(400, "NO_REQUESTS", "No request IDs provided");
+    }
+
+    const requests = await prisma.transportRequest.findMany({
+      where: { id: { in: requestIds } },
+    });
+
+    if (requests.length !== requestIds.length) {
+      throw createAppError(404, "REQUESTS_NOT_FOUND", "One or more transport requests not found");
+    }
+
+    const pendingRequests = requests.filter((r) => r.status === "PENDING");
+    if (pendingRequests.length === 0) {
+      throw createAppError(400, "INVALID_TRANSITION", "None of the selected requests are in PENDING status");
+    }
+
+    const updatedIds = pendingRequests.map((r) => r.id);
+
+    await prisma.transportRequest.updateMany({
+      where: { id: { in: updatedIds } },
+      data: {
+        provider: "GRAB",
+        status: "ASSIGNED",
+      },
+    });
+
+    await Promise.all(
+      pendingRequests.map((req) =>
+        notificationService.create({
+          recipientId: req.passengerId,
+          recipientRole: "PASSENGER",
+          title: "Transport Request Assigned to Grab",
+          message: `Your transport request ${req.id} from ${req.pickup} to ${req.destination} has been assigned to Grab (ride-hailing) as no internal driver and vehicle were available.`,
+          relatedRequestId: req.id,
+        })
+      )
+    );
+
+    const updated = await prisma.transportRequest.findMany({
+      where: { id: { in: updatedIds } },
+      include: {
+        passenger: { include: { user: { select: { name: true } } } },
+        driver: { include: { user: { select: { name: true, phone: true } } } },
+        vehicle: true,
+        feedback: { select: { id: true, rating: true } },
+      },
+    });
+
+    return updated.map((r) => this.formatResponse(r));
+  }
+
   async transitionStatus(requestId: string, newStatus: string) {
     const request = await prisma.transportRequest.findUnique({ where: { id: requestId } });
 
@@ -341,6 +434,7 @@ export class TransportService {
     vehicleId: string | null;
     vehicle: { id: string; plate: string } | null;
     status: string;
+    provider?: string;
     pickup: string;
     destination: string;
     date: Date;
@@ -393,6 +487,7 @@ export class TransportService {
       vehicleId: r.vehicleId,
       vehiclePlate: r.vehicle?.plate || null,
       status: r.status,
+      provider: r.provider || "INTERNAL",
       pickup: r.pickup,
       destination: r.destination,
       date: r.date.toISOString().split("T")[0],

@@ -14,12 +14,14 @@ export default function BatchAssignModal({
   drivers,
   vehicles,
   onAssignBatch,
+  onAssignGrabBatch,
   onClose,
 }: {
   requests: TransportRequest[];
   drivers: Driver[];
   vehicles: Vehicle[];
   onAssignBatch: (requestIds: string[], data: { driverId: string; vehicleId: string }) => void;
+  onAssignGrabBatch?: (requestIds: string[]) => void;
   onClose: () => void;
 }) {
   const [selectedDriver, setSelectedDriver] = useState("");
@@ -38,6 +40,10 @@ export default function BatchAssignModal({
     .filter((v) => v.status === "ACTIVE")
     .filter((v) => isMixedVersion || (v.version ?? "v1") === [...versions][0]);
 
+  const noFleet = activeDrivers.length === 0 || activeVehicles.length === 0;
+  const grabbable = pendingRequests.filter((r) => (r.version ?? "v1") === "v1");
+  const canGrab = noFleet && grabbable.length > 0 && !!onAssignGrabBatch;
+
   const totalPassengers = pendingRequests.reduce((sum, r) => sum + (r.noOfPeople || 1), 0);
 
   function handleAssign() {
@@ -51,6 +57,16 @@ export default function BatchAssignModal({
   return (
     <Modal open title="Batch Assign Requests" onClose={onClose}>
       <div className="space-y-4">
+        {noFleet && (
+          <div className="flex items-start gap-2 p-3 rounded-lg border border-amber-300 bg-amber-50 dark:bg-amber-500/10 dark:border-amber-500/40 text-sm text-amber-800 dark:text-amber-300">
+            <Icon name="directions_car" size={18} className="mt-0.5 shrink-0" />
+            <span>
+              {canGrab
+                ? "No drivers or vehicles available — assign these requests to Grab (ride-hailing) instead."
+                : "No drivers or vehicles available for these requests."}
+            </span>
+          </div>
+        )}
         {/* Selected requests summary */}
         <div>
           <p className={`text-sm font-medium ${th.text} mb-2`}>
@@ -104,14 +120,25 @@ export default function BatchAssignModal({
 
         {/* Actions */}
         <div className="flex gap-3 pt-2">
-          <Button
-            accent="admin"
-            onClick={handleAssign}
-            disabled={!selectedDriver || !selectedVehicle}
-            className="flex-1"
-          >
-            Assign All {pendingRequests.length} Request{pendingRequests.length > 1 ? "s" : ""}
-          </Button>
+          {canGrab ? (
+            <Button
+              accent="admin"
+              onClick={() => onAssignGrabBatch!(grabbable.map((r) => r.id))}
+              className="flex-1"
+            >
+              <Icon name="local_taxi" size={18} className="mr-2" />
+              Assign {grabbable.length} to Grab
+            </Button>
+          ) : (
+            <Button
+              accent="admin"
+              onClick={handleAssign}
+              disabled={!selectedDriver || !selectedVehicle}
+              className="flex-1"
+            >
+              Assign All {pendingRequests.length} Request{pendingRequests.length > 1 ? "s" : ""}
+            </Button>
+          )}
           <Button variant="secondary" onClick={onClose}>Cancel</Button>
         </div>
       </div>

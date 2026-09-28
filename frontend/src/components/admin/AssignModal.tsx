@@ -14,6 +14,7 @@ export default function AssignModal({
   drivers,
   vehicles,
   onAssign,
+  onAssignGrab,
   onClose,
 }: {
   requestId: string;
@@ -21,6 +22,7 @@ export default function AssignModal({
   drivers: Driver[];
   vehicles: Vehicle[];
   onAssign: (requestId: string, data: { driverId: string; vehicleId: string }) => void;
+  onAssignGrab?: (requestId: string) => void;
   onClose: () => void;
 }) {
   const [selectedDriver, setSelectedDriver] = useState("");
@@ -33,9 +35,22 @@ export default function AssignModal({
     .filter((v) => v.status === "ACTIVE")
     .filter((v) => !requestVersion || (v.version ?? "v1") === requestVersion);
 
+  const noFleet = activeDrivers.length === 0 || activeVehicles.length === 0;
+  const canGrab = noFleet && requestVersion !== "v2" && !!onAssignGrab;
+
   return (
     <Modal open title="Assign Driver + Vehicle" onClose={onClose}>
       <div className="space-y-4">
+        {noFleet && (
+          <div className="flex items-start gap-2 p-3 rounded-lg border border-amber-300 bg-amber-50 dark:bg-amber-500/10 dark:border-amber-500/40 text-sm text-amber-800 dark:text-amber-300">
+            <Icon name="directions_car" size={18} className="mt-0.5 shrink-0" />
+            <span>
+              {canGrab
+                ? "No drivers or vehicles available — assign this request to Grab (ride-hailing) instead."
+                : "No drivers or vehicles available for this request."}
+            </span>
+          </div>
+        )}
         <Select
           label="Driver"
           value={selectedDriver}
@@ -63,14 +78,25 @@ export default function AssignModal({
           ]}
         />
         <div className="flex gap-3 pt-2">
-          <Button
-            accent="admin"
-            onClick={() => onAssign(requestId, { driverId: selectedDriver, vehicleId: selectedVehicle })}
-            disabled={!selectedDriver || !selectedVehicle}
-            className="flex-1"
-          >
-            Confirm Assignment
-          </Button>
+          {canGrab ? (
+            <Button
+              accent="admin"
+              onClick={() => onAssignGrab!(requestId)}
+              className="flex-1"
+            >
+              <Icon name="local_taxi" size={18} className="mr-2" />
+              Assign to Grab
+            </Button>
+          ) : (
+            <Button
+              accent="admin"
+              onClick={() => onAssign(requestId, { driverId: selectedDriver, vehicleId: selectedVehicle })}
+              disabled={!selectedDriver || !selectedVehicle}
+              className="flex-1"
+            >
+              Confirm Assignment
+            </Button>
+          )}
           <Button variant="secondary" onClick={onClose}>Cancel</Button>
         </div>
       </div>

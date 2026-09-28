@@ -35,6 +35,8 @@ export default function RequestsList({
   onShowAssignModal,
   onAssign,
   onAssignBatch,
+  onAssignGrab,
+  onAssignGrabBatch,
   onRefresh,
 }: {
   requests: TransportRequest[];
@@ -46,6 +48,8 @@ export default function RequestsList({
   onShowAssignModal: (v: boolean) => void;
   onAssign: (requestId: string, data: { driverId: string; vehicleId: string }) => void;
   onAssignBatch: (requestIds: string[], data: { driverId: string; vehicleId: string }) => void;
+  onAssignGrab: (requestId: string) => void;
+  onAssignGrabBatch: (requestIds: string[]) => void;
   onRefresh: () => void;
 }) {
   const [filter, setFilter] = useState("ALL");
@@ -340,6 +344,15 @@ export default function RequestsList({
                 </div>
               </div>
             )}
+            {selectedRequest.provider === "GRAB" && (
+              <div className="flex items-center gap-2">
+                <Icon name="local_taxi" size={16} />
+                <div>
+                  <p className={th.textSecondary}>Service</p>
+                  <p className={th.text}>Grab (ride-hailing)</p>
+                </div>
+              </div>
+            )}
             {selectedRequest.driverName && (
               <div className="flex items-center gap-2">
                 <Icon name="directions_car" size={16} />
@@ -507,6 +520,10 @@ export default function RequestsList({
                               <option key={d.id} value={d.id}>{d.name} ({getDisplayId(d)})</option>
                             ))}
                           </select>
+                        ) : r.provider === "GRAB" ? (
+                          <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-bold uppercase tracking-wide bg-emerald-600 text-white whitespace-nowrap">
+                            Grab
+                          </span>
                         ) : (
                           r.driverName || <span className={th.textMuted}>Unassigned</span>
                         )}
@@ -529,6 +546,8 @@ export default function RequestsList({
                               </option>
                             ))}
                           </select>
+                        ) : r.provider === "GRAB" ? (
+                          <span className={th.textMuted}>External</span>
                         ) : (
                           r.vehiclePlate || <span className={th.textMuted}>—</span>
                         )}
@@ -539,17 +558,36 @@ export default function RequestsList({
                       </TableCell>
                       <TableCell className="text-right whitespace-nowrap">
                         {isPending ? (
-                          <Button
-                            accent="admin"
-                            size="sm"
-                            disabled={!sel.driverId || !sel.vehicleId}
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              handleInlineAssign(r.id);
-                            }}
-                          >
-                            Assign
-                          </Button>
+                          activeDrivers.length === 0 || activeVehicles.length === 0 ? (
+                            r.version !== "v2" ? (
+                              <Button
+                                accent="admin"
+                                size="sm"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  onAssignGrab(r.id);
+                                }}
+                              >
+                                Assign to Grab
+                              </Button>
+                            ) : (
+                              <Button accent="admin" size="sm" disabled>
+                                Assign
+                              </Button>
+                            )
+                          ) : (
+                            <Button
+                              accent="admin"
+                              size="sm"
+                              disabled={!sel.driverId || !sel.vehicleId}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleInlineAssign(r.id);
+                              }}
+                            >
+                              Assign
+                            </Button>
+                          )
                         ) : canCheckOut(r) || canCheckIn(r) ? (
                           <div className="flex items-center justify-end gap-1.5">
                             {canCheckIn(r) && (
@@ -610,6 +648,7 @@ export default function RequestsList({
           drivers={drivers}
           vehicles={vehicles}
           onAssign={onAssign}
+          onAssignGrab={onAssignGrab}
           onClose={() => onShowAssignModal(false)}
         />
       )}
@@ -621,6 +660,11 @@ export default function RequestsList({
           vehicles={vehicles}
           onAssignBatch={(ids, data) => {
             onAssignBatch(ids, data);
+            setShowBatchModal(false);
+            clearSelection();
+          }}
+          onAssignGrabBatch={(ids) => {
+            onAssignGrabBatch(ids);
             setShowBatchModal(false);
             clearSelection();
           }}

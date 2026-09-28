@@ -10,7 +10,7 @@ import {
 import { convertToCSV, downloadCSV } from "../utils/csv";
 import {
   getDashboard, getDrivers, getVehicles, getRequests, getAllFeedback, getNotifications, getUnreadCount,
-  assignDriver, assignDriverV2, assignBatchRequests, exportData, updateAssessment, updateSettings, getSettings,
+  assignDriver, assignDriverV2, assignBatchRequests, assignGrab, assignGrabBatch, exportData, updateAssessment, updateSettings, getSettings,
   createDriver, createVehicle, deleteDriver, deleteVehicle, updateDriver,
   getAllDriversV2, getAllVehiclesV2, getAllRequestsV2, getMe, createNotification, markNotificationRead,
 } from "../services/api";
@@ -269,6 +269,26 @@ export default function AdminPage() {
                       } catch (err: unknown) {
                         const axiosErr = err as { response?: { status?: number; data?: { error?: { message?: string } } } };
                         setAssignError(axiosErr.response?.data?.error?.message || "Batch assignment failed. Please try again.");
+                      }
+                    }}
+                    onAssignGrab={async (rid) => {
+                      setAssignError(null);
+                      try {
+                        await assignGrab(rid);
+                        setShowAssignModal(false); setSelectedRequest(null); loadData();
+                      } catch (err: unknown) {
+                        const axiosErr = err as { response?: { status?: number; data?: { error?: { message?: string } } } };
+                        setAssignError(axiosErr.response?.data?.error?.message || "Grab assignment failed. Please try again.");
+                      }
+                    }}
+                    onAssignGrabBatch={async (requestIds) => {
+                      setAssignError(null);
+                      try {
+                        await assignGrabBatch(requestIds);
+                        loadData();
+                      } catch (err: unknown) {
+                        const axiosErr = err as { response?: { status?: number; data?: { error?: { message?: string } } } };
+                        setAssignError(axiosErr.response?.data?.error?.message || "Batch Grab assignment failed. Please try again.");
                       }
                     }}
                     onRefresh={loadData} />

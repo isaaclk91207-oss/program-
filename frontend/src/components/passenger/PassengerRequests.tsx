@@ -86,10 +86,20 @@ export default function PassengerRequests({
           </div>
           
           {/* Driver & Vehicle info */}
-          {(selectedRequest.driverName || selectedRequest.vehiclePlate) && (
+          {(selectedRequest.provider === "GRAB" || selectedRequest.driverName || selectedRequest.vehiclePlate) && (
             <div className="border-t border-border-hairline dark:border-outline-variant pt-4">
               <div className="grid grid-cols-2 gap-3">
-                {selectedRequest.driverName && (
+                {selectedRequest.provider === "GRAB" ? (
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 bg-role-driver-container rounded-full flex items-center justify-center">
+                      <Icon name="local_taxi" size={18} className="text-role-driver" />
+                    </div>
+                    <div>
+                      <p className="text-xs text-on-surface-variant dark:text-outline-variant">Service</p>
+                      <p className={`font-medium ${th.text}`}>Grab (ride-hailing)</p>
+                    </div>
+                  </div>
+                ) : selectedRequest.driverName ? (
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 bg-role-driver-container rounded-full flex items-center justify-center">
                       <Icon name="person" size={18} className="text-role-driver" />
@@ -99,7 +109,7 @@ export default function PassengerRequests({
                       <p className={`font-medium ${th.text}`}>{selectedRequest.driverName}</p>
                     </div>
                   </div>
-                )}
+                ) : null}
                 {selectedRequest.vehiclePlate && (
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 bg-role-driver-container rounded-full flex items-center justify-center">
@@ -130,7 +140,7 @@ export default function PassengerRequests({
               Scan QR (Dropoff)
             </Button>
           )}
-          {selectedRequest.status === "DROP_OFF_SCANNED" && (
+          {selectedRequest.status === "DROP_OFF_SCANNED" && selectedRequest.provider !== "GRAB" && (
             <Button accent="passenger" onClick={() => onFeedback(selectedRequest)} className="w-full py-3">
               <Icon name="rate_review" size={20} className="mr-2" />
               Submit Feedback
@@ -168,7 +178,12 @@ export default function PassengerRequests({
               </div>
               
               {/* Driver info if available */}
-              {r.driverName && (
+              {r.provider === "GRAB" ? (
+                <div className="flex items-center gap-2 mt-2 text-xs text-on-surface-variant">
+                  <Icon name="local_taxi" size={12} />
+                  <span>Grab (ride-hailing)</span>
+                </div>
+              ) : r.driverName ? (
                 <div className="flex items-center gap-2 mt-2 text-xs text-on-surface-variant">
                   <Icon name="person" size={12} />
                   <span>{r.driverName}</span>
@@ -180,7 +195,7 @@ export default function PassengerRequests({
                     </>
                   )}
                 </div>
-              )}
+              ) : null}
             </Card>
           ))}
         </div>

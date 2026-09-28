@@ -60,6 +60,7 @@ export interface TransportRequestResponse {
   vehicleId: string | null;
   vehiclePlate: string | null;
   status: string;
+  provider?: string;
   pickup: string;
   destination: string;
   date: string;

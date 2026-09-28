@@ -27,9 +27,10 @@ export default function FeedbackForm({
   onClose,
 }: {
   request: TransportRequest;
-  onSubmit: (data: { rating: number; comment: string; tags: string[] }) => void;
+  onSubmit: (data: { rating: number; comment: string; tags: string[] }) => void | Promise<void>;
   onClose: () => void;
 }) {
+  const [submitting, setSubmitting] = useState(false);
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
   const [tags, setTags] = useState<string[]>([]);
@@ -40,10 +41,15 @@ export default function FeedbackForm({
     setTags((prev) => prev.includes(tagId) ? prev.filter((t) => t !== tagId) : [...prev, tagId]);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (rating === 0 || !comment.trim() || tags.length === 0) return;
-    onSubmit({ rating, comment: comment.trim(), tags });
+    if (rating === 0 || !comment.trim() || tags.length === 0 || submitting) return;
+    setSubmitting(true);
+    try {
+      await onSubmit({ rating, comment: comment.trim(), tags });
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -93,10 +99,10 @@ export default function FeedbackForm({
             </div>
           )}
           <div className="flex gap-3">
-            <Button type="submit" className="flex-1" accent="passenger" disabled={rating === 0 || !comment.trim() || tags.length === 0}>
-              Submit Feedback
+            <Button type="submit" loading={submitting} className="flex-1" accent="passenger" disabled={rating === 0 || !comment.trim() || tags.length === 0}>
+              {submitting ? "Submitting…" : "Submit Feedback"}
             </Button>
-            <Button type="button" variant="secondary" onClick={onClose}>Cancel</Button>
+            <Button type="button" variant="secondary" disabled={submitting} onClick={onClose}>Cancel</Button>
           </div>
         </form>
       </div>

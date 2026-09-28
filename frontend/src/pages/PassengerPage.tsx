@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "../hooks/useAuth";
-import { LoadingSpinner, ThemeToggle, ToastProvider, th, Icon } from "../components/ui";
+import { LoadingSpinner, ThemeToggle, ToastProvider, useToast, th, Icon } from "../components/ui";
 import { PassengerHome, CreateRequestForm, PassengerRequests, FeedbackForm, PassengerProfile, PassengerNotifications } from "../components/passenger";
 import {
   getRequests,
@@ -11,9 +11,10 @@ import {
   getNotifications,
   markAllNotificationsRead,
   getUnreadCount,
+  apiErrorMessage,
 } from "../services/api";
 import { onNotificationNew, onTripStatusChanged } from "../services/socket";
-import type { TransportRequest, Notification } from "../types";
+import type { TransportRequest, Notification, TransportStatus } from "../types";
 
 type Tab = "home" | "requests" | "new" | "profile" | "notifications";
 
@@ -26,7 +27,16 @@ const NAV_ITEMS: { key: Tab; label: string; icon: string }[] = [
 ];
 
 export default function PassengerPage() {
+  return (
+    <ToastProvider>
+      <PassengerPageInner />
+    </ToastProvider>
+  );
+}
+
+function PassengerPageInner() {
   const { user, logout } = useAuth();
+  const { addToast } = useToast();
   const [tab, setTab] = useState<Tab>("home");
   const [requests, setRequests] = useState<TransportRequest[]>([]);
   const [notifications, setNotifications] = useState<Notification[]>([]);
@@ -61,7 +71,6 @@ export default function PassengerPage() {
   }, []);
 
   async function loadData() {
-    setLoading(true);
     try {
       const [reqData, notifData, countData] = await Promise.all([getRequests(), getNotifications(), getUnreadCount()]);
       setRequests(reqData.requests);
@@ -70,14 +79,62 @@ export default function PassengerPage() {
     } catch (err) { console.error(err); } finally { setLoading(false); }
   }
 
-  async function handleCreateRequest(data: { department: string; pickup: string; destination: string; date: string; time: string; noOfPeople: number; wayUsers: string; section: string; serviceType: string; purpose: string; returnTime: string; note: string }) {
-    try { await createRequest(data); setTab("requests"); loadData(); } catch (err) { console.error(err); }
+  function applyStatus(requestId: string, status: TransportStatus) {
+    setRequests((prev) => prev.map((r) => (r.id === requestId ? { ...r, status } : r)));
+    setSelectedRequest((prev) => (prev && prev.id === requestId ? { ...prev, status } : prev));
   }
 
-  async function handlePickupScan(requestId: string) { try { await pickupQRScan(requestId); loadData(); } catch (err) { console.error(err); } }
-  async function handleDropoffScan(requestId: string) { try { await dropoffQRScan(requestId); loadData(); } catch (err) { console.error(err); } }
+  async function handleCreateRequest(data: { department: string; pickup: string; destination: string; date: string; time: string; noOfPeople: number; wayUsers: string; section: string; serviceType: string; purpose: string; returnTime: string; note: string }) {
+    try {
+      await createRequest(data);
+      addToast("success", "Request submitted — awaiting approval");
+      setTab("requests");
+      loadData();
+    } catch (err) {
+      addToast("error", apiErrorMessage(err, "Could not submit request. Please try again."));
+    }
+  }
+
+  async function handlePickupScan(requestId: string) {
+    try {
+      await pickupQRScan(requestId);
+      applyStatus(requestId, "PICK_UP_SCANNED");
+      addToast("success", "Pickup scanned — trip started");
+      loadData();
+    } catch (err) {
+      addToast("error", apiErrorMessage(err, "Pickup scan failed. Please try again."));
+    }
+  }
+
+  async function handleDropoffScan(requestId: string) {
+    try {
+      await dropoffQRScan(requestId);
+      applyStatus(requestId, "DROP_OFF_SCANNED");
+      addToast("success", "Drop-off scanned — trip completed");
+      loadData();
+    } catch (err) {
+      addToast("error", apiErrorMessage(err, "Drop-off scan failed. Please try again."));
+    }
+  }
+
   async function handleSubmitFeedback(requestId: string, data: { rating: number; comment: string; tags: string[] }) {
-    try { await submitFeedback(requestId, data); setFeedbackRequest(null); loadData(); } catch (err) { console.error(err); }
+    try {
+      await submitFeedback(requestId, data);
+      setFeedbackRequest(null);
+      addToast("success", "Thanks! Your feedback was submitted");
+      loadData();
+    } catch (err) {
+      addToast("error", apiErrorMessage(err, "Could not submit feedback. Please try again."));
+    }
+  }
+
+  async function handleMarkAllRead() {
+    try {
+      await markAllNotificationsRead();
+      loadData();
+    } catch (err) {
+      addToast("error", apiErrorMessage(err, "Could not mark notifications as read."));
+    }
   }
 
   return (
@@ -115,7 +172,7 @@ export default function PassengerPage() {
               {tab === "requests" && (
                 <PassengerRequests requests={requests} onSelect={(r) => setSelectedRequest(r)} onBack={() => { setSelectedRequest(null); setTab("home"); }} selectedRequest={selectedRequest} onPickupScan={handlePickupScan} onDropoffScan={handleDropoffScan} onFeedback={(r) => setFeedbackRequest(r)} />
               )}
-                {tab === "notifications" && <PassengerNotifications notifications={notifications} requests={requests} onBack={() => setTab("home")} onMarkAllRead={async () => { await markAllNotificationsRead(); loadData(); }} />}
+                {tab === "notifications" && <PassengerNotifications notifications={notifications} requests={requests} onBack={() => setTab("home")} onMarkAllRead={handleMarkAllRead} />}
               {tab === "profile" && user && <PassengerProfile user={user} requests={requests} onBack={() => setTab("home")} />}
               {feedbackRequest && <FeedbackForm request={feedbackRequest} onSubmit={(data) => handleSubmitFeedback(feedbackRequest.id, data)} onClose={() => setFeedbackRequest(null)} />}
             </>

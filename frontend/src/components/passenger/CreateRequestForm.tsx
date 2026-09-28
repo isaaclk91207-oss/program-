@@ -12,9 +12,10 @@ export default function CreateRequestForm({
   onCancel,
 }: {
   user: { name: string };
-  onSubmit: (data: { department: string; pickup: string; destination: string; date: string; time: string; noOfPeople: number; wayUsers: string; section: string; serviceType: string; purpose: string; returnTime: string; note: string }) => void;
+  onSubmit: (data: { department: string; pickup: string; destination: string; date: string; time: string; noOfPeople: number; wayUsers: string; section: string; serviceType: string; purpose: string; returnTime: string; note: string }) => void | Promise<void>;
   onCancel: () => void;
 }) {
+  const [submitting, setSubmitting] = useState(false);
   const [wayUsers, setWayUsers] = useState("");
   const [department, setDepartment] = useState("");
   const [section, setSection] = useState("");
@@ -28,9 +29,15 @@ export default function CreateRequestForm({
   const [noOfPeople, setNoOfPeople] = useState(1);
   const [note, setNote] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    onSubmit({ department, pickup, destination, date, time, noOfPeople, wayUsers, section, serviceType, purpose, returnTime, note });
+    if (submitting) return;
+    setSubmitting(true);
+    try {
+      await onSubmit({ department, pickup, destination, date, time, noOfPeople, wayUsers, section, serviceType, purpose, returnTime, note });
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -151,8 +158,10 @@ export default function CreateRequestForm({
         </div>
 
         <div className="flex gap-3 pt-2">
-          <Button type="submit" className="flex-1" accent="passenger">Submit Request</Button>
-          <Button type="button" variant="secondary" onClick={onCancel}>Cancel</Button>
+          <Button type="submit" loading={submitting} className="flex-1" accent="passenger">
+            {submitting ? "Submitting…" : "Submit Request"}
+          </Button>
+          <Button type="button" variant="secondary" disabled={submitting} onClick={onCancel}>Cancel</Button>
         </div>
       </form>
     </div>

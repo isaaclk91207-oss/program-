@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Card, Badge, EmptyState, th, Icon } from "../ui";
 import StatusStepper from "./StatusStepper";
 import { Button } from "../ui";
@@ -17,10 +18,23 @@ export default function PassengerRequests({
   onSelect: (r: TransportRequest | null) => void;
   onBack: () => void;
   selectedRequest: TransportRequest | null;
-  onPickupScan: (id: string) => void;
-  onDropoffScan: (id: string) => void;
+  onPickupScan: (id: string) => void | Promise<void>;
+  onDropoffScan: (id: string) => void | Promise<void>;
   onFeedback: (r: TransportRequest) => void;
 }) {
+  const [scanning, setScanning] = useState(false);
+
+  async function runScan(kind: "pickup" | "dropoff", id: string) {
+    if (scanning) return;
+    setScanning(true);
+    try {
+      if (kind === "pickup") await onPickupScan(id);
+      else await onDropoffScan(id);
+    } finally {
+      setScanning(false);
+    }
+  }
+
   if (selectedRequest) {
     return (
       <div>
@@ -129,15 +143,15 @@ export default function PassengerRequests({
         {/* Action buttons */}
         <div className="space-y-3">
           {(selectedRequest.status === "QR_PENDING" || selectedRequest.status === "ASSIGNED") && (
-            <Button accent="passenger" onClick={() => onPickupScan(selectedRequest.id)} className="w-full py-3">
-              <Icon name="qr_code_scanner" size={20} className="mr-2" />
-              Scan QR (Pickup)
+            <Button accent="passenger" loading={scanning} onClick={() => runScan("pickup", selectedRequest.id)} className="w-full py-3">
+              {!scanning && <Icon name="qr_code_scanner" size={20} className="mr-2" />}
+              {scanning ? "Scanning…" : "Scan QR (Pickup)"}
             </Button>
           )}
           {(selectedRequest.status === "PICK_UP_SCANNED" || selectedRequest.status === "IN_PROGRESS") && (
-            <Button variant="secondary" onClick={() => onDropoffScan(selectedRequest.id)} className="w-full py-3">
-              <Icon name="qr_code_scanner" size={20} className="mr-2" />
-              Scan QR (Dropoff)
+            <Button variant="secondary" loading={scanning} onClick={() => runScan("dropoff", selectedRequest.id)} className="w-full py-3">
+              {!scanning && <Icon name="qr_code_scanner" size={20} className="mr-2" />}
+              {scanning ? "Scanning…" : "Scan QR (Dropoff)"}
             </Button>
           )}
           {selectedRequest.status === "DROP_OFF_SCANNED" && selectedRequest.provider !== "GRAB" && (

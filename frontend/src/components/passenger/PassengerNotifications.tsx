@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Card, EmptyState, th, Icon, Badge } from "../ui";
 import type { Notification, TransportRequest } from "../../types";
 
@@ -28,8 +29,20 @@ export default function PassengerNotifications({
   notifications: Notification[];
   requests: TransportRequest[];
   onBack: () => void;
-  onMarkAllRead: () => void;
+  onMarkAllRead: () => void | Promise<void>;
 }) {
+  const [marking, setMarking] = useState(false);
+
+  async function handleMarkAll() {
+    if (marking) return;
+    setMarking(true);
+    try {
+      await onMarkAllRead();
+    } finally {
+      setMarking(false);
+    }
+  }
+
   return (
     <div>
       <div className="flex items-center justify-between mb-4">
@@ -39,8 +52,8 @@ export default function PassengerNotifications({
           </button>
           <h2 className="text-lg font-semibold">Notifications</h2>
         </div>
-        <button onClick={onMarkAllRead} className="text-role-passenger text-xs hover:underline">
-          Mark all read
+        <button onClick={handleMarkAll} disabled={marking} className="text-role-passenger text-xs hover:underline disabled:opacity-60">
+          {marking ? "Marking…" : "Mark all read"}
         </button>
       </div>
       {notifications.length === 0 ? (

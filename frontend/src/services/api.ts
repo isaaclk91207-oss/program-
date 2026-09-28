@@ -54,6 +54,11 @@ api.interceptors.response.use(
   }
 );
 
+export function apiErrorMessage(err: unknown, fallback: string): string {
+  const e = err as { response?: { data?: { error?: { message?: string } } }; message?: string };
+  return e?.response?.data?.error?.message || e?.message || fallback;
+}
+
 // ─── Auth ──────────────────────────────────────────────────────────────────
 
 export async function login(data: LoginRequest): Promise<LoginResponse> {

@@ -1,14 +1,42 @@
 import { useState } from "react";
-import { Card, Badge, KPICard, ProgressBar, th, Icon, HoursCard } from "../ui";
+import { Card, Badge, KPICard, ProgressBar, th, Icon, HoursCard, Button } from "../ui";
 import type { DashboardStats } from "../../types";
 import { formatRequestId } from "../../types";
 import { getStatusLabel } from "../../lib/status";
 
-export default function AdminDashboard({ data }: { data: DashboardStats }) {
+function formatMonth(ym: string): string {
+  const [y, m] = ym.split("-").map(Number);
+  if (!y || !m) return ym;
+  return new Date(y, m - 1, 1).toLocaleDateString(undefined, { month: "long", year: "numeric" });
+}
+
+export default function AdminDashboard({ data, month, onMonthChange }: { data: DashboardStats; month: string; onMonthChange: (m: string) => void }) {
   const [expandedDriver, setExpandedDriver] = useState<string | null>(null);
 
   return (
     <div>
+      <div className="flex flex-wrap items-end justify-between gap-3 mb-6">
+        <div className="flex items-end gap-2">
+          <div>
+            <label className={`block text-xs font-medium ${th.textSecondary} mb-1`}>Month</label>
+            <input
+              type="month"
+              value={month}
+              onChange={(e) => onMonthChange(e.target.value)}
+              className={`px-3 py-2 text-sm rounded-lg border ${th.border} ${th.bgInput} ${th.text}`}
+            />
+          </div>
+          {month && (
+            <Button variant="secondary" size="sm" onClick={() => onMonthChange("")}>
+              All months
+            </Button>
+          )}
+        </div>
+        <span className={`text-xs pb-2 ${th.textMuted}`}>
+          {month ? `Showing ${formatMonth(month)} data` : "Showing all-time data"}
+        </span>
+      </div>
+
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
         <KPICard label="Total Requests" value={data.totalRequests} icon={<Icon name="assignment" size={20} />} color="emerald" />
         <KPICard label="Pending" value={data.pendingRequests} icon={<Icon name="schedule" size={20} />} color="blue" />

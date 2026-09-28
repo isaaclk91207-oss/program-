@@ -6,9 +6,11 @@ import { netprosService } from "../services/netpros.service";
 import { gpsService } from "../services/gps.service";
 
 export class AdminController {
-  async getDashboard(_req: AuthenticatedRequest, res: Response, next: NextFunction) {
+  async getDashboard(req: AuthenticatedRequest, res: Response, next: NextFunction) {
     try {
-      const stats = await adminService.getDashboard();
+      const from = typeof req.query.from === "string" ? req.query.from : undefined;
+      const to = typeof req.query.to === "string" ? req.query.to : undefined;
+      const stats = await adminService.getDashboard({ from, to });
       res.json(stats);
     } catch (err) {
       next(err);

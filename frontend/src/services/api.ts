@@ -400,8 +400,12 @@ export async function createNotification(data: {
 
 // ─── Admin ─────────────────────────────────────────────────────────────────
 
-export async function getDashboard(): Promise<DashboardStats> {
-  const res = await api.get<DashboardStats>("/admin/dashboard");
+export async function getDashboard(params?: { from?: string; to?: string }): Promise<DashboardStats> {
+  const qs = new URLSearchParams();
+  if (params?.from) qs.set("from", params.from);
+  if (params?.to) qs.set("to", params.to);
+  const query = qs.toString();
+  const res = await api.get<DashboardStats>(`/admin/dashboard${query ? `?${query}` : ""}`);
   return res.data;
 }
 

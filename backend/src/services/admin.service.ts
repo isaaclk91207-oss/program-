@@ -4,7 +4,13 @@ import ExcelJS from "exceljs";
 
 
 export class AdminService {
-  async getDashboard(): Promise<DashboardStats> {
+  async getDashboard(filters?: { from?: string; to?: string }): Promise<DashboardStats> {
+    const fromTs = filters?.from ? new Date(filters.from) : undefined;
+    const toTs = filters?.to ? new Date(filters.to) : undefined;
+    const range = fromTs && toTs && !isNaN(fromTs.getTime()) && !isNaN(toTs.getTime())
+      ? { gte: fromTs, lt: toTs }
+      : undefined;
+
     const [
       totalRequests,
       pendingRequests,
@@ -24,21 +30,22 @@ export class AdminService {
       drivers,
       allTasks,
     ] = await Promise.all([
-      prisma.transportRequest.count(),
-      prisma.transportRequest.count({ where: { status: "PENDING" } }),
-      prisma.transportRequest.count({ where: { status: "ASSIGNED" } }),
-      prisma.transportRequest.count({ where: { status: "QR_PENDING" } }),
-      prisma.transportRequest.count({ where: { status: "IN_PROGRESS" } }),
-      prisma.transportRequest.count({ where: { status: { in: ["PICK_UP_SCANNED", "DROP_OFF_SCANNED"] } } }),
-      prisma.transportRequest.count({ where: { status: "FEEDBACK_SUBMITTED" } }),
+      prisma.transportRequest.count({ where: { createdAt: range } }),
+      prisma.transportRequest.count({ where: { status: "PENDING", createdAt: range } }),
+      prisma.transportRequest.count({ where: { status: "ASSIGNED", createdAt: range } }),
+      prisma.transportRequest.count({ where: { status: "QR_PENDING", createdAt: range } }),
+      prisma.transportRequest.count({ where: { status: "IN_PROGRESS", createdAt: range } }),
+      prisma.transportRequest.count({ where: { status: { in: ["PICK_UP_SCANNED", "DROP_OFF_SCANNED"] }, createdAt: range } }),
+      prisma.transportRequest.count({ where: { status: "FEEDBACK_SUBMITTED", createdAt: range } }),
       prisma.driverProfile.count(),
       prisma.driverProfile.count({ where: { status: "Active" } }),
       prisma.vehicle.count(),
       prisma.vehicle.count({ where: { status: "ACTIVE" } }),
-      prisma.transportRequest.groupBy({ by: ["status"], _count: true }),
+      prisma.transportRequest.groupBy({ by: ["status"], _count: true, where: { createdAt: range } }),
       prisma.transportRequest.findMany({
         take: 10,
         orderBy: { createdAt: "desc" },
+        where: { createdAt: range },
         include: {
           passenger: { include: { user: { select: { name: true } } } },
           driver: { include: { user: { select: { name: true } } } },
@@ -46,16 +53,18 @@ export class AdminService {
         },
       }),
       prisma.vehicleCheckin.findMany({
+        where: { checkInTime: range },
         select: { driverId: true, checkInTime: true, checkOutTime: true, requestId: true },
       }),
       prisma.transportRequest.findMany({
-        where: { pickedUpAt: { not: null } },
+        where: { pickedUpAt: range ? range : { not: null } },
         select: { driverId: true, pickedUpAt: true, droppedOffAt: true, id: true, pickup: true, destination: true, date: true, waitingTotalMs: true },
       }),
       prisma.driverProfile.findMany({
         select: { userId: true, user: { select: { name: true } } },
       }),
       prisma.driverTask.findMany({
+        where: { startedAt: range },
         select: { driverId: true, startedAt: true, endedAt: true, status: true },
       }),
     ]);
@@ -63,6 +72,7 @@ export class AdminService {
     const driverNameMap = new Map(drivers.map((d) => [d.userId, d.user.name]));
 
     const deptRows = await prisma.transportRequest.findMany({
+      where: { createdAt: range },
       select: { passenger: { select: { department: true } } },
     });
     const deptCountMap = new Map<string, number>();

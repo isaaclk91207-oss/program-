@@ -19,6 +19,13 @@ import type { DashboardStats, Driver, Vehicle, TransportRequest, TransportStatus
 
 type Page = "dashboard" | "requests" | "drivers" | "vehicles" | "feedback" | "notifications" | "settings" | "records" | "assessments" | "passengers" | "reports" | "eco-driving";
 
+function monthRange(month: string): { from: string; to: string } | undefined {
+  if (!month) return undefined;
+  const [y, m] = month.split("-").map(Number);
+  if (!y || !m || m < 1 || m > 12) return undefined;
+  return { from: new Date(y, m - 1, 1).toISOString(), to: new Date(y, m, 1).toISOString() };
+}
+
 const NAV_ITEMS: { key: Page; label: string; icon: string }[] = [
   { key: "dashboard", label: "Dashboard", icon: "dashboard" },
   { key: "requests", label: "Transport Requests", icon: "receipt_long" },
@@ -38,6 +45,7 @@ export default function AdminPage() {
   const { user, logout } = useAuth();
   const [page, setPage] = useState<Page>("dashboard");
   const [dashboard, setDashboard] = useState<DashboardStats | null>(null);
+  const [dashboardMonth, setDashboardMonth] = useState("");
   const [drivers, setDrivers] = useState<Driver[]>([]);
   const [vehicles, setVehicles] = useState<Vehicle[]>([]);
   const [requests, setRequests] = useState<TransportRequest[]>([]);
@@ -72,12 +80,24 @@ export default function AdminPage() {
     return () => { unsubNotification(); unsubRequest(); };
   }, []);
 
+  async function handleDashboardMonth(month: string) {
+    setDashboardMonth(month);
+    setLoading(true);
+    try {
+      setDashboard(await getDashboard(monthRange(month)));
+    } catch {
+      setDashboard(null);
+    } finally {
+      setLoading(false);
+    }
+  }
+
   async function loadData() {
     setLoading(true);
     try {
       switch (page) {
         case "dashboard": {
-          const d = await getDashboard();
+          const d = await getDashboard(monthRange(dashboardMonth));
           setDashboard(d);
           break;
         }
@@ -202,7 +222,7 @@ export default function AdminPage() {
               <>
                 {page === "dashboard" && (<>
                   {dashboard ? (
-                    <><AdminDashboard data={dashboard} /><LiveVehicleMap /><DashboardCharts data={dashboard} /></>
+                    <><AdminDashboard data={dashboard} month={dashboardMonth} onMonthChange={handleDashboardMonth} /><LiveVehicleMap /><DashboardCharts data={dashboard} /></>
                   ) : !loading ? (
                     <div className="text-center py-12">
                       <Icon name="info" size={48} className="text-on-surface-variant mx-auto mb-3" />

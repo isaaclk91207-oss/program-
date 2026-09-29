@@ -362,7 +362,7 @@ export default function DriverDetail({
                 <HoursCard type="driving" value={drivingHours ? `${drivingHours.drivingHours}h` : "—"} showDescription={false} />
                 <HoursCard type="waiting" value={drivingHours ? `${Math.round((drivingHours.waitingTimeMs || 0) / 3600000 * 10) / 10}h` : "—"} showDescription={false} />
                 <HoursCard type="task" value={drivingHours ? `${drivingHours.taskHours || 0}h` : "—"} showDescription={false} />
-                <HoursCard type="driving" value={drivingHours ? `${drivingHours.redZoneHours || 0}h` : "—"} showDescription={false} />
+                <HoursCard type="redzone" value={drivingHours ? `${drivingHours.redZoneHours || 0}h` : "—"} showDescription={false} />
               </div>
 
               {drivingHours && drivingHours.trips.length > 0 && (

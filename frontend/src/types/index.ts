@@ -222,6 +222,23 @@ export interface DashboardStats {
   totalRedZoneHours: number;
 }
 
+export interface AutoScoreEntry {
+  score: number | null;
+  hasData: boolean;
+  source: string;
+  evidence: Record<string, number | null>;
+}
+
+export interface AutoScores {
+  driverId: string;
+  windowDays: number;
+  targetHours: number;
+  safety: AutoScoreEntry;
+  behavior: AutoScoreEntry;
+  serviceDelivery: AutoScoreEntry;
+  vehicleUtilization: AutoScoreEntry;
+}
+
 export interface VehicleCheckin {
   id: string;
   vehicleId: string;

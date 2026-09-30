@@ -12,6 +12,7 @@ router.get("/assessments", requireRole("ADMIN"), driverController.getAllAssessme
 router.get("/passengers", requireRole("ADMIN"), driverController.getPassengers);
 router.get("/hours", requireRole("ADMIN", "DRIVER"), driverController.getDrivingHours);
 router.get("/:id/trip-hours", requireRole("ADMIN", "DRIVER"), driverController.getTripHours);
+router.get("/:id/auto-scores", requireRole("ADMIN"), driverController.getAutoScores);
 router.post("/:id/tasks", requireRole("ADMIN"), driverController.createTask);
 router.get("/:id/tasks", requireRole("ADMIN", "DRIVER"), driverController.getTasks);
 router.put("/:id/tasks/:taskId", requireRole("ADMIN", "DRIVER"), driverController.updateTask);

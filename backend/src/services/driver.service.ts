@@ -629,6 +629,140 @@ export class DriverService {
     await prisma.driverTask.delete({ where: { id: taskId } });
   }
 
+  async getAutoScores(driverId: string) {
+    const WINDOW_DAYS = 30;
+    const TARGET_HOURS = 300;
+    const since = new Date(Date.now() - WINDOW_DAYS * 24 * 60 * 60 * 1000);
+    const round1 = (n: number) => Math.round(n * 10) / 10;
+    const clamp = (n: number) => Math.max(0, Math.min(100, n));
+
+    const [eco, feedbacks, requests, checkins, tasks] = await Promise.all([
+      prisma.ecoDrivingRecord.findMany({
+        where: { driverId, date: { gte: since } },
+        select: { penaltyPoints: true, rank: true, violationType: true },
+      }),
+      prisma.feedback.findMany({
+        where: { driverId, createdAt: { gte: since } },
+        select: { rating: true },
+      }),
+      prisma.transportRequest.findMany({
+        where: { driverId, date: { gte: since } },
+        select: { status: true, date: true, time: true, pickedUpAt: true, droppedOffAt: true },
+      }),
+      prisma.vehicleCheckin.findMany({
+        where: { driverId, checkInTime: { gte: since } },
+        select: { checkInTime: true, checkOutTime: true },
+      }),
+      prisma.driverTask.findMany({
+        where: { driverId, startedAt: { gte: since } },
+        select: { status: true, startedAt: true, endedAt: true },
+      }),
+    ]);
+
+    const totalPenalties = eco.reduce((s, e) => s + (e.penaltyPoints || 0), 0);
+    const avgRank = eco.length > 0 ? eco.reduce((s, e) => s + (e.rank || 0), 0) / eco.length : 0;
+    const avgRating = feedbacks.length > 0 ? feedbacks.reduce((s, f) => s + f.rating, 0) / feedbacks.length : 0;
+    const ratingScore = avgRating * 20;
+
+    // Safety: 100 - (penalties x 2)
+    const safetyHasData = eco.length > 0;
+    const safetyScore = clamp(100 - totalPenalties * 2);
+
+    // Behavior: 50% passenger rating + 50% NetPro eco rank (rebalanced when one source missing)
+    const behaviorParts: number[] = [];
+    if (feedbacks.length > 0) behaviorParts.push(ratingScore);
+    if (eco.length > 0) behaviorParts.push(avgRank * 10);
+    const behaviorHasData = behaviorParts.length > 0;
+    const behaviorScore = behaviorParts.length > 0
+      ? clamp(behaviorParts.reduce((s, v) => s + v, 0) / behaviorParts.length)
+      : 0;
+
+    // Service delivery: 40% punctual + 30% completion + 30% rating (rebalanced over available parts)
+    const COMPLETION_STATUSES = ["DROP_OFF_SCANNED", "FEEDBACK_SUBMITTED"];
+    const assigned = requests;
+    const completed = assigned.filter((r) => COMPLETION_STATUSES.includes(r.status));
+    const judged = assigned.filter((r) => r.pickedUpAt && r.time);
+    const punctual = judged.filter((r) => {
+      const m = /^(\d{1,2}):(\d{2})\s*(am|pm)?$/i.exec(r.time.trim());
+      if (!m) return false;
+      let hours = parseInt(m[1], 10);
+      const minutes = parseInt(m[2], 10);
+      const mer = (m[3] || "").toLowerCase();
+      if (mer === "pm" && hours < 12) hours += 12;
+      if (mer === "am" && hours === 12) hours = 0;
+      const requested = new Date(r.date);
+      requested.setHours(hours, minutes, 0, 0);
+      return r.pickedUpAt!.getTime() <= requested.getTime() + 10 * 60 * 1000;
+    });
+    const serviceParts: { weight: number; value: number }[] = [];
+    if (judged.length > 0) serviceParts.push({ weight: 0.4, value: (punctual.length / judged.length) * 100 });
+    if (assigned.length > 0) serviceParts.push({ weight: 0.3, value: (completed.length / assigned.length) * 100 });
+    if (feedbacks.length > 0) serviceParts.push({ weight: 0.3, value: ratingScore });
+    const serviceHasData = serviceParts.length > 0;
+    const serviceWeight = serviceParts.reduce((s, p) => s + p.weight, 0);
+    const serviceScore = serviceWeight > 0
+      ? clamp(serviceParts.reduce((s, p) => s + p.value * p.weight, 0) / serviceWeight)
+      : 0;
+
+    // Vehicle utilization: driver total hours vs target (300h window)
+    const drivingMs = checkins.reduce((s, c) => {
+      if (!c.checkInTime || !c.checkOutTime) return s;
+      const ms = c.checkOutTime.getTime() - c.checkInTime.getTime();
+      return s + (ms > 0 ? ms : 0);
+    }, 0);
+    const tripMs = requests.reduce((s, r) => {
+      if (!r.pickedUpAt) return s;
+      const end = r.droppedOffAt || new Date();
+      const ms = end.getTime() - r.pickedUpAt.getTime();
+      return s + (ms > 0 ? ms : 0);
+    }, 0);
+    const taskMs = tasks.reduce((s, t) => {
+      if (t.status !== "COMPLETED" || !t.endedAt) return s;
+      const ms = t.endedAt.getTime() - t.startedAt.getTime();
+      return s + (ms > 0 ? ms : 0);
+    }, 0);
+    const drivingHours = round1(drivingMs / 3600000);
+    const utilizationHasData = checkins.some((c) => c.checkInTime && c.checkOutTime);
+    const utilizationScore = clamp((drivingHours / TARGET_HOURS) * 100);
+
+    return {
+      driverId,
+      windowDays: WINDOW_DAYS,
+      targetHours: TARGET_HOURS,
+      safety: {
+        score: safetyHasData ? round1(safetyScore) : null,
+        hasData: safetyHasData,
+        source: "netpros",
+        evidence: { violations: eco.length, totalPenalties: round1(totalPenalties), avgRank: round1(avgRank) },
+      },
+      behavior: {
+        score: behaviorHasData ? round1(behaviorScore) : null,
+        hasData: behaviorHasData,
+        source: "netpros+feedback",
+        evidence: { avgRating: round1(avgRating), feedbackCount: feedbacks.length, violations: eco.length, avgRank: round1(avgRank) },
+      },
+      serviceDelivery: {
+        score: serviceHasData ? round1(serviceScore) : null,
+        hasData: serviceHasData,
+        source: "app",
+        evidence: {
+          punctualPct: judged.length > 0 ? round1((punctual.length / judged.length) * 100) : null,
+          completionPct: assigned.length > 0 ? round1((completed.length / assigned.length) * 100) : null,
+          avgRating: round1(avgRating),
+          assigned: assigned.length,
+          completed: completed.length,
+          judged: judged.length,
+        },
+      },
+      vehicleUtilization: {
+        score: utilizationHasData ? round1(utilizationScore) : null,
+        hasData: utilizationHasData,
+        source: "app",
+        evidence: { drivingHours, tripHours: round1(tripMs / 3600000), taskHours: round1(taskMs / 3600000) },
+      },
+    };
+  }
+
   private formatTaskResponse(t: {
     id: string;
     driverId: string;

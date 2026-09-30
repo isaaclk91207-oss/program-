@@ -4,10 +4,10 @@ import PassportCard from "../driver/PassportCard";
 import CleaningModal from "./CleaningModal";
 import WaitingAdjustmentModal from "./WaitingAdjustmentModal";
 import CleaningRecords from "./CleaningRecords";
-import { getDriverFeedback, getDrivingHours, getDriverTasks, createDriverTask, updateDriverTask, deleteDriverTask, adminCheckIn, adminCheckOut, recordCleaning, recordRedZone } from "../../services/api";
+import { getDriverFeedback, getDrivingHours, getDriverTasks, createDriverTask, updateDriverTask, deleteDriverTask, adminCheckIn, adminCheckOut, recordCleaning, recordRedZone, getAutoScores } from "../../services/api";
 import { onTripStatusChanged } from "../../services/socket";
 import { useToast } from "../ui";
-import type { Driver, Feedback, Assessment, TripHoursEntry, DriverTask, Vehicle } from "../../types";
+import type { Driver, Feedback, Assessment, TripHoursEntry, DriverTask, Vehicle, AutoScores, AutoScoreEntry } from "../../types";
 
 function getDisplayId(d: Driver): string {
   if (d.version === "v2" && d.employeeId) return d.employeeId;
@@ -47,6 +47,7 @@ export default function DriverDetail({
   const [feedbacks, setFeedbacks] = useState<Feedback[]>([]);
   const [loadingFeedback, setLoadingFeedback] = useState(false);
   const [drivingHours, setDrivingHours] = useState<{ tripHours: number; tripCount: number; drivingHours: number; waitingTimeMs: number; taskHours: number; cleaningHours: number; redZoneHours: number; trips: TripHoursEntry[] } | null>(null);
+  const [autoScores, setAutoScores] = useState<AutoScores | null>(null);
 
   // Cleaning & Red Zone state
   const [cleaningRequestId, setCleaningRequestId] = useState<string | null>(null);
@@ -97,6 +98,10 @@ export default function DriverDetail({
   useEffect(() => {
     if (tab === "feedback") loadFeedback();
     if (tab === "tasks") loadTasks();
+    if (tab === "assessment") {
+      setAutoScores(null);
+      getAutoScores(driver.id).then(setAutoScores).catch(() => setAutoScores(null));
+    }
   }, [tab]);
 
   function loadHours() {
@@ -298,6 +303,65 @@ export default function DriverDetail({
     drivingHours?.trips.find((t) => t.requestId === id) ||
     (id === "new" ? drivingHours?.trips[drivingHours.trips.length - 1] : undefined);
 
+  const AUTO_KEY: Record<string, "safety" | "behavior" | "serviceDelivery" | "vehicleUtilization"> = {
+    safety: "safety",
+    behavior: "behavior",
+    serviceDelivery: "serviceDelivery",
+    vehicleUtilization: "vehicleUtilization",
+  };
+
+  function autoEntryFor(key: string): AutoScoreEntry | null {
+    const mapKey = AUTO_KEY[key];
+    if (!autoScores || !mapKey) return null;
+    const entry = autoScores[mapKey];
+    return entry && entry.hasData && entry.score != null ? entry : null;
+  }
+
+  function applyAuto(key: string) {
+    const entry = autoEntryFor(key);
+    if (!entry || entry.score == null) return;
+    if (key in practical) setPractical({ ...practical, [key]: entry.score });
+    else setOperational({ ...operational, [key]: entry.score });
+  }
+
+  function autoEvidenceText(key: string, e: AutoScoreEntry): string {
+    const d = autoScores?.windowDays ?? 30;
+    switch (key) {
+      case "safety":
+        return `${e.evidence.violations ?? 0} violations · penalties ${e.evidence.totalPenalties ?? 0} · avg rank ${e.evidence.avgRank ?? "—"} · last ${d}d`;
+      case "behavior":
+        return `rating ${e.evidence.avgRating ?? "—"} (${e.evidence.feedbackCount ?? 0}) · avg rank ${e.evidence.avgRank ?? "—"} · last ${d}d`;
+      case "serviceDelivery":
+        return `${e.evidence.punctualPct ?? "—"}% punctual · ${e.evidence.completionPct ?? "—"}% completed · rating ${e.evidence.avgRating ?? "—"} · last ${d}d`;
+      case "vehicleUtilization":
+        return `${e.evidence.drivingHours ?? 0}h driving · ${e.evidence.tripHours ?? 0}h trips · target ${autoScores?.targetHours ?? 300}h · last ${d}d`;
+      default:
+        return "";
+    }
+  }
+
+  function autoBadge(key: string) {
+    const entry = autoEntryFor(key);
+    if (!entry) return null;
+    const label = entry.source === "app" ? "Auto · App" : "Auto · NetPro";
+    return (
+      <button
+        type="button"
+        onClick={() => applyAuto(key)}
+        title={`${label} — click to apply ${entry.score}. ${autoEvidenceText(key, entry)}`}
+        className="shrink-0 text-[10px] font-semibold px-2 py-0.5 rounded-full border border-emerald-500 text-emerald-600 dark:text-emerald-400 hover:bg-emerald-500/10 transition-colors"
+      >
+        {label} {entry.score} ▾
+      </button>
+    );
+  }
+
+  function autoEvidence(key: string) {
+    const entry = autoEntryFor(key);
+    if (!entry) return null;
+    return <p className={`text-[10px] ${th.textMuted} ml-40 mt-0.5`}>{autoEvidenceText(key, entry)}</p>;
+  }
+
   return (
     <div>
       <button onClick={onBack} className="flex items-center gap-1 text-role-admin dark:text-emerald-400 text-sm mb-3">
@@ -332,7 +396,7 @@ export default function DriverDetail({
       {tab === "overview" && (
         <div className="space-y-4">
           <Card className="p-4">
-            <div className="grid grid-cols-2 gap-4 text-sm">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 text-sm">
               <div>
                 <p className={th.textSecondary}>Score</p>
                 <p className="text-xl font-bold text-role-admin dark:text-emerald-400">{driver.score}</p>
@@ -373,24 +437,26 @@ export default function DriverDetail({
                 <Icon name="calendar_today" size={16} />
                 <div>
                   <p className={th.textSecondary}>Joined</p>
-                  <p className={th.text}>{driver.joinedDate}</p>
+                  <p className={th.text}>{driver.joinedDate ? new Date(driver.joinedDate).toLocaleDateString() : "—"}</p>
                 </div>
               </div>
               <div>
                 <p className={th.textSecondary}>Accident Free</p>
                 <p className={th.text}>{driver.accidentFree || "—"}</p>
               </div>
-              <div className="grid grid-cols-2 lg:grid-cols-6 gap-3">
-                <HoursCard type="trip" value={drivingHours ? `${drivingHours.tripHours}h (${drivingHours.tripCount} trips)` : "—"} showDescription={false} />
-                <HoursCard type="driving" value={drivingHours ? `${drivingHours.drivingHours}h` : "—"} showDescription={false} />
-                <HoursCard type="waiting" value={drivingHours ? `${Math.round((drivingHours.waitingTimeMs || 0) / 3600000 * 10) / 10}h` : "—"} showDescription={false} />
-                <HoursCard type="task" value={drivingHours ? `${drivingHours.taskHours || 0}h` : "—"} showDescription={false} />
-                <HoursCard type="cleaning" value={drivingHours ? `${drivingHours.cleaningHours || 0}h` : "—"} showDescription={false} />
-                <HoursCard type="redzone" value={drivingHours ? `${drivingHours.redZoneHours || 0}h` : "—"} showDescription={false} />
-              </div>
+            </div>
+
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 mt-5">
+              <HoursCard type="trip" value={drivingHours ? `${drivingHours.tripHours}h` : "—"} description={drivingHours ? `${drivingHours.tripCount} trips` : "No trips yet"} />
+              <HoursCard type="driving" value={drivingHours ? `${drivingHours.drivingHours}h` : "—"} showDescription={false} />
+              <HoursCard type="waiting" value={drivingHours ? `${Math.round((drivingHours.waitingTimeMs || 0) / 3600000 * 10) / 10}h` : "—"} showDescription={false} />
+              <HoursCard type="task" value={drivingHours ? `${drivingHours.taskHours || 0}h` : "—"} showDescription={false} />
+              <HoursCard type="cleaning" value={drivingHours ? `${drivingHours.cleaningHours || 0}h` : "—"} showDescription={false} />
+              <HoursCard type="redzone" value={drivingHours ? `${drivingHours.redZoneHours || 0}h` : "—"} showDescription={false} />
+            </div>
 
               {drivingHours && drivingHours.trips.length > 0 && (
-                <div className="col-span-2 mt-2">
+                <div className="mt-5">
                   <div className="flex items-center justify-between mb-2">
                     <p className={`${th.textSecondary} mb-2`}>Trip Breakdown</p>
                     <div className="flex gap-2 ml-auto">
@@ -461,8 +527,6 @@ export default function DriverDetail({
                   }}
                 />
               )}
-
-            </div>
           </Card>
 
           {/* Cert Actions */}
@@ -548,14 +612,18 @@ export default function DriverDetail({
               <span className={`text-sm font-mono ${th.text}`}>{practicalScore.toFixed(1)} / 100</span>
             </div>
             {PRACTICAL_CRITERIA.map((c) => (
-              <div key={c} className="flex items-center gap-3 mb-2">
-                <label className={`text-xs ${th.textMuted} w-40`}>{c.replace(/([A-Z])/g, " $1")}</label>
-                <input
-                  type="number" min={0} max={100} value={practical[c]}
-                  onChange={(e) => setPractical({ ...practical, [c]: Number(e.target.value) })}
-                  className={`w-20 px-2 py-1 text-sm rounded border ${th.bgInput} ${th.border} ${th.text}`}
-                />
-                <div className="flex-1"><ProgressBar value={practical[c]} color="blue" /></div>
+              <div key={c} className="mb-2">
+                <div className="flex items-center gap-3">
+                  <label className={`text-xs ${th.textMuted} w-40`}>{c.replace(/([A-Z])/g, " $1")}</label>
+                  <input
+                    type="number" min={0} max={100} value={practical[c]}
+                    onChange={(e) => setPractical({ ...practical, [c]: Number(e.target.value) })}
+                    className={`w-20 px-2 py-1 text-sm rounded border ${th.bgInput} ${th.border} ${th.text}`}
+                  />
+                  <div className="flex-1"><ProgressBar value={practical[c]} color="blue" /></div>
+                  {autoBadge(c)}
+                </div>
+                {autoEvidence(c)}
               </div>
             ))}
           </div>
@@ -566,14 +634,18 @@ export default function DriverDetail({
               <span className={`text-sm font-mono ${th.text}`}>{operationalScore.toFixed(1)} / 100</span>
             </div>
             {OPERATIONAL_CRITERIA.map((c) => (
-              <div key={c} className="flex items-center gap-3 mb-2">
-                <label className={`text-xs ${th.textMuted} w-40`}>{c.replace(/([A-Z])/g, " $1")}</label>
-                <input
-                  type="number" min={0} max={100} value={operational[c]}
-                  onChange={(e) => setOperational({ ...operational, [c]: Number(e.target.value) })}
-                  className={`w-20 px-2 py-1 text-sm rounded border ${th.bgInput} ${th.border} ${th.text}`}
-                />
-                <div className="flex-1"><ProgressBar value={operational[c]} color="emerald" /></div>
+              <div key={c} className="mb-2">
+                <div className="flex items-center gap-3">
+                  <label className={`text-xs ${th.textMuted} w-40`}>{c.replace(/([A-Z])/g, " $1")}</label>
+                  <input
+                    type="number" min={0} max={100} value={operational[c]}
+                    onChange={(e) => setOperational({ ...operational, [c]: Number(e.target.value) })}
+                    className={`w-20 px-2 py-1 text-sm rounded border ${th.bgInput} ${th.border} ${th.text}`}
+                  />
+                  <div className="flex-1"><ProgressBar value={operational[c]} color="emerald" /></div>
+                  {autoBadge(c)}
+                </div>
+                {autoEvidence(c)}
               </div>
             ))}
           </div>

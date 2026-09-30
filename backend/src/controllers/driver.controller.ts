@@ -121,6 +121,15 @@ export class DriverController {
     }
   }
 
+  async getAutoScores(req: AuthenticatedRequest, res: Response, next: NextFunction) {
+    try {
+      const scores = await driverService.getAutoScores(req.params.id);
+      res.json(scores);
+    } catch (err) {
+      next(err);
+    }
+  }
+
   async createTask(req: AuthenticatedRequest, res: Response, next: NextFunction) {
     try {
       const task = await driverService.createTask(req.params.id, req.body);

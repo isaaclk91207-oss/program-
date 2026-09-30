@@ -15,6 +15,7 @@ import type {
   VehicleCheckin,
   LiveVehicleLocation,
   DriverTask,
+  AutoScores,
 } from "../types";
 
 const api = axios.create({
@@ -151,6 +152,11 @@ export async function recordRedZone(requestId: string, data: { waitingTimeMs: nu
 
 export async function getTripHours(driverId: string): Promise<{ requestId: string; tripDate: string; route: string; tripHours: number; drivingHours: number; waitingTimeMs: number }[]> {
   const res = await api.get(`/drivers/${driverId}/trip-hours`);
+  return res.data;
+}
+
+export async function getAutoScores(driverId: string): Promise<AutoScores> {
+  const res = await api.get(`/drivers/${driverId}/auto-scores`);
   return res.data;
 }
 

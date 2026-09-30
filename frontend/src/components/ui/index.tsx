@@ -456,14 +456,14 @@ export function HoursCard({ type, value, description, showDescription = true, on
       <div className="flex items-start justify-between gap-4">
         <div className="flex-1 min-w-0">
           <p className={`text-xs ${th.textSecondary} uppercase tracking-wider`}>{label}</p>
-          <p className={`text-2xl font-bold ${color === "blue" ? "text-blue-500 dark:text-blue-400" : color === "emerald" ? "text-emerald-500 dark:text-emerald-400" : color === "amber" ? "text-amber-500 dark:text-amber-400" : color === "purple" ? "text-purple-500 dark:text-purple-400" : th.text}`}>
+          <p className={`text-2xl font-bold ${color === "blue" ? "text-blue-500 dark:text-blue-400" : color === "emerald" ? "text-emerald-500 dark:text-emerald-400" : color === "amber" ? "text-amber-500 dark:text-amber-400" : color === "purple" ? "text-purple-500 dark:text-purple-400" : color === "rose" ? "text-rose-500 dark:text-rose-400" : th.text}`}>
             {value}
           </p>
           {showDescription && (
             <p className={`text-xs ${th.textMuted} mt-1 truncate`}>{description || defaultDesc}</p>
           )}
         </div>
-        <div className={`shrink-0 ${color === "blue" ? "text-blue-500 dark:text-blue-400" : color === "emerald" ? "text-emerald-500 dark:text-emerald-400" : color === "amber" ? "text-amber-500 dark:text-amber-400" : color === "purple" ? "text-purple-500 dark:text-purple-400" : th.text}`}>
+        <div className={`shrink-0 ${color === "blue" ? "text-blue-500 dark:text-blue-400" : color === "emerald" ? "text-emerald-500 dark:text-emerald-400" : color === "amber" ? "text-amber-500 dark:text-amber-400" : color === "purple" ? "text-purple-500 dark:text-purple-400" : color === "rose" ? "text-rose-500 dark:text-rose-400" : th.text}`}>
           <Icon size={28} />
         </div>
       </div>

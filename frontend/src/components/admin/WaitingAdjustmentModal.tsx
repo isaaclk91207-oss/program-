@@ -30,8 +30,8 @@ export default function WaitingAdjustmentModal({ request, onClose, onSubmit }: W
       onClose();
     } catch (err: unknown) {
       const data = (err as { response?: { data?: { error?: { message?: string }; message?: string } } })?.response?.data;
-      const msg = data?.error?.message || data?.message || "Failed to record waiting adjustment";
-      setError(msg);
+      const fallback = err instanceof Error && err.message ? err.message : "Failed to record waiting adjustment";
+      setError(data?.error?.message || data?.message || fallback);
     } finally {
       setSubmitting(false);
     }

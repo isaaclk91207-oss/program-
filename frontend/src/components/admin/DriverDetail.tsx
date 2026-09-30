@@ -456,7 +456,7 @@ export default function DriverDetail({
                   onClose={() => setRedZoneRequestId(null)}
                   onSubmit={(data) => {
                     const targetId = tripFor(redZoneRequestId)?.requestId;
-                    if (!targetId) return Promise.reject(new Error("No trip available"));
+                    if (!targetId) return Promise.reject(new Error("No completed trip available for this driver — waiting adjustment requires a finished trip (QR drop-off)"));
                     return handleRecordRedZone(targetId, data);
                   }}
                 />
@@ -955,18 +955,18 @@ export default function DriverDetail({
           request={{
             id: cleaningRequestId,
             driverName: driver.name,
-            vehiclePlate: tripFor(cleaningRequestId)?.route || "",
+            vehiclePlate: tripFor(cleaningRequestId)?.route || driver.currentVehiclePlate || "",
             date: tripFor(cleaningRequestId)?.tripDate || "",
             time: "",
             passengerName: "",
-            pickup: "",
+            pickup: tripFor(cleaningRequestId)?.route || "",
             destination: "",
             status: "FEEDBACK_SUBMITTED",
           } as any}
           onClose={() => setCleaningRequestId(null)}
           onSubmit={(data) => {
             const targetId = tripFor(cleaningRequestId)?.requestId;
-            if (!targetId) return Promise.reject(new Error("No trip available"));
+            if (!targetId) return Promise.reject(new Error("No completed trip available for this driver — cleaning requires a finished trip (QR drop-off)"));
             return handleRecordCleaning(targetId, data);
           }}
         />

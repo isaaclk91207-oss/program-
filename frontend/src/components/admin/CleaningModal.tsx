@@ -30,8 +30,8 @@ export default function CleaningModal({ request, onClose, onSubmit }: CleaningMo
       onClose();
     } catch (err: unknown) {
       const data = (err as { response?: { data?: { error?: { message?: string }; message?: string } } })?.response?.data;
-      const msg = data?.error?.message || data?.message || "Failed to record cleaning entry";
-      setError(msg);
+      const fallback = err instanceof Error && err.message ? err.message : "Failed to record cleaning entry";
+      setError(data?.error?.message || data?.message || fallback);
     } finally {
       setSubmitting(false);
     }

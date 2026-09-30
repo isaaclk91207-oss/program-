@@ -932,15 +932,6 @@ export default function DriverDetail({
         </div>
       )}
 
-      {/* Cleaning Records Tab */}
-      {tab === "cleaning_records" && (
-        <CleaningRecords
-          drivingHours={drivingHours}
-          vehiclePlate={driver.currentVehiclePlate || ""}
-          onRecord={(requestId) => setCleaningRequestId(requestId || "new")}
-        />
-      )}
-
       {/* Records Tab */}
       {tab === "records" && (
         <Card className="p-4">
@@ -949,7 +940,16 @@ export default function DriverDetail({
         </Card>
       )}
 
-      {/* Cleaning modal — available from Overview and Cleaning Records tabs */}
+      {/* Cleaning Records Tab */}
+      {tab === "cleaning_records" && (
+        <CleaningRecords
+          drivingHours={drivingHours}
+          vehiclePlate={driver.currentVehiclePlate || ""}
+          onRecord={(id) => setCleaningRequestId(id || "new")}
+        />
+      )}
+
+      {/* Cleaning modal (shared: Overview + Cleaning Records) */}
       {cleaningRequestId && (
         <CleaningModal
           request={{

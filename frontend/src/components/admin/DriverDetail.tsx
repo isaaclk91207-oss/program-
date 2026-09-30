@@ -3,6 +3,7 @@ import { Card, Button, Badge, CertBadge, ProgressBar, Tabs, th, ConfirmDialog, S
 import PassportCard from "../driver/PassportCard";
 import CleaningModal from "./CleaningModal";
 import WaitingAdjustmentModal from "./WaitingAdjustmentModal";
+import CleaningRecords from "./CleaningRecords";
 import { getDriverFeedback, getDrivingHours, getDriverTasks, createDriverTask, updateDriverTask, deleteDriverTask, adminCheckIn, adminCheckOut, recordCleaning, recordRedZone } from "../../services/api";
 import { onTripStatusChanged } from "../../services/socket";
 import { useToast } from "../ui";
@@ -289,6 +290,7 @@ export default function DriverDetail({
     { key: "assessment", label: "Assessment", icon: <Icon name="trending_up" size={16} /> },
     { key: "feedback", label: "Feedback", icon: <Icon name="chat" size={16} /> },
     { key: "tasks", label: "Tasks", icon: <Icon name="assignment" size={16} /> },
+    { key: "cleaning_records", label: "Cleaning Records", icon: <Icon name="cleaning_services" size={16} /> },
     { key: "records", label: "Records", icon: <Icon name="history" size={16} /> },
   ];
 
@@ -436,28 +438,6 @@ export default function DriverDetail({
                     })}
                   </div>
                 </div>
-              )}
-
-              {cleaningRequestId && (
-                <CleaningModal
-                  request={{
-                    id: cleaningRequestId,
-                    driverName: driver.name,
-                    vehiclePlate: tripFor(cleaningRequestId)?.route || "",
-                    date: tripFor(cleaningRequestId)?.tripDate || "",
-                    time: "",
-                    passengerName: "",
-                    pickup: "",
-                    destination: "",
-                    status: "FEEDBACK_SUBMITTED",
-                  } as any}
-                  onClose={() => setCleaningRequestId(null)}
-                  onSubmit={(data) => {
-                    const targetId = tripFor(cleaningRequestId)?.requestId;
-                    if (!targetId) return Promise.reject(new Error("No trip available"));
-                    return handleRecordCleaning(targetId, data);
-                  }}
-                />
               )}
 
               {redZoneRequestId && (
@@ -952,12 +932,44 @@ export default function DriverDetail({
         </div>
       )}
 
+      {/* Cleaning Records Tab */}
+      {tab === "cleaning_records" && (
+        <CleaningRecords
+          drivingHours={drivingHours}
+          vehiclePlate={driver.currentVehiclePlate || ""}
+          onRecord={(requestId) => setCleaningRequestId(requestId || "new")}
+        />
+      )}
+
       {/* Records Tab */}
       {tab === "records" && (
         <Card className="p-4">
           <p className={`text-sm ${th.textSecondary}`}>Operational records and check-in/out history for this driver will appear here.</p>
           <p className={`text-xs ${th.textMuted} mt-2`}>Feature coming soon — this requires per-driver trip history data from the backend.</p>
         </Card>
+      )}
+
+      {/* Cleaning modal — available from Overview and Cleaning Records tabs */}
+      {cleaningRequestId && (
+        <CleaningModal
+          request={{
+            id: cleaningRequestId,
+            driverName: driver.name,
+            vehiclePlate: tripFor(cleaningRequestId)?.route || "",
+            date: tripFor(cleaningRequestId)?.tripDate || "",
+            time: "",
+            passengerName: "",
+            pickup: "",
+            destination: "",
+            status: "FEEDBACK_SUBMITTED",
+          } as any}
+          onClose={() => setCleaningRequestId(null)}
+          onSubmit={(data) => {
+            const targetId = tripFor(cleaningRequestId)?.requestId;
+            if (!targetId) return Promise.reject(new Error("No trip available"));
+            return handleRecordCleaning(targetId, data);
+          }}
+        />
       )}
 
       {/* Confirmation Dialogs */}

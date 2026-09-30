@@ -362,6 +362,11 @@ export default function DriverDetail({
     return <p className={`text-[10px] ${th.textMuted} ml-40 mt-0.5`}>{autoEvidenceText(key, entry)}</p>;
   }
 
+  function labelFor(key: string): string {
+    const spaced = key.replace(/([A-Z])/g, " $1");
+    return spaced.charAt(0).toUpperCase() + spaced.slice(1);
+  }
+
   return (
     <div>
       <button onClick={onBack} className="flex items-center gap-1 text-role-admin dark:text-emerald-400 text-sm mb-3">
@@ -614,7 +619,7 @@ export default function DriverDetail({
             {PRACTICAL_CRITERIA.map((c) => (
               <div key={c} className="mb-2">
                 <div className="flex items-center gap-3">
-                  <label className={`text-xs ${th.textMuted} w-40`}>{c.replace(/([A-Z])/g, " $1")}</label>
+                  <label className={`text-xs ${th.textMuted} w-40`}>{labelFor(c)}</label>
                   <input
                     type="number" min={0} max={100} value={practical[c]}
                     onChange={(e) => setPractical({ ...practical, [c]: Number(e.target.value) })}
@@ -636,7 +641,7 @@ export default function DriverDetail({
             {OPERATIONAL_CRITERIA.map((c) => (
               <div key={c} className="mb-2">
                 <div className="flex items-center gap-3">
-                  <label className={`text-xs ${th.textMuted} w-40`}>{c.replace(/([A-Z])/g, " $1")}</label>
+                  <label className={`text-xs ${th.textMuted} w-40`}>{labelFor(c)}</label>
                   <input
                     type="number" min={0} max={100} value={operational[c]}
                     onChange={(e) => setOperational({ ...operational, [c]: Number(e.target.value) })}

@@ -27,7 +27,7 @@ export default function SettingsPanel({
             <div key={key}>
               <div className="flex items-center justify-between mb-1">
                 <label className={`text-sm ${th.textSecondary}`}>
-                  {key.replace("Weight", "").replace(/([A-Z])/g, " $1")}
+                  {(() => { const s = key.replace("Weight", "").replace(/([A-Z])/g, " $1"); return s.charAt(0).toUpperCase() + s.slice(1); })()}
                 </label>
                 <span className={`text-sm font-mono ${th.text}`}>{(value * 100).toFixed(0)}%</span>
               </div>

@@ -10,7 +10,7 @@ function formatMonth(ym: string): string {
   return new Date(y, m - 1, 1).toLocaleDateString(undefined, { month: "long", year: "numeric" });
 }
 
-export default function AdminDashboard({ data, month, onMonthChange }: { data: DashboardStats; month: string; onMonthChange: (m: string) => void }) {
+export default function AdminDashboard({ data, month, onMonthChange, onSelectDriver }: { data: DashboardStats; month: string; onMonthChange: (m: string) => void; onSelectDriver: (driverId: string) => void }) {
   const [expandedDriver, setExpandedDriver] = useState<string | null>(null);
 
   return (
@@ -81,21 +81,31 @@ export default function AdminDashboard({ data, month, onMonthChange }: { data: D
                 const isExpanded = expandedDriver === d.driverId;
                 return (
                   <div key={d.driverId}>
-                    <button
-                      onClick={() => setExpandedDriver(isExpanded ? null : d.driverId)}
-                      className={`w-full text-left flex justify-between items-center py-2 border-b ${th.border} last:border-0`}
+                    <div
+                      onClick={() => onSelectDriver(d.driverId)}
+                      title={`View ${d.driverName}'s details`}
+                      className={`w-full text-left flex justify-between items-center py-2 px-1 -mx-1 rounded-lg cursor-pointer hover:bg-emerald-500/10 transition-colors border-b ${th.border} last:border-0`}
                     >
                       <div>
-                        <p className={`text-sm font-medium ${th.text}`}>{d.driverName}</p>
+                        <p className={`text-sm font-medium ${th.text} flex items-center gap-1`}>
+                          {d.driverName}
+                          <Icon name="chevron_right" size={16} className={th.textMuted} />
+                        </p>
                         <p className={`text-xs ${th.textMuted}`}>
                           Trip: {d.tripHours}h · Driving: {d.drivingHours}h · Waiting: {Math.round((d.waitingTimeMs || 0) / 3600000 * 10) / 10}h · Tasks: {d.taskHours || 0}h · Cleaning: {d.cleaningHours || 0}h · Red Zone: {d.redZoneHours || 0}h
                         </p>
                       </div>
                       <div className="flex gap-1 items-center">
                         <Badge status="IN_PROGRESS">{d.tripHours || d.drivingHours || 0}h</Badge>
-                        <Icon name={isExpanded ? "expand_less" : "expand_more"} size={18} className={`${th.textMuted}`} />
+                        <button
+                          onClick={(e) => { e.stopPropagation(); setExpandedDriver(isExpanded ? null : d.driverId); }}
+                          title={isExpanded ? "Collapse trips" : "Expand trips"}
+                          className={`p-1 rounded hover:bg-black/10 dark:hover:bg-white/10 ${th.textMuted}`}
+                        >
+                          <Icon name={isExpanded ? "expand_less" : "expand_more"} size={18} />
+                        </button>
                       </div>
-                    </button>
+                    </div>
                     {isExpanded && d.trips && d.trips.length > 0 && (
                       <div className="pl-4 pb-2">
                         {d.trips.map((t) => (

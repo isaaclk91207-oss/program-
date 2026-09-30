@@ -171,6 +171,29 @@ export default function AdminPage() {
 
   const handleExport = async (type: string) => { try { const data = await exportData(type); downloadCSV(convertToCSV(data), `pccp_${type}.csv`); } catch (err) { console.error(err); } };
   const handleAddDriver = async (data: { email: string; password: string; name: string; phone?: string }) => { try { await createDriver(data); loadData(); } catch (err) { console.error(err); } };
+
+  const handleOpenDriver = async (driverId: string) => {
+    let list = drivers;
+    if (!list.length) {
+      try {
+        const [v1Drivers, v2Drivers] = await Promise.all([getDrivers(), getAllDriversV2().catch(() => [])]);
+        const v1Names = new Set(v1Drivers.map((d: Driver) => d.name));
+        const v2Only = v2Drivers.filter((d: { name: string }) => !v1Names.has(d.name)).map((d: { id: string; name: string; status: string; employeeId: string; phone?: string }) => ({
+          id: d.id, name: d.name, email: `${d.employeeId.toLowerCase()}@pccp.demo`, phone: d.phone || null,
+          certLevel: "HO", certStatus: "CERTIFIED", validUntil: null,
+          status: d.status === "AVAILABLE" ? "Active" : d.status === "ON_TRIP" ? "On Trip" : "Inactive",
+          joinedDate: new Date().toISOString(), accidentFree: null, englishLevel: null, credits: 0,
+          currentVehicleId: null, currentVehiclePlate: null, score: 0, rating: 0, employeeId: d.employeeId, version: "v2" as const,
+        }));
+        list = [...v1Drivers.map((d: Driver) => ({ ...d, version: "v1" as const })), ...v2Only];
+        setDrivers(list);
+      } catch (err) { console.error(err); }
+    }
+    const driver = list.find((d) => d.id === driverId);
+    setSelectedDriver(driver || null);
+    setPage("drivers");
+    setSidebarOpen(false);
+  };
   const handleAddVehicle = async (data: { plate: string; make: string; model: string; year: number; color: string }) => { try { await createVehicle(data); loadData(); } catch (err) { console.error(err); } };
   const handleDeleteDriver = async (id: string) => { try { await deleteDriver(id); setSelectedDriver(null); loadData(); } catch (err) { console.error(err); } };
   const handleDeleteVehicle = async (id: string) => { try { await deleteVehicle(id); loadData(); } catch (err) { console.error(err); } };
@@ -227,7 +250,7 @@ export default function AdminPage() {
               <>
                 {page === "dashboard" && (<>
                   {dashboard ? (
-                    <><AdminDashboard data={dashboard} month={dashboardMonth} onMonthChange={handleDashboardMonth} /><LiveVehicleMap /><DashboardCharts data={dashboard} /></>
+                    <><AdminDashboard data={dashboard} month={dashboardMonth} onMonthChange={handleDashboardMonth} onSelectDriver={handleOpenDriver} /><LiveVehicleMap /><DashboardCharts data={dashboard} /></>
                   ) : !loading ? (
                     <div className="text-center py-12">
                       <Icon name="info" size={48} className="text-on-surface-variant mx-auto mb-3" />

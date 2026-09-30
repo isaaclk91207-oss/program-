@@ -18,4 +18,5 @@ export { default as ReportsPage } from "./ReportsPage";
 export { default as LiveVehicleMap } from "./LiveVehicleMap";
 export { default as EcoDrivingPage } from "./EcoDrivingPage";
 export { default as BatchAssignModal } from "./BatchAssignModal";
-export { default as RedZoneModal } from "./RedZoneModal";
+export { default as CleaningModal } from "./CleaningModal";
+export { default as WaitingAdjustmentModal } from "./WaitingAdjustmentModal";

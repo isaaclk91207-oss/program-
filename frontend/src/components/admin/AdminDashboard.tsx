@@ -48,11 +48,13 @@ export default function AdminDashboard({ data, month, onMonthChange }: { data: D
         <KPICard label="QR Pending" value={data.qrPendingRequests} icon={<Icon name="qr_code" size={20} />} color="purple" />
       </div>
 
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+      <div className="grid grid-cols-2 lg:grid-cols-6 gap-4 mb-6">
         <HoursCard type="trip" value={data.totalTripHours || 0} />
         <HoursCard type="driving" value={data.totalDrivingHours || 0} />
         <HoursCard type="waiting" value={Math.round((data.totalWaitingTimeMs || 0) / 3600000 * 10) / 10} />
         <HoursCard type="task" value={data.totalTaskHours || 0} />
+        <HoursCard type="cleaning" value={data.totalCleaningHours || 0} />
+        <HoursCard type="redzone" value={data.totalRedZoneHours || 0} />
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
@@ -86,7 +88,7 @@ export default function AdminDashboard({ data, month, onMonthChange }: { data: D
                       <div>
                         <p className={`text-sm font-medium ${th.text}`}>{d.driverName}</p>
                         <p className={`text-xs ${th.textMuted}`}>
-                          Trip: {d.tripHours}h · Driving: {d.drivingHours}h · Waiting: {Math.round((d.waitingTimeMs || 0) / 3600000 * 10) / 10}h · Tasks: {d.taskHours || 0}h
+                          Trip: {d.tripHours}h · Driving: {d.drivingHours}h · Waiting: {Math.round((d.waitingTimeMs || 0) / 3600000 * 10) / 10}h · Tasks: {d.taskHours || 0}h · Cleaning: {d.cleaningHours || 0}h · Red Zone: {d.redZoneHours || 0}h
                         </p>
                       </div>
                       <div className="flex gap-1 items-center">
@@ -106,6 +108,8 @@ export default function AdminDashboard({ data, month, onMonthChange }: { data: D
                               {t.tripHours > 0 && <span className="text-blue-500">{t.tripHours}h</span>}
                               {t.drivingHours > 0 && <span className="text-emerald-500">{t.drivingHours}h</span>}
                               {t.waitingTimeMs > 0 && <span className="text-amber-500">{Math.round((t.waitingTimeMs || 0) / 3600000 * 10) / 10}h wait</span>}
+                              {t.redZoneCleaningMs > 0 && <span className="text-emerald-500">{Math.round((t.redZoneCleaningMs || 0) / 3600000 * 10) / 10}h clean</span>}
+                              {t.redZoneWaitingMs > 0 && <span className="text-rose-500">{Math.round((t.redZoneWaitingMs || 0) / 3600000 * 10) / 10}h wait adj</span>}
                             </div>
                           </div>
                         ))}

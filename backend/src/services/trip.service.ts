@@ -505,9 +505,9 @@ export class TripService {
     return updated;
   }
 
-  async recordRedZone(
+  async recordCleaning(
     requestId: string,
-    data: { cleaningTimeMs: number; waitingTimeMs?: number; remark?: string },
+    data: { cleaningTimeMs: number; remark?: string },
     userId: string,
     role: string
   ) {
@@ -524,7 +524,54 @@ export class TripService {
       throw createAppError(
         400,
         "INVALID_STATUS",
-        "Red Zone can only be recorded for completed trips (DROP_OFF_SCANNED or FEEDBACK_SUBMITTED)"
+        "Cleaning can only be recorded for completed trips (DROP_OFF_SCANNED or FEEDBACK_SUBMITTED)"
+      );
+    }
+
+    const vehicleCheckin = request.vehicleCheckins?.[0];
+    if (!vehicleCheckin) {
+      throw createAppError(404, "CHECKIN_NOT_FOUND", "No vehicle check-in found for this trip");
+    }
+
+    // Only driver of this trip or admin can record
+    if (role === "DRIVER" && request.driverId !== userId) {
+      throw createAppError(403, "FORBIDDEN", "You can only record cleaning for your own trips");
+    }
+
+    const checkin = await prisma.vehicleCheckin.update({
+      where: { id: vehicleCheckin.id },
+      data: {
+        cleaningTimeMs: data.cleaningTimeMs,
+        redZoneRemark: data.remark || null,
+        redZoneRecordedAt: new Date(),
+      },
+    });
+
+    socketService.emit("trip:statusChanged", { requestId, status: request.status, driverId: request.driverId });
+
+    return checkin;
+  }
+
+  async recordRedZone(
+    requestId: string,
+    data: { waitingTimeMs: number; remark?: string },
+    userId: string,
+    role: string
+  ) {
+    const request = await prisma.transportRequest.findUnique({
+      where: { id: requestId },
+      include: { vehicleCheckins: true },
+    });
+
+    if (!request) {
+      throw createAppError(404, "REQUEST_NOT_FOUND", "Transport request not found");
+    }
+
+    if (!["DROP_OFF_SCANNED", "FEEDBACK_SUBMITTED"].includes(request.status)) {
+      throw createAppError(
+        400,
+        "INVALID_STATUS",
+        "Red Zone (waiting adjustment) can only be recorded for completed trips (DROP_OFF_SCANNED or FEEDBACK_SUBMITTED)"
       );
     }
 
@@ -541,14 +588,12 @@ export class TripService {
     const checkin = await prisma.vehicleCheckin.update({
       where: { id: vehicleCheckin.id },
       data: {
-        cleaningTimeMs: data.cleaningTimeMs,
-        redZoneWaitingMs: data.waitingTimeMs || 0,
+        redZoneWaitingMs: data.waitingTimeMs,
         redZoneRemark: data.remark || null,
         redZoneRecordedAt: new Date(),
       },
     });
 
-    // Emit socket event for real-time updates
     socketService.emit("trip:statusChanged", { requestId, status: request.status, driverId: request.driverId });
 
     return checkin;

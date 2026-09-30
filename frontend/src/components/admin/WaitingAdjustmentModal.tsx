@@ -2,42 +2,35 @@ import { useState } from "react";
 import { Button, Input, Modal, Textarea, Icon } from "../ui";
 import type { TransportRequest } from "../../types";
 
-interface RedZoneModalProps {
+interface WaitingAdjustmentModalProps {
   request: TransportRequest;
   onClose: () => void;
-  onSubmit: (data: { cleaningTimeMs: number; waitingTimeMs?: number; remark?: string }) => Promise<void>;
+  onSubmit: (data: { waitingTimeMs: number; remark?: string }) => Promise<void>;
 }
 
-export default function RedZoneModal({ request, onClose, onSubmit }: RedZoneModalProps) {
-  const [cleaningMinutes, setCleaningMinutes] = useState("");
+export default function WaitingAdjustmentModal({ request, onClose, onSubmit }: WaitingAdjustmentModalProps) {
   const [waitingMinutes, setWaitingMinutes] = useState("");
   const [remark, setRemark] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
 
   async function handleSubmit() {
-    const c = Number(cleaningMinutes);
-    if (!c || c <= 0) {
-      setError("Cleaning time (minutes) is required and must be greater than 0");
-      return;
-    }
     const w = Number(waitingMinutes);
-    if (waitingMinutes && (isNaN(w) || w < 0)) {
-      setError("Waiting time must be a valid number");
+    if (!w || w <= 0) {
+      setError("Waiting time (minutes) is required and must be greater than 0");
       return;
     }
     setSubmitting(true);
     setError("");
     try {
       await onSubmit({
-        cleaningTimeMs: c * 60 * 1000,
-        waitingTimeMs: w ? w * 60 * 1000 : undefined,
+        waitingTimeMs: w * 60 * 1000,
         remark: remark.trim() || undefined,
       });
       onClose();
     } catch (err: unknown) {
       const data = (err as { response?: { data?: { error?: { message?: string }; message?: string } } })?.response?.data;
-      const msg = data?.error?.message || data?.message || "Failed to record Red Zone entry";
+      const msg = data?.error?.message || data?.message || "Failed to record waiting adjustment";
       setError(msg);
     } finally {
       setSubmitting(false);
@@ -48,13 +41,13 @@ export default function RedZoneModal({ request, onClose, onSubmit }: RedZoneModa
   const plate = request.vehiclePlate || "";
 
   return (
-    <Modal open title="Record Red Zone Entry" onClose={onClose}>
+    <Modal open title="Record Waiting Adjustment" onClose={onClose}>
       <div className="space-y-4">
         {/* Context banner */}
-        <div className="flex items-start gap-3 p-3 rounded-lg border bg-emerald-50 border-emerald-200 dark:bg-emerald-500/10 dark:border-emerald-500/30">
-          <Icon name="cleaning_services" size={20} className="text-emerald-600 dark:text-emerald-400" />
+        <div className="flex items-start gap-3 p-3 rounded-lg border bg-rose-50 border-rose-200 dark:bg-rose-500/10 dark:border-rose-500/30">
+          <Icon name="warning" size={20} className="text-rose-600 dark:text-rose-400" />
           <div className="text-sm">
-            <p className="font-medium text-on-surface dark:text-white">Record Cleaning & Red Zone Time</p>
+            <p className="font-medium text-on-surface dark:text-white">Record Waiting Time Adjustment</p>
             <p className="text-on-surface-variant dark:text-outline-variant mt-0.5">
               {driverName} · <span className="font-mono">{plate}</span> · {request.date} {request.time}
               <br />
@@ -64,29 +57,20 @@ export default function RedZoneModal({ request, onClose, onSubmit }: RedZoneModa
         </div>
 
         <Input
-          label="Cleaning Time (minutes) *"
-          value={cleaningMinutes}
-          onChange={(e) => setCleaningMinutes(e.target.value)}
-          placeholder="e.g. 30"
-          type="number"
-          min="1"
-          autoFocus
-        />
-
-        <Input
-          label="Waiting Time Adjustment (minutes, optional)"
+          label="Waiting Time Adjustment (minutes) *"
           value={waitingMinutes}
           onChange={(e) => setWaitingMinutes(e.target.value)}
           placeholder="e.g. 15"
           type="number"
-          min="0"
+          min="1"
+          autoFocus
         />
 
         <Textarea
           label="Remark (optional)"
           value={remark}
           onChange={(e) => setRemark(e.target.value)}
-          placeholder="Any notes about cleaning or waiting..."
+          placeholder="Reason for waiting time adjustment..."
           rows={2}
         />
 
@@ -104,7 +88,7 @@ export default function RedZoneModal({ request, onClose, onSubmit }: RedZoneModa
             disabled={submitting}
             className="flex-1"
           >
-            {submitting ? "Recording…" : "Record Red Zone"}
+            {submitting ? "Recording…" : "Record Adjustment"}
           </Button>
           <Button variant="secondary" onClick={onClose} disabled={submitting}>Cancel</Button>
         </div>

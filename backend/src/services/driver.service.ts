@@ -544,9 +544,10 @@ export class DriverService {
         };
       });
 
-      const redZoneCleaningMs = redZoneCleaningMap[id] || 0;
+      const cleaningMs = redZoneCleaningMap[id] || 0;
       const redZoneWaitingMs = redZoneWaitingMap[id] || 0;
-      const redZoneHours = Math.round(((redZoneCleaningMs + redZoneWaitingMs) / 3600000) * 10) / 10;
+      const cleaningHours = Math.round((cleaningMs / 3600000) * 10) / 10;
+      const redZoneHours = Math.round((redZoneWaitingMs / 3600000) * 10) / 10;
 
       return {
         driverId: id,
@@ -555,9 +556,8 @@ export class DriverService {
         drivingHours: Math.round(((drivingMap[id] || 0) / 3600000) * 10) / 10,
         waitingTimeMs: waitingMap[id] || 0,
         taskHours: Math.round(((taskMap[id] || 0) / 3600000) * 10) / 10,
+        cleaningHours,
         redZoneHours,
-        redZoneCleaningMs,
-        redZoneWaitingMs,
         trips: tripHoursEntries,
       };
     });

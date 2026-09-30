@@ -1,10 +1,11 @@
 import { useState, useMemo } from "react";
 import { Card, Button, Badge, EmptyState, SearchInput, th, Icon, DataTable, TableRow, TableCell, ArrivedChip } from "../ui";
-import { exportExcel, exportCSV, downloadBlob, recordRedZone } from "../../services/api";
+import { exportExcel, exportCSV, downloadBlob, recordCleaning, recordRedZone } from "../../services/api";
 import AssignModal from "./AssignModal";
 import BatchAssignModal from "./BatchAssignModal";
 import CheckInOutModal from "./CheckInOutModal";
-import RedZoneModal from "./RedZoneModal";
+import CleaningModal from "./CleaningModal";
+import WaitingAdjustmentModal from "./WaitingAdjustmentModal";
 import { useToast } from "../ui";
 import type { TransportRequest, Driver, Vehicle } from "../../types";
 import { formatRequestId } from "../../types";
@@ -59,11 +60,13 @@ export default function RequestsList({
   const [inlineAssign, setInlineAssign] = useState<Record<string, { driverId: string; vehicleId: string }>>({});
   const [exporting, setExporting] = useState(false);
   const [checkAction, setCheckAction] = useState<{ request: TransportRequest; mode: "in" | "out" } | null>(null);
+  const [showCleaning, setShowCleaning] = useState(false);
   const [showRedZone, setShowRedZone] = useState(false);
-  const [redZoneError, setRedZoneError] = useState<string | null>(null);
+  const [modalError, setModalError] = useState<string | null>(null);
   const { addToast } = useToast();
 
-  const hasRedZone = (selectedRequest?.redZoneCleaningMs || 0) > 0 || (selectedRequest?.redZoneWaitingMs || 0) > 0;
+  const hasCleaning = (selectedRequest?.redZoneCleaningMs || 0) > 0;
+  const hasRedZone = (selectedRequest?.redZoneWaitingMs || 0) > 0;
 
   // Multi-select state
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
@@ -150,18 +153,34 @@ export default function RequestsList({
     }
   }
 
-  async function handleRecordRedZone(data: { cleaningTimeMs: number; waitingTimeMs?: number; remark?: string }) {
+  async function handleRecordCleaning(data: { cleaningTimeMs: number; remark?: string }) {
     if (!selectedRequest) return;
     try {
-      await recordRedZone(selectedRequest.id, data);
-      addToast("success", "Red Zone entry recorded");
-      setShowRedZone(false);
-      setRedZoneError(null);
+      await recordCleaning(selectedRequest.id, data);
+      addToast("success", "Cleaning time recorded");
+      setShowCleaning(false);
+      setModalError(null);
       onRefresh();
     } catch (err: unknown) {
       const axiosErr = err as { response?: { data?: { error?: { message?: string } } } };
-      const msg = axiosErr.response?.data?.error?.message || "Failed to record Red Zone";
-      setRedZoneError(msg);
+      const msg = axiosErr.response?.data?.error?.message || "Failed to record cleaning";
+      setModalError(msg);
+      throw err;
+    }
+  }
+
+  async function handleRecordRedZone(data: { waitingTimeMs: number; remark?: string }) {
+    if (!selectedRequest) return;
+    try {
+      await recordRedZone(selectedRequest.id, data);
+      addToast("success", "Waiting adjustment recorded");
+      setShowRedZone(false);
+      setModalError(null);
+      onRefresh();
+    } catch (err: unknown) {
+      const axiosErr = err as { response?: { data?: { error?: { message?: string } } } };
+      const msg = axiosErr.response?.data?.error?.message || "Failed to record waiting adjustment";
+      setModalError(msg);
       throw err;
     }
   }
@@ -455,22 +474,41 @@ export default function RequestsList({
           {selectedRequest.status === "PENDING" && (
             <Button accent="admin" onClick={() => onShowAssignModal(true)} className="mt-4">Assign Driver + Vehicle</Button>
           )}
-          {["DROP_OFF_SCANNED", "FEEDBACK_SUBMITTED"].includes(selectedRequest.status) && !hasRedZone && (
+          {["DROP_OFF_SCANNED", "FEEDBACK_SUBMITTED"].includes(selectedRequest.status) && (
             <div className="flex gap-3 mt-4">
-              <Button
-                accent="admin"
-                onClick={() => setShowRedZone(true)}
-                className="flex-1"
-              >
-                <Icon name="cleaning_services" size={18} className="mr-2" />
-                Record Red Zone
-              </Button>
+              {!hasCleaning && (
+                <Button
+                  accent="admin"
+                  onClick={() => setShowCleaning(true)}
+                  className="flex-1"
+                >
+                  <Icon name="cleaning_services" size={18} className="mr-2" />
+                  Record Cleaning
+                </Button>
+              )}
+              {!hasRedZone && (
+                <Button
+                  accent="admin"
+                  onClick={() => setShowRedZone(true)}
+                  className="flex-1"
+                >
+                  <Icon name="warning" size={18} className="mr-2" />
+                  Record Waiting Adj
+                </Button>
+              )}
             </div>
           )}
-          {showRedZone && (
-            <RedZoneModal
+          {showCleaning && (
+            <CleaningModal
               request={selectedRequest}
-              onClose={() => { setShowRedZone(false); setRedZoneError(null); }}
+              onClose={() => { setShowCleaning(false); setModalError(null); }}
+              onSubmit={handleRecordCleaning}
+            />
+          )}
+          {showRedZone && (
+            <WaitingAdjustmentModal
+              request={selectedRequest}
+              onClose={() => { setShowRedZone(false); setModalError(null); }}
               onSubmit={handleRecordRedZone}
             />
           )}

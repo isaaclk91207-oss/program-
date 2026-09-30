@@ -133,13 +133,18 @@ export async function getDriverFeedback(driverId: string): Promise<Feedback[]> {
   return res.data;
 }
 
-export async function getDrivingHours(driverId?: string): Promise<{ driverId: string; tripHours: number; tripCount: number; drivingHours: number; waitingTimeMs: number; taskHours: number; redZoneHours: number; redZoneCleaningMs: number; redZoneWaitingMs: number; trips: { requestId: string; tripDate: string; route: string; tripHours: number; drivingHours: number; waitingTimeMs: number; redZoneCleaningMs: number; redZoneWaitingMs: number }[] }[]> {
+export async function getDrivingHours(driverId?: string): Promise<{ driverId: string; tripHours: number; tripCount: number; drivingHours: number; waitingTimeMs: number; taskHours: number; cleaningHours: number; redZoneHours: number; trips: { requestId: string; tripDate: string; route: string; tripHours: number; drivingHours: number; waitingTimeMs: number; redZoneCleaningMs: number; redZoneWaitingMs: number }[] }[]> {
   const url = driverId ? `/drivers/hours?driverId=${driverId}` : "/drivers/hours";
   const res = await api.get(url);
   return res.data;
 }
 
-export async function recordRedZone(requestId: string, data: { cleaningTimeMs: number; waitingTimeMs?: number; remark?: string }): Promise<any> {
+export async function recordCleaning(requestId: string, data: { cleaningTimeMs: number; remark?: string }): Promise<any> {
+  const res = await api.post(`/trips/${requestId}/cleaning`, data);
+  return res.data;
+}
+
+export async function recordRedZone(requestId: string, data: { waitingTimeMs: number; remark?: string }): Promise<any> {
   const res = await api.post(`/trips/${requestId}/red-zone`, data);
   return res.data;
 }

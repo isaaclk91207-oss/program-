@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import { Card, Button, Badge, CertBadge, ProgressBar, Tabs, th, ConfirmDialog, StarRating, Icon, HoursCard } from "../ui";
 import PassportCard from "../driver/PassportCard";
-import RedZoneModal from "./RedZoneModal";
-import { getDriverFeedback, getDrivingHours, getDriverTasks, createDriverTask, updateDriverTask, deleteDriverTask, adminCheckIn, adminCheckOut, recordRedZone } from "../../services/api";
+import CleaningModal from "./CleaningModal";
+import WaitingAdjustmentModal from "./WaitingAdjustmentModal";
+import { getDriverFeedback, getDrivingHours, getDriverTasks, createDriverTask, updateDriverTask, deleteDriverTask, adminCheckIn, adminCheckOut, recordCleaning, recordRedZone } from "../../services/api";
 import { onTripStatusChanged } from "../../services/socket";
 import { useToast } from "../ui";
 import type { Driver, Feedback, Assessment, TripHoursEntry, DriverTask, Vehicle } from "../../types";
@@ -44,11 +45,12 @@ export default function DriverDetail({
   const [tab, setTab] = useState("overview");
   const [feedbacks, setFeedbacks] = useState<Feedback[]>([]);
   const [loadingFeedback, setLoadingFeedback] = useState(false);
-  const [drivingHours, setDrivingHours] = useState<{ tripHours: number; tripCount: number; drivingHours: number; waitingTimeMs: number; taskHours: number; redZoneHours: number; redZoneCleaningMs: number; redZoneWaitingMs: number; trips: TripHoursEntry[] } | null>(null);
+  const [drivingHours, setDrivingHours] = useState<{ tripHours: number; tripCount: number; drivingHours: number; waitingTimeMs: number; taskHours: number; cleaningHours: number; redZoneHours: number; trips: TripHoursEntry[] } | null>(null);
 
-  // Red Zone state
+  // Cleaning & Red Zone state
+  const [cleaningRequestId, setCleaningRequestId] = useState<string | null>(null);
   const [redZoneRequestId, setRedZoneRequestId] = useState<string | null>(null);
-  const [redZoneError, setRedZoneError] = useState<string | null>(null);
+  const [modalError, setModalError] = useState<string | null>(null);
   const { addToast } = useToast();
 
   // Task state
@@ -102,17 +104,32 @@ export default function DriverDetail({
     }).catch(() => {});
   }
 
-  async function handleRecordRedZone(requestId: string, data: { cleaningTimeMs: number; waitingTimeMs?: number; remark?: string }) {
+  async function handleRecordCleaning(requestId: string, data: { cleaningTimeMs: number; remark?: string }) {
     try {
-      await recordRedZone(requestId, data);
-      addToast("success", "Red Zone entry recorded");
-      setRedZoneRequestId(null);
-      setRedZoneError(null);
+      await recordCleaning(requestId, data);
+      addToast("success", "Cleaning time recorded");
+      setCleaningRequestId(null);
+      setModalError(null);
       loadHours();
     } catch (err: unknown) {
       const axiosErr = err as { response?: { data?: { error?: { message?: string } } } };
-      const msg = axiosErr.response?.data?.error?.message || "Failed to record Red Zone";
-      setRedZoneError(msg);
+      const msg = axiosErr.response?.data?.error?.message || "Failed to record cleaning";
+      setModalError(msg);
+      throw err;
+    }
+  }
+
+  async function handleRecordRedZone(requestId: string, data: { waitingTimeMs: number; remark?: string }) {
+    try {
+      await recordRedZone(requestId, data);
+      addToast("success", "Waiting adjustment recorded");
+      setRedZoneRequestId(null);
+      setModalError(null);
+      loadHours();
+    } catch (err: unknown) {
+      const axiosErr = err as { response?: { data?: { error?: { message?: string } } } };
+      const msg = axiosErr.response?.data?.error?.message || "Failed to record waiting adjustment";
+      setModalError(msg);
       throw err;
     }
   }
@@ -357,11 +374,12 @@ export default function DriverDetail({
                 <p className={th.textSecondary}>Accident Free</p>
                 <p className={th.text}>{driver.accidentFree || "—"}</p>
               </div>
-              <div className="grid grid-cols-2 lg:grid-cols-5 gap-3">
+              <div className="grid grid-cols-2 lg:grid-cols-6 gap-3">
                 <HoursCard type="trip" value={drivingHours ? `${drivingHours.tripHours}h (${drivingHours.tripCount} trips)` : "—"} showDescription={false} />
                 <HoursCard type="driving" value={drivingHours ? `${drivingHours.drivingHours}h` : "—"} showDescription={false} />
                 <HoursCard type="waiting" value={drivingHours ? `${Math.round((drivingHours.waitingTimeMs || 0) / 3600000 * 10) / 10}h` : "—"} showDescription={false} />
                 <HoursCard type="task" value={drivingHours ? `${drivingHours.taskHours || 0}h` : "—"} showDescription={false} />
+                <HoursCard type="cleaning" value={drivingHours ? `${drivingHours.cleaningHours || 0}h` : "—"} showDescription={false} />
                 <HoursCard type="redzone" value={drivingHours ? `${drivingHours.redZoneHours || 0}h` : "—"} showDescription={false} />
               </div>
 
@@ -404,7 +422,7 @@ export default function DriverDetail({
               )}
 
               {redZoneRequestId && (
-                <RedZoneModal
+                <WaitingAdjustmentModal
                   request={{ 
                     id: redZoneRequestId, 
                     driverName: driver.name, 
@@ -417,10 +435,10 @@ export default function DriverDetail({
                     status: "FEEDBACK_SUBMITTED",
                   } as any}
                   onClose={() => setRedZoneRequestId(null)}
-                  onSubmit={async (data) => {
+                  onSubmit={async (data: { waitingTimeMs: number; remark?: string }) => {
                     if (!redZoneRequestId) return;
                     await recordRedZone(redZoneRequestId, data);
-                    addToast("success", "Red Zone entry recorded");
+                    addToast("success", "Waiting adjustment recorded");
                     setRedZoneRequestId(null);
                     loadHours();
                   }}

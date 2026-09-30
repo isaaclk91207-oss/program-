@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { ArrivedChip, CheckedInChip, Icon, TripStatusPill, Button } from "../ui";
-import { RedZoneModal } from "../admin";
-import { recordRedZone } from "../../services/api";
+import { CleaningModal, WaitingAdjustmentModal } from "../admin";
+import { recordCleaning, recordRedZone } from "../../services/api";
 import { useToast } from "../../components/ui";
 import type { TransportRequest } from "../../types";
 import { formatRequestId } from "../../types";
@@ -31,11 +31,14 @@ export default function TripDetail({
 }) {
   const [marking, setMarking] = useState(false);
   const [markError, setMarkError] = useState<string | null>(null);
+  const [showCleaning, setShowCleaning] = useState(false);
   const [showRedZone, setShowRedZone] = useState(false);
-  const [redZoneError, setRedZoneError] = useState<string | null>(null);
+  const [modalError, setModalError] = useState<string | null>(null);
   const { addToast } = useToast();
   const canArrive = (trip.status === "ASSIGNED" || trip.status === "QR_PENDING") && !trip.arrivedAt;
-  const hasRedZone = (trip.redZoneCleaningMs || 0) > 0 || (trip.redZoneWaitingMs || 0) > 0;
+  const hasCleaning = (trip.redZoneCleaningMs || 0) > 0;
+  const hasRedZone = (trip.redZoneWaitingMs || 0) > 0;
+  const canRecordCleaning = ["DROP_OFF_SCANNED", "FEEDBACK_SUBMITTED"].includes(trip.status) && !hasCleaning;
   const canRecordRedZone = ["DROP_OFF_SCANNED", "FEEDBACK_SUBMITTED"].includes(trip.status) && !hasRedZone;
 
   async function handleMarkArrived() {
@@ -52,16 +55,30 @@ export default function TripDetail({
     }
   }
 
-  async function handleRecordRedZone(data: { cleaningTimeMs: number; waitingTimeMs?: number; remark?: string }) {
+  async function handleRecordCleaning(data: { cleaningTimeMs: number; remark?: string }) {
     try {
-      await recordRedZone(trip.id, data);
-      addToast("success", "Red Zone entry recorded");
-      setShowRedZone(false);
-      setRedZoneError(null);
+      await recordCleaning(trip.id, data);
+      addToast("success", "Cleaning time recorded");
+      setShowCleaning(false);
+      setModalError(null);
     } catch (err: unknown) {
       const axiosErr = err as { response?: { data?: { error?: { message?: string } } } };
-      const msg = axiosErr.response?.data?.error?.message || "Failed to record Red Zone";
-      setRedZoneError(msg);
+      const msg = axiosErr.response?.data?.error?.message || "Failed to record cleaning";
+      setModalError(msg);
+      throw err;
+    }
+  }
+
+  async function handleRecordRedZone(data: { waitingTimeMs: number; remark?: string }) {
+    try {
+      await recordRedZone(trip.id, data);
+      addToast("success", "Waiting adjustment recorded");
+      setShowRedZone(false);
+      setModalError(null);
+    } catch (err: unknown) {
+      const axiosErr = err as { response?: { data?: { error?: { message?: string } } } };
+      const msg = axiosErr.response?.data?.error?.message || "Failed to record waiting adjustment";
+      setModalError(msg);
       throw err;
     }
   }
@@ -185,9 +202,21 @@ export default function TripDetail({
               <InfoRow icon="cleaning_services" label="Red Zone Cleaning" value={`${Math.round((trip.redZoneCleaningMs || 0) / 3600000 * 10) / 10}h`} valueClass="text-emerald-500 font-bold" />
             )}
             {(trip.redZoneWaitingMs || 0) > 0 && (
-              <InfoRow icon="hourglass_top" label="Red Zone Waiting" value={`${Math.round((trip.redZoneWaitingMs || 0) / 3600000 * 10) / 10}h`} valueClass="text-amber-500 font-bold" />
+              <InfoRow icon="hourglass_top" label="Red Zone Waiting" value={`${Math.round((trip.redZoneWaitingMs || 0) / 3600000 * 10) / 10}h`} valueClass="text-rose-500 font-bold" />
             )}
           </>
+        )}
+        {canRecordCleaning && (
+          <div className="flex gap-3 pt-2">
+            <Button
+              accent="admin"
+              onClick={() => setShowCleaning(true)}
+              className="flex-1"
+            >
+              <Icon name="cleaning_services" size={18} className="mr-2" />
+              Record Cleaning
+            </Button>
+          </div>
         )}
         {canRecordRedZone && (
           <div className="flex gap-3 pt-2">
@@ -196,15 +225,22 @@ export default function TripDetail({
               onClick={() => setShowRedZone(true)}
               className="flex-1"
             >
-              <Icon name="cleaning_services" size={18} className="mr-2" />
-              Record Red Zone
+              <Icon name="warning" size={18} className="mr-2" />
+              Record Waiting Adj
             </Button>
           </div>
         )}
-        {showRedZone && (
-          <RedZoneModal
+        {showCleaning && (
+          <CleaningModal
             request={trip}
-            onClose={() => { setShowRedZone(false); setRedZoneError(null); }}
+            onClose={() => { setShowCleaning(false); setModalError(null); }}
+            onSubmit={handleRecordCleaning}
+          />
+        )}
+        {showRedZone && (
+          <WaitingAdjustmentModal
+            request={trip}
+            onClose={() => { setShowRedZone(false); setModalError(null); }}
             onSubmit={handleRecordRedZone}
           />
         )}

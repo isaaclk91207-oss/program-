@@ -26,6 +26,7 @@ export default function DriverProfile({
   const [drivingHours, setDrivingHours] = useState<number | null>(null);
   const [waitingTimeMs, setWaitingTimeMs] = useState<number>(0);
   const [taskHours, setTaskHours] = useState<number>(0);
+  const [cleaningHours, setCleaningHours] = useState<number | null>(null);
   const [perTrip, setPerTrip] = useState<TripHoursEntry[]>([]);
   const [tasks, setTasks] = useState<DriverTask[]>([]);
   const completed = trips.filter((t) => t.status === "FEEDBACK_SUBMITTED").length;
@@ -38,6 +39,7 @@ export default function DriverProfile({
           setDrivingHours(data[0].drivingHours);
           setWaitingTimeMs(data[0].waitingTimeMs || 0);
           setTaskHours(data[0].taskHours || 0);
+          setCleaningHours(data[0].cleaningHours || 0);
           setPerTrip(data[0].trips || []);
         }
       }).catch(() => {});
@@ -102,12 +104,13 @@ export default function DriverProfile({
           {user.email}
         </div>
 
-        <div className="grid grid-cols-3 gap-3 mt-5">
+        <div className="grid grid-cols-4 gap-3 mt-5">
           <HoursCard type="trip" value={tripHours !== null ? tripHours : "—"} />
           <HoursCard type="driving" value={drivingHours !== null ? drivingHours : "—"} />
           <HoursCard type="waiting" value={waitingTimeMs > 0 ? Math.round((waitingTimeMs / 3600000) * 10) / 10 : "—"} />
+          <HoursCard type="cleaning" value={cleaningHours !== null ? cleaningHours : "—"} />
         </div>
-        <div className="grid grid-cols-3 gap-3 mt-3">
+        <div className="grid grid-cols-4 gap-3 mt-3">
           <div className="bg-surface-container-low dark:bg-navy-900 rounded-xl p-3 border border-border-hairline dark:border-outline-variant">
             <Icon name="directions_car" size={20} className="text-role-driver dark:text-purple-400 mx-auto mb-1" />
             <p className="font-stat-lg text-stat-lg text-on-surface dark:text-white">{trips.length}</p>
@@ -119,6 +122,7 @@ export default function DriverProfile({
             <p className="font-label-caps text-label-caps uppercase text-on-surface-variant dark:text-outline-variant">Completed</p>
           </div>
           <HoursCard type="task" value={taskHours > 0 ? taskHours : "—"} />
+          <HoursCard type="redzone" value={0} />
         </div>
       </div>
 
@@ -137,6 +141,8 @@ export default function DriverProfile({
                   {t.tripHours > 0 && <span className="text-blue-500">{t.tripHours}h trip</span>}
                   {t.drivingHours > 0 && <span className="text-emerald-500">{t.drivingHours}h driving</span>}
                   {t.waitingTimeMs > 0 && <span className="text-amber-500">{Math.round((t.waitingTimeMs / 3600000) * 10) / 10}h wait</span>}
+                  {t.redZoneCleaningMs > 0 && <span className="text-emerald-500">{Math.round((t.redZoneCleaningMs / 3600000) * 10) / 10}h clean</span>}
+                  {t.redZoneWaitingMs > 0 && <span className="text-rose-500">{Math.round((t.redZoneWaitingMs / 3600000) * 10) / 10}h wait adj</span>}
                 </div>
               </div>
             ))}

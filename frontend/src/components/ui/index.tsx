@@ -425,14 +425,15 @@ export function KPICard({
 
 // ─── HoursCard ────────────────────────────────────────────────────────────────
 
-export type HoursType = "trip" | "driving" | "waiting" | "task" | "redzone";
+export type HoursType = "trip" | "driving" | "waiting" | "task" | "redzone" | "cleaning";
 
 const HOURS_CONFIG: Record<HoursType, { icon: string; color: string; label: string; description: string }> = {
   trip: { icon: "schedule", color: "blue", label: "Trip Hours", description: "QR pickup → QR dropoff" },
   driving: { icon: "directions_car", color: "emerald", label: "Driving Hours", description: "Admin check-in → check-out" },
   waiting: { icon: "hourglass_top", color: "amber", label: "Waiting Time", description: "Manual start → stop" },
   task: { icon: "assignment", color: "purple", label: "Task Hours", description: "Admin-assigned tasks" },
-  redzone: { icon: "cleaning_services", color: "rose", label: "Red Zone Hours", description: "Cleaning + waiting adjustments" },
+  redzone: { icon: "warning", color: "rose", label: "Red Zone Hours", description: "Waiting time adjustments" },
+  cleaning: { icon: "cleaning_services", color: "emerald", label: "Cleaning Hours", description: "Vehicle cleaning time" },
 };
 
 interface HoursCardProps {

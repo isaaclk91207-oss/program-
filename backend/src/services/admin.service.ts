@@ -167,9 +167,10 @@ export class AdminService {
         }
       }
 
-      const redZoneCleaningMs = redZoneCleaningMap[id] || 0;
+      const cleaningMs = redZoneCleaningMap[id] || 0;
       const redZoneWaitingMs = redZoneWaitingMap[id] || 0;
-      const redZoneHours = Math.round(((redZoneCleaningMs + redZoneWaitingMs) / 3600000) * 10) / 10;
+      const cleaningHours = Math.round((cleaningMs / 3600000) * 10) / 10;
+      const redZoneHours = Math.round((redZoneWaitingMs / 3600000) * 10) / 10;
 
       return {
         driverId: id,
@@ -178,9 +179,8 @@ export class AdminService {
         drivingHours: Math.round(((drivingHoursMap[id] || 0) / 3600000) * 10) / 10,
         waitingTimeMs: waitingMap[id] || 0,
         taskHours: Math.round(((taskMap[id] || 0) / 3600000) * 10) / 10,
+        cleaningHours,
         redZoneHours,
-        redZoneCleaningMs,
-        redZoneWaitingMs,
         trips: Object.values(tripByRequest),
       };
     });
@@ -189,9 +189,10 @@ export class AdminService {
     const totalDrivingHours = Math.round(driverHours.reduce((s, d) => s + d.drivingHours, 0) * 10) / 10;
     const totalWaitingTimeMs = driverHours.reduce((s, d) => s + d.waitingTimeMs, 0);
     const totalTaskHours = Math.round(driverHours.reduce((s, d) => s + d.taskHours, 0) * 10) / 10;
-    const totalRedZoneCleaningMs = driverHours.reduce((s, d) => s + d.redZoneCleaningMs, 0);
-    const totalRedZoneWaitingMs = driverHours.reduce((s, d) => s + d.redZoneWaitingMs, 0);
-    const totalRedZoneHours = Math.round(((totalRedZoneCleaningMs + totalRedZoneWaitingMs) / 3600000) * 10) / 10;
+    const totalCleaningMs = driverHours.reduce((s, d) => s + d.cleaningHours * 360000, 0);
+    const totalRedZoneMs = driverHours.reduce((s, d) => s + d.redZoneHours * 360000, 0);
+    const totalCleaningHours = Math.round((totalCleaningMs / 3600000) * 10) / 10;
+    const totalRedZoneHours = Math.round((totalRedZoneMs / 3600000) * 10) / 10;
 
     return {
       totalRequests,
@@ -238,9 +239,8 @@ export class AdminService {
       totalDrivingHours,
       totalWaitingTimeMs,
       totalTaskHours,
+      totalCleaningHours,
       totalRedZoneHours,
-      totalRedZoneCleaningMs,
-      totalRedZoneWaitingMs,
 
     };
   }
@@ -445,12 +445,9 @@ export class AdminService {
           waitingTimeMs: d.waitingTimeMs,
           waitingHours: Math.round((d.waitingTimeMs / 3600000) * 10) / 10,
           taskHours: d.taskHours,
+          cleaningHours: d.cleaningHours,
           redZoneHours: d.redZoneHours,
-          redZoneCleaningMs: d.redZoneCleaningMs,
-          redZoneCleaningHours: Math.round((d.redZoneCleaningMs / 3600000) * 10) / 10,
-          redZoneWaitingMs: d.redZoneWaitingMs,
-          redZoneWaitingHours: Math.round((d.redZoneWaitingMs / 3600000) * 10) / 10,
-          totalHours: Math.round((d.tripHours + d.drivingHours + d.taskHours + d.redZoneHours) * 10) / 10,
+          totalHours: Math.round((d.tripHours + d.drivingHours + d.taskHours + d.cleaningHours + d.redZoneHours) * 10) / 10,
         }));
       }
       default:

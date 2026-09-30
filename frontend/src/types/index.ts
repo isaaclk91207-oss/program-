@@ -213,14 +213,13 @@ export interface DashboardStats {
   requestsByStatus: { status: string; count: number }[];
   requestsByDepartment: { department: string; count: number }[];
   recentRequests: TransportRequest[];
-  driverHours: { driverId: string; driverName: string; tripHours: number; drivingHours: number; waitingTimeMs: number; taskHours: number; redZoneHours: number; redZoneCleaningMs: number; redZoneWaitingMs: number; trips: TripHoursEntry[] }[];
+  driverHours: { driverId: string; driverName: string; tripHours: number; drivingHours: number; waitingTimeMs: number; taskHours: number; cleaningHours: number; redZoneHours: number; trips: TripHoursEntry[] }[];
   totalTripHours: number;
   totalDrivingHours: number;
   totalWaitingTimeMs: number;
   totalTaskHours: number;
+  totalCleaningHours: number;
   totalRedZoneHours: number;
-  totalRedZoneCleaningMs: number;
-  totalRedZoneWaitingMs: number;
 }
 
 export interface VehicleCheckin {

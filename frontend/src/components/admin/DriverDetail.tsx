@@ -292,6 +292,10 @@ export default function DriverDetail({
     { key: "records", label: "Records", icon: <Icon name="history" size={16} /> },
   ];
 
+  const tripFor = (id: string | null) =>
+    drivingHours?.trips.find((t) => t.requestId === id) ||
+    (id === "new" ? drivingHours?.trips[drivingHours.trips.length - 1] : undefined);
+
   return (
     <div>
       <button onClick={onBack} className="flex items-center gap-1 text-role-admin dark:text-emerald-400 text-sm mb-3">
@@ -387,14 +391,21 @@ export default function DriverDetail({
                 <div className="col-span-2 mt-2">
                   <div className="flex items-center justify-between mb-2">
                     <p className={`${th.textSecondary} mb-2`}>Trip Breakdown</p>
-                    <Button size="sm" accent="admin" onClick={() => setRedZoneRequestId("new")} className="ml-auto">
-                      <Icon name="cleaning_services" size={14} className="mr-1" />
-                      Record Red Zone
-                    </Button>
+                    <div className="flex gap-2 ml-auto">
+                      <Button size="sm" accent="admin" onClick={() => setCleaningRequestId("new")}>
+                        <Icon name="cleaning_services" size={14} className="mr-1" />
+                        Record Cleaning
+                      </Button>
+                      <Button size="sm" variant="secondary" onClick={() => setRedZoneRequestId("new")}>
+                        <Icon name="hourglass_top" size={14} className="mr-1" />
+                        Record Waiting Adj
+                      </Button>
+                    </div>
                   </div>
                   <div className="space-y-1 max-h-40 overflow-y-auto">
                     {drivingHours.trips.map((t) => {
-                      const hasRedZone = (t.redZoneCleaningMs || 0) > 0 || (t.redZoneWaitingMs || 0) > 0;
+                      const hasCleaning = (t.redZoneCleaningMs || 0) > 0;
+                      const hasRedZone = (t.redZoneWaitingMs || 0) > 0;
                       return (
                         <div key={t.requestId} className="flex justify-between items-center py-1 text-xs border-b border-border-hairline dark:border-outline-variant last:border-0">
                           <div>
@@ -406,11 +417,17 @@ export default function DriverDetail({
                             {t.drivingHours > 0 && <span className="text-emerald-500">{t.drivingHours}h</span>}
                             {t.waitingTimeMs > 0 && <span className="text-amber-500">{Math.round((t.waitingTimeMs / 3600000) * 10) / 10}h wait</span>}
                             {t.redZoneCleaningMs > 0 && <span className="text-emerald-500">{Math.round((t.redZoneCleaningMs / 3600000) * 10) / 10}h clean</span>}
-                            {t.redZoneWaitingMs > 0 && <span className="text-amber-500">{Math.round((t.redZoneWaitingMs / 3600000) * 10) / 10}h wait</span>}
-                            {!hasRedZone && (
-                              <Button size="sm" accent="admin" onClick={() => setRedZoneRequestId(t.requestId)} className="h-6 px-2 text-xs">
+                            {t.redZoneWaitingMs > 0 && <span className="text-rose-500">{Math.round((t.redZoneWaitingMs / 3600000) * 10) / 10}h wait adj</span>}
+                            {!hasCleaning && (
+                              <Button size="sm" accent="admin" onClick={() => setCleaningRequestId(t.requestId)} className="h-6 px-2 text-xs">
                                 <Icon name="cleaning_services" size={12} className="mr-0.5" />
-                                Add Red Zone
+                                Add Cleaning
+                              </Button>
+                            )}
+                            {!hasRedZone && (
+                              <Button size="sm" variant="secondary" onClick={() => setRedZoneRequestId(t.requestId)} className="h-6 px-2 text-xs">
+                                <Icon name="hourglass_top" size={12} className="mr-0.5" />
+                                Add Wait Adj
                               </Button>
                             )}
                           </div>
@@ -421,13 +438,35 @@ export default function DriverDetail({
                 </div>
               )}
 
+              {cleaningRequestId && (
+                <CleaningModal
+                  request={{
+                    id: cleaningRequestId,
+                    driverName: driver.name,
+                    vehiclePlate: tripFor(cleaningRequestId)?.route || "",
+                    date: tripFor(cleaningRequestId)?.tripDate || "",
+                    time: "",
+                    passengerName: "",
+                    pickup: "",
+                    destination: "",
+                    status: "FEEDBACK_SUBMITTED",
+                  } as any}
+                  onClose={() => setCleaningRequestId(null)}
+                  onSubmit={(data) => {
+                    const targetId = tripFor(cleaningRequestId)?.requestId;
+                    if (!targetId) return Promise.reject(new Error("No trip available"));
+                    return handleRecordCleaning(targetId, data);
+                  }}
+                />
+              )}
+
               {redZoneRequestId && (
                 <WaitingAdjustmentModal
-                  request={{ 
-                    id: redZoneRequestId, 
-                    driverName: driver.name, 
-                    vehiclePlate: drivingHours?.trips.find(t => t.requestId === redZoneRequestId)?.route || "",
-                    date: drivingHours?.trips.find(t => t.requestId === redZoneRequestId)?.tripDate || "",
+                  request={{
+                    id: redZoneRequestId,
+                    driverName: driver.name,
+                    vehiclePlate: tripFor(redZoneRequestId)?.route || "",
+                    date: tripFor(redZoneRequestId)?.tripDate || "",
                     time: "",
                     passengerName: "",
                     pickup: "",
@@ -435,12 +474,10 @@ export default function DriverDetail({
                     status: "FEEDBACK_SUBMITTED",
                   } as any}
                   onClose={() => setRedZoneRequestId(null)}
-                  onSubmit={async (data: { waitingTimeMs: number; remark?: string }) => {
-                    if (!redZoneRequestId) return;
-                    await recordRedZone(redZoneRequestId, data);
-                    addToast("success", "Waiting adjustment recorded");
-                    setRedZoneRequestId(null);
-                    loadHours();
+                  onSubmit={(data) => {
+                    const targetId = tripFor(redZoneRequestId)?.requestId;
+                    if (!targetId) return Promise.reject(new Error("No trip available"));
+                    return handleRecordRedZone(targetId, data);
                   }}
                 />
               )}

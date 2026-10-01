@@ -316,7 +316,7 @@ export class TransportService {
       recipientId: request.passengerId,
       recipientRole: "PASSENGER",
       title: "Transport Request Assigned to Grab",
-      message: `Your transport request ${requestId} from ${request.pickup} to ${request.destination} has been assigned to Grab (ride-hailing) as no internal driver and vehicle were available.`,
+      message: `Your transport request ${requestId} from ${request.pickup} to ${request.destination} has been assigned to Grab (ride-hailing).`,
       relatedRequestId: requestId,
     });
 
@@ -357,7 +357,7 @@ export class TransportService {
           recipientId: req.passengerId,
           recipientRole: "PASSENGER",
           title: "Transport Request Assigned to Grab",
-          message: `Your transport request ${req.id} from ${req.pickup} to ${req.destination} has been assigned to Grab (ride-hailing) as no internal driver and vehicle were available.`,
+          message: `Your transport request ${req.id} from ${req.pickup} to ${req.destination} has been assigned to Grab (ride-hailing).`,
           relatedRequestId: req.id,
         })
       )

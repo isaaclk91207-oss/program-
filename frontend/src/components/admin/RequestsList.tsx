@@ -472,7 +472,19 @@ export default function RequestsList({
           )}
 
           {selectedRequest.status === "PENDING" && (
-            <Button accent="admin" onClick={() => onShowAssignModal(true)} className="mt-4">Assign Driver + Vehicle</Button>
+            <div className="flex gap-2 mt-4">
+              <Button accent="admin" onClick={() => onShowAssignModal(true)} className="flex-1">Assign Driver + Vehicle</Button>
+              {selectedRequest.version !== "v2" && (
+                <Button
+                  variant="secondary"
+                  className="border-emerald-400 text-emerald-600 dark:text-emerald-400 dark:border-emerald-500/50"
+                  onClick={() => onAssignGrab(selectedRequest.id)}
+                >
+                  <Icon name="local_taxi" size={16} className="mr-1" />
+                  Use Grab
+                </Button>
+              )}
+            </div>
           )}
           {["DROP_OFF_SCANNED", "FEEDBACK_SUBMITTED"].includes(selectedRequest.status) && (
             <div className="flex gap-3 mt-4">
@@ -656,17 +668,33 @@ export default function RequestsList({
                               </Button>
                             )
                           ) : (
-                            <Button
-                              accent="admin"
-                              size="sm"
-                              disabled={!sel.driverId || !sel.vehicleId}
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                handleInlineAssign(r.id);
-                              }}
-                            >
-                              Assign
-                            </Button>
+                            <div className="flex items-center justify-end gap-1.5">
+                              <Button
+                                accent="admin"
+                                size="sm"
+                                disabled={!sel.driverId || !sel.vehicleId}
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleInlineAssign(r.id);
+                                }}
+                              >
+                                Assign
+                              </Button>
+                              {r.version !== "v2" && (
+                                <Button
+                                  variant="secondary"
+                                  size="sm"
+                                  className="border-emerald-400 text-emerald-600 dark:text-emerald-400 dark:border-emerald-500/50"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    onAssignGrab(r.id);
+                                  }}
+                                >
+                                  <Icon name="local_taxi" size={13} className="mr-0.5" />
+                                  Grab
+                                </Button>
+                              )}
+                            </div>
                           )
                         ) : canCheckOut(r) || canCheckIn(r) ? (
                           <div className="flex items-center justify-end gap-1.5">

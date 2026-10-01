@@ -42,7 +42,8 @@ export default function BatchAssignModal({
 
   const noFleet = activeDrivers.length === 0 || activeVehicles.length === 0;
   const grabbable = pendingRequests.filter((r) => (r.version ?? "v1") === "v1");
-  const canGrab = noFleet && grabbable.length > 0 && !!onAssignGrabBatch;
+  const canGrab = grabbable.length > 0 && !!onAssignGrabBatch;
+  const showGrabPrimary = noFleet && canGrab;
 
   const totalPassengers = pendingRequests.reduce((sum, r) => sum + (r.noOfPeople || 1), 0);
 
@@ -120,7 +121,7 @@ export default function BatchAssignModal({
 
         {/* Actions */}
         <div className="flex gap-3 pt-2">
-          {canGrab ? (
+          {showGrabPrimary ? (
             <Button
               accent="admin"
               onClick={() => onAssignGrabBatch!(grabbable.map((r) => r.id))}
@@ -137,6 +138,16 @@ export default function BatchAssignModal({
               className="flex-1"
             >
               Assign All {pendingRequests.length} Request{pendingRequests.length > 1 ? "s" : ""}
+            </Button>
+          )}
+          {canGrab && !showGrabPrimary && (
+            <Button
+              variant="secondary"
+              className="border-emerald-400 text-emerald-600 dark:text-emerald-400 dark:border-emerald-500/50"
+              onClick={() => onAssignGrabBatch!(grabbable.map((r) => r.id))}
+            >
+              <Icon name="local_taxi" size={18} className="mr-2" />
+              Assign {grabbable.length} to Grab
             </Button>
           )}
           <Button variant="secondary" onClick={onClose}>Cancel</Button>

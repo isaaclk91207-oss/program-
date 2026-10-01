@@ -36,7 +36,8 @@ export default function AssignModal({
     .filter((v) => !requestVersion || (v.version ?? "v1") === requestVersion);
 
   const noFleet = activeDrivers.length === 0 || activeVehicles.length === 0;
-  const canGrab = noFleet && requestVersion !== "v2" && !!onAssignGrab;
+  const canGrab = requestVersion !== "v2" && !!onAssignGrab;
+  const showGrabPrimary = noFleet && canGrab;
 
   return (
     <Modal open title="Assign Driver + Vehicle" onClose={onClose}>
@@ -78,7 +79,7 @@ export default function AssignModal({
           ]}
         />
         <div className="flex gap-3 pt-2">
-          {canGrab ? (
+          {showGrabPrimary ? (
             <Button
               accent="admin"
               onClick={() => onAssignGrab!(requestId)}
@@ -95,6 +96,16 @@ export default function AssignModal({
               className="flex-1"
             >
               Confirm Assignment
+            </Button>
+          )}
+          {canGrab && !showGrabPrimary && (
+            <Button
+              variant="secondary"
+              className="border-emerald-400 text-emerald-600 dark:text-emerald-400 dark:border-emerald-500/50"
+              onClick={() => onAssignGrab!(requestId)}
+            >
+              <Icon name="local_taxi" size={18} className="mr-2" />
+              Assign to Grab
             </Button>
           )}
           <Button variant="secondary" onClick={onClose}>Cancel</Button>

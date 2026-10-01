@@ -55,7 +55,7 @@ export default function FeedbackList({
             <TableCell>{f.comment}</TableCell>
             <TableCell>
               <div className="flex gap-1 flex-wrap">
-                {f.tags.map((t) => (
+                {Array.isArray(f.tags) && f.tags.map((t) => (
                   <span key={t} className={`text-xs ${th.bgInput} px-2 py-0.5 rounded ${th.textSecondary}`}>{t}</span>
                 ))}
               </div>

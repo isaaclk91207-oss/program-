@@ -245,7 +245,7 @@ export default function DriverHome({
                     "{fb.comment}"
                   </p>
                 )}
-                {fb.tags && fb.tags.length > 0 && (
+                {Array.isArray(fb.tags) && fb.tags.length > 0 && (
                   <div className="flex flex-wrap gap-1.5 mt-2">
                     {fb.tags.map((tag) => (
                       <span

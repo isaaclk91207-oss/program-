@@ -738,7 +738,7 @@ export default function DriverDetail({
                     </div>
                     <p className={`text-xs ${th.textSecondary} mt-1`}>{f.comment}</p>
                     <div className="flex gap-1 mt-1">
-                      {f.tags.map((t) => (
+                      {Array.isArray(f.tags) && f.tags.map((t) => (
                         <span key={t} className={`text-xs ${th.bgInput} px-2 py-0.5 rounded ${th.textSecondary}`}>{t}</span>
                       ))}
                     </div>

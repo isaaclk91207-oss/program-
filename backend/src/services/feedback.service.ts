@@ -144,17 +144,8 @@ export class FeedbackService {
   }
 
   async getByDriver(driverId: string) {
-    const feedbacks = await prisma.feedback.findMany({
-      where: { driverId },
-      include: {
-        passenger: { include: { user: { select: { name: true } } } },
-        vehicle: { select: { plate: true } },
-        transportRequest: { select: { id: true, pickup: true, destination: true } },
-      },
-      orderBy: { createdAt: "desc" },
-    });
-
-    return feedbacks;
+    // Same flattened + tags-parsed shape as getAll (raw rows would return tags as a JSON string)
+    return this.getAll({ driverId });
   }
 
   async getDriverFeedbackStats(driverId: string) {

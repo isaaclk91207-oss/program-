@@ -2,6 +2,7 @@ import { prisma } from "../lib/prisma";
 import bcrypt from "bcrypt";
 import { config, DEFAULT_WEIGHTS, PRACTICAL_CRITERIA, OPERATIONAL_CRITERIA, PASS_MARKS } from "../config";
 import { createAppError } from "../middlewares/error.middleware";
+import { feedbackService } from "./feedback.service";
 import { CreateDriverDto, UpdateDriverDto, DriverResponse, TripHoursEntry, CreateDriverTaskDto, DriverTaskResponse, RecordCleaningDto } from "../types";
 
 
@@ -340,17 +341,8 @@ export class DriverService {
   }
 
   async getFeedback(driverId: string) {
-    const feedbacks = await prisma.feedback.findMany({
-      where: { driverId },
-      include: {
-        passenger: { include: { user: { select: { name: true } } } },
-        vehicle: { select: { plate: true } },
-        transportRequest: { select: { id: true, pickup: true, destination: true } },
-      },
-      orderBy: { createdAt: "desc" },
-    });
-
-    return feedbacks;
+    // Reuse feedbackService.getAll — flattens passengerName/date and parses tags (JSON string in DB)
+    return feedbackService.getAll({ driverId });
   }
 
   async getCertificationSummary() {

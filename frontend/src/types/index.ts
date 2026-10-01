@@ -180,6 +180,21 @@ export interface TripHoursEntry {
   redZoneWaitingMs: number;
 }
 
+// ─── Cleaning Record Types ───────────────────────────────────────────────────
+
+export interface CleaningRecord {
+  id: string;
+  driverId: string;
+  vehiclePlate: string | null;
+  requestId: string | null;
+  route: string | null;
+  tripDate: string | null;
+  cleaningTimeMs: number;
+  remark: string | null;
+  recordedBy: string | null;
+  recordedAt: string;
+}
+
 // ─── Driver Task Types ──────────────────────────────────────────────────────
 
 export interface DriverTask {

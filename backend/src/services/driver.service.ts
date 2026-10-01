@@ -2,7 +2,7 @@ import { prisma } from "../lib/prisma";
 import bcrypt from "bcrypt";
 import { config, DEFAULT_WEIGHTS, PRACTICAL_CRITERIA, OPERATIONAL_CRITERIA, PASS_MARKS } from "../config";
 import { createAppError } from "../middlewares/error.middleware";
-import { CreateDriverDto, UpdateDriverDto, DriverResponse, TripHoursEntry, CreateDriverTaskDto, DriverTaskResponse } from "../types";
+import { CreateDriverDto, UpdateDriverDto, DriverResponse, TripHoursEntry, CreateDriverTaskDto, DriverTaskResponse, RecordCleaningDto } from "../types";
 
 
 function computeSectionScore(section: Record<string, number>, criteria: { key: string; weight: number }[]): number {
@@ -449,7 +449,7 @@ export class DriverService {
     const where: Record<string, unknown> = {};
     if (driverId) where.driverId = driverId;
 
-    const [checkins, requests, tasks] = await Promise.all([
+    const [checkins, requests, tasks, cleaningRecords] = await Promise.all([
       prisma.vehicleCheckin.findMany({
         where,
         select: { 
@@ -457,7 +457,6 @@ export class DriverService {
           checkInTime: true, 
           checkOutTime: true, 
           requestId: true,
-          cleaningTimeMs: true,
           redZoneWaitingMs: true,
         },
       }),
@@ -469,21 +468,31 @@ export class DriverService {
         where: driverId ? { driverId } : {},
         select: { driverId: true, startedAt: true, endedAt: true, status: true },
       }),
+      prisma.cleaningRecord.findMany({
+        where,
+        select: { driverId: true, requestId: true, cleaningTimeMs: true },
+      }),
     ]);
 
     const drivingMap: Record<string, number> = {};
-    const redZoneCleaningMap: Record<string, number> = {};
     const redZoneWaitingMap: Record<string, number> = {};
     for (const c of checkins) {
       if (!c.checkInTime || !c.checkOutTime) continue;
       const ms = c.checkOutTime.getTime() - c.checkInTime.getTime();
       if (ms <= 0) continue;
       drivingMap[c.driverId] = (drivingMap[c.driverId] || 0) + ms;
-      if (c.cleaningTimeMs > 0) {
-        redZoneCleaningMap[c.driverId] = (redZoneCleaningMap[c.driverId] || 0) + c.cleaningTimeMs;
-      }
       if (c.redZoneWaitingMs > 0) {
         redZoneWaitingMap[c.driverId] = (redZoneWaitingMap[c.driverId] || 0) + c.redZoneWaitingMs;
+      }
+    }
+
+    const cleaningMap: Record<string, number> = {};
+    const cleaningByRequest: Record<string, number> = {};
+    for (const r of cleaningRecords) {
+      if (r.cleaningTimeMs <= 0) continue;
+      cleaningMap[r.driverId] = (cleaningMap[r.driverId] || 0) + r.cleaningTimeMs;
+      if (r.requestId) {
+        cleaningByRequest[r.requestId] = (cleaningByRequest[r.requestId] || 0) + r.cleaningTimeMs;
       }
     }
 
@@ -512,7 +521,7 @@ export class DriverService {
       ...Object.keys(drivingMap),
       ...Object.keys(tripMap),
       ...Object.keys(taskMap),
-      ...Object.keys(redZoneCleaningMap),
+      ...Object.keys(cleaningMap),
       ...Object.keys(redZoneWaitingMap),
     ]);
 
@@ -539,12 +548,12 @@ export class DriverService {
           tripHours: Math.round((tripMs / 3600000) * 10) / 10,
           drivingHours: 0,
           waitingTimeMs: r?.waitingTotalMs || 0,
-          redZoneCleaningMs: checkin?.cleaningTimeMs || 0,
+          redZoneCleaningMs: cleaningByRequest[requestId] || 0,
           redZoneWaitingMs: checkin?.redZoneWaitingMs || 0,
         };
       });
 
-      const cleaningMs = redZoneCleaningMap[id] || 0;
+      const cleaningMs = cleaningMap[id] || 0;
       const redZoneWaitingMs = redZoneWaitingMap[id] || 0;
       const cleaningHours = Math.round((cleaningMs / 3600000) * 10) / 10;
       const redZoneHours = Math.round((redZoneWaitingMs / 3600000) * 10) / 10;
@@ -561,6 +570,107 @@ export class DriverService {
         trips: tripHoursEntries,
       };
     });
+  }
+
+  async recordCleaning(driverId: string, data: RecordCleaningDto & { requestId?: string }, userId: string, role: string) {
+    if (!data.cleaningTimeMs || data.cleaningTimeMs <= 0) {
+      throw createAppError(400, "INVALID_DURATION", "Cleaning time must be greater than 0");
+    }
+    if (role === "DRIVER" && driverId !== userId) {
+      throw createAppError(403, "FORBIDDEN", "You can only record cleaning for yourself");
+    }
+    const driver = await prisma.driverProfile.findUnique({ where: { userId: driverId } });
+    if (!driver) {
+      throw createAppError(404, "DRIVER_NOT_FOUND", "Driver not found");
+    }
+
+    const record = await prisma.cleaningRecord.create({
+      data: {
+        driverId,
+        vehicleId: driver.currentVehicleId || null,
+        requestId: data.requestId || null,
+        cleaningTimeMs: Math.round(data.cleaningTimeMs),
+        remark: data.remark || null,
+        recordedBy: role,
+      },
+      include: { vehicle: { select: { plate: true } } },
+    });
+
+    return this.formatCleaningRecord(record);
+  }
+
+  async getCleaningRecords(driverId: string, userId: string, role: string) {
+    if (role === "DRIVER" && driverId !== userId) {
+      throw createAppError(403, "FORBIDDEN", "You can only view your own cleaning records");
+    }
+    const records = await prisma.cleaningRecord.findMany({
+      where: { driverId },
+      orderBy: { recordedAt: "desc" },
+      include: {
+        vehicle: { select: { plate: true } },
+        request: { select: { id: true, pickup: true, destination: true, date: true } },
+      },
+    });
+    return records.map((r) => this.formatCleaningRecord(r));
+  }
+
+  async updateCleaningRecord(driverId: string, recordId: string, data: RecordCleaningDto, userId: string, role: string) {
+    const record = await prisma.cleaningRecord.findFirst({ where: { id: recordId, driverId } });
+    if (!record) {
+      throw createAppError(404, "RECORD_NOT_FOUND", "Cleaning record not found");
+    }
+    if (role === "DRIVER" && driverId !== userId) {
+      throw createAppError(403, "FORBIDDEN", "You can only edit your own cleaning records");
+    }
+    if (!data.cleaningTimeMs || data.cleaningTimeMs <= 0) {
+      throw createAppError(400, "INVALID_DURATION", "Cleaning time must be greater than 0");
+    }
+    const updated = await prisma.cleaningRecord.update({
+      where: { id: recordId },
+      data: {
+        cleaningTimeMs: Math.round(data.cleaningTimeMs),
+        remark: data.remark || null,
+      },
+      include: { vehicle: { select: { plate: true } }, request: { select: { id: true, pickup: true, destination: true, date: true } } },
+    });
+    return this.formatCleaningRecord(updated);
+  }
+
+  async deleteCleaningRecord(driverId: string, recordId: string, userId: string, role: string) {
+    const record = await prisma.cleaningRecord.findFirst({ where: { id: recordId, driverId } });
+    if (!record) {
+      throw createAppError(404, "RECORD_NOT_FOUND", "Cleaning record not found");
+    }
+    if (role === "DRIVER" && driverId !== userId) {
+      throw createAppError(403, "FORBIDDEN", "You can only delete your own cleaning records");
+    }
+    await prisma.cleaningRecord.delete({ where: { id: recordId } });
+  }
+
+  private formatCleaningRecord(r: {
+    id: string;
+    driverId: string;
+    vehicleId: string | null;
+    requestId: string | null;
+    cleaningTimeMs: number;
+    remark: string | null;
+    recordedBy: string | null;
+    recordedAt: Date;
+    vehicle?: { plate: string } | null;
+    request?: { id: string; pickup: string; destination: string; date: Date } | null;
+  }) {
+    return {
+      id: r.id,
+      driverId: r.driverId,
+      vehiclePlate: r.vehicle?.plate || null,
+      requestId: r.requestId,
+      route: r.request ? `${r.request.pickup} → ${r.request.destination}` : null,
+      tripDate: r.request?.date ? r.request.date.toISOString().split("T")[0] : null,
+      cleaningTimeMs: r.cleaningTimeMs,
+      remark: r.remark,
+      recordedBy: r.recordedBy,
+      recordedAt: r.recordedAt.toISOString(),
+    };
   }
 
   async createTask(driverId: string, data: CreateDriverTaskDto): Promise<DriverTaskResponse> {

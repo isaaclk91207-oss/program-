@@ -47,6 +47,7 @@ model DriverProfile {
   transportRequests TransportRequest[]
   ecoDrivingRecords EcoDrivingRecord[]
   driverTasks       DriverTask[]
+  cleaningRecords   CleaningRecord[]
 
   @@map("driver_profiles")
 }
@@ -79,6 +80,7 @@ model Vehicle {
   vehicleCheckins   VehicleCheckin[]
   ecoDrivingRecords EcoDrivingRecord[]
   driverTasks       DriverTask[]
+  cleaningRecords   CleaningRecord[]
   @@map("vehicles")
 }
 
@@ -114,6 +116,7 @@ model TransportRequest {
   feedback       Feedback?
   notifications  Notification[]
   vehicleCheckins VehicleCheckin[]
+  cleaningRecords CleaningRecord[]
 
   @@map("transport_requests")
 }
@@ -178,6 +181,25 @@ model VehicleCheckin {
   transportRequest  TransportRequest @relation(fields: [requestId], references: [id])
 
   @@map("vehicle_checkins")
+}
+
+model CleaningRecord {
+  id             String   @id @default(uuid())
+  driverId       String
+  vehicleId      String?
+  requestId      String?
+  cleaningTimeMs Int      @default(0)
+  remark         String?
+  recordedBy     String?
+  recordedAt     DateTime @default(now())
+  createdAt      DateTime @default(now())
+
+  driver DriverProfile    @relation(fields: [driverId], references: [userId])
+  vehicle Vehicle?        @relation(fields: [vehicleId], references: [id])
+  request TransportRequest? @relation(fields: [requestId], references: [id])
+
+  @@index([driverId, recordedAt])
+  @@map("cleaning_records")
 }
 
 model Notification {

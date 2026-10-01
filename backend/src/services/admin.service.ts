@@ -26,6 +26,7 @@ export class AdminService {
       requestsByStatus,
       recentRequests,
       checkins,
+      cleaningRecords,
       driveRequests,
       drivers,
       allTasks,
@@ -59,11 +60,14 @@ export class AdminService {
           checkInTime: true, 
           checkOutTime: true, 
           requestId: true,
-          cleaningTimeMs: true,
           redZoneWaitingMs: true,
           redZoneRemark: true,
           redZoneRecordedAt: true
         },
+      }),
+      prisma.cleaningRecord.findMany({
+        where: range ? { recordedAt: range } : {},
+        select: { driverId: true, requestId: true, cleaningTimeMs: true },
       }),
       prisma.transportRequest.findMany({
         where: { pickedUpAt: range ? range : { not: null } },
@@ -101,15 +105,21 @@ export class AdminService {
       drivingHoursMap[c.driverId] = (drivingHoursMap[c.driverId] || 0) + ms;
     }
 
-    const redZoneCleaningMap: Record<string, number> = {};
     const redZoneWaitingMap: Record<string, number> = {};
     for (const c of checkins) {
       if (!c.driverId) continue;
-      if (c.cleaningTimeMs > 0) {
-        redZoneCleaningMap[c.driverId] = (redZoneCleaningMap[c.driverId] || 0) + c.cleaningTimeMs;
-      }
       if (c.redZoneWaitingMs > 0) {
         redZoneWaitingMap[c.driverId] = (redZoneWaitingMap[c.driverId] || 0) + c.redZoneWaitingMs;
+      }
+    }
+
+    const redZoneCleaningMap: Record<string, number> = {};
+    const cleaningByRequest: Record<string, number> = {};
+    for (const r of cleaningRecords) {
+      if (r.cleaningTimeMs <= 0) continue;
+      redZoneCleaningMap[r.driverId] = (redZoneCleaningMap[r.driverId] || 0) + r.cleaningTimeMs;
+      if (r.requestId) {
+        cleaningByRequest[r.requestId] = (cleaningByRequest[r.requestId] || 0) + r.cleaningTimeMs;
       }
     }
 
@@ -162,9 +172,9 @@ export class AdminService {
         // Find matching checkin for this request to get Red Zone data
         const checkin = checkins.find(c => c.requestId === r.id);
         if (checkin) {
-          tripByRequest[r.id].redZoneCleaningMs = checkin.cleaningTimeMs || 0;
           tripByRequest[r.id].redZoneWaitingMs = checkin.redZoneWaitingMs || 0;
         }
+        tripByRequest[r.id].redZoneCleaningMs = cleaningByRequest[r.id] || 0;
       }
 
       const cleaningMs = redZoneCleaningMap[id] || 0;

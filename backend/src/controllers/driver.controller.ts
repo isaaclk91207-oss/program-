@@ -130,6 +130,54 @@ export class DriverController {
     }
   }
 
+  async recordCleaning(req: AuthenticatedRequest, res: Response, next: NextFunction) {
+    try {
+      if (!req.user) {
+        return res.status(401).json({ error: { code: "UNAUTHORIZED", message: "Not authenticated" } });
+      }
+      const record = await driverService.recordCleaning(req.params.id, req.body, req.user.id, req.user.role);
+      res.status(201).json(record);
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  async getCleaningRecords(req: AuthenticatedRequest, res: Response, next: NextFunction) {
+    try {
+      if (!req.user) {
+        return res.status(401).json({ error: { code: "UNAUTHORIZED", message: "Not authenticated" } });
+      }
+      const records = await driverService.getCleaningRecords(req.params.id, req.user.id, req.user.role);
+      res.json(records);
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  async updateCleaningRecord(req: AuthenticatedRequest, res: Response, next: NextFunction) {
+    try {
+      if (!req.user) {
+        return res.status(401).json({ error: { code: "UNAUTHORIZED", message: "Not authenticated" } });
+      }
+      const record = await driverService.updateCleaningRecord(req.params.id, req.params.recordId, req.body, req.user.id, req.user.role);
+      res.json(record);
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  async deleteCleaningRecord(req: AuthenticatedRequest, res: Response, next: NextFunction) {
+    try {
+      if (!req.user) {
+        return res.status(401).json({ error: { code: "UNAUTHORIZED", message: "Not authenticated" } });
+      }
+      await driverService.deleteCleaningRecord(req.params.id, req.params.recordId, req.user.id, req.user.role);
+      res.status(204).send();
+    } catch (err) {
+      next(err);
+    }
+  }
+
   async createTask(req: AuthenticatedRequest, res: Response, next: NextFunction) {
     try {
       const task = await driverService.createTask(req.params.id, req.body);

@@ -16,6 +16,7 @@ import type {
   LiveVehicleLocation,
   DriverTask,
   AutoScores,
+  CleaningRecord,
 } from "../types";
 
 const api = axios.create({
@@ -142,6 +143,28 @@ export async function getDrivingHours(driverId?: string): Promise<{ driverId: st
 
 export async function recordCleaning(requestId: string, data: { cleaningTimeMs: number; remark?: string }): Promise<any> {
   const res = await api.post(`/trips/${requestId}/cleaning`, data);
+  return res.data;
+}
+
+export async function recordDriverCleaning(
+  driverId: string,
+  data: { cleaningTimeMs: number; remark?: string }
+): Promise<CleaningRecord> {
+  const res = await api.post<CleaningRecord>(`/drivers/${driverId}/cleaning`, data);
+  return res.data;
+}
+
+export async function getCleaningRecords(driverId: string): Promise<CleaningRecord[]> {
+  const res = await api.get<CleaningRecord[]>(`/drivers/${driverId}/cleaning-records`);
+  return res.data;
+}
+
+export async function updateDriverCleaning(
+  driverId: string,
+  recordId: string,
+  data: { cleaningTimeMs: number; remark?: string }
+): Promise<CleaningRecord> {
+  const res = await api.put<CleaningRecord>(`/drivers/${driverId}/cleaning-records/${recordId}`, data);
   return res.data;
 }
 

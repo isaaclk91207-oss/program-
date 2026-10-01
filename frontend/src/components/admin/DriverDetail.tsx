@@ -4,10 +4,10 @@ import PassportCard from "../driver/PassportCard";
 import CleaningModal from "./CleaningModal";
 import WaitingAdjustmentModal from "./WaitingAdjustmentModal";
 import CleaningRecords from "./CleaningRecords";
-import { getDriverFeedback, getDrivingHours, getDriverTasks, createDriverTask, updateDriverTask, deleteDriverTask, adminCheckIn, adminCheckOut, recordCleaning, recordRedZone, getAutoScores } from "../../services/api";
+import { getDriverFeedback, getDrivingHours, getDriverTasks, createDriverTask, updateDriverTask, deleteDriverTask, adminCheckIn, adminCheckOut, recordCleaning, recordRedZone, getAutoScores, recordDriverCleaning, getCleaningRecords, updateDriverCleaning } from "../../services/api";
 import { onTripStatusChanged } from "../../services/socket";
 import { useToast } from "../ui";
-import type { Driver, Feedback, Assessment, TripHoursEntry, DriverTask, Vehicle, AutoScores, AutoScoreEntry } from "../../types";
+import type { Driver, Feedback, Assessment, TripHoursEntry, DriverTask, Vehicle, AutoScores, AutoScoreEntry, CleaningRecord } from "../../types";
 
 function getDisplayId(d: Driver): string {
   if (d.version === "v2" && d.employeeId) return d.employeeId;
@@ -50,7 +50,9 @@ export default function DriverDetail({
   const [autoScores, setAutoScores] = useState<AutoScores | null>(null);
 
   // Cleaning & Red Zone state
-  const [cleaningRequestId, setCleaningRequestId] = useState<string | null>(null);
+  // requestId: trip-context cleaning; record: edit mode; both null: standalone external cleaning
+  const [cleaningCtx, setCleaningCtx] = useState<{ requestId: string | null; record: CleaningRecord | null } | null>(null);
+  const [cleaningRecords, setCleaningRecords] = useState<CleaningRecord[] | null>(null);
   const [redZoneRequestId, setRedZoneRequestId] = useState<string | null>(null);
   const [modalError, setModalError] = useState<string | null>(null);
   const { addToast } = useToast();
@@ -110,13 +112,26 @@ export default function DriverDetail({
     }).catch(() => {});
   }
 
-  async function handleRecordCleaning(requestId: string, data: { cleaningTimeMs: number; remark?: string }) {
+  function loadCleaningRecords() {
+    getCleaningRecords(driver.id).then(setCleaningRecords).catch(() => setCleaningRecords([]));
+  }
+
+  async function handleSaveCleaning(data: { cleaningTimeMs: number; remark?: string }) {
     try {
-      await recordCleaning(requestId, data);
-      addToast("success", "Cleaning time recorded");
-      setCleaningRequestId(null);
+      if (cleaningCtx?.record) {
+        await updateDriverCleaning(driver.id, cleaningCtx.record.id, data);
+        addToast("success", "Cleaning record updated");
+      } else if (cleaningCtx?.requestId) {
+        await recordCleaning(cleaningCtx.requestId, data);
+        addToast("success", "Cleaning time recorded");
+      } else {
+        await recordDriverCleaning(driver.id, data);
+        addToast("success", "Cleaning time recorded");
+      }
+      setCleaningCtx(null);
       setModalError(null);
       loadHours();
+      loadCleaningRecords();
     } catch (err: unknown) {
       const axiosErr = err as { response?: { data?: { error?: { message?: string } } } };
       const msg = axiosErr.response?.data?.error?.message || "Failed to record cleaning";
@@ -140,7 +155,7 @@ export default function DriverDetail({
     }
   }
 
-  useEffect(() => { loadHours(); }, [driver.id]);
+  useEffect(() => { loadHours(); loadCleaningRecords(); }, [driver.id]);
 
   useEffect(() => {
     setActiveCheckin({
@@ -460,21 +475,26 @@ export default function DriverDetail({
               <HoursCard type="redzone" value={drivingHours ? `${drivingHours.redZoneHours || 0}h` : "—"} showDescription={false} />
             </div>
 
-              {drivingHours && drivingHours.trips.length > 0 && (
+              {drivingHours && (
                 <div className="mt-5">
                   <div className="flex items-center justify-between mb-2">
                     <p className={`${th.textSecondary} mb-2`}>Trip Breakdown</p>
                     <div className="flex gap-2 ml-auto">
-                      <Button size="sm" accent="admin" onClick={() => setCleaningRequestId("new")}>
+                      <Button size="sm" accent="admin" onClick={() => setCleaningCtx({ requestId: null, record: null })}>
                         <Icon name="cleaning_services" size={14} className="mr-1" />
                         Record Cleaning
                       </Button>
-                      <Button size="sm" variant="secondary" onClick={() => setRedZoneRequestId("new")}>
-                        <Icon name="hourglass_top" size={14} className="mr-1" />
-                        Record Waiting Adj
-                      </Button>
+                      {drivingHours.trips.length > 0 && (
+                        <Button size="sm" variant="secondary" onClick={() => setRedZoneRequestId("new")}>
+                          <Icon name="hourglass_top" size={14} className="mr-1" />
+                          Record Waiting Adj
+                        </Button>
+                      )}
                     </div>
                   </div>
+                  {drivingHours.trips.length === 0 ? (
+                    <p className={`text-xs ${th.textMuted}`}>No trips yet — cleaning can still be recorded as an external entry.</p>
+                  ) : (
                   <div className="space-y-1 max-h-40 overflow-y-auto">
                     {drivingHours.trips.map((t) => {
                       const hasCleaning = (t.redZoneCleaningMs || 0) > 0;
@@ -492,7 +512,7 @@ export default function DriverDetail({
                             {t.redZoneCleaningMs > 0 && <span className="text-emerald-500">{Math.round((t.redZoneCleaningMs / 3600000) * 10) / 10}h clean</span>}
                             {t.redZoneWaitingMs > 0 && <span className="text-rose-500">{Math.round((t.redZoneWaitingMs / 3600000) * 10) / 10}h wait adj</span>}
                             {!hasCleaning && (
-                              <Button size="sm" accent="admin" onClick={() => setCleaningRequestId(t.requestId)} className="h-6 px-2 text-xs">
+                              <Button size="sm" accent="admin" onClick={() => setCleaningCtx({ requestId: t.requestId, record: null })} className="h-6 px-2 text-xs">
                                 <Icon name="cleaning_services" size={12} className="mr-0.5" />
                                 Add Cleaning
                               </Button>
@@ -508,6 +528,7 @@ export default function DriverDetail({
                       );
                     })}
                   </div>
+                  )}
                 </div>
               )}
 
@@ -1020,32 +1041,37 @@ export default function DriverDetail({
       {/* Cleaning Records Tab */}
       {tab === "cleaning_records" && (
         <CleaningRecords
-          drivingHours={drivingHours}
+          records={cleaningRecords}
           vehiclePlate={driver.currentVehiclePlate || ""}
-          onRecord={(id) => setCleaningRequestId(id || "new")}
+          onRecord={() => setCleaningCtx({ requestId: null, record: null })}
+          onEdit={(record) => setCleaningCtx({ requestId: record.requestId, record })}
         />
       )}
 
-      {/* Cleaning modal (shared: Overview + Cleaning Records) */}
-      {cleaningRequestId && (
+      {/* Cleaning modal (shared: Overview + Cleaning Records + trip rows) */}
+      {cleaningCtx && (
         <CleaningModal
-          request={{
-            id: cleaningRequestId,
+          request={cleaningCtx.requestId ? ({
+            id: cleaningCtx.requestId,
             driverName: driver.name,
-            vehiclePlate: tripFor(cleaningRequestId)?.route || driver.currentVehiclePlate || "",
-            date: tripFor(cleaningRequestId)?.tripDate || "",
+            vehiclePlate: driver.currentVehiclePlate || "",
+            date: tripFor(cleaningCtx.requestId)?.tripDate || "",
             time: "",
             passengerName: "",
-            pickup: tripFor(cleaningRequestId)?.route || "",
+            pickup: tripFor(cleaningCtx.requestId)?.route || "",
             destination: "",
             status: "FEEDBACK_SUBMITTED",
-          } as any}
-          onClose={() => setCleaningRequestId(null)}
-          onSubmit={(data) => {
-            const targetId = tripFor(cleaningRequestId)?.requestId;
-            if (!targetId) return Promise.reject(new Error("No completed trip available for this driver — cleaning requires a finished trip (QR drop-off)"));
-            return handleRecordCleaning(targetId, data);
+          } as any) : null}
+          context={{
+            driverName: driver.name,
+            vehiclePlate: driver.currentVehiclePlate || "",
+            note: cleaningCtx.record?.requestId ? "" : " Standalone external entry.",
           }}
+          initialMinutes={cleaningCtx.record ? Math.round(cleaningCtx.record.cleaningTimeMs / 60000) : undefined}
+          initialRemark={cleaningCtx.record?.remark || undefined}
+          submitLabel={cleaningCtx.record ? "Save Changes" : "Record Cleaning"}
+          onClose={() => { setCleaningCtx(null); setModalError(null); }}
+          onSubmit={handleSaveCleaning}
         />
       )}
 

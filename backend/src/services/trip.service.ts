@@ -507,30 +507,21 @@ export class TripService {
 
   async recordCleaning(
     requestId: string,
-    data: { cleaningTimeMs: number; remark?: string },
+    body: { cleaningTimeMs: number; remark?: string },
     userId: string,
     role: string
   ) {
-    const request = await prisma.transportRequest.findUnique({
-      where: { id: requestId },
-      include: { vehicleCheckins: true },
-    });
+    if (!body.cleaningTimeMs || body.cleaningTimeMs <= 0) {
+      throw createAppError(400, "INVALID_DURATION", "Cleaning time must be greater than 0");
+    }
+    const request = await prisma.transportRequest.findUnique({ where: { id: requestId } });
 
     if (!request) {
       throw createAppError(404, "REQUEST_NOT_FOUND", "Transport request not found");
     }
 
-    if (!["DROP_OFF_SCANNED", "FEEDBACK_SUBMITTED"].includes(request.status)) {
-      throw createAppError(
-        400,
-        "INVALID_STATUS",
-        "Cleaning can only be recorded for completed trips (DROP_OFF_SCANNED or FEEDBACK_SUBMITTED)"
-      );
-    }
-
-    const vehicleCheckin = request.vehicleCheckins?.[0];
-    if (!vehicleCheckin) {
-      throw createAppError(404, "CHECKIN_NOT_FOUND", "No vehicle check-in found for this trip");
+    if (!request.driverId) {
+      throw createAppError(400, "NO_DRIVER", "This trip has no assigned driver to record cleaning for");
     }
 
     // Only driver of this trip or admin can record
@@ -538,18 +529,28 @@ export class TripService {
       throw createAppError(403, "FORBIDDEN", "You can only record cleaning for your own trips");
     }
 
-    const checkin = await prisma.vehicleCheckin.update({
-      where: { id: vehicleCheckin.id },
-      data: {
-        cleaningTimeMs: data.cleaningTimeMs,
-        redZoneRemark: data.remark || null,
-        redZoneRecordedAt: new Date(),
-      },
-    });
+    // External cleaning log — not tied to trip status or vehicle check-in.
+    // One record per trip: re-recording updates the existing entry.
+    const existing = await prisma.cleaningRecord.findFirst({ where: { requestId: request.id } });
+    const data = {
+      cleaningTimeMs: Math.round(body.cleaningTimeMs),
+      remark: body.remark || null,
+      recordedBy: role,
+    };
+    const record = existing
+      ? await prisma.cleaningRecord.update({ where: { id: existing.id }, data })
+      : await prisma.cleaningRecord.create({
+          data: {
+            ...data,
+            driverId: request.driverId,
+            vehicleId: request.vehicleId,
+            requestId: request.id,
+          },
+        });
 
     socketService.emit("trip:statusChanged", { requestId, status: request.status, driverId: request.driverId });
 
-    return checkin;
+    return record;
   }
 
   async recordRedZone(

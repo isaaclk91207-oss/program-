@@ -199,8 +199,8 @@ export class AdminService {
     const totalDrivingHours = Math.round(driverHours.reduce((s, d) => s + d.drivingHours, 0) * 10) / 10;
     const totalWaitingTimeMs = driverHours.reduce((s, d) => s + d.waitingTimeMs, 0);
     const totalTaskHours = Math.round(driverHours.reduce((s, d) => s + d.taskHours, 0) * 10) / 10;
-    const totalCleaningMs = driverHours.reduce((s, d) => s + d.cleaningHours * 360000, 0);
-    const totalRedZoneMs = driverHours.reduce((s, d) => s + d.redZoneHours * 360000, 0);
+    const totalCleaningMs = driverHours.reduce((s, d) => s + d.cleaningHours * 3600000, 0);
+    const totalRedZoneMs = driverHours.reduce((s, d) => s + d.redZoneHours * 3600000, 0);
     const totalCleaningHours = Math.round((totalCleaningMs / 3600000) * 10) / 10;
     const totalRedZoneHours = Math.round((totalRedZoneMs / 3600000) * 10) / 10;
 

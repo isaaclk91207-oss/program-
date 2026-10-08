@@ -111,6 +111,14 @@ export interface CreateDriverDto {
   englishLevel?: string;
 }
 
+export interface CreatePassengerDto {
+  email: string;
+  password: string;
+  name: string;
+  phone?: string;
+  department: string;
+}
+
 export interface UpdateDriverDto {
   name?: string;
   phone?: string;

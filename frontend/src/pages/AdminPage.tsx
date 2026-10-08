@@ -5,7 +5,7 @@ import {
   AdminDashboard, DashboardCharts, RequestsList, DriversList, VehiclesList,
   FeedbackList, NotificationsList, SettingsPanel, OperationalRecords,
   AssessmentsOverview, PassengersList, ReportsPage, LiveVehicleMap,
-  EcoDrivingPage,
+  EcoDrivingPage, AccountsPage,
 } from "../components/admin";
 import { convertToCSV, downloadCSV } from "../utils/csv";
 import {
@@ -17,7 +17,7 @@ import {
 import { onNotificationNew, onRequestNew, onTripStatusChanged } from "../services/socket";
 import type { DashboardStats, Driver, Vehicle, TransportRequest, TransportStatus, Feedback, Notification } from "../types";
 
-type Page = "dashboard" | "requests" | "drivers" | "vehicles" | "feedback" | "notifications" | "settings" | "records" | "assessments" | "passengers" | "reports" | "eco-driving";
+type Page = "dashboard" | "requests" | "drivers" | "vehicles" | "feedback" | "notifications" | "settings" | "records" | "assessments" | "passengers" | "accounts" | "reports" | "eco-driving";
 
 function monthRange(month: string): { from: string; to: string } | undefined {
   if (!month) return undefined;
@@ -37,6 +37,7 @@ const NAV_ITEMS: { key: Page; label: string; icon: string }[] = [
   { key: "records", label: "Records", icon: "history" },
   { key: "assessments", label: "Assessments", icon: "bar_chart" },
   { key: "passengers", label: "Passengers", icon: "people" },
+  { key: "accounts", label: "Accounts", icon: "person_add" },
   { key: "notifications", label: "Notifications", icon: "notifications" },
   { key: "settings", label: "Settings", icon: "settings" },
 ];
@@ -170,7 +171,7 @@ export default function AdminPage() {
   }
 
   const handleExport = async (type: string) => { try { const data = await exportData(type); downloadCSV(convertToCSV(data), `pccp_${type}.csv`); } catch (err) { console.error(err); } };
-  const handleAddDriver = async (data: { email: string; password: string; name: string; phone?: string }) => { try { await createDriver(data); loadData(); } catch (err) { console.error(err); } };
+  const handleAddDriver = async (data: { email: string; password: string; name: string; phone?: string }) => { await createDriver(data); loadData(); };
 
   const handleOpenDriver = async (driverId: string) => {
     let list = drivers;
@@ -329,6 +330,7 @@ export default function AdminPage() {
                 {page === "records" && <OperationalRecords />}
                 {page === "assessments" && <AssessmentsOverview />}
                 {page === "passengers" && <PassengersList />}
+                {page === "accounts" && <AccountsPage drivers={drivers} onRefresh={loadData} />}
                 {page === "reports" && <ReportsPage />}
                 {page === "eco-driving" && <EcoDrivingPage />}
                 {page === "settings" && settings && <SettingsPanel settings={settings} onSave={async (data) => { await updateSettings(data); loadData(); }} />}

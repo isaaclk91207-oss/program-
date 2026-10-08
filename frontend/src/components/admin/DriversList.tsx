@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { Card, Button, Badge, CertBadge, SearchInput, th, ConfirmDialog, Icon, DataTable, TableRow, TableCell } from "../ui";
-import { exportExcel, exportCSV, downloadBlob } from "../../services/api";
+import { Card, Button, Badge, CertBadge, SearchInput, th, ConfirmDialog, Icon, DataTable, TableRow, TableCell, useToast } from "../ui";
+import { exportExcel, exportCSV, downloadBlob, apiErrorMessage } from "../../services/api";
 import DriverDetail from "./DriverDetail";
 import DriverForm from "./DriverForm";
 import type { Driver, Vehicle } from "../../types";
@@ -34,7 +34,7 @@ export default function DriversList({
   onSelectDriver: (d: Driver | null) => void;
   onUpdateAssessment: (driverId: string, data: { written: number; practical: Record<string, number>; operational: Record<string, number> }) => void;
   onRefresh: () => void;
-  onAddDriver: (data: { email: string; password: string; name: string; phone?: string }) => void;
+  onAddDriver: (data: { email: string; password: string; name: string; phone?: string }) => Promise<void>;
   onDeleteDriver: (id: string) => void;
   onUpdateDriver: (id: string, data: Record<string, unknown>) => void;
 }) {
@@ -42,6 +42,7 @@ export default function DriversList({
   const [showForm, setShowForm] = useState(false);
   const [deleteTarget, setDeleteTarget] = useState<Driver | null>(null);
   const [exporting, setExporting] = useState(false);
+  const { addToast } = useToast();
 
   const filtered = drivers.filter(
     (d) => search === "" || d.name.toLowerCase().includes(search.toLowerCase()) || d.id.toLowerCase().includes(search.toLowerCase()) || d.email.toLowerCase().includes(search.toLowerCase())
@@ -138,7 +139,16 @@ export default function DriversList({
         ))}
       </DataTable>
 
-      <DriverForm open={showForm} onClose={() => setShowForm(false)} onSubmit={(data) => { onAddDriver(data); setShowForm(false); }} />
+      <DriverForm open={showForm} onClose={() => setShowForm(false)} onSubmit={async (data) => {
+        try {
+          await onAddDriver(data);
+          addToast("success", "Driver account created");
+          setShowForm(false);
+        } catch (err) {
+          addToast("error", apiErrorMessage(err, "Failed to create driver"));
+          throw err;
+        }
+      }} />
 
       <ConfirmDialog
         open={!!deleteTarget}

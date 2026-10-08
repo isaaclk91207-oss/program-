@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Button, Input, Select, th, Icon } from "../ui";
 
-const DEPARTMENTS = ["Executive", "Operations", "Internal Audit", "Group Finance", "HR", "Marketing", "IT", "Legal"];
+export const DEPARTMENTS = ["Executive", "Operations", "Internal Audit", "Group Finance", "HR", "Marketing", "IT", "Legal"];
 const SECTIONS = ["General", "Dispatch", "Field Operations", "Branch Office"];
 const SERVICE_TYPES = ["Round Trip", "One Way", "Branch Patrol", "Airport Transfer", "Executive Transport", "Other"];
 const DESTINATIONS = ["Yangon International Airport", "Downtown", "Junction City", "Sule", "Yangon Central Station", "Head Office"];

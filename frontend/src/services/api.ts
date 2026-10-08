@@ -99,6 +99,17 @@ export async function createDriver(data: {
   return res.data;
 }
 
+export async function createPassenger(data: {
+  email: string;
+  password: string;
+  name: string;
+  phone?: string;
+  department: string;
+}) {
+  const res = await api.post("/passengers", data);
+  return res.data;
+}
+
 export async function updateDriver(id: string, data: Partial<Driver>) {
   const res = await api.put(`/drivers/${id}`, data);
   return res.data;

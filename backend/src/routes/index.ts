@@ -7,6 +7,7 @@ import vehicleRoutes from "./vehicle.routes";
 import feedbackRoutes from "./feedback.routes";
 import notificationRoutes from "./notification.routes";
 import adminRoutes from "./admin.routes";
+import passengerRoutes from "./passenger.routes";
 
 const router = Router();
 
@@ -18,5 +19,6 @@ router.use("/vehicles", vehicleRoutes);
 router.use("/feedback", feedbackRoutes);
 router.use("/notifications", notificationRoutes);
 router.use("/admin", adminRoutes);
+router.use("/passengers", passengerRoutes);
 
 export default router;

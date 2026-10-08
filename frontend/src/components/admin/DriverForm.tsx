@@ -8,7 +8,7 @@ export default function DriverForm({
 }: {
   open: boolean;
   onClose: () => void;
-  onSubmit: (data: { email: string; password: string; name: string; phone?: string }) => void;
+  onSubmit: (data: { email: string; password: string; name: string; phone?: string }) => Promise<void>;
 }) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -27,15 +27,19 @@ export default function DriverForm({
     return Object.keys(errs).length === 0;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validate()) return;
-    onSubmit({ name: name.trim(), email: email.trim(), password, phone: phone.trim() || undefined });
-    setName("");
-    setEmail("");
-    setPhone("");
-    setPassword("");
-    setErrors({});
+    try {
+      await onSubmit({ name: name.trim(), email: email.trim(), password, phone: phone.trim() || undefined });
+      setName("");
+      setEmail("");
+      setPhone("");
+      setPassword("");
+      setErrors({});
+    } catch {
+      // Error toast shown by parent; keep the form values for correction.
+    }
   };
 
   return (

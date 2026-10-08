@@ -21,3 +21,4 @@ export { default as BatchAssignModal } from "./BatchAssignModal";
 export { default as CleaningModal } from "./CleaningModal";
 export { default as WaitingAdjustmentModal } from "./WaitingAdjustmentModal";
 export { default as CleaningRecords } from "./CleaningRecords";
+export { default as AccountsPage } from "./AccountsPage";
